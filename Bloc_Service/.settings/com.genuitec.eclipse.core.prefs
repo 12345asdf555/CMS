@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+validator.Checked=src/com/sshome/ssmcxf/webservice/impl/DictionaryWebServiceImpl.java,src/config/spring-mvc.xml
+validator.Unchecked=
