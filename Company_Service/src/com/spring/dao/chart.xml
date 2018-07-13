@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.ChartMapper">
+		
+	<resultMap id="dtoMap" type="com.spring.dto.ModelDto">
+		<id property="fid" column="fid"></id> 
+        <result property="eid" column="eid"></result>
+        <result property="iid" column="iid"></result>
+        <result property="overproof" column="overproof"></result>
+        <result property="weldTime" column="weldTime"></result>
+        <result property="fname" column="fname"></result>
+        <result property="f_welder_id" column="f_welder_id"></result>
+        <result property="fmachine_id" column="fmachine_id"></result>
+        <result property="fjunction_id" column="fjunction_id"></result>
+        <result property="felectricity" column="felectricity"></result>
+        <result property="fvoltage" column="fvoltage"></result>
+        <result property="iname" column="iname"></result>
+        <result property="wname" column="wname"></result>
+        <result property="livecount" column="livecount"></result>
+        <result property="fmax_electricity" column="fmax_electricity"></result>
+        <result property="fmin_electricity" column="fmin_electricity"></result>
+        <result property="overtime" column="overtime"></result>
+        <result property="time" column="time"></result>
+        <result property="type" column="type"></result>
+        <result property="dyne" column="dyne"></result>
+        <result property="num" column="num"></result>
+       	<result property="hous" column="hous"></result>
+       	<result property="externalDiameter" column="fexternal_diameter"></result>
+       	<result property="wallThickness" column="fwall_thickness"></result>
+       	<result property="material" column="fmaterial"></result>
+       	<result property="nextexternaldiameter" column="fnextExternal_diameter"></result>
+       	<result property="nextwallThickness" column="fnextwall_thickness"></result>
+       	<result property="nextmaterial" column="nextmaterial "></result>
+       	<result property="itemid" column="itemid"></result>
+       	<result property="jidgather" column="jidgather"></result>
+       	<result property="starttime" column="starttime"></result>
+       	<result property="endtime" column="endtime"></result>
+    </resultMap>
+    
+    <!-- 工效 -->
+    <select id="getEfficiency" resultMap="dtoMap">
+    	select * from (
+		select * from (
+		SELECT ins.fname,i.fname iname,w.fname wname,l.fwelder_id fwelder_id, SUM(fworktime)/60/60 weldtime,round(SUM(fworktime) / 60 / 60) roundTime,group_concat(DISTINCT(j.fid)) jidgather
+		FROM tb_work l left join tb_welder w on l.fwelder_id = w.fwelder_no
+		inner join tb_welded_junction j on l.fjunction_id = j.fwelded_junction_no
+		inner join tb_insframework i on i.fid = l.fitemid
+		inner join tb_insframework ins on ins.fid = i.fparent
+		where fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute)  and j.fend_time is not null
+		group by i.fid,fwelder_id
+		)A 
+		group by fwelder_id
+		)temp
+    </select>
+    
+    <!-- 	根据焊口获取总达因值 -->
+	<select id="getDyneByJunctionno"  resultType="java.math.BigInteger">
+		select SUM(fdyne) FROM tb_welded_junction where 1=1 
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
+	</select>
+    
+    <!-- 焊口焊接工时 -->
+    <select id="getHour" resultMap="dtoMap">
+    	select * from (
+		(SELECT SUM(fworktime) AS hous,ins.fname iname,i.fname fname,group_concat(distinct(j.fid)) jidgather,j.Fmaterial ,j.Fnext_material nextmaterial,j.fwall_thickness,j.fnextwall_thickness,j.fexternal_diameter,j.fnextExternal_diameter
+		FROM tb_work l
+		INNER JOIN tb_welded_junction j ON l.fjunction_id = j.fwelded_junction_no
+		INNER JOIN tb_insframework i ON i.fid = l.fitemid
+        INNER JOIN tb_insframework ins ON ins.fid = i.fparent
+		WHERE j.fend_time is not null
+		AND i.ftype =23 and fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute) 
+		GROUP BY i.fid ) 
+		UNION (
+		SELECT 0 AS hous,ins.fname iname, i.fname,0 as jidgather,null as Fmaterial,null as  nextmaterial,null as fwall_thickness,null as fnextwall_thickness,null as fexternal_diameter,null as fnextExternal_diameter
+		FROM tb_insframework i
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
+		WHERE  i.fid NOT IN (
+		SELECT i.fid
+		FROM tb_work l
+		INNER JOIN tb_welded_junction j ON l.fjunction_id = j.fwelded_junction_no
+		INNER JOIN tb_insframework i ON i.fid = l.fitemid
+		WHERE j.fend_time is not null
+		AND i.ftype =23 and fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute)
+		GROUP BY i.fid)
+		AND i.ftype =23
+		GROUP BY i.fid
+		))temp
+    </select>
+   
+	<select id="getOvertime" resultMap="dtoMap">
+		select * from ( 
+		select sum(num) overtime,fid,fname,iname,weldTime from ( 
+		select case when SUM(fstandbytime)/60 >= #{num} then 1 else 0 end as num,i.fid,ins.fname,i.fname iname,
+		DATE_FORMAT( fstarttime,  '%Y-%m-%d' ) weldTime from tb_standby l  
+		INNER JOIN tb_insframework i on i.fid = l.fitemid 
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
+		WHERE fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute) 
+		group by fmachine_id ,weldTime 
+		) A group by fid ,weldTime
+		)temp
+    </select> 
+    
+    <select id="getOverproof" resultMap="dtoMap">
+    	select * from (select sum(falarmtime) as overproof,DATE_FORMAT( fstarttime,  '%Y-%m-%d' )weldtime ,ins.fname,i.fname iname,i.fid from  tb_alarm l 
+		inner join tb_welded_junction j on j.fwelded_junction_no=l.fjunction_id 
+		inner join tb_insframework i on l.fitemid = i.fid 
+		inner join tb_insframework ins on ins.fid = i.fparent 
+		WHERE fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute) 
+		group by fid,weldtime
+		)temp
+    </select>
+    
+    <select id="getLoads" resultMap="dtoMap">
+    	select * from (
+		select sum(fworktime) / ( 8 *60 *60 ) AS loads,DATE_FORMAT( fstarttime, '%Y-%m-%d')	AS weldTime,i.fid iid,i.fname iname,ins.fname from tb_work l 
+		INNER JOIN tb_insframework i ON l.fitemid = i.fid 
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
+		WHERE fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute)
+		GROUP BY iid, weldTime
+		)temp
+    </select>
+    
+    <select id="getNoLoads" resultMap="dtoMap">
+		SELECT * FROM (
+		SELECT SUM(fstandbytime) AS loads,DATE_FORMAT( fstarttime,'%Y-%m-%d') weldTime, ins.fname,i.fname iname, i.fid iid FROM tb_standby l
+      	INNER JOIN tb_insframework i ON l.fitemId = i.fid 
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
+		WHERE fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute)
+		GROUP BY iid, weldTime
+		)temp
+    </select>
+    
+    <select id="getIdle" resultMap="dtoMap">
+		SELECT * FROM(
+		SELECT count(mid) num,weldTime,fname,fid,iname from(
+        SELECT  m.fid mid,DATE_FORMAT( fstarttime, '%Y-%m-%d') weldTime ,ins.fname,i.fid,i.fname iname FROM tb_work l
+		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i ON i.fid = l.fitemid
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent
+		WHERE fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute)
+		GROUP BY weldTime,fequipment_no 
+		UNION
+        SELECT  m.fid mid,DATE_FORMAT( fstarttime, '%Y-%m-%d') weldTime ,ins.fname,i.fid,i.fname iname FROM tb_standby l
+		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i ON i.fid = l.fitemid
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent
+		WHERE fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute)
+		GROUP BY weldTime,fequipment_no
+		)k group by weldTime,fid
+      )temp
+    </select>
+    
+    <select id="getUse" resultMap="dtoMap">
+    	select * from(
+		select ins.fname,i.fid iid,i.fname iname,e.fid eid,e.fname wname,d.fvaluename type,sum(fworktime)/60/60 time from tb_work l 
+		inner join tb_welding_machine w on w.fid = l.fmachine_id
+		inner join tb_equipment_manufacturer e on w.fmanufacturer_id = e.fid
+		inner join tb_dictionary d on d.fvalue = e.ftype
+     	inner join tb_insframework i on i.fid = w.finsframework_id
+     	inner join tb_insframework ins on ins.fid = i.fparent
+		where fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute)
+		group by e.fid,e.ftype
+    	union 
+    	select ins.fname,i.fid iid,i.fname iname,m.fid eid,m.fname wname,d.fvaluename type,0 time from tb_insframework i INNER JOIN tb_insframework ins on ins.fid = i.fparent,
+    	tb_equipment_manufacturer m inner join tb_dictionary d on d.fvalue = m.ftype WHERE i.ftype=23 and i.fid not in (select i.fid  from tb_work l 
+		inner join tb_welding_machine w on w.fid = l.fmachine_id
+		inner join tb_equipment_manufacturer e on w.fmanufacturer_id = e.fid
+     	inner join tb_insframework i on i.fid = w.finsframework_id
+     	inner join tb_insframework ins on ins.fid = i.fparent
+		where fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute)
+		group by e.fid,e.ftype)
+		)temp order by fname,wname desc
+    </select>
+    
+    <select id="getAllInsf" resultMap="dtoMap">
+    	SELECT i.fid,i.fname,ins.fname iname from tb_insframework i
+		inner join tb_insframework ins on ins.fid = i.fparent
+		where i.ftype=23
+    </select>
+
+	<!-- 	查询实时数据项目部焊机数量 -->
+	<select id="getMachineCount" resultMap="dtoMap">
+		SELECT COUNT(distinct(fmachine_id)) loads,DATE_FORMAT( fstarttime,  '%Y-%m-%d' ) weldTime,i.fid FROM 
+		<if test="status>0">
+			tb_work
+		</if>
+		<if test="status==0">
+			tb_standby
+		</if> l
+		INNER JOIN tb_insframework i on i.fid = l.fitemid
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
+		WHERE fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute)
+        group by weldTime,i.fid
+	</select>
+	
+	<!-- 	根据时间点获取工作总时长 -->
+	<select id="getCountByTime" resultType="java.math.BigInteger">
+		select sum(time) from (
+		select sum(fworktime) time from tb_work l 
+		where fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time},interval -1 day),interval 0 minute)
+		<if test="id!=null and id!=''">
+			and fitemid = #{id}
+		</if>
+     	UNION ALL
+     	select sum(fstandbytime) time from tb_standby l 
+		where fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time},interval -1 day),interval 0 minute)
+		<if test="id!=null and id!=''">
+			and fitemid = #{id}
+		</if>
+		)temp
+	</select>
+	
+	<select id="getMachineCountByIns" resultType="java.lang.Integer">
+		SELECT count(w.fid) from tb_welding_machine w
+		INNER JOIN tb_insframework i on i.fid = w.finsframework_id
+		where 1=1
+		<if test="id!=null and id!=''">
+			and i.fid=#{id}
+		</if>
+	</select>
+</mapper>
