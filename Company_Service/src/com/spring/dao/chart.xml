@@ -114,12 +114,12 @@
     </select>
     
     <select id="getLoads" resultMap="dtoMap">
-    	select * from (
-		select sum(fworktime) / ( 8 *60 *60 ) AS loads,DATE_FORMAT( fstarttime, '%Y-%m-%d')	AS weldTime,i.fid iid,i.fname iname,ins.fname from tb_work l 
+		SELECT * FROM(
+		SELECT sum(fworktime) / 3600 loads,m.fequipment_no fmachine_id,DATE_FORMAT( fstarttime, '%Y-%m-%d')	AS weldTime,i.fid iid,i.fname iname,ins.fname FROM tb_work l 
+		INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
 		INNER JOIN tb_insframework i ON l.fitemid = i.fid 
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
-		WHERE fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute)
-		GROUP BY iid, weldTime
+		WHERE fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time} ,interval -1 day),interval 0 minute) GROUP by fmachine_id,iid
 		)temp
     </select>
     

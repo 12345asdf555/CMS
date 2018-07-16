@@ -59,7 +59,7 @@
   </context-param>
   <context-param>
   	<param-name>companyurl</param-name>
-  	<param-value>http://192.168.73.157:8080/Company_Service/companyWebService?wsdl</param-value>
+  	<param-value>http://121.196.222.216:8080/Company_Service/companyWebService?wsdl</param-value>
   </context-param>
   <context-param>
   	<param-name>blocurl</param-name>

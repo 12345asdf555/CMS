@@ -189,33 +189,20 @@ public class ChartServiceImpl implements ChartService {
 			JSONObject obj = JSONObject.fromObject(object);
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String time = sdf.format(new Date(obj.getString("TIME")));
-			List<ModelDto> insf = cm.getAllInsf();
 			List<ModelDto> list = cm.getLoads(time);
-			List<ModelDto> machine = cm.getMachineCount(time,1);
-			for(ModelDto ins: insf){
-				double num = 0,worktime = 0,workmachine = 0;
-				for(ModelDto l:list){
-					for(ModelDto m:machine){
-						if(m.getFid().equals(l.getIid()) && l.getIid().equals(ins.getFid())){
-							num = (double)Math.round(l.getLoads()/m.getLoads()*10000)/10000;
-							workmachine = m.getLoads();
-							worktime = l.getLoads();
-						}
-					}
-				}
-				json.put("CAUSTNAME", jutil.setValue(ins.getFname()));
-				json.put("ITEMNAME", jutil.setValue(ins.getIname()));
+			for(ModelDto l:list){
+				json.put("CAUSTNAME", jutil.setValue(l.getFname()));
+				json.put("ITEMNAME", jutil.setValue(l.getIname()));
 				json.put("WELDTIME",time);
-				json.put("LOADS", num);
-				json.put("WORKTIME", (double) Math.round(Double.valueOf(worktime)*1000)/1000);
-				json.put("WORKMACHINE", workmachine);
+				json.put("LOADS", (double)Math.round(l.getLoads()*100)/100);
+				json.put("MACHINENO", l.getFmachine_id());
 				ary.add(json);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		if(ary.isEmpty()){
-			ary.add("{\"CAUSTNAME\":\"\",\"ITEMNAME\":\"\",\"WELDTIME\":\"\",\"LOADS\":\"\",\"WORKTIME\":\"\",\"WORKMACHINE\":\"\"}");
+			ary.add("{\"CAUSTNAME\":\"\",\"ITEMNAME\":\"\",\"WELDTIME\":\"\",\"LOADS\":\"\",\"MACHINENO\":\"\"}");
 		}
 		return ary.toString();
 	}
