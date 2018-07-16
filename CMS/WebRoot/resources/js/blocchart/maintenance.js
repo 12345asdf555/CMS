@@ -1,6 +1,11 @@
 $(function(){
 	flagnum=1;
 	parentCombobox();
+	dgDatagrid();
+})
+
+$(document).ready(function(){
+	showChart();
 })
 
 var type,flagnum,position;
@@ -44,7 +49,7 @@ function parentCombobox(){
 	var data = $("#parent").combobox('getData');
 	$("#parent").combobox('select',data[0].value);
 }
-var activeurl;
+var activeurl = "blocChart/getMaintenanceratio?flag=999";
 function serach(){
 	if(flagnum!=1){
 		$("#chartLoading").show();
@@ -60,6 +65,10 @@ function serach(){
 		position = 1;
 		activeurl = "blocChart/getMaintenanceratio?flag=2";
 	}else if(type==23){
+		$("#charts").hide();
+		$("#explain").hide();
+		$("#itemcharts1").show();
+		$("#itemcharts2").show();
 		position = 0;
 		activeurl = "blocChart/getMaintenanceratio?flag=3";
 	}
@@ -84,12 +93,6 @@ var array1 = new Array();
 var array2 = new Array();
 var avg = 0;
 function showChart(){
-	var bootomnum,rotatenum;
-	if(position==0){
-		bootomnum=20,rotatenum=0;
-	}else{
-		bootomnum=70,rotatenum=50;
-	}
 	setParam();
 	 $.ajax({  
         type : "post",  
@@ -143,7 +146,7 @@ function showChart(){
 		series:[{
 			name:'设备利用率',
 			type:'pie',
-            radius : '55%',
+            radius : '80%',
             center : ['40%', '50%'],
 			data:[
                 {value:4, name:'工作'},

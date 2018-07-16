@@ -384,4 +384,9 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getStandbytimeout(dto);
 	}
 
+	@Override
+	public List<ModelDto> getItemTypeMaintain(WeldDto dto, BigInteger itemid) {
+		return live.getItemTypeMaintain(dto, itemid);
+	}
+
 }

@@ -48,13 +48,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 6%;margin-left:10px;">
-		按组织机构对设备利用率进行统计：<br/>
-		统计时间段内的设备利用情况；<br/>
-		利用率=设备运行时长/设备台数/选择的时间段天数<br/>
-		X轴：组织机构<br/>
-		Y轴：利用率<br/></div>
+		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 10%;margin-left:10px;">
+		按组织机构对设备维修率进行统计：<br/>
+		统计时间段内的设备维修情况；<br/>
+		</div>
 		<div id="charts" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
+		<div id="itemcharts1" style="height:50%;width:49%;margin-bottom:10px;float:left;display:none;border:1px solid red;"></div>
+		<div id="itemcharts2" style="height:50%;width:49%;margin-bottom:10px;float:right;display:none;border:1px solid green;"></div>
 	    <table id="dg" style="table-layout: fixed; width:100%;"></table>
 	</div>
   </body>

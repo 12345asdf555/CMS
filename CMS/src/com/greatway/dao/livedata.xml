@@ -2137,4 +2137,27 @@
 		GROUP BY m.fequipment_no) 
 		GROUP BY m.fequipment_no
 	</select>
+
+	<select id="getItemTypeMaintain" resultMap="dtoMap">
+		SELECT * FROM(
+		select e.fname,d.fvaluename type,sum(r.fmoney) rmoney,sum(m.fmoney) mmoney from tb_welding_machine m 
+		LEFT JOIN tb_welding_maintenance w ON m.fid = w.fwelding_id 
+		LEFT JOIN tb_maintenance_record r ON r.fid = w.fmaintenance_id 
+		INNER JOIN tb_equipment_manufacturer e on e.fid = m.fmanufacturer_id 
+		INNER JOIN tb_dictionary d on d.fvalue = e.ftype where 1=1 
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstart_time &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fend_time &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		<if test="itemid!=null and itemid!=''">
+			and m.finsframework_id = #{itemid}
+		</if>
+		GROUP BY m.ftype_id
+		)temp
+	</select>
+
 </mapper>

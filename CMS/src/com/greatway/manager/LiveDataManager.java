@@ -494,4 +494,12 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getStandbytimeout(WeldDto dto);
+	
+	/**
+	 * 不同厂商不同类型的焊机的维修费用、焊机费用
+	 * @param dto
+	 * @param itemid
+	 * @return
+	 */
+	List<ModelDto> getItemTypeMaintain(WeldDto dto,BigInteger itemid);
 }
