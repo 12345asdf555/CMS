@@ -150,21 +150,40 @@ function weldingMachineDatagrid(){
 }
 var url ;
 function openEditDialog(){
-	$('#fm').form('clear');
-	var row = $('#weldingmachineTable').datagrid('getSelected');
-	if (row) {
-		$('#dlg').window( {
-			title : "迁移焊机设备",
-			modal : true
-		});
-		$('#dlg').window('open');
-		$("#iId").combobox('select',row.insframeworkId);
-		$('#valideno').val(row.equipmentNo);
-		$('#validgid').val(row.gatherId);
-		$('#validinsf').val(row.iId);
-		$('#fm').form('load', row);
-		url = "weldingMachine/migrateWeldingMachine?wid="+row.id;
-	}
+
+	$.ajax({
+		type : "post",
+		async : true,
+		url : "hierarchy/getUserInsframework",
+		data : {},
+		dataType : "json",
+		success : function(result){
+			if(result.type==20){
+				alert("集团无法执行此操作！");
+			}else if(result.type==23){
+				alert("项目部无法执行此操作！");
+			}else{
+				$('#fm').form('clear');
+				var row = $('#weldingmachineTable').datagrid('getSelected');
+				if (row) {
+					$('#dlg').window( {
+						title : "迁移焊机设备",
+						modal : true
+					});
+					$('#dlg').window('open');
+					$("#iId").combobox('select',row.insframeworkId);
+					$('#valideno').val(row.equipmentNo);
+					$('#validgid').val(row.gatherId);
+					$('#validinsf').val(row.iId);
+					$('#fm').form('load', row);
+					url = "weldingMachine/migrateWeldingMachine?wid="+row.id;
+				}
+			}
+		},
+		error : function(errorMsg){
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	})
 }
 
 //提交

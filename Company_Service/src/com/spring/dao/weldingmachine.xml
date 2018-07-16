@@ -98,6 +98,12 @@
 		inner join tb_gather g on m.fgather_id = g.fid where m.finsframework_id=#{itemid} and g.fgather_no=#{gather}
 	</select>
 	
+	
+	<select id="getMachineByGather" resultType="java.lang.String">
+		SELECT fequipment_no FROM tb_welding_machine m 
+		inner join tb_gather g on m.fgather_id = g.fid where m.finsframework_id=#{itemid} and g.fgather_no=#{gather}
+	</select>
+	
 	<select id="getMachineCountByManu" resultType="java.math.BigInteger">
 		 SELECT count(m.fid) FROM tb_welding_machine m inner join tb_insframework i  on i.fid = m.finsframework_id
 		 inner join tb_insframework ins  on ins.fid = i.fparent

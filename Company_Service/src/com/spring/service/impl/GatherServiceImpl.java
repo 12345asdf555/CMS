@@ -112,4 +112,19 @@ public class GatherServiceImpl implements GatherService {
 		}
 	}
 
+	@Override
+	public BigInteger getGatherIdByInsfidNo(BigInteger itemid, String gatherno) {
+		try{
+			BigInteger id = gm.getGatherIdByInsfidNo(itemid, gatherno);
+			if(id==null || "".equals(id)){
+				return new BigInteger("0");
+			}else{
+				return id;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return new BigInteger("0");
+		}
+	}
+
 }

@@ -35,6 +35,10 @@
 		select fid from tb_gather where fgather_no = #{gatherno}
 	</select>
 	
+	<select id="getGatherIdByInsfidNo" resultType="java.math.BigInteger">
+		select fid from tb_gather where fgather_no = #{gatherno} and fitemid = #{itemid}
+	</select>
+	
 	<select id="getGatherById" resultMap="gatherMap">
 		SELECT g.*,i.fname itemname FROM tb_gather g inner join tb_insframework i on i.fid=g.fitemId where g.fid = #{id}
 	</select>

@@ -355,4 +355,15 @@ public class GatherWebServiceImpl implements GatherWebService{
 			return null;
 		}
 	}
+
+
+	@Override
+	public BigInteger getGatherIdByInsfidNo(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			return gs.getGatherIdByInsfidNo(new BigInteger(json.getString("INSFID")),json.getString("GATHERNO"));
+		}catch(Exception e){
+			return new BigInteger("0");
+		}
+	}
 }

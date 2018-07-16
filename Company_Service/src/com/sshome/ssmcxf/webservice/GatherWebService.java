@@ -62,4 +62,9 @@ public interface GatherWebService {
 	 * 添加采集信息
 	 */
 	BigInteger addMachineGather(String obj1,String obj2);
+	
+	/**
+	 * 根据组织机构id及采集编号获取采集id
+	 */
+	BigInteger getGatherIdByInsfidNo(String object);
 }

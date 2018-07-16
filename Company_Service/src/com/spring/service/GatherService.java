@@ -52,4 +52,9 @@ public interface GatherService {
 	 * @param id采集id
 	 */
 	boolean deleteGather(BigInteger id);
+	
+	/**
+	 * 根据组织机构id及采集编号获取采集id
+	 */
+	BigInteger getGatherIdByInsfidNo(BigInteger itemid,String gatherno);
 }

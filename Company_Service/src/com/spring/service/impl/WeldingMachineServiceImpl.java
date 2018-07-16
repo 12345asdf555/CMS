@@ -152,4 +152,14 @@ public class WeldingMachineServiceImpl implements WeldingMachineService {
 		}
 	}
 
+	@Override
+	public String getMachineByGather(BigInteger itemid, String gatherno) {
+		try{
+			return wmm.getMachineByGather(itemid, gatherno);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

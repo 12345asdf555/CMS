@@ -85,4 +85,9 @@ public interface WeldingMachineWebService {
 	 * 修改项目部焊机设备
 	 */
 	Object editMachineToItem(String obj1, String obj2);
+	
+	/**
+	 * 根据组织机构及采集编号获取焊机编号
+	 */
+	String getMachineByGather(String object);
 }

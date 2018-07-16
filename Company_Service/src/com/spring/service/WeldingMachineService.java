@@ -83,4 +83,9 @@ public interface WeldingMachineService {
 	 * @return
 	 */
 	BigInteger getMachineCountByManu(BigInteger mid, BigInteger id);
+	
+	/**
+	 * 根据组织机构及采集编号获取焊机编号
+	 */
+	String getMachineByGather(BigInteger itemid,String gatherno);
 }

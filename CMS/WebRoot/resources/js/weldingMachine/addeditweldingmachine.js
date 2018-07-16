@@ -258,6 +258,7 @@ function insframeworkTree(){
 	})
 }
 
+var searchStr = "g.fid not in (select g.fid from tb_gather g INNER JOIN tb_welding_machine m on m.fgather_id = g.fid) and fstatus!='迁移'";
 function GatherDatagrid(){
 	var parent;
 	if($("#flag").val()==2){
@@ -265,7 +266,7 @@ function GatherDatagrid(){
 	}else{
 		parent = $("#iId").combobox('getValue');
 	}
-	var searchStr = "g.fid not in (select g.fid from tb_gather g INNER JOIN tb_welding_machine m on m.fgather_id = g.fid) and fstatus!='迁移'";
+	var url = "gather/getGatherList?parent="+parent+"&searchStr="+encodeURI(searchStr);
 	$("#gatherTable").datagrid( {
 		fitColumns : true,
 		height : $("#dlg").height(),
@@ -273,7 +274,7 @@ function GatherDatagrid(){
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-		url : "gather/getGatherList?parent="+parent+"&searchStr="+searchStr,
+		url : url,
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,
@@ -357,13 +358,11 @@ function saveGather(){
 }
 
 function dlgSearchGather(){
-	var searchStr = "";
+	searchStr = "g.fid not in (select g.fid from tb_gather g INNER JOIN tb_welding_machine m on m.fgather_id = g.fid) and fstatus!='迁移'";
 	if($("#searchname").val()){
-		searchStr =  "fgather_no like '%"+$("#searchname").val()+"%' and g.fid not in (select g.fid from tb_gather g INNER JOIN tb_welding_machine m on m.fgather_id = g.fid) and fstatus!='迁移'";
+		searchStr +=  " and fgather_no like '%"+$("#searchname").val()+"%'";
 	}
-	$('#gatherTable').datagrid('load', {
-		"searchStr" : searchStr
-	});
+	GatherDatagrid();
 }
 
 function reset(){

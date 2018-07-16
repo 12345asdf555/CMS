@@ -23,4 +23,6 @@ public interface GatherMapper extends Mapper<Gather>{
 	int editGather(Gather ins);
 	
 	int deleteGather(@Param("id")BigInteger id);
+	
+	BigInteger getGatherIdByInsfidNo(@Param("itemid")BigInteger itemid,@Param("gatherno")String gatherno);
 }
