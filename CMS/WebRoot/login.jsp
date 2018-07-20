@@ -45,7 +45,7 @@
 	            <table>
 	                <tr>
 	                    <td colspan="3">
-	                        <img src="resources/images/gongsilogo.png" />
+	                        <img src="resources/images/logo.png" />
 	                    </td>
 	                </tr>
 	                <tr>

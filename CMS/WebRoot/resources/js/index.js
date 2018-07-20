@@ -7,6 +7,7 @@ $(function(){
 	addTab("欢迎使用","welcome.jsp");
 	tabsIncident();
 })
+
 var type;
 function hierarchyLoding(){
 	$.ajax({  
@@ -19,27 +20,27 @@ function hierarchyLoding(){
 	          if (result) {
 	              if(result.hierarchy==1){//集团层
 	            	  $('#accordiondiv').accordion('add', {
-	            			title: '<i class="iconfont icon-ren"></i>    集团',
+	            			title: '<i class="iconfont icon-ren"></i>    报表分析',
 	            			content: $("#bloc").html(),
 	            			selected: false
 	            		});
 	              }else if(result.hierarchy==2 || result.hierarchy==3){//公司层/事业部层
 	            	  if(type==21){
 		            	  $('#accordiondiv').accordion('add', {
-		            			title: '<i class="iconfont icon-ren"></i>    公司',
+		            			title: '<i class="iconfont icon-ren"></i>    报表分析',
 		            			content: $("#company").html(),
 		            			selected: false
 		            		});
 	            	  }else if(type==22){
 		            	  $('#accordiondiv').accordion('add', {
-		            			title: '<i class="iconfont icon-ren"></i>    事业部',
+		            			title: '<i class="iconfont icon-ren"></i>    报表分析',
 		            			content: $("#caust").html(),
 		            			selected: false
 		            		});
 	            	  }
 	              }else if(result.hierarchy==4){//项目部层
 	            	  $('#accordiondiv').accordion('add', {
-	            			title: '<i class="iconfont icon-ren"></i>    项目部',
+	            			title: '<i class="iconfont icon-ren"></i>    报表分析',
 	            			content: $("#item").html(),
 	            			selected: false
 	            		});
@@ -68,25 +69,25 @@ function getUserInsframework(){
 //			hierarchyLoding();
 			if(type==20){
           	  $('#accordiondiv').accordion('add', {
-          			title: '<i class="iconfont icon-ren"></i>    集团',
+          			title: '<i class="iconfont icon-ren"></i>    报表分析',
           			content: $("#bloc").html(),
           			selected: false
           		});
 			}else if(type==21){
           	  $('#accordiondiv').accordion('add', {
-          			title: '<i class="iconfont icon-ren"></i>    公司',
+          			title: '<i class="iconfont icon-ren"></i>    报表分析',
           			content: $("#company").html(),
           			selected: false
           		});
       	  }else if(type==22){
           	  $('#accordiondiv').accordion('add', {
-          			title: '<i class="iconfont icon-ren"></i>    事业部',
+          			title: '<i class="iconfont icon-ren"></i>    报表分析',
           			content: $("#caust").html(),
           			selected: false
           		});
       	  }else if(type==23){
         	  $('#accordiondiv').accordion('add', {
-        			title: '<i class="iconfont icon-ren"></i>    项目部',
+        			title: '<i class="iconfont icon-ren"></i>    报表分析',
         			content: $("#item").html(),
         			selected: false
         		});
@@ -98,16 +99,16 @@ function getUserInsframework(){
 	})
 }
 
-function openMaintenance(name){
-	addTab(name+"设备维修率","blocChart/goMaintenanceratio");
+function openMaintenance(){
+	addTab("设备维修率","blocChart/goMaintenanceratio");
 }
 
-function openUseratio(name){
-	addTab(name+"设备利用率","blocChart/goUseratio");
+function openUseratio(){
+	addTab("设备利用率","blocChart/goUseratio");
 }
 
-function openRunTime(name){
-	addTab(name+"设备运行时长","blocChart/goBlocRunTime");
+function openRunTime(){
+	addTab("设备运行时长","blocChart/goBlocRunTime");
 }
 
 function openOverproofRecall(){
@@ -134,7 +135,7 @@ function openData(){
 }
 
 function openTd(){
-	addTab("公司实时监测","td/AllTdp");
+	addTab("实时监测","td/AllTdp");
 }
 
 function openWeldingMachine(){
@@ -174,143 +175,143 @@ function openGather(){
 }
 
 function openCaustEfficiency(){
-	addTab("事业部工效","caustChart/goCaustEfficiency");
+	addTab("工效","caustChart/goCaustEfficiency");
 }
 
 function openCaustHour(){
-	addTab("事业部焊口焊接工时","caustChart/goCaustHour");
+	addTab("焊口焊接工时","caustChart/goCaustHour");
 }
 
 function openCaustoverproof(){
-	addTab("事业部焊接工艺超标统计","caustChart/goCaustOverproof");
+	addTab("焊接工艺超标统计","caustChart/goCaustOverproof");
 }
 
 function openCaustovertime(){
-	addTab("事业部超时待机统计","caustChart/goCaustOvertime");
+	addTab("超时待机统计","caustChart/goCaustOvertime");
 }
 
 function openCaustLoads(){
-	addTab("事业部设备负荷率","caustChart/goCaustLoads");
+	addTab("设备负荷率","caustChart/goCaustLoads");
 }
 
 function openCaustNoLoads(){
-	addTab("事业部设备空载率","caustChart/goCaustNoLoads");
+	addTab("设备空载率","caustChart/goCaustNoLoads");
 }
 
 function openCaustIdle(){
-	addTab("事业部设备闲置率","caustChart/goCaustIdle");
+	addTab("设备闲置率","caustChart/goCaustIdle");
 }
 
 function openCaustUse(){
-	addTab("事业部单台设备运行数据统计","caustChart/goCaustUse");
+	addTab("单台设备运行数据统计","caustChart/goCaustUse");
 }
 
 function openCaustTd(){
-	addTab("事业部实时监测","td/AllTddi");
+	addTab("实时监测","td/AllTddi");
 }
 
 function openCompanytEfficiency(){
-	addTab("公司工效","companyChart/goCompanyEfficiency");
+	addTab("工效","companyChart/goCompanyEfficiency");
 }
 
 function openCompanyUse(){
-	addTab("公司单台设备运行数据统计","companyChart/goCompanyUse");
+	addTab("单台设备运行数据统计","companyChart/goCompanyUse");
 }
 
 function openCompanyHour(){
-	addTab("公司焊口焊接工时","companyChart/goCompanyHour");
+	addTab("焊口焊接工时","companyChart/goCompanyHour");
 }
 
 function openCompanyoverproof(){
-	addTab("公司焊接工艺超标统计","companyChart/goCompanyOverproof");
+	addTab("焊接工艺超标统计","companyChart/goCompanyOverproof");
 }
 
 function openCompanyovertime(){
-	addTab("公司超时待机统计","companyChart/goCompanyOvertime");
+	addTab("超时待机统计","companyChart/goCompanyOvertime");
 }
 
 function openCompanyLoads(){
-	addTab("公司设备负荷率","companyChart/goCompanyLoads");
+	addTab("设备负荷率","companyChart/goCompanyLoads");
 }
 
 function openCompanyNoLoads(){
-	addTab("公司设备空载率","companyChart/goCompanyNoLoads");
+	addTab("设备空载率","companyChart/goCompanyNoLoads");
 }
 
 function openCompanyIdle(){
-	addTab("公司设备闲置率","companyChart/goCompanyIdle");
+	addTab("设备闲置率","companyChart/goCompanyIdle");
 }
 
 function openCompanyTd(){
-	addTab("公司实时监测","td/AllTd");
+	addTab("实时监测","td/AllTd");
 }
 
 function openItemEfficiency(){
-	addTab("项目部工效","itemChart/goItemEfficiency");
+	addTab("工效","itemChart/goItemEfficiency");
 }
 
 function openItemHour(){
-	addTab("项目部焊口焊接工时","itemChart/goItemHour");
+	addTab("焊口焊接工时","itemChart/goItemHour");
 }
 
 function openItemovertime(){
-	addTab("项目部超时待机统计","itemChart/goItemOvertime");
+	addTab("超时待机统计","itemChart/goItemOvertime");
 }
 
 function openItemLoads(){
-	addTab("项目部设备负荷率","itemChart/goItemLoads");
+	addTab("设备负荷率","itemChart/goItemLoads");
 }
 
 function openItemNoLoads(){
-	addTab("项目部设备空载率","itemChart/goItemNoLoads");
+	addTab("设备空载率","itemChart/goItemNoLoads");
 }
 
 function openItemIdle(){
-	addTab("项目部设备闲置率","itemChart/goItemIdle");
+	addTab("设备闲置率","itemChart/goItemIdle");
 }
 
 function openItemTd(){
-	addTab("项目部实时监测","td/AllTdp");
+	addTab("实时监测","td/AllTdp");
 }
 
 function openItemoverproofs(){
-	addTab("项目部焊接工艺超标统计","itemChart/goItemoverproof");
+	addTab("焊接工艺超标统计","itemChart/goItemoverproof");
 }
 
 function openItemUse(){
-	addTab("项目部单台设备运行数据统计","itemChart/goItemUse");
+	addTab("单台设备运行数据统计","itemChart/goItemUse");
 }
 
 function openBlocEfficiency(){
-	addTab("集团工效","blocChart/goBlocEfficiency");
+	addTab("工效","blocChart/goBlocEfficiency");
 }
 
 function openBlocUse(){
-	addTab("集团单台设备运行数据统计","blocChart/goBlocUse");
+	addTab("单台设备运行数据统计","blocChart/goBlocUse");
 }
 
 function openBlocHour(){
-	addTab("集团焊口焊接工时","blocChart/goBlocHour");
+	addTab("焊口焊接工时","blocChart/goBlocHour");
 }
 
 function openBlocoverproof(){
-	addTab("集团焊接工艺超标统计","blocChart/goBlocOverproof");
+	addTab("焊接工艺超标统计","blocChart/goBlocOverproof");
 }
 
 function openBlocovertime(){
-	addTab("集团超时待机统计","blocChart/goBlocOvertime");
+	addTab("超时待机统计","blocChart/goBlocOvertime");
 }
 
 function openBlocLoads(){
-	addTab("集团设备负荷率","blocChart/goBlocLoads");
+	addTab("设备负荷率","blocChart/goBlocLoads");
 }
 
 function openBlocNoLoads(){
-	addTab("集团设备空载率","blocChart/goBlocNoLoads");
+	addTab("设备空载率","blocChart/goBlocNoLoads");
 }
 
 function openBlocIdle(){
-	addTab("集团设备闲置率","blocChart/goBlocIdle");
+	addTab("设备闲置率","blocChart/goBlocIdle");
 }
 function openDictionary(){
 	addTab("字典管理",'Dictionary/goDictionary')
@@ -370,7 +371,9 @@ function tabsIncident(){
 	$('#closeAll').click(function() {
 		$('.tabs-inner span').each(function(i, n) {
 			var t = $(n).text();
-			$('#tabs').tabs('close', t);
+			if(t!="欢迎使用"){
+				$('#tabs').tabs('close', t);
+			}
 		});
 	});
 	// 关闭其他标签页
@@ -383,7 +386,9 @@ function tabsIncident(){
 		var nextall = $('.tabs-selected').nextAll();
 		nextall.each(function(i, n) {
 			var t = $('a:eq(0) span', $(n)).text();
-			$('#tabs').tabs('close', t);
+			if(t!="欢迎使用"){
+				$('#tabs').tabs('close', t);
+			}
 		});
 	})
 	//关闭左侧标签页
@@ -391,7 +396,9 @@ function tabsIncident(){
 		var prevall = $('.tabs-selected').prevAll();
 		prevall.each(function(i, n) {
 			var t = $('a:eq(0) span', $(n)).text();
-			$('#tabs').tabs('close', t);
+			if(t!="欢迎使用"){
+				$('#tabs').tabs('close', t);
+			}
 		});
 	});
 }

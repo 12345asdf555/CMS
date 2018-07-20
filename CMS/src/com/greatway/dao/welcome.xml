@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatway.dao.WelcomeMapper">
+
+	<resultMap id="welcomeMap" type="com.greatway.model.Welcome">
+		<id property="id" column="fid"></id> 
+        <result property="name" column="fname"></result>
+        <result property="insid" column="insid"></result>
+        <result property="insname" column="insname"></result>
+        <result property="total" column="total"></result>  
+        <result property="num" column="num"></result>  
+       	<result property="machinenum" column="machinenum"></result>
+       	<result property="junctionnum" column="junctionnum"></result>
+       	<result property="worktime" column="worktime"></result>
+        <result property="wireweight" column="fwire_weight"></result>
+       	<result property="speed" column="fspeed"></result>
+       	<result property="airflow" column="fair_flow_volume"></result>
+       	<result property="standbypower" column="fstandby_power"></result>
+       	<result property="electricity" column="electricity"></result>
+       	<result property="voltage" column="voltage"></result>
+       	<result property="serialnumber" column="serialnumber"></result>
+       	<result property="valuename" column="fvaluename"></result>
+       	<result property="time" column="time"></result>
+       	<result property="welderno" column="welderno"></result>
+       	<result property="hour" column="hour"></result>
+	</resultMap>
+	
+	<!-- 获取项目部焊机总数 -->
+	<select id="getItemMachineCount" resultMap="welcomeMap">
+		select * from (
+		select i.fid,i.fname,count(w.fid) total from tb_insframework i 
+		inner join tb_welding_machine w on w.finsframework_id=i.fid 
+		where i.ftype=23 
+		<if test="parent!=null and parent!=''">
+			and i.fparent=#{parent}
+		</if>
+		group by i.fid
+		UNION
+		select i.fid,i.fname,0 total from tb_insframework  i 
+		where i.ftype=23 
+		<if test="parent!=null and parent!=''">
+			and i.fparent=#{parent}
+		</if>
+		and i.fid not in 
+		(select i.fid from tb_insframework i 
+		inner join tb_welding_machine w on w.finsframework_id=i.fid 
+		where i.ftype=23 
+		<if test="parent!=null and parent!=''">
+			and i.fparent=#{parent}
+		</if>
+		 group by i.fid )
+		)temp order by fid
+	</select>
+	
+	
+	<!-- 	焊工工作排行榜 -->
+	<select id="getWorkRank" resultMap="welcomeMap">
+		select sum(fworktime) /60/60 hour,w.fname,w.fwelder_no welderno,i.fname insname FROM  tb_work l  left JOIN  tb_welder w on w.fwelder_no = l.fwelder_id 
+		INNER join tb_insframework i on i.fid = l.fitemid INNER join tb_insframework ins on ins.fid = i.fparent 
+		where fstarttime &gt;= #{time} and fendtime &lt; date_sub(date_sub(#{time},interval -1 day),interval 0 minute)
+		<if test="parent!=null and parent!=''">
+			AND ins.fid=#{parent}
+		</if>
+		group by w.fname ORDER by hour 
+		LIMIT 10
+	</select>
+	
+	<!-- 获取工作的焊机数-->
+	<select id="getWorkMachineCount" resultMap="welcomeMap">
+		select count(DISTINCT(fmachine_id)) machinenum
+		from tb_work where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		and fstarttime &gt;= #{time} and fendtime &lt; date_sub(date_sub(#{time},interval -1 day),interval 0 minute)
+	</select>
+	
+	<!-- 查询组织机构正常焊接时长 -->
+	<select id="getItemWeldTime"  resultMap="welcomeMap">
+		select * from (select i.fid,i.fname,SUM(fworktime)/60/60 hour,DATE_FORMAT( fstarttime,'%Y-%m-%d' ) time from tb_insframework i 
+		inner join tb_work w on w.fitemid=i.fid
+		where i.ftype=23
+		<if test="dto!=null and dto!=''">
+			<if test="dto.parent!=null and dto.parent!=''">
+				and i.fparent &gt;= #{dto.parent}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by i.fid,time
+		)temp
+	</select>
+
+	<!-- 查询组织机构超规范焊接时长 -->
+	<select id="getItemOverProofTime"  resultMap="welcomeMap">
+		select * from (
+		select i.fid,i.fname,SUM(w.falarmtime)/60/60 hour,DATE_FORMAT( fstarttime,'%Y-%m-%d' ) time from tb_insframework i 
+		inner join tb_alarm w on w.fitemid=i.fid
+		where i.ftype=23
+		<if test="dto!=null and dto!=''">
+			<if test="dto.parent!=null and dto.parent!=''">
+				and i.fparent &gt;= #{dto.parent}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by i.fid,time
+		)temp
+	</select>
+</mapper>
