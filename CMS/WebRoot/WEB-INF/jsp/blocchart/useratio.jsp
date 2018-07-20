@@ -40,6 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="body" region="center"  hide="true"  split="false" title="设备利用率" style="background: witch;">
 	  	<div id="search_btn">
 			<div style="margin-bottom: 5px;">
+				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 				时间：
 				<input class="easyui-datebox" name="dtoTime1" id="dtoTime1">--
 				<input class="easyui-datebox" name="dtoTime2" id="dtoTime2">

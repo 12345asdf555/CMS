@@ -120,6 +120,7 @@
        	<result property="rmoney" column="rmoney"></result>
        	<result property="mmoney" column="mmoney"></result>
        	<result property="total" column="total"></result>
+       	<result property="typeid" column="ftype_id"></result>
     </resultMap>
     
     <!-- 集团焊接工时 -->
@@ -2069,7 +2070,7 @@
 	</select>
 	
 	<select id="getMaintenanceratio" resultMap="dtoMap">
-		SELECT insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,sum(r.fmoney) rmoney,sum(m.fmoney) mmoney,count(r.fid) total FROM tb_maintenance_record r 
+		SELECT insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,sum(r.fmoney) rmoney,count(r.fid) total FROM tb_maintenance_record r 
 		INNER JOIN tb_welding_maintenance w on w.fmaintenance_id=r.fid INNER JOIN tb_welding_machine m ON m.fid = w.fwelding_id 
 		INNER JOIN tb_insframework i on i.fid = m.finsframework_id INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
@@ -2140,11 +2141,10 @@
 
 	<select id="getItemTypeMaintain" resultMap="dtoMap">
 		SELECT * FROM(
-		select e.fname,d.fvaluename type,sum(r.fmoney) rmoney,sum(m.fmoney) mmoney from tb_welding_machine m 
+		select e.fid,sum(r.fmoney) rmoney,m.ftype_id from tb_welding_machine m 
 		LEFT JOIN tb_welding_maintenance w ON m.fid = w.fwelding_id 
 		LEFT JOIN tb_maintenance_record r ON r.fid = w.fmaintenance_id 
-		INNER JOIN tb_equipment_manufacturer e on e.fid = m.fmanufacturer_id 
-		INNER JOIN tb_dictionary d on d.fvalue = e.ftype where 1=1 
+		INNER JOIN tb_equipment_manufacturer e on e.fid = m.fmanufacturer_id where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstart_time &gt;= #{dto.dtoTime1}
@@ -2158,6 +2158,21 @@
 		</if>
 		GROUP BY m.ftype_id
 		)temp
+	</select>
+	
+	<select id="getItemMachineSumMoneyByType" resultMap="dtoMap">
+		SELECT * from(
+		SELECT e.fid,ftype_id,e.fname,d.fvaluename type,sum(fmoney) mmoney from tb_welding_machine m 
+		INNER JOIN tb_equipment_manufacturer e on e.fid = m.fmanufacturer_id 
+		INNER JOIN tb_dictionary d on d.fvalue = e.ftype group by e.fid,m.ftype_id
+		) temp
+	</select>
+	
+	<select id="getMachineMoney" resultMap="dtoMap">
+		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,sum(fmoney) mmoney from tb_welding_machine m 
+		INNER JOIN tb_insframework i on i.fid = m.finsframework_id 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent GROUP BY m.finsframework_id
 	</select>
 
 </mapper>

@@ -29,6 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
 	<script type="text/javascript" src="resources/js/getDate.js"></script>
+	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
 	<script type="text/javascript" src="resources/js/blocchart/blocruntime.js"></script>
 
   </head>
@@ -40,6 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="body" region="center"  hide="true"  split="true" title="设备运行时长" style="background: witch; height: 335px;">
 	  	<div id="search_btn">
 			<div style="margin-bottom: 5px;">
+				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 				时间：
 				<input class="easyui-datebox" name="dtoTime1" id="dtoTime1">--
 				<input class="easyui-datebox" name="dtoTime2" id="dtoTime2">

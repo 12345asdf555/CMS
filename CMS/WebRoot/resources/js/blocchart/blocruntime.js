@@ -74,7 +74,8 @@ function showChart(){
 			type:'category',
 			data: array1,
 			axisLabel : {
-				rotate: 50 //x轴文字倾斜
+				rotate: 40, //x轴文字倾斜
+			    interval:0 //允许x轴文字全部显示并重叠
 			}
 		},
 		yAxis:{

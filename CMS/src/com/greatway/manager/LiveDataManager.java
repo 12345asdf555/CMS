@@ -497,10 +497,22 @@ public interface LiveDataManager {
 	List<ModelDto> getStandbytimeout(WeldDto dto);
 	
 	/**
-	 * 不同厂商不同类型的焊机的维修费用、焊机费用
+	 * 不同厂商不同类型的焊机的维修费用
 	 * @param dto
 	 * @param itemid
 	 * @return
 	 */
 	List<ModelDto> getItemTypeMaintain(WeldDto dto,BigInteger itemid);
+	
+	/**
+	 * 根据不同厂商不同类型获取总焊机费用及厂商信息
+	 * @return
+	 */
+	List<ModelDto> getItemMachineSumMoneyByType();
+	
+	/**
+	 * 获取各组织机构焊机价格
+	 * @return
+	 */
+	List<ModelDto> getMachineMoney();
 }

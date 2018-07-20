@@ -40,6 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="body" region="center"  hide="true"  split="false" title="设备利用率" style="background: witch;">
 	  	<div id="search_btn">
 			<div style="margin-bottom: 5px;">
+				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 				时间：
 				<input class="easyui-datebox" name="dtoTime1" id="dtoTime1">--
 				<input class="easyui-datebox" name="dtoTime2" id="dtoTime2">
@@ -53,8 +54,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		统计时间段内的设备维修情况；<br/>
 		</div>
 		<div id="charts" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
-		<div id="itemcharts1" style="height:50%;width:49%;margin-bottom:10px;float:left;display:none;border:1px solid red;"></div>
-		<div id="itemcharts2" style="height:50%;width:49%;margin-bottom:10px;float:right;display:none;border:1px solid green;"></div>
+		<div id="itemcharts1" style="height:50%;width:49.5%;margin-bottom:10px;float:left;display:none;"></div>
+		<div id="itemcharts2" style="height:50%;width:49.5%;margin-bottom:10px;float:right;display:none;"></div>
 	    <table id="dg" style="table-layout: fixed; width:100%;"></table>
 	</div>
   </body>

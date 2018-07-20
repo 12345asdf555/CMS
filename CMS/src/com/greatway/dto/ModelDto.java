@@ -67,7 +67,15 @@ public class ModelDto {
 	private int rmoney;
 	private int mmoney;
 	private int total;
+	private int typeid;
 	
+	
+	public int getTypeid() {
+		return typeid;
+	}
+	public void setTypeid(int typeid) {
+		this.typeid = typeid;
+	}
 	public int getRmoney() {
 		return rmoney;
 	}

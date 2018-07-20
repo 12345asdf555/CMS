@@ -56,9 +56,6 @@ function parentCombobox(){
 					if(flagnum==1){
 						serach();
 					}
-				},
-				error : function(errorMsg){
-					alert("数据请求失败，请联系系统管理员!");
 				}
 			})
 		}
@@ -129,11 +126,11 @@ function showChart(){
 }
 
 function chart(){
-	var bootomnum,rotatenum;
+	var bootomnum,rotatenum,interval;
 	if(position==0){
-		bootomnum=20,rotatenum=0;
+		bootomnum=20,rotatenum=0,interval="auto";
 	}else{
-		bootomnum=70,rotatenum=50;
+		bootomnum=70,rotatenum=50,interval=0;
 	}
    	//初始化echart实例
 	charts = echarts.init(document.getElementById("charts"));
@@ -168,7 +165,8 @@ function chart(){
 			type:'category',
 			data: array1,
 			axisLabel : {
-				rotate: rotatenum //x轴文字倾斜
+				rotate: rotatenum, //x轴文字倾斜
+			    interval:interval //0:允许x轴文字全部显示并重叠
 			}
 		},
 		yAxis:{

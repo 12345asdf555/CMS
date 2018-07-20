@@ -389,4 +389,14 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getItemTypeMaintain(dto, itemid);
 	}
 
+	@Override
+	public List<ModelDto> getItemMachineSumMoneyByType() {
+		return live.getItemMachineSumMoneyByType();
+	}
+
+	@Override
+	public List<ModelDto> getMachineMoney() {
+		return live.getMachineMoney();
+	}
+
 }

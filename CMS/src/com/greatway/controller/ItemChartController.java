@@ -1225,4 +1225,55 @@ public class ItemChartController {
 		obj.put("ary", ary);
 		return obj.toString();
 	}
+	
+	/**
+	 * 项目部获取维修及焊机费用
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getItemTypeMaintain")
+	@ResponseBody
+	public String getItemTypeMaintain(HttpServletRequest request){
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		String parentid = request.getParameter("parent");
+		WeldDto dto = new WeldDto();
+		BigInteger itemid = null;
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(parentid)){
+			itemid = new BigInteger(parentid);
+		}
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		try{
+			List<ModelDto> machine = lm.getItemMachineSumMoneyByType();
+			List<ModelDto> list = lm.getItemTypeMaintain(dto, itemid);
+			for(int i=0; i<machine.size(); i++){
+				boolean flag = false;
+				for(int j=0; j<list.size();j++){
+					//厂家id相同且焊机类型相同
+					if(machine.get(i).getTypeid() == list.get(j).getTypeid() && machine.get(i).getFid() == list.get(j).getFid()){
+						flag = true;
+						json.put("maintainmoney",list.get(j).getRmoney());
+					}
+				}
+				if(!flag){
+					json.put("maintainmoney", 0);
+				}
+				json.put("manufacturername", machine.get(i).getFname() + "-" + machine.get(i).getType());
+				json.put("machinemoney",machine.get(i).getMmoney());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary",ary);
+		return obj.toString();
+	}
 }

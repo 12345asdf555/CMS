@@ -31,7 +31,6 @@ var chart1;
 var led=["0,1,2,4,5,6","2,5","0,2,3,4,6","0,2,3,5,6","1,2,3,5","0,1,3,5,6","0,1,3,4,5,6","0,2,5","0,1,2,3,4,5,6","0,1,2,3,5,6"];
 var dic;
 var starows = new Array();
-var jiexi=0;
 /*var jishiqi=0;
 var tioshu;*/
 $(function(){
@@ -168,13 +167,8 @@ $(function(){
 			        loadingMask.parentNode.removeChild(loadingMask);  
 			}
 			setTimeout(function(){
-				if(symbol==0&&jiexi==0){
+				if(symbol==0){
 					alert("连接成功，但未接收到任何数据");
-					rows = $('#dg').datagrid("getRows");
-					$("#off").textbox("setValue", rows.length);
-				}
-				if(symbol==0&&jiexi!=0){
-					alert("连接成功，但是数据解析中途出错");
 					rows = $('#dg').datagrid("getRows");
 					$("#off").textbox("setValue", rows.length);
 				}
@@ -187,7 +181,6 @@ $(function(){
 				}, 1000)
 			}*/
 			redata=msg.data;
-			jiexi=1;
 			rows = $('#dg').datagrid("getRows");
 /*			if(symbol==0){
 				change = window.setInterval(function() {

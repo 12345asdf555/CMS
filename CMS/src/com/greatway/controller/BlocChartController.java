@@ -1277,16 +1277,46 @@ public class BlocChartController {
 		try{
 			//获取所选组织机构的所有下级部门
 			List<Insframework> insf = insm.getCause(parent, null);
+			List<ModelDto> money = lm.getMachineMoney();
+			int sumnum = 0;
+			for(int i=0;i<list.size();i++){
+				sumnum += list.get(i).getTotal();
+			}
 			if(flag==0){//集团层
 				for(int j=0;j<insf.size();j++){
 					boolean flagnum = false;
 					int rmoney = 0, mmoney = 0, num = 0;
 					for(int i=0;i<list.size();i++){
-						if(list.get(i).getFid().equals(insf.get(j).getId())){
-							flagnum = true;
-							rmoney += list.get(i).getRmoney();
-							mmoney += list.get(i).getMmoney();
-							num += list.get(i).getTotal();
+						for(int x=0;x<money.size();x++){
+							if(list.get(i).getFid().equals(insf.get(j).getId()) && insf.get(j).getId().equals(money.get(x).getFid())){
+								flagnum = true;
+								rmoney += list.get(i).getRmoney();
+								mmoney += money.get(x).getMmoney();
+								num += list.get(i).getTotal();
+							}
+						}
+					}
+					if(flagnum){
+						json.put("name",insf.get(j).getName());
+						json.put("total", num);
+						json.put("rmoney", rmoney);
+						json.put("mmoney", mmoney);
+						json.put("sumnum", sumnum);
+						ary.add(json);
+					}
+				}
+			}else if(flag==1){//公司层
+				for(int j=0;j<insf.size();j++){
+					boolean flagnum = false;
+					int rmoney = 0, mmoney = 0, num = 0;
+					for(int i=0;i<list.size();i++){
+						for(int x=0;x<money.size();x++){
+							if(list.get(i).getIid().equals(insf.get(j).getId()) && insf.get(j).getId().equals(money.get(x).getIid())){
+								flagnum = true;
+								rmoney += list.get(i).getRmoney();
+								mmoney += money.get(x).getMmoney();
+								num += list.get(i).getTotal();
+							}
 						}
 					}
 					if(flagnum){
@@ -1297,29 +1327,20 @@ public class BlocChartController {
 						ary.add(json);
 					}
 				}
-			}else if(flag==1){//公司层
-				for(int i=0;i<list.size();i++){
-					if(list.get(i).getIid().equals(parent)){
-						json.put("name", list.get(i).getIname());
-						json.put("total", list.get(i).getTotal());
-						json.put("rmoney", list.get(i).getRmoney());
-						json.put("mmoney", list.get(i).getMmoney());
-						ary.add(json);
-					}
-				}
+//				for(int i=0;i<list.size();i++){
+//					for(int x=0;x<money.size();x++){
+//						if(list.get(i).getIid().equals(parent) && money.get(x).getIid().equals(parent)){
+//							json.put("name", list.get(i).getIname());
+//							json.put("total", list.get(i).getTotal());
+//							json.put("rmoney", list.get(i).getRmoney());
+//							json.put("mmoney", list.get(i).getMmoney());
+//							ary.add(json);
+//						}
+//					}
+//				}
 			}else if(flag==2){
 				for(int i=0;i<list.size();i++){
 					if(list.get(i).getCaustid().equals(parent)){
-						json.put("name", list.get(i).getWname());
-						json.put("total", list.get(i).getTotal());
-						json.put("rmoney", list.get(i).getRmoney());
-						json.put("mmoney", list.get(i).getMmoney());
-						ary.add(json);
-					}
-				}
-			}else if(flag==3){
-				for(int i=0;i<list.size();i++){
-					if(list.get(i).getItemid().equals(parent)){
 						json.put("name", list.get(i).getWname());
 						json.put("total", list.get(i).getTotal());
 						json.put("rmoney", list.get(i).getRmoney());
