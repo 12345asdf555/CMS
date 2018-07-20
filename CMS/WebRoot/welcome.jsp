@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				焊接规范符合率<br/>The Load Rate Of Welding Standard
   			</div>
   			<div id="wcleft3_2">
-  				<div id="loadRateChart"></div>
+  				<div id="loadRateChart" style="width:100%;height:100%;"></div>
   			</div>
   		</div>
   		<div id="wcrightdiv">
