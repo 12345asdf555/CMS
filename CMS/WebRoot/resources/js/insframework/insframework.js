@@ -75,6 +75,13 @@ function insframeworkDatagrid(){
 			align : "left",
 			hidden : true
 		}, {
+			field : 'parentid',
+			title : '父类id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 130,
@@ -82,8 +89,10 @@ function insframeworkDatagrid(){
 			align : "left",
 			formatter:function(value,row,index){
 				var str = "";
-				str += '<a id="edit" class="easyui-linkbutton" href="javascript:editInsf('+row.id+','+row.typeid+','+true+')"/>';
-				str += '<a id="remove" class="easyui-linkbutton" href="javascript:editInsf('+row.id+','+row.typeid+','+false+')"/>';
+				str += '<a id="edit" class="easyui-linkbutton" href="javascript:editInsframework();"/>';
+				//javascript:editInsf('+row.id+','+row.typeid+','+true+')
+				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeInsframework();"/>';
+				//javascript:editInsf('+row.id+','+row.typeid+','+false+')
 				return str;
 			}
 		}] ],

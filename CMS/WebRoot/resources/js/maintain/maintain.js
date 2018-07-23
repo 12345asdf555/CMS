@@ -47,13 +47,13 @@ function mainDatagrid(){
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'starttime',
+			field : 'startTime',
 			title : '维修起始时间',
 			width : 150,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'endtime',
+			field : 'endTime',
 			title : '维修结束时间',
 			width : 150,
 			halign : "center",
@@ -107,8 +107,10 @@ function mainDatagrid(){
 			align : "left",
 			formatter:function(value,row,index){
 				var str = "";
-				str += '<a id="edit" class="easyui-linkbutton" href="maintain/goEditMaintain?wid='+row.id+'&insfid='+row.insfid+'"/>';
-				str += '<a id="remove" class="easyui-linkbutton" href="maintain/goremoveMaintain?wid='+row.id+'&insfid='+row.insfid+'&tname='+row.typename+'"/>';
+				str += '<a id="edit" class="easyui-linkbutton" href="javascript:editMaintain();"/>';
+				//maintain/goEditMaintain?wid='+row.id+'&insfid='+row.insfid+'
+				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeMaintain();"/>';
+				//maintain/goremoveMaintain?wid='+row.id+'&insfid='+row.insfid+'&tname='+row.typename+'
 				return str;
 			}
 		}]],
@@ -121,6 +123,7 @@ function mainDatagrid(){
 		}
 	});
 }
+
 
 //完成维修
 function okMaintain(insfid){

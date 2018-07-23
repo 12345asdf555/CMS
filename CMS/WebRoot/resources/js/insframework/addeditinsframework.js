@@ -1,4 +1,11 @@
 $(function(){
+	$('#dlg').dialog( {
+		onClose : function() {
+			$('#typeid').combobox('clear');
+			$('#parent').combobox('clear');
+			$("#fm").form("disableValidation");
+		}
+	})
 	var flagstatus = $("#flag").val();
 	if(flagstatus==0){
 		insfcombobox($("#type").val(),id);
@@ -7,23 +14,45 @@ $(function(){
 	}
 	insframeworkTree();
 	updatetext();
+	
 	$("#fm").form("disableValidation");
 })
-
 
 var url = "";
 var flag = 1;
 function addInsframework(){
 	flag = 1;
+	insfcombobox(0,0);
+	$("#parent").next().show();
+	$("#inparent").next().hide();
+	$('#fdlg').window( {
+		title : "新增组织机构",
+		modal : true
+	});
+	$('#fdlg').window('open');
+	$('#fm').form('clear');
 	url = "insframework/addInsframework";
-	saveInsframework();
+	//saveInsframework();
 }
 
 function editInsframework(){
 	flag = 2;
-	var id = $("#id").val();
-	url = "insframework/editInsframework?id="+id;
-	saveInsframework();
+	$("#inparent").next().show();
+	$("#parent").next().hide();
+	var row = $('#insframeworkTable').datagrid('getSelected');
+	insfcombobox(row.typeid,row.id);
+	if (row) {
+		$('#fdlg').window( {
+			title : "组织机构管理",
+			modal : true
+		});
+		$('#fdlg').window('open');
+		$('#fm').form('load', row);
+		$("#inparent").textbox('setValue',row.parent);
+		var id = $("#id").val();
+		$('#validname').val(row.name);
+	url = "insframework/editInsframework?id="+row.id;
+	}//saveInsframework();
 }
 //提交
 function saveInsframework(){
@@ -50,21 +79,15 @@ function saveInsframework(){
 						msg : result.errorMsg
 					});
 				} else {
-					var time = 500;
 					if(result.msg==null){
 						$.messager.alert("提示", messager);
+						$('#dlg').dialog('close');
+						$('#insframeworkTable').datagrid('reload');
 					}else{
-						time = 2500;
-						$.messager.show( {title : '提示',msg : result.msg});
-					}
-					window.setTimeout(function() {
-						var url = "insframework/goInsframework";
-						var img = new Image();
-					    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-					    url = img.src;  // 此时相对路径已经变成绝对路径
-					    img.src = null; // 取消请求
-						window.location.href = encodeURI(url);
-					}, time);
+						$.messager.alert("提示", messager);
+						$('#dlg').dialog('close');
+						$('#insframeworkTable').datagrid('reload');
+				}
 				}
 			}
 			
@@ -79,7 +102,8 @@ function updatetext(){
 	var type = $("#type").val();
 //	var parent = $("#parentid").val();
 	$("#typeid").combobox('select',type);
-//	$("#parent").combobox('select',parent);
+//	$("#inparent").combobox('select',parent);
+	
 }
 
 //上级项目/类型

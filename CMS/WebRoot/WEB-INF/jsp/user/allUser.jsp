@@ -65,6 +65,86 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
     </div>
+    <!--新增 修改-->
+		<div id="dlg" class="easyui-dialog" style="width: 800px; height: 600px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
+			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
+            <div class="fitem">
+            	<lable>用户名</lable>
+                <input name="userName" id="userName" class="easyui-textbox" data-options="required:true">
+            	<lable>登录名</lable>
+                <input name="userLoginName" class="easyui-textbox" data-options="validType:'userValidate',required:true">
+            </div>
+            <div class="fitem">
+            	<lable>密码</lable>
+                <input name="userPassword" type="password" class="easyui-textbox" data-options="required:true">
+                <lable>电话</lable>
+                <input name="userPhone" class="easyui-textbox" data-options="required:false">
+            </div>
+            <div class="fitem">
+            	<lable>邮箱</lable>
+                <input name="userEmail" class="easyui-textbox" data-options="required:false">
+                <lable>岗位</lable>
+                <input name="userPosition" class="easyui-textbox" data-options="required:true">
+            </div>
+            <div class="fitem">
+				<lable>部门</lable>
+<!-- 			<select class="easyui-combobox" name="userInsframework" id="userInsframework" data-options="required:true"></select> -->
+				<input type="hidden"  id="insid"/>
+				<input class="easyui-textbox" name="userInsframework" id="userInsframework" readonly="readonly"/>
+        		<lable>状态</lable>&nbsp;&nbsp;
+   				<span id="radios"></span>
+        	</div>
+	        <div style="margin-bottom:60px;margin-left:100px" align="lift">
+	        <table id="tt" name="tt" title="角色列表" checkbox="true" style="table-layout:fixed"></table>
+	    	</div>
+        </form>
+       </div>
+	    <div id="dlg-buttons">
+			<lable>
+			       <a href="javascript:saveUser();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			       <a href="user/AllUser" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+		    </lable>
+    </div>
+    <!-- 删除 -->
+		<div id="rdlg" class="easyui-dialog" style="width: 800px; height: 600px; padding:10px 20px" closed="true" buttons="#remove-buttons">
+			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+				<div class="fitem">
+	                <input name="id" id="id" type="hidden" >
+	            </div>
+	            <div class="fitem">
+	            	<lable>用户名</lable>
+	                <input name="userName" id="userName" class="easyui-textbox" readonly="true">
+	            	<lable>登录名</lable>
+	                <input name="userLoginName" class="easyui-textbox" readonly="true">
+	            </div>
+	            <div class="fitem">
+	            	<lable>密码</lable>
+	                <input name="userPassword" class="easyui-textbox" type="password" readonly="true">
+	            	<lable>电话</lable>
+	                <input name="userPhone" class="easyui-textbox" readonly="true" >
+	            </div>
+	            <div class="fitem">
+	            	<lable>邮箱</lable>
+	                <input name="userEmail" class="easyui-textbox" readonly="true" >
+	            	<lable>岗位</lable>
+	                <input id="userPosition" name="userPosition" class="easyui-textbox" readonly="readonly">
+	            </div>
+	            <div class="fitem">
+	            	<lable>部门</lable>
+	            	<input class="easyui-textbox" name="userInsframework" id="users_insframework"  readonly="true" />
+					<lable>状态</lable>
+					<input name="status" class="easyui-textbox" readonly="true"/>
+	            </div>
+		        <div align="center">
+			        <table id="rtt" title="角色列表" checkbox="true" readonly="true" style="table-layout:fixed;width:100%"></table>
+			    </div>
+			</form>
+		<div id="remove-buttons">
+			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
+			<a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
+		
+  </div>
 </body>
 </html>
  

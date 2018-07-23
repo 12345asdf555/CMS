@@ -25,6 +25,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/manufacturer/manufacturer.js"></script>
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
+	<script type="text/javascript" src="resources/js/manufacturer/addeditmanu.js"></script>
+	<script type="text/javascript" src="resources/js/manufacturer/removemanu.js"></script>
 	
   </head>
   
@@ -33,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	
 	  	<div id="dg_btn">
 			<div style="margin-bottom: 5px;">
-				<a href="manufacturer/goaddManufacturer" class="easyui-linkbutton" iconCls="icon-add">新增</a>
+				<a href="javascript:addManufacturer();" class="easyui-linkbutton" iconCls="icon-add">新增</a>
 				<a href="javascript:insertSearchManufacturer();" class="easyui-linkbutton" iconCls="icon-search" >查找</a>
 			</div>
 		</div>
@@ -55,7 +57,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:searchManufacturer();" class="easyui-linkbutton" iconCls="icon-ok">查询</a>
 			<a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
-	    
+	    <!-- 添加修改 -->
+		<div id="dlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
+			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+			<div class="fitem">
+					<lable>生产厂商</lable>
+					<input type="hidden" id="id"  name="id" >
+					<input type="hidden" id="oldname" >
+					<input type="hidden" id="creator"  name="creator" >
+					<input class="easyui-textbox" name="name" id="name"  data-options="validType:['manuValidate'],required:true"/>
+				</div>
+				<div class="fitem">
+					<lable>厂商类型</lable>
+					<input type="hidden" id="typeid" >
+					<select class="easyui-combobox" name="type" id="type" data-options="required:true,editable:false"></select>
+				</div>
+				<div class="fitem">
+					<lable>厂商类型值</lable>
+					<input class="easyui-textbox" name="typeValue" id="typeValue"  />
+				</div>
+			</form>
+		<div id="dlg-buttons">
+				<a href="javascript:saveManufacturer();" class="easyui-linkbutton"	iconCls="icon-ok">保存</a>
+				<a href="manufacturer/goManufacturer" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+		</div>
+	<!-- 删除 -->
+	<div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
+			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+			<div class="fitem">
+					<lable>生产厂商</lable>
+					<input type="hidden" id="id"  >
+					<input type="hidden" id="creator"  name="creator" >
+					<input class="easyui-textbox"  id="name"  name="name" readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable>厂商类型</lable>
+					<input class="easyui-textbox" id="type" name="type"  readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable>厂商类型值</lable>
+					<input class="easyui-textbox" name="typeValue" id="typeValue" readonly="readonly"/>
+				</div>
+		</form>
+		<div id="remove-buttons">
+				<a href="javascript:remove();" class="easyui-linkbutton"	iconCls="icon-remove">删除</a>
+				<a href="manufacturer/goManufacturer" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+		</div>
 	</div>
   </body>
 </html>

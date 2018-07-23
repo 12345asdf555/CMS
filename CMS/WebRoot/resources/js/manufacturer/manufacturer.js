@@ -28,13 +28,27 @@ function dgDatagrid(){
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'type',
+			field : 'creator',
+			title : '创建者 ',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden:	true
+		},{
+			field : 'manutype',
 			title : '厂商类型',
 			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'typevalue',
+			field : 'type',
+			title : '厂商类型id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'typeValue',
 			title : '厂商类型值',
 			width : 100,
 			halign : "center",
@@ -47,16 +61,18 @@ function dgDatagrid(){
 			align : "left",
 			formatter:function(value,row,index){
 				var str = "";
-				str += '<a id="edit" class="easyui-linkbutton" href="manufacturer/goeditManufacturer?id='+row.id+'"/>';
-//				str += '<a id="remove" class="easyui-linkbutton" href="manufacturer/goremoveManufacturer?id='+row.id+'"/>';
+				str += '<a id="edit" class="easyui-linkbutton" href="javascript:editManufacturer();"/>';
+				//manufacturer/goeditManufacturer?id='+row.id+'
+				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeManufacturer();"/>';
 				return str;
 			}
 		}] ],
 		toolbar : '#dg_btn',
 		pagination : true,
 		onLoadSuccess:function(data){
+			$("a[id='ok']").linkbutton({text:'完成',plain:true,iconCls:'icon-ok'});
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-edit'});
-//	        $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});
+	        $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});
 		}
 	});
 }

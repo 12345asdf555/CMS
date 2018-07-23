@@ -4,6 +4,7 @@ $(function(){
 	statusCombobox();
 	insframeworkTree();
 	var item = $("#item").val();
+	$("#itemid").combobox("select",item);
 //	$("#itemid").combobox({
 //        onChange:function(){
         	//处理项目部发生改变时采集序号无法进行验证问题
@@ -11,7 +12,14 @@ $(function(){
 //        	$("#gatherNo").textbox("setValue",gatherno);
 //        } 
 //     });
-	$("#itemid").combobox("select",item);
+	$('#dlg').dialog( {
+		onClose : function() {
+			$('#protocol').combobox('clear');
+			$('#status').combobox('clear');
+			$('#itemid').combobox('clear');
+			$("#fm").form("disableValidation");
+		}
+	})
 	$("#fm").form("disableValidation");
 })
 
@@ -20,15 +28,29 @@ var url = "";
 var flag = 1;
 function addGather(){
 	flag = 1;
+	$('#dlg').window( {
+		title : "新增采集模块",
+		modal : true
+	});
+	$('#dlg').window('open');
+	$('#fm').form('clear');
 	url = "gather/addGather";
-	saveGather();
 }
 
-function editGather(){
+function editGather2(){
 	flag = 2;
-	var id = $("#id").val();
-	url = "gather/editGather?id="+id;
-	saveGather();
+	$('#fm').form('clear');
+	var row = $('#gatherTable').datagrid('getSelected');
+	if (row) {
+		$('#dlg').window( {
+			title : "修改采集模块",
+			modal : true
+		});
+		$('#dlg').window('open');
+		$('#fm').form('load', row);
+		$('#validgatherno').val(row.gatherNo);
+		url = "gather/editGather?id="+ row.id;
+	}
 }
 //提交
 function saveGather(){
@@ -54,22 +76,14 @@ function saveGather(){
 						msg : result.errorMsg
 					});
 				} else {
-					var time = 500;
-					if(result.msg==null){
-						$.messager.alert("提示", messager);
-					}else{
-						time = 2500;
+					$.messager.alert("提示", messager);
+					if(result.msg!=null){
 						$.messager.show( {title : '提示',msg : result.msg});
 					}
-					window.setTimeout(function() {
-						var url = "gather/goGather";
-						var img = new Image();
-					    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-					    url = img.src;  // 此时相对路径已经变成绝对路径
-					    img.src = null; // 取消请求
-						window.location.href = encodeURI(url);
-					}, time);
+					$('#dlg').dialog('close');
+					$('#gatherTable').datagrid('reload');
 				}
+					
 			}
 			
 		},  
@@ -83,8 +97,8 @@ function saveGather(){
 function statusCombobox(){
     var optionStr = '';
     optionStr += "<option value='正常'>正常</option>"+
-    		"<option value='维修'>维修</option>"+
-    		"<option value='迁移'>迁移</option>";  
+    		"<option value='维修'>维修</option>"+ 
+    		 "<option value='迁移'>迁移</option>"; 
     $("#status").html(optionStr);
 	$("#status").combobox();
 }
@@ -94,7 +108,7 @@ function itemidCombobox(){
 	$.ajax({  
       type : "post",  
       async : false,
-      url : "weldingMachine/getInsframeworkAll",  
+      url : "weldingMachine/getInsframeworkAll",  //调用这个类和类里面的方法
       data : {},  
       dataType : "json", //返回数据形式为json  
       success : function(result) {  
@@ -124,7 +138,6 @@ function protocolCombobox(){
     $("#protocol").html(optionStr);
 	$("#protocol").combobox();
 }
-
 //树形菜单点击事件
 function insframeworkTree(){
 	$("#myTree").tree({  

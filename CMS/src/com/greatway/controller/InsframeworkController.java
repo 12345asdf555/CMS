@@ -139,6 +139,7 @@ public class InsframeworkController {
 				json.put("parent", i.getParentname());
 				json.put("type", i.getTypename());
 				json.put("typeid", i.getType());
+				json.put("parentid", i.getParent());
 				ary.add(json);
 			}
 		}catch(Exception e){

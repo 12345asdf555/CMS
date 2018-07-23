@@ -1,7 +1,13 @@
 $(function(){
 	typeCombobox();
-//	equipmentCombobox();
+	//equipmentCombobox();
 	updatetext();
+	$('#dlg').dialog( {
+		onClose : function() {
+			$('#typeid').combobox('clear');
+			$("#fm").form("disableValidation");
+		}
+	})
 	$("#fm").form("disableValidation");
 })
 
@@ -9,16 +15,30 @@ var url = "";
 var maintainfalg = true;
 function addMaintain(){
 	maintainfalg = true;
+	$('#dlg').window( {
+		title : "新增维修记录",
+		modal : true
+	});
+	$('#dlg').window('open');
+	$('#fm').form('clear');
 	url = "maintain/addMaintain";
-	saveMaintain();
+	//saveMaintain();
 }
 
 function editMaintain(){
 	maintainfalg = false;
-	var mid = $("#mid").val();
-	var insfid = $("#insfid").val();
-	url = "maintain/editMaintain?mid=" + mid+"&insfid="+insfid;
-	saveMaintain();
+	$('#fm').form('clear');
+	var row = $('#maintainTable').datagrid('getSelected');
+	if (row) {
+		$('#dlg').window( {
+			title : "修改维修记录",
+			modal : true
+		});
+		$('#dlg').window('open');
+		$('#fm').form('load', row);
+	}
+	url = "maintain/editMaintain";
+//	saveMaintain();
 }
 //提交
 function saveMaintain(){
@@ -29,7 +49,7 @@ function saveMaintain(){
 		url2 = url+"?tId="+tid+"&wId="+$("#machineid").val();
 	}else{
 		messager = "修改成功！";
-		url2 = url+"&tId="+tid+"&wid="+$("#wid").val();
+		url2 = url+"?tId="+tid+"&wId="+$("#machineid").val();
 	}
 	$('#fm').form('submit', {
 		url : url2,
@@ -45,21 +65,23 @@ function saveMaintain(){
 						msg : result.errorMsg
 					});
 				} else {
-					var time = 500;
-					if(result.msg==null){
+					
+						if(result.msg==null){
+							$.messager.alert("提示", messager);
+						}else{
+							$.messager.show( {title : '提示',msg : result.msg});
+						}
 						$.messager.alert("提示", messager);
-					}else{
-						time = 2500;
-						$.messager.show( {title : '提示',msg : result.msg});
-					}
-					window.setTimeout(function() {
-						var url = "maintain/goMaintain";
-						var img = new Image();
-					    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-					    url = img.src;  // 此时相对路径已经变成绝对路径
-					    img.src = null; // 取消请求
-						window.location.href = encodeURI(url);
-					}, time);
+						$('#dlg').dialog('close');
+						$('#maintainTable').datagrid('reload');
+//					window.setTimeout(function() {
+//						var url = "maintain/goMaintain";
+//						var img = new Image();
+//					    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
+//					    url = img.src;  // 此时相对路径已经变成绝对路径
+//					    img.src = null; // 取消请求
+//						window.location.href = encodeURI(url);
+//					}, time);
 				}
 			}
 			
@@ -106,36 +128,13 @@ function typeCombobox(){
 	$("#typeId").combobox();
 }
 
-//设备编号
-function equipmentCombobox(){
-	$.ajax({  
-      type : "post",  
-      async : false,
-      url : "maintain/getComboboxValue",  
-      data : {},  
-      dataType : "json", //返回数据形式为json  
-      success : function(result) {  
-          if (result) {
-              var optionStr = '';
-              for (var i = 0; i < result.ary1.length; i++) {  
-                  optionStr += "<option value=\"" + result.ary1[i].mid + "\" >"  
-                          + result.ary1[i].equipmentNo + "</option>";
-              }
-              $("#equipmentNo").html(optionStr);
-          }  
-      },  
-      error : function(errorMsg) {  
-          alert("数据请求失败，请联系系统管理员!");  
-      }  
-	});
-	$("#equipmentNo").combobox();
-}
-
 function selectMachine(){
-	$('#dlg').window( {
+	$('#fdlg').window( {
+		title :"固定资产编号",
 		modal : true
 	});
-	$('#dlg').window('open');
+	$('#fdlg').window('open');
+	$('#fm').form('clear');
 	weldingMachineDatagrid();
 }
 function weldingMachineDatagrid(){
@@ -201,7 +200,7 @@ function saveWeldingMachine(){
 	var row = $("#weldingmachineTable").datagrid('getSelected');
 	$("#machineno").textbox('setValue',row.equipmentNo);
 	$("#machineid").val(row.id);
-	$('#dlg').dialog('close');
+	$('#fdlg').dialog('close');
 }
 
 function dlgSearchMachine(){
@@ -212,4 +211,5 @@ function dlgSearchMachine(){
 	$('#weldingmachineTable').datagrid('load', {
 		"searchStr" : searchStr
 	});
+	
 }

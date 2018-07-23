@@ -67,11 +67,12 @@ public class ResourceController {
 		try{
 			for(Resources resource:findAll){
 				json.put("id", resource.getId());
-				json.put("resources_name", resource.getResourceName());
-				json.put("resources_type", resource.getResourceType());
-				json.put("resources_address", resource.getResourceAddress());
-				json.put("resources_desc",resource.getResourceDesc());
+				json.put("resourceName", resource.getResourceName());
+				json.put("resourceType", resource.getResourceType());
+				json.put("resourceAddress", resource.getResourceAddress());
+				json.put("resourceDesc",resource.getResourceDesc());
 				json.put("status", resource.getStatusname());
+				json.put("statusid", resource.getStatus());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -181,7 +182,6 @@ public class ResourceController {
 			}
 			return obj.toString();
 	}
-	
 	@RequestMapping("/resourcenamevalidate")
 	@ResponseBody
 	private String resourcenamevalidate(@RequestParam String resourceName){

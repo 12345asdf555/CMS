@@ -149,8 +149,8 @@ public class MaintainController {
 				json.put("mid", wm.getMaintenance().getId());
 				json.put("viceman", wm.getMaintenance().getViceman());
 				json.put("money", wm.getMaintenance().getMoney());
-				json.put("starttime",wm.getMaintenance().getStartTime());
-				json.put("endtime", wm.getMaintenance().getEndTime());
+				json.put("startTime",wm.getMaintenance().getStartTime());
+				json.put("endTime", wm.getMaintenance().getEndTime());
 				json.put("typeid", wm.getMaintenance().getTypeId());
 				json.put("typename", wm.getMaintenance().getTypename());
 				json.put("desc", wm.getMaintenance().getDesc());

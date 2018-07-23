@@ -91,8 +91,10 @@ public class ManufacturerController {
 			for(int i=0;i<list.size();i++){
 				json.put("id", list.get(i).getId());
 				json.put("name", list.get(i).getName());
-				json.put("type", list.get(i).getType());
-				json.put("typevalue", list.get(i).getTypeValue());
+				json.put("manutype", list.get(i).getType());
+				json.put("type", list.get(i).getTypeid());
+				json.put("typeValue", list.get(i).getTypeValue());
+				json.put("creator", list.get(i).getCreator());
 				ary.add(json);
 			}
 		}catch(Exception e){

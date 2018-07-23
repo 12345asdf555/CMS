@@ -26,6 +26,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/insframework/insframeworktree.js"></script>
 	<script type="text/javascript" src="resources/js/maintain/maintain.js"></script>
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
+	<script type="text/javascript" src="resources/js/maintain/addeditmaintain.js"></script>
+	<script type="text/javascript" src="resources/js/maintain/removemaintain.js"></script>
 	
   </head>
   
@@ -35,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	<input type="hidden" id="treeid"/>
 	  	<div id="maintainTable_btn">
 			<div style="margin-bottom: 5px;">
-				<a href="maintain/goAddMaintain" class="easyui-linkbutton" iconCls="icon-add">新增</a>
+				<a href="javascript:addMaintain();" class="easyui-linkbutton" iconCls="icon-add">新增</a>
 				<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-excel">导入</a>
 				<a href="javascript:exporMaintain();" class="easyui-linkbutton" iconCls="icon-excel">导出</a>
 				<a href="javascript:insertSearchMaintain();" class="easyui-linkbutton" iconCls="icon-search" >查找</a>
@@ -68,7 +70,101 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:searchMaintain();" class="easyui-linkbutton" iconCls="icon-ok">查询</a>
 			<a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
-	    
+		<!-- 新增修改 -->
+	    <div id="dlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
+			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+<!-- 			<div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">新增维修记录</div> -->
+				<div class="fitem" style="margin-left: -100px;">
+					<lable>固定资产编号</lable>
+					<input type="hidden" id="mid" name="mid"/>
+					<input type="hidden" id="machineid" name="wid"/>
+					<input type="hidden" id="insfid" name="insfid"/>
+					<input class="easyui-textbox" id="machineno" name="equipmentNo" data-options="required:true" readonly="readonly"/>
+<!-- 	<select class="easyui-combobox" name="equipmentNo" id="equipmentNo" data-options="required:true,editable:false"></select> -->
+					<a href="javascript:selectMachine();" class="easyui-linkbutton">选择</a>
+				</div>
+				<div class="fitem">
+					<lable>维修类型</lable>
+					<select class="easyui-combobox" name="typeid" id="typeId" data-options="required:true,editable:false"></select>
+				</div>
+				<div class="fitem">
+					<lable>维修人员</lable>
+					<input class="easyui-textbox" name="viceman" id="viceman" data-options="required:true"/>
+				</div>
+				<div class="fitem">
+					<lable>维修价格</lable>
+					<input class="easyui-textbox" name="money" id="money"/>
+				</div>
+				<div class="fitem">
+					<lable>起始时间</lable>
+					<input class="easyui-datetimebox" name="startTime" id="startTime" data-options="required:true"/>
+				</div>
+				<div class="fitem">
+					<lable>结束时间</lable>
+					<input class="easyui-datetimebox" name="endTime" id="endTime"/>
+				</div>
+				<div class="fitem">
+					<lable>维修说明</lable>
+					<textarea name="desc" id="desc" style="height:60px;width:150px"></textarea>
+				</div>
+			</form>
+			<div id="dlg-buttons">
+					<a href="javascript:saveMaintain();" class="easyui-linkbutton"	iconCls="icon-ok">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="maintain/goMaintain" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+			</div>
+		</div>
+	    <!-- 选择焊机 -->
+		<div id="fdlg" class="easyui-dialog" style="width: 700px; height: 530px;" title="选择焊机" closed="true" buttons="#fdlg-buttons">
+			<div id="dlgSearch" style="backgroud:#fff;">
+				固定资产编号：<input class="easyui-textbox" id="searchname"/>
+				<a href="javascript:dlgSearchMachine();" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+			</div>
+	    	<table id="weldingmachineTable" style="table-layout: fixed; width:100%;"></table>
+		</div>
+		<div id="fdlg-buttons">
+			<a href="javascript:saveWeldingMachine();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+			<a href="javascript:$('#fdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
+		<!-- 删除 -->
+		<div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
+			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+			<div class="fitem">
+				<lable>固定资产编号</lable>
+					<input type="hidden" id="machineid" name="machineid"/>
+					<input class="easyui-textbox" id="equipmentNo" name="equipmentNo" data-options="required:true" readonly="readonly"/>
+<!-- 	<select class="easyui-combobox" name="equipmentNo" id="equipmentNo" data-options="required:true,editable:false"></select> -->
+<!-- 					<a href="javascript:selectMachine();" class="easyui-linkbutton">选择</a> -->
+				</div>
+				<div class="fitem">
+					<lable>维修类型</lable>
+					<input class="easyui-textbox" name="typename" id="typename" data-options="required:true" readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable>维修人员</lable>
+					<input class="easyui-textbox" name="viceman" id="viceman" data-options="required:true" readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable>维修价格</lable>
+					<input class="easyui-textbox" name="money" id="money" readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable>起始时间</lable>
+					<input class="easyui-textbox" name="startTime" id="startTime" data-options="required:true" readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable>结束时间</lable>
+					<input class="easyui-textbox" name="endTime" id="endTime" readonly="readonly"/>
+				</div>
+			<div class="fitem">
+				<lable>维修说明</lable>
+				<textarea name="desc" id="desc" style="height:60px;width:150px" readonly="readonly"></textarea>
+			</div>
+		</form>
+		</div>
+		<div id="remove-buttons">
+			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
+			<a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
 	</div>
   </body>
 </html>

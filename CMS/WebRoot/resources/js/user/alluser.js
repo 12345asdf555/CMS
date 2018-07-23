@@ -2,6 +2,13 @@
  * 
  */
         $(function(){
+        	$('#dlg').dialog( {
+        		onClose : function() {
+        			$('#insid').combobox('clear');
+        			$("#fm").form("disableValidation");
+        		}
+        	})
+        	$("#fm").form("disableValidation");
         	var width = $("#treeDiv").width();
     		$(".easyui-layout").layout({
     			onCollapse:function(){
@@ -17,11 +24,12 @@
     				})
     			}
     		});
+            statusRadio();
         	insframeworkTree();
 	    $("#tt").datagrid( {
 		fitColumns : true,
-		height : ($("#body").height() - $('#toolbar').height()),
-		width : $("#body").width(),
+		height : '250px',
+		width : '80%',
 		idField : 'roles_name',
 		url : "user/getAllRole",
 		rownumbers : false,
@@ -70,37 +78,37 @@
 			align : "left",
 			hidden: true
 		}, {
-			field : 'users_name',
+			field : 'userName',
 			title : '用户名',
 			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'users_Login_Name',
+			field : 'userLoginName',
 			title : '登录名',
 			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'users_phone',
+			field : 'userPhone',
 			title : '电话',
 			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'users_email',
+			field : 'userEmail',
 			title : '邮箱',
 			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'users_position',
+			field : 'userPosition',
 			title : '岗位',
 			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'users_insframework',
+			field : 'userInsframework',
 			title : '部门',
 			width : 100,
 			halign : "center",
@@ -111,7 +119,14 @@
 			width : 100,
 			halign : "center",
 			align : "left"
-        }, {
+        },{
+			field : 'statusid',
+			title : '状态id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden: true
+		}, {
 			field : 'role',
 			title : '角色',
 			width : 100,
@@ -142,44 +157,7 @@
 	        $("a[id='role']").linkbutton({text:'角色列表',plain:true,iconCls:'icon-Role'});
 	        }
 	});
-
 })
-     
-       function removeUser(id){
-		$.messager.confirm('提示', '此操作不可撤销，是否确认删除?', function(flag) {
-			if (flag) {
-				$.ajax({  
-			        type : "post",  
-			        async : false,
-			        url : "user/delUser?id="+id,  
-			        data : {},  
-			        dataType : "json", //返回数据形式为json  
-			        success : function(result) {
-			            if (result) {
-			            	if (!result.success) {
-								$.messager.show( {
-									title : 'Error',
-									msg : result.msg
-								});
-							} else {
-								$.messager.alert("提示", "删除成功！");
-								var url = "user/AllUser";
-								var img = new Image();
-							    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-							    url = img.src;  // 此时相对路径已经变成绝对路径
-							    img.src = null; // 取消请求
-								window.location.href = encodeURI(url);
-							}
-			            }  
-			        },  
-			        error : function(errorMsg) {  
-			            alert("数据请求失败，请联系系统管理员!");  
-			        }  
-			   }); 
-			}
-		});
-	}   
-        
         function role(id){
         $('#div1').dialog('open').dialog('center').dialog('setTitle','角色列表');
         $("#ro").datagrid( {
@@ -209,7 +187,6 @@
 			});
 
         }
-        
         function logout(){
  			$.ajax({  
  		        type : "post",  
@@ -235,7 +212,7 @@
  		        }  
  		   }); 
          }
-        
+        //组织机构菜单
         function insframeworkTree(){
         	$("#myTree").tree({  
         		onClick : function(node){
@@ -245,51 +222,244 @@
         		 }
         	})
         }
-        
+        var url = "";
+        var flag = 1;
         function addUser(){
         	var node = $('#myTree').tree('getSelected');
         	if(node==null || node==""){
         		alert("请先选择该用户所属组织机构(部门)！");
         	}else{
-     			$.ajax({  
-     		        type : "post",  
-     		        async : false,
-     		        url : "insframework/getUserAuthority?id="+node.id,  
-     		        data : {},  
-     		        dataType : "json", //返回数据形式为json  
-     		        success : function(result) {
-     		            if (result) {
- 		            		if(result.afreshLogin==null || result.afreshLogin==""){
-     		            		if(result.flag){
-	     		       				var url = "user/toAddUser";
-	     		       				var img = new Image();
-	     		       			    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-	     		       			    url = img.src;  // 此时相对路径已经变成绝对路径
-	     		       			    img.src = null; // 取消请求
-	     		       				window.location.href = encodeURI(url+"?name="+node.text+"&insid="+node.id);
-     		            		}else{
-     		            			alert("对不起，您不能对你的上级或同级部门的数据进行编辑");
-     		            		}
-     		            	}else{
-     		            		$.messager.confirm("提示",result.afreshLogin,function(data){
-     	     		        		 if(data){
-     	     		        			var url = "login.jsp";
-     	     		       				var img = new Image();
-     	     		       			    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-     	     		       			    url = img.src;  // 此时相对路径已经变成绝对路径
-     	     		       			    img.src = null; // 取消请求
-     	      		     				 top.location.href = url;
-     	      		     			 }
-     	     		     		 });
-     	     		        }
-     		           }
-     		        },  
-     		        error : function(errorMsg) {  
-     		            alert("数据请求失败，请联系系统管理员!");  
-     		        }  
-     		   }); 
+        	flag = 1;
+        	$("#fm").form("disableValidation");
+        	$('#dlg').window( {
+        		title : "新增用户",
+        		modal : true
+        	});
+        	$('#dlg').window('open');
+        	$('#fm').form('clear');
+        	//写入当前行列的数据
+			$("#insid").val(node.id);
+			$("#userInsframework").textbox('setValue',node.text);
+			//状态的启动和停止
+			var statusid = document.getElementsByName("statusid");
+			statusid[1].checked ='checked';
+        	url = "user/addUser";
+        }
+  }
+        function editUser(){
+        	flag = 2;
+        	$('#fm').form('clear');
+        	var row = $('#dg').datagrid('getSelected');
+        	$("#insid").val(row.insid);
+        	if (row) {
+        		$('#dlg').window( {
+        			title : "修改用户",
+        			modal : true
+        		});
+        		$('#dlg').window('open');
+        		UserDatagrid();
+        		$('#fm').form('load', row);
+        		$('#validName').val(row.id);
+        		url = "user/updateUser?uid="+ row.id;
         	}
         }
+        var url = "";
+        function removeUser(){
+        	$('#rfm').form('clear');
+        	var row = $('#dg').datagrid('getSelected');
+        	if (row) {
+        		$('#rdlg').window( {
+        			title : "删除用户",
+        			modal : true
+        		});
+        		$('#rdlg').window('open');
+        		$('#rfm').form('load', row);
+        		showdatagrid(row.id);
+        		url = "user/delUser?id="+row.id;
+        	}
+        }
+
+        function remove(){
+        	$.messager.confirm('提示', '此操作不可撤销，是否确认删除?', function(flag) {
+        		if (flag) {
+        			$.ajax({  
+        		        type : "post",  
+        		        async : false,
+        		        url : url,  
+        		        data : {},  
+        		        dataType : "json", //返回数据形式为json  
+        		        success : function(result) {
+        		            if (result) {
+        		            	if (!result.success) {
+        							$.messager.show( {
+        								title : 'Error',
+        								msg : result.msg
+        							});
+        						} else {
+        							$.messager.alert("提示", "删除成功！");
+        							$('#rdlg').dialog('close');
+        							$('#dg').datagrid('reload');
+        						}
+        		            }  
+        		        },  
+        		        error : function(errorMsg) {  
+        		            alert("数据请求失败，请联系系统管理员!");  
+        		        }  
+        		   }); 
+        		}
+        	});
+        } 
+       function saveUser(){
+           //flag = 1;
+            var insframework = $("#insid").val();
+            var sid = $("input[name='statusid']:checked").val();
+            var rows = $("#tt").datagrid("getSelections");
+            var str="";
+            var uid = $('#id').val();
+   		for(var i=0; i<rows.length; i++){
+   			str += rows[i].id+",";
+   			}
+            var url2;
+            // url = "user/addUser?userInsframework="+insframework+"&status="+sid+"&rid="+str;
+             if(flag==1){
+            		messager = "新增成功！";
+            		url2 = "user/addUser?userInsframework="+insframework+"&status="+sid+"&rid="+str;
+            	}else{
+            		messager = "修改成功！";
+            		url2 = url+"&userInsframework="+insframework+"&status="+sid+"&rid="+str;
+            	}
+               $('#fm').form('submit',{
+                   url: url2,
+                   onSubmit: function(){
+                       return $(this).form('enableValidation').form('validate');
+                   },
+                   success: function(result){
+                       var result = eval('('+result+')');
+                       if (result.errorMsg){
+                           $.messager.show({
+                               title: 'Error',
+                               msg: result.errorMsg
+                           });
+                       } else {
+                    	   if(result.msg==null){
+       						$.messager.alert("提示", messager);
+       					}else{
+       						$.messager.show( {title : '提示',msg : result.msg});
+       					}
+       					$('#dlg').dialog('close');
+       					$('#dg').datagrid('reload');
+                       }
+                   }
+               });
+           }
+        function UserDatagrid(){
+        	var urls="";
+        	var row = $('#dg').datagrid('getSelected');
+        	if(flag==1){
+        		urls="user/getAllRole";
+        	}else{
+        		urls="user/getAllRole1?id="+row.id;
+        	}
+        	$("#tt").datagrid( {
+        		fitColumns : true,
+        		height : '250px',
+        		width : '80%',
+        		idField : 'roles_name',
+        		url : urls,
+        		rownumbers : false,
+        		showPageList : false,
+        		checkOnSelect:true,
+        		selectOnCheck:true,
+        		columns : [ [ {
+        		    field:'ck',
+        			checkbox:true
+        		},{
+        			field : 'id',
+        			title : 'id',
+        			width : 100,
+        			halign : "center",
+        			align : "left",
+        			hidden:true
+        		},{
+        			field : 'roles_name',
+        			title : '角色名',
+        			width : 100,
+        			halign : "center",
+        			align : "left"
+        		}]],
+        		rowStyler: function(index,row){
+                    if ((index % 2)!=0){
+                    	//处理行代背景色后无法选中
+                    	var color=new Object();
+                        color.class="rowColor";
+                        return color;
+                    }
+        		},
+        		onBeforeLoad:function(data){
+        			 $('#tt').datagrid('clearChecked');
+        		},
+        		onLoadSuccess:function(data){
+        			 if(data){
+        				 $.each(data.rows, function(index, item){
+        					 if(item.symbol==1){
+        				         $('#tt').datagrid('checkRow', index);
+        					 }
+        				 })
+        			 }
+        		}
+        	});
+        }
+        function showdatagrid(id){
+			$("#rtt").datagrid( {
+				fitColumns : true,
+				height : '250px',
+				width : '80%',
+				idField : 'roles_name',
+				url : "user/getAllRole1?id="+id,
+				rownumbers : false,
+				showPageList : false,
+				checkOnSelect:true,
+				selectOnCheck:true,
+				columns : [ [ {
+				    field:'ck',
+					checkbox:true
+				},{
+					field : 'symbol',
+					title : 'symbol',
+					width : 100,
+					halign : "center",
+					align : "left",
+					hidden:true
+				},{
+					field : 'roles_name',
+					title : '角色名',
+					width : 100,
+					halign : "center",
+					align : "left"
+				}]],      
+				rowStyler: function(index,row){
+		            if ((index % 2)!=0){
+		            	//处理行代背景色后无法选中
+		            	var color=new Object();
+		                color.class="rowColor";
+		                return color;
+		            }
+				}, 
+				onBeforeLoad:function(data){
+					 $('#rtt').datagrid('clearChecked');
+				},
+				onLoadSuccess:function(data){
+	   			 if(data){
+					 $.each(data.rows, function(index, item){
+						 if(item.symbol==1){
+					         $('#rtt').datagrid('checkRow', index);
+						 }
+					 })
+				 }
+			   }                   
+			});
+		}
+
         
         function deleteUser(id,uid,flags){
  			$.ajax({  
@@ -305,14 +475,16 @@
  		            			var url = "";
  		            			if(flags){
  		            				url = "user/getUser?id="+uid;
+ 		            				editUser();
  		            			}else{
  		            				url = "user/desUser?id="+uid;
+ 		            				removeUser();
  		            			}
-     		       				var img = new Image();
-     		       			    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-     		       			    url = img.src;  // 此时相对路径已经变成绝对路径
-     		       			    img.src = null; // 取消请求
-     		       				window.location.href = encodeURI(url);
+//     		       				var img = new Image();
+//     		       			    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
+//     		       			    url = img.src;  // 此时相对路径已经变成绝对路径
+//     		       			    img.src = null; // 取消请求
+//     		       				window.location.href = encodeURI(url);
  		            		}else{
  		            			alert("对不起，您不能对你的上级或同级部门的数据进行编辑");
  		            		}
@@ -335,7 +507,31 @@
  		        }  
  		   });
         }
-
+       
+     
+               function statusRadio(){
+		$.ajax({  
+		    type : "post",  
+		    async : false,
+		    url : "user/getStatusAll",  
+		    data : {},  
+		    dataType : "json", //返回数据形式为json  
+		    success : function(result) {
+		    	if (result) {
+		    		var str = "";
+		    		for (var i = 0; i < result.ary.length; i++) {
+		    			str += "<input type='radio' class='radioStyle' name='statusid' id='sId' value=\"" + result.ary[i].id + "\" />"  
+	                    + result.ary[i].name+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		    		}
+		            $("#radios").html(str);
+		        }  
+		    },  
+		    error : function(errorMsg) {  
+		        alert("数据请求失败，请联系系统管理员!");  
+		    }  
+		});
+	}
+          
         //监听窗口大小变化
           window.onresize = function() {
           	setTimeout(domresize, 500);

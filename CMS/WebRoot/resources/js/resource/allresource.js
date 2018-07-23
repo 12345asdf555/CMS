@@ -3,6 +3,13 @@
  */
 
        $(function(){
+    	   statusRadio();
+    		$('#dlg').dialog( {
+    			onClose : function() {
+    				$("#fm").form("disableValidation");
+    			}
+    		})
+    	$("#fm").form("disableValidation");
 	    $("#dg").datagrid( {
 		fitColumns : true,
 		height : ($("#body").height()),
@@ -24,25 +31,25 @@
 			align : "left",
 			hidden: true
 		}, {
-			field : 'resources_name',
+			field : 'resourceName',
 			title : '资源名',
 			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'resources_type',
+			field : 'resourceType',
 			title : '类型',
 			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'resources_address',
+			field : 'resourceAddress',
 			title : '地址',
 			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'resources_desc',
+			field : 'resourceDesc',
 			title : '描述',
 			width : 100,
 			halign : "center",
@@ -54,6 +61,13 @@
 			halign : "center",
 			align : "left"
 		}, {
+			field : 'statusid',
+			title : '状态id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 130,
@@ -61,8 +75,8 @@
 			align : "left",
 			formatter:function(value,row,index){
 			var str = "";
-			str += '<a id="edit" class="easyui-linkbutton" href="resource/getResource?id='+row.id+'"/>';
-			str += '<a id="remove" class="easyui-linkbutton" href="resource/desResource?id='+row.id+'"/>';
+			str += '<a id="edit" class="easyui-linkbutton" href="javascript:editResource()"/>';
+			str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeResource()"/>';
 			return str;
 			}
 		}]],
@@ -73,46 +87,142 @@
 	        }
 	});
 })
-     
-       function removeUser(id){
-		$.messager.confirm('提示', '此操作不可撤销，是否确认删除?', function(flag) {
-			if (flag) {
-				$.ajax({  
-			        type : "post",  
-			        async : false,
-			        url : "resource/delResource?id="+id,  
-			        data : {},  
-			        dataType : "json", //返回数据形式为json  
-			        success : function(result) {
-			            if (result) {
-			            	if (!result.success) {
-								$.messager.show( {
-									title : 'Error',
-									msg : result.msg
-								});
-							} else {
-								$.messager.alert("提示", "删除成功！");
-								var url = "resource/AllResource";
-								var img = new Image();
-							    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-							    url = img.src;  // 此时相对路径已经变成绝对路径
-							    img.src = null; // 取消请求
-								window.location.href = encodeURI(url);
-							}
-			            }  
-			        },  
-			        error : function(errorMsg) {  
-			            alert("数据请求失败，请联系系统管理员!");  
-			        }  
-			   }); 
-			}
-		});
-	}
 
+       var url = "";
+       var flag = 1;
        function newResource(){
+    	   flag = 1;
+    		$('#fm').form('clear');
+    		$('#dlg').window( {
+    			title : "新增资源",
+    			modal : true
+    		});
+    		$('#dlg').window('open');
+    		var statusid = document.getElementsByName("statusid");
+    		statusid[1].checked = 'checked';
+    		url = "resource/addResource";
             
         }
-       
+       function editResource(){
+    		flag = 2;
+    		$('#fm').form('clear');
+    		var row = $('#dg').datagrid('getSelected');
+    		if (row) {
+    			$('#dlg').window( {
+    				title : "修改资源",
+    				modal : true
+    			});
+    			$('#dlg').window('open');
+    			$('#fm').form('load', row);
+    			$('#validName').val(row.resourceName);
+    			url = "resource/updateResource?id="+row.id;
+    		}
+    	}
+       var url = "";
+       function removeResource(){
+   		$('#rfm').form('clear');
+       	var row = $('#dg').datagrid('getSelected');
+       	if (row) {
+       		$('#rdlg').window( {
+       			title : "删除资源",
+       			modal : true
+       		});
+       		$('#rdlg').window('open');
+       		$('#rfm').form('load', row);
+       		url = "resource/delResource?id="+row.id;
+       	}
+       }
+
+       function remove(){
+       		$.messager.confirm('提示', '此操作不可撤销，是否确认删除?', function(flag) {
+       			if (flag) {
+       				$.ajax({  
+       			        type : "post",  
+       			        async : false,
+       			        url : url,  
+       			        data : {},  
+       			        dataType : "json", //返回数据形式为json  
+       			        success : function(result) {
+       			            if (result) {
+       			            	if (!result.success) {
+       								$.messager.show( {
+       									title : 'Error',
+       									msg : result.msg
+       								});
+       							} else {
+       								$.messager.alert("提示", "删除成功！");
+       								$('#rdlg').dialog('close');
+       								$('#dg').datagrid('reload');
+       							}
+       			            }  
+       			        },  
+       			        error : function(errorMsg) {  
+       			            alert("数据请求失败，请联系系统管理员!");  
+       			        }  
+       			   }); 
+       			}
+       		});
+       	}
+    	//提交
+    	function save(){
+    		var url2 = "";
+    	    var sid = $("input[name='statusid']:checked").val();
+    		if(flag==1){
+    			messager = "新增成功！";
+    			url2 = url+"?status="+sid;
+    		}else{
+    			messager = "修改成功！";
+    			url2 = url+"&status="+sid;
+    		}
+    		$('#fm').form('submit', {
+    			url : url2,
+    			onSubmit : function() {
+    				return $(this).form('enableValidation').form('validate');
+    			},
+    			success : function(result) {
+    				if(result){
+    					var result = eval('(' + result + ')');
+    					if (!result.success) {
+    						$.messager.show( {
+    							title : 'Error',
+    							msg : result.errorMsg
+    						});
+    					} else {
+    						$.messager.alert("提示", messager);
+    						$('#dlg').dialog('close');
+    						$('#dg').datagrid('reload');
+    					}
+    				}
+    				
+    			},  
+    		    error : function(errorMsg) {  
+    		        alert("数据请求失败，请联系系统管理员!");  
+    		    } 
+    		});
+    	}
+
+    	function statusRadio(){
+    		$.ajax({  
+    		    type : "post",  
+    		    async : false,
+    		    url : "user/getStatusAll",  
+    		    data : {},  
+    		    dataType : "json", //返回数据形式为json  
+    		    success : function(result) {
+    		    	if (result) {
+    		    		var str = "";
+    		    		for (var i = 0; i < result.ary.length; i++) {
+    		    			str += "<input type='radio' class='radioStyle' name='statusid' id='sId' value=\"" + result.ary[i].id + "\" />"  
+    	                    + result.ary[i].name+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    		    		}
+    		            $("#radios").html(str);
+    		        }  
+    		    },  
+    		    error : function(errorMsg) {  
+    		        alert("数据请求失败，请联系系统管理员!");  
+    		    }  
+    		});
+    	}
         function doSearch(value){
  			$("#tt").datagrid( {
 				fitColumns : true,

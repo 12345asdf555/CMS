@@ -66,15 +66,10 @@ public class AuthorityController {
 		try{
 			for(Authority authority:findAll){
 				json.put("id", authority.getId());
-				json.put("authorities_name", authority.getAuthorityName());
-				json.put("authorities_desc", authority.getAuthorityDesc());
-				if(31==authority.getStatus()){
-					json.put("status","启用");
-				}
-				else{
-					json.put("status","停用");
-				}
-				
+				json.put("authorityName", authority.getAuthorityName());
+				json.put("authorityDesc", authority.getAuthorityDesc());
+				json.put("statusid", authority.getStatus());
+				json.put("status",authority.getStatusname());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -158,6 +153,7 @@ public class AuthorityController {
 		authorityService.deleteResource(aid);
 		authority.setCreator(myuser.getId()+"");
 		authority.setModifier(myuser.getId()+"");
+		authority.setId(aid);
 		authority.setAuthorityName("ROLE_"+authority.getAuthorityName());
 		if(null!=str&&""!=str)
 		{

@@ -118,6 +118,7 @@ public class WeldedJunctionControll {
 				json.put("material", w.getMaterial());
 				json.put("nextexternaldiameter", w.getNextexternaldiameter());
 				json.put("itemname", w.getItemid().getName());
+				json.put("itemid", w.getItemid().getId());
 				json.put("startTime", w.getStartTime());
 				json.put("endTime", w.getEndTime());
 				json.put("creatTime", w.getCreatTime());

@@ -1,5 +1,12 @@
 $(function(){
 	typeCombobox();
+	$('#dlg').dialog( {
+		onClose : function() {
+			
+			//$('#typeid').combobox('clear');
+			$("#fm").form("disableValidation");
+		}
+	})
 	$("#type").combobox({
         onChange:function(){
         	//处理类型发生改变时生产厂商无法进行验证问题
@@ -17,18 +24,36 @@ var url = "";
 var flag = 1;
 function addManufacturer(){
 	flag = 1;
+	$('#dlg').window( {
+		title : "新增生产商",
+		modal : true
+	});
+	$('#dlg').window('open');
+	$('#fm').form('clear');
 	url = "manufacturer/addManufacturer";
-	saveManufacturer();
+	//saveManufacturer();
 }
 
 function editManufacturer(){
 	flag = 2;
-	url = "manufacturer/editManufacturer";
-	saveManufacturer();
+	$('#fm').form('clear');
+	var row = $('#dg').datagrid('getSelected');
+	if (row) {
+		$('#dlg').window( {
+			title : "修改厂商记录",
+			modal : true
+		});
+		$('#dlg').window('open');
+		$('#fm').form('load', row);
+		$('#validName').val(row.id);
+		url = "manufacturer/editManufacturer?id="+row.id;
+	}
 }
 //提交
 function saveManufacturer(){
 	var url2 = "";
+	var type = $('#type').combobox('getValue');
+	var xxx = document.getElementById("type").value;
 	if(flag==1){
 		messager = "新增成功！";
 		url2 = url;
@@ -50,23 +75,14 @@ function saveManufacturer(){
 						msg : result.errorMsg
 					});
 				} else {
-					var time = 500;
-					if(result.msg==null){
-						$.messager.alert("提示", messager);
-					}else{
-						time = 2500;
+					$.messager.alert("提示", messager);
+					if(result.msg!=null){
 						$.messager.show( {title : '提示',msg : result.msg});
 					}
-					window.setTimeout(function() {
-						var url = "manufacturer/goManufacturer";
-						var img = new Image();
-					    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-					    url = img.src;  // 此时相对路径已经变成绝对路径
-					    img.src = null; // 取消请求
-						window.location.href = encodeURI(url);
-					}, time);
-				}
+					$('#dlg').dialog('close');
+					$('#dg').datagrid('reload');
 			}
+		}
 			
 		},  
 	    error : function(errorMsg) {  

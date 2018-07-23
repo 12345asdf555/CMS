@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>用户管理</title>
+    <title>权限管理</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div style="margin:20px 0;"></div>
     <div id="toolbar">
-        <a href="authority/toAddAuthority" class="easyui-linkbutton" iconCls="icon-add">新增</a>
+        <a href="javascript:saveAuthority();" class="easyui-linkbutton" iconCls="icon-add">新增</a>
         <a href="javascript:insertSearchAuthority();" class="easyui-linkbutton" iconCls="icon-search">查找</a> 
     </div>
    		<div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">
@@ -54,6 +54,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <div id="searchButton">
 			<a href="javascript:searchAuthority();" class="easyui-linkbutton" iconCls="icon-ok">查询</a>
 			<a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+		</div>
+<!-- 增加修改 -->
+		<div id="dlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
+			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+			<div class="fitem">
+				<lable><span class="required">*</span>权限</lable>
+           		<input id="validName" type="hidden">
+<!--    				<input id="id" name="id" type="hidden"> -->
+                <input name="authorityName" class="easyui-textbox" data-options="validType:'authorityValidate',required:true" style="width:100%">
+            </div>
+            <div class="fitem">
+				<lable><span class="required">*</span>描述</lable>
+                <input name="authorityDesc" class="easyui-textbox" data-options="required:true" style="width:100%">
+            </div>
+			<div class="fitem">
+				<lable>状态</lable>&nbsp;&nbsp;
+   				<span id="radios"></span>
+			</div>
+	        <div style="margin-bottom:30px;margin-left:50px" align="center">
+<!-- 	        <div align="center"> -->
+			<input type="hedden"  name="resources_name">
+	        <table id="tt" title="资源列表" checkbox="true" style="table-layout:fixed"></table>
+	        </div>
+        </form>
+     <div>
+     <div id="dlg-buttons">
+		<lable>
+			 <a href="javascript:save();" class="easyui-linkbutton c6" iconCls="icon-ok">保存</a>
+			 <a href="authority/AllAuthority" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+		</lable>
+	</div>
+	<!--  删除 -->
+	<div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
+			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+			<div style="margin-bottom:10px;display: none;">
+	                <input name="id" id="id" class="easyui-textbox" type="hidden">
+	            </div>
+	            <div class="fitem">
+					<lable>权限</lable>
+	                <input name="authorityName" class="easyui-textbox" readonly="true" >
+	            </div>
+	            <div class="fitem">
+					<lable>描述</lable>
+	                <input name="authorityDesc" class="easyui-textbox" readonly="true">
+	            </div>
+				<div class="fitem">
+					<lable>状态</lable>
+					<input name="status" class="easyui-textbox" readonly="true" />
+				</div>
+	        <div style="margin-bottom:20px;margin-left:100px;" align="center">
+	        <table id="tt" title="资源列表" checkbox="true" readonly="true" style="table-layout:fixed;width:100%"></table>
+        </form>
+        </div>
+		<div id="remove-buttons">
+			<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			        <a href="javascript:remove();" class="easyui-linkbutton c6" iconCls="icon-ok">删除</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			        <a href="authority/AllAuthority" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+		    </lable>
 		</div>
     </div>
 </body>

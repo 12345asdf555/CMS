@@ -49,8 +49,15 @@ function weldedJunctionDatagrid(){
 			align : "left",
 			hidden:true
 		}, {
-			field : 'unit',
-			title : '机组',
+			field : 'roomNo',
+			title : '房间号',
+			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		}, {
+			field : 'itemid',
+			title : '组织机构id',
 			width : 90,
 			halign : "center",
 			align : "left",
@@ -211,8 +218,8 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left",
 			formatter: function(value,row,index){
-				var str = '<a id="edit" class="easyui-linkbutton" href="weldedjunction/goEditWeldedJunction?id='+row.id+'"/>';
-				str += '<a id="remove" class="easyui-linkbutton" href="weldedjunction/goRemoveWeldedJunction?id='+row.id+'"/>';
+				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
+				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
 				str += '<a id="look" class="easyui-linkbutton" href="weldedjunction/goShowMoreJunction?id='+row.id+'"/>';
 				return str;
 			}
@@ -226,6 +233,8 @@ function weldedJunctionDatagrid(){
 		}
 	});
 }
+
+
 
 //监听窗口大小变化
 window.onresize = function() {

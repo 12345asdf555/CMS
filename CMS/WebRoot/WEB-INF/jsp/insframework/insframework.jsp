@@ -26,22 +26,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/insframework/insframework.js"></script>
 	<script type="text/javascript" src="resources/js/insframework/insframeworktree.js"></script>
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
+	<script type="text/javascript" src="resources/js/insframework/addeditinsframework.js"></script>
+	<script type="text/javascript" src="resources/js/insframework/removeinsframework.js"></script>
 	
   </head>
-  
   <body  class="easyui-layout" >
   	<jsp:include  page="../insframeworktree.jsp"/>
   	<div id="body" region="center"  hide="true"  split="true" title="组织机构管理" style="background: witch; width:auto; height: 335px;" >
 	  	<input type="hidden" id="treeid"/>
 	  	<div id="insframework_btn">
 			<div style="margin-bottom: 5px;">
-				<a href="javascript:addInsframework()" class="easyui-linkbutton" iconCls="icon-add">新增</a>
+				<a href="javascript:addInsframework();" class="easyui-linkbutton" iconCls="icon-add">新增</a>
 				<a href="javascript:insertSearchInsf();" class="easyui-linkbutton" iconCls="icon-search" >查找</a>
 			</div>
 		</div>
 		
 	    <table id="insframeworkTable" style="table-layout: fixed; width:100%;"></table>
-	    
 	    <!-- 自定义多条件查询 -->
 	    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">
 	    	<div id="div0">
@@ -57,6 +57,75 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:searchInsf();" class="easyui-linkbutton" iconCls="icon-ok">查询</a>
 			<a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
-	</div>
+<!-- 		添加修改 -->
+		<div id="fdlg"  class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#fdlg-buttons"/>
+			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+				<div align="center" style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">组织机构编辑<br/><lable style="color:red">(谨慎操作!)</lable></div>
+<!-- 				<div align="center" data-options="title:'谨慎操作'"/> -->
+				<input type="hidden" id="validname" />
+				<div class="fitem">
+					<lable>名称</lable>
+					
+					<input type="hidden" id="flag" value="1"/>
+					<input class="easyui-textbox" name="name" id="name" data-options="validType:'insfnameValidate',required:true"/>
+				</div>
+				<div class="fitem">
+					<lable>名称简写</lable>
+					<input class="easyui-textbox" name="logogram" id="logogram"/>
+				</div>
+				<div class="fitem">
+					<lable>项目编码</lable>
+					<input class="easyui-textbox" name="code" id="code"/>
+				</div>
+				<div class="fitem">
+					<lable>上级项目</lable>
+					<input type="hidden"  id="insframework" name="insframeworkId" />
+					<input type="hidden" name="parentid" id="parentid"/>
+					<input class="easyui-textbox" id="inparent" readonly="readonly"/>
+					<select class="easyui-combobox" name="parent" id="parent" data-options="required:true,editable:false"></select>
+				</div>
+				<div class="fitem">
+					<lable>项目类型</lable>
+					<select class="easyui-combobox" name="typeid" id="typeid" data-options="required:true,editable:false"></select>
+				</div>
+			</form>
+			<div id="fdlg-buttons">
+				<a href="javascript:saveInsframework();" class="easyui-linkbutton"	iconCls="icon-ok">保存</a>
+				<a href="insframework/goInsframework" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+			</div>
+		</div>
+		<!-- 删除 -->	
+		<div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
+			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+				<div class="fitem">
+					<lable>名称</lable>
+					<input type="hidden"  name="type" id="id" />
+					<input type="hidden" id="id" />
+					<input type="hidden" id="type" />
+					<input class="easyui-textbox" name="name" id="name"  readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable>名称简写</lable>
+					<input class="easyui-textbox" name="logogram" id="logogram" readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable>项目编码</lable>
+					<input class="easyui-textbox" name="code"  id="code" readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable>上级项目</lable>
+					<input type="hidden" name="parentid" id="parentid"/>
+					<input class="easyui-textbox" name="parent"  id="parent" readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable>项目类型</lable>
+					<input class="easyui-textbox" name="type" id="type"  readonly="readonly"/>
+				</div>
+			</form>
+			<div id="remove-buttons">
+					<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
+					<a href="insframework/goInsframework" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+			</div>
+		</div>
   </body>
 </html>
