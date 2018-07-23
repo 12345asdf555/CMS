@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//WebRoot/resources/css/easyui.css=UTF-8
 encoding//WebRoot/resources/themes/default/easyui.css=UTF-8
 encoding//src/com/greatway/manager/LiveDataManager.java=UTF-8
 encoding/<project>=UTF-8

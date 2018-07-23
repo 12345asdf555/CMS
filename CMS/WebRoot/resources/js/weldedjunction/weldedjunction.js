@@ -24,136 +24,136 @@ function weldedJunctionDatagrid(){
 		}, {
 			field : 'weldedJunctionno',
 			title : '编号',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'serialNo',
 			title : '序列号',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'pipelineNo',
 			title : '管线号',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'roomNo',
 			title : '房间号',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'roomNo',
 			title : '房间号',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'itemid',
 			title : '组织机构id',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'area',
 			title : '区域',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'systems',
 			title : '系统',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'children',
 			title : '子项',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'externalDiameter',
 			title : '上游外径',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'nextexternaldiameter',
 			title : '下游外径',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'wallThickness',
 			title : '上游壁厚',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'nextwall_thickness',
 			title : '下游璧厚',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'material',
 			title : '上游材质',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'next_material',
 			title : '下游材质',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'dyne',
 			title : '达因',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'specification',
 			title : '规格',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'maxElectricity',
 			title : '电流上限',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'minElectricity',
 			title : '电流下限',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'maxValtage',
 			title : '电压上限',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'minValtage',
 			title : '电压下限',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left"
 		}, {
@@ -165,49 +165,49 @@ function weldedJunctionDatagrid(){
 		}, {
 			field : 'startTime',
 			title : '开始时间',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'endTime',
 			title : '完成时间',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'creatTime',
 			title : '创建时间',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'updateTime',
 			title : '修改时间',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'updatecount',
 			title : '修改次数',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'valtage_unit',
 			title : '电压单位',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'electricity_unit',
 			title : '电流单位',
-			width : 90,
+			width : 50,
 			halign : "center",
 			align : "left",
 			hidden:true
