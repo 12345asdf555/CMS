@@ -59,9 +59,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 <!-- 		添加修改 -->
 		<div id="fdlg"  class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#fdlg-buttons"/>
-			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
-				<div align="center" style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">组织机构编辑<br/><lable style="color:red">(谨慎操作!)</lable></div>
-<!-- 				<div align="center" data-options="title:'谨慎操作'"/> -->
+			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
+				<div align="center"><lable style="color:red">(谨慎操作!)</lable></div>
 				<input type="hidden" id="validname" />
 				<div class="fitem">
 					<lable><span class="required">*</span>名称</lable>					<input type="hidden" id="flag" value="1"/>
@@ -94,7 +93,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<!-- 删除 -->	
 		<div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
-			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true">
+				<div align="center"><lable style="color:red">(谨慎操作!)</lable></div>
 				<div class="fitem">
 					<lable>名称</lable>
 					<input type="hidden"  name="type" id="id" />

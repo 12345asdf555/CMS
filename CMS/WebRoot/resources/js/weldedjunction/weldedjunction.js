@@ -220,7 +220,7 @@ function weldedJunctionDatagrid(){
 			formatter: function(value,row,index){
 				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
 				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
-				str += '<a id="look" class="easyui-linkbutton" href="weldedjunction/goShowMoreJunction?id='+row.id+'"/>';
+				str += '<a id="look" class="easyui-linkbutton" href="javascript:showMore()"/>';
 				return str;
 			}
 		}] ],
@@ -235,6 +235,21 @@ function weldedJunctionDatagrid(){
 }
 
 
+function showMore(){
+	var row = $('#weldedJunctionTable').datagrid('getSelected');
+	if (row) {
+		$('#moredlg').window( {
+			title : "查看更多",
+			modal : true
+		});
+		$('#moredlg').window('open');
+		$('#showfm').form('load', row);
+	}
+}
+
+function closeshowmore(){
+	$('#moredlg').window('close');
+}
 
 //监听窗口大小变化
 window.onresize = function() {

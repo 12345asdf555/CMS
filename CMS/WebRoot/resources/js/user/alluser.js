@@ -234,8 +234,6 @@
         var flag = 1;
         function addUser(){
         	$("#insframework").next().hide();
-        	//insframework为必填项
-    		$("#insframework").combobox('setValue',0);
         	$("#userInsframework").next().show();
         	var node = $('#myTree').tree('getSelected');
         	if(node==null || node==""){
@@ -251,6 +249,8 @@
         	$('#fm').form('clear');
         	$('#tt').datagrid('clearSelections');
 
+        	//insframework为必填项
+    		$("#insframework").combobox('setText',node.id);
         	//写入当前行列的数据
 			$("#insid").val(node.id);
 			$("#userInsframework").textbox('setValue',node.text);

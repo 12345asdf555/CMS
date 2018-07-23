@@ -79,15 +79,12 @@ function saveInsframework(){
 						msg : result.errorMsg
 					});
 				} else {
-					if(result.msg==null){
-						$.messager.alert("提示", messager);
-						$('#dlg').dialog('close');
-						$('#insframeworkTable').datagrid('reload');
-					}else{
-						$.messager.alert("提示", messager);
-						$('#dlg').dialog('close');
-						$('#insframeworkTable').datagrid('reload');
-				}
+					$.messager.alert("提示", messager);
+					if(result.msg!=null){
+						$.messager.show( {title : '提示',msg : result.msg});
+					}
+					$('#fdlg').dialog('close');
+					$('#insframeworkTable').datagrid('reload');
 				}
 			}
 			

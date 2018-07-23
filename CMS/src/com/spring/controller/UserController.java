@@ -24,7 +24,6 @@ import com.greatway.model.Insframework;
 import com.greatway.page.Page;
 import com.greatway.util.IsnullUtil;
 import com.spring.model.MyUser;
-import com.spring.model.Role;
 import com.spring.model.User;
 import com.spring.service.UserService;
 

@@ -131,7 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-datetimebox" id="endTime"  name="endTime"/>
 				</div>
 				<div class="fitem">
-					<lable>达因</lable>
+					<lable><span class="required">*</span>达因</lable>
 					<input class="easyui-numberbox" id="dyne" name="dyne" data-options="required:true"/>
 				</div>
 			</form>
@@ -224,6 +224,99 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="remove-buttons">
 			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
 			<a href="javascript:closeD();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+		</div>
+		<!-- 查看更多 -->
+		<div id="moredlg" class="easyui-dialog" style="width: 850px; height: 600px; padding:10px 20px" closed="true" buttons="#show-buttons">
+			<form id="showfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+			<div class="fitem">
+				<lable>编号</lable>
+				<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno"  readonly="readonly"/>
+				<lable>机组</lable>
+				<input class="easyui-textbox" id="unit" name="unit"  readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>区域</lable>
+				<input class="easyui-textbox" id="area" name="area"  readonly="readonly"/>
+				<lable>规格</lable>
+				<input class="easyui-textbox" id="specification" name="specification"  readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>系统</lable>
+				<input class="easyui-textbox" id="systems" name="systems"  readonly="readonly"/>
+				<lable>子项</lable>
+				<input class="easyui-textbox" id="children" name="children"  readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>管线号</lable>
+				<input class="easyui-textbox" id="pipelineNo"  name="pipelineNo"   readonly="readonly"/>
+				<lable>房间号</lable>
+				<input class="easyui-textbox" id="roomNo" name="roomNo"  readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>序列号</lable>
+				<input class="easyui-textbox" id="serialNo" name="serialNo"  readonly="readonly"/>
+				<lable>所属项目</lable>
+				<select class="easyui-textbox" id="itemname"  name="itemname" readonly="readonly"></select>
+			</div>
+			<div class="fitem">
+				<lable>上游外径</lable>
+				<input class="easyui-textbox" id="externalDiameter" name="externalDiameter" readonly="readonly"/>
+				<lable>下游外径</lable>
+				<input class="easyui-textbox" id="nextexternaldiameter" name="nextexternaldiameter" readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>上游璧厚</lable>
+				<input class="easyui-textbox" id="wallThickness" name="wallThickness" readonly="readonly"/>
+				<lable>下游璧厚</lable>
+				<input class="easyui-textbox" id="nextwall_thickness" name="nextwall_thickness" readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>上游材质</lable>
+				<input class="easyui-textbox" id="material"  name="material" readonly="readonly"/>
+				<lable>下游材质</lable>
+				<input class="easyui-textbox" id="next_material" name="next_material" readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>电流上限</lable>
+				<input class="easyui-textbox" id="maxElectricity" name="maxElectricity" readonly="readonly"/>
+				<lable>电流下限</lable>
+				<input class="easyui-textbox" id="minElectricity" name="minElectricity" readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>电压上限</lable>
+				<input class="easyui-textbox" id="maxValtage" name="maxValtage" readonly="readonly"/>
+				<lable>电压下限</lable>
+				<input class="easyui-textbox" id="minValtage"  name="minValtage" readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>电流单位</lable>
+				<input class="easyui-textbox" id="electricity_unit"  name="electricity_unit" readonly="readonly"/>
+				<lable>电压单位</lable>
+				<input class="easyui-textbox" id="valtage_unit"  name="valtage_unit" readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>开始时间</lable>
+				<input class="easyui-textbox" id="startTime"  name="startTime"readonly="readonly"/>
+				<lable>完成时间</lable>
+				<input class="easyui-textbox" id="endTime"  name="endTime" readonly="readonly"/>
+			</div>
+			<div class="fitem">
+				<lable>达因</lable>
+				<input class="easyui-numberbox" id="dyne" name="dyne" readonly="readonly"/>
+				<lable>创建时间</lable>
+				<input class="easyui-textbox" readonly="readonly" name="creatTime"/>
+			</div>
+			<div class="fitem">
+				<lable>修改时间</lable>
+				<input class="easyui-textbox" readonly="readonly" name="updateTime"/>
+				<lable>修改次数</lable>
+				<input class="easyui-textbox" readonly="readonly" name="updatecount"/>
+			</div>
+			</form>
+		</div>
+		
+		<div id="show-buttons">
+			<a href="javascript:closeshowmore();" class="easyui-linkbutton" iconCls="icon-ok">关闭</a>
 		</div>
 	</div>
   </body>
