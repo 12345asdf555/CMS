@@ -14,7 +14,7 @@
 	</resultMap>
 	
 	<select id="getFaultAll" resultMap="faultMap">
-		SELECT f.fid,fcode,fdesc,ftype,d.fvaluename FROM tb_fault_code f INNER JOIN tb_dictionary d on d.fvalue = f.ftype where ftypeid = 7
+		SELECT f.fid,fcode,fdesc,ftype,d.fvaluename,f.fcreator FROM tb_fault_code f INNER JOIN tb_dictionary d on d.fvalue = f.ftype where ftypeid = 7
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>

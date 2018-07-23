@@ -69,9 +69,10 @@ public class RoleController {
 		try{
 			for(Role role:findAll){
 				json.put("id", role.getId());
-				json.put("roles_name", role.getRoleName());
-				json.put("roles_desc", role.getRoleDesc());
-				json.put("status", role.getStatusname());
+				json.put("roleName", role.getRoleName());
+		        json.put("roleDesc", role.getRoleDesc());
+		        json.put("roleStatus", role.getStatusname());
+		        json.put("statusid", role.getRoleStatus());
 				ary.add(json);
 			}
 		}catch(Exception e){

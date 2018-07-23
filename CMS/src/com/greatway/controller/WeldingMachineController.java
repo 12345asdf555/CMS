@@ -177,7 +177,7 @@ public class WeldingMachineController {
 					json.put("isnetworking", "否");
 				}
 				json.put("isnetworkingId", wm.getIsnetworking());
-				json.put("jointime", wm.getJoinTime());
+				json.put("joinTime", wm.getJoinTime());
 				json.put("money", wm.getMoney());
 				json.put("typeName",wm.getTypename());
 				json.put("typeId", wm.getTypeId());

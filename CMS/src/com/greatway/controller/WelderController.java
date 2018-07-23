@@ -90,8 +90,9 @@ public class WelderController {
 			for(Welder we:list){
 				json.put("id", we.getId());
 				json.put("name", we.getName());
-				json.put("welderno", we.getWelderno());
-				json.put("itemname", we.getIname());
+		        json.put("welderno", we.getWelderno());
+		        json.put("itemname", we.getIname());
+		        json.put("iid", we.getIid());
 				ary.add(json);
 			}
 		}catch(Exception e){
