@@ -689,3 +689,13 @@ function getContent(){
 function close(){
 	$('#searchdiv').dialog('close');
 }
+
+//关闭增改dialog
+function closeIU(){
+	$('#dlg').dialog('close');
+}
+//关闭删除dialog
+function closeD(){
+	$('#rdlg').dialog('close');
+}
+

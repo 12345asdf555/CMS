@@ -132,6 +132,7 @@ public class UserController {
 				json.put("insid", user.getInsid());
 				json.put("status", user.getStatusname());
 				json.put("statusid", user.getStatus());
+				json.put("userPassword", user.getUserPassword());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -163,8 +164,7 @@ public class UserController {
 	 */
 	@RequestMapping("/addUser")
 	@ResponseBody
-	public String addUser(User user,HttpServletRequest request){
-       
+	public String addUser(User user, HttpServletRequest request){
 		JSONObject obj = new JSONObject();
 		try{
 		//获取当前用户

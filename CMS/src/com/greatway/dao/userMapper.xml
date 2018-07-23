@@ -50,7 +50,7 @@
 	</select>
 	
 	<select id="findAll" resultType="User">
-		select tb_users.id id,tb_users.users_name userName,tb_users.users_login_name userLoginName,tb_users.users_phone userPhone,tb_users.users_email userEmail,tb_users.users_insframework userInsframework,tb_users.users_position userPosition,tb_users.status status,tb_insframework.fid insid,tb_insframework.fname insname,d.fvaluename statusname from tb_users 
+		select tb_users.id id,tb_users.users_password userPassword,tb_users.users_name userName,tb_users.users_login_name userLoginName,tb_users.users_phone userPhone,tb_users.users_email userEmail,tb_users.users_insframework userInsframework,tb_users.users_position userPosition,tb_users.status status,tb_insframework.fid insid,tb_insframework.fname insname,d.fvaluename statusname from tb_users 
 		INNER JOIN tb_dictionary d on d.fvalue = tb_users.status
 		left join tb_insframework on tb_users.users_insframework=tb_insframework.fid  where d.ftypeid=6
 		<if test="parent!=null and parent!=''">

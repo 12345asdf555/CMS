@@ -474,11 +474,9 @@ public interface LiveDataManager {
 	
 	/**
 	 * 设备维修率
-	 * @param page 分页
 	 * @param dto dtoTime1 起始时间 dtoTime2 结束时间
 	 * @return
 	 */
-	List<ModelDto> getMaintenanceratio(Page page, WeldDto dto);
 	List<ModelDto> getMaintenanceratio(WeldDto dto);
 	
 

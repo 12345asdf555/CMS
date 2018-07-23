@@ -120,10 +120,10 @@ function showChart(){
             if (result) {
             	for(var i=0;i<result.rows.length;i++){
             		array1.push(result.rows[i].name);
-            		array2.push({
-            			value : result.rows[i].total/result.row[i].sumnum,
-            			name : result.rows[i].name
-            		});
+	        		array2.push({
+	        			value : result.rows[i].proportion*100,
+	        			name : result.rows[i].name
+	        		});
             		
             	}
             }  
@@ -162,7 +162,21 @@ function showChart(){
 			type:'pie',
             radius : '80%',
             center : ['40%', '50%'],
-			data:array2
+            label: {
+                normal: {
+                    position: 'inner'
+                }
+            },
+			data:array2,
+      		itemStyle : {
+      			normal: {
+      				label : {
+      					formatter: function(param){
+      						return param.name+"\n"+param.value+"%";
+      					}
+      				}
+      			}
+      		}
 		}]
 	}
 	//为echarts对象加载数据
@@ -369,7 +383,7 @@ function dgDatagrid(){
 				halign : "center",
 				align : "left"
 			},{
-				field : "time",
+				field : "proportion",
 				title : "维修次数占比",
 				width : 100,
 				halign : "center",

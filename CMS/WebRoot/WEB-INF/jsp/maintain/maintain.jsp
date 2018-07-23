@@ -75,20 +75,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
 <!-- 			<div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">新增维修记录</div> -->
 				<div class="fitem" style="margin-left: -100px;">
-					<lable>固定资产编号</lable>
+					<lable><span class="required">*</span>固定资产编号</lable>
 					<input type="hidden" id="mid" name="mid"/>
 					<input type="hidden" id="machineid" name="wid"/>
 					<input type="hidden" id="insfid" name="insfid"/>
 					<input class="easyui-textbox" id="machineno" name="equipmentNo" data-options="required:true" readonly="readonly"/>
 <!-- 	<select class="easyui-combobox" name="equipmentNo" id="equipmentNo" data-options="required:true,editable:false"></select> -->
-					<a href="javascript:selectMachine();" class="easyui-linkbutton">选择</a>
+					<a href="javascript:selectMachine();" class="easyui-linkbutton" id="selectMachine">选择</a>
 				</div>
 				<div class="fitem">
-					<lable>维修类型</lable>
+					<lable><span class="required">*</span>维修类型</lable>
 					<select class="easyui-combobox" name="typeid" id="typeId" data-options="required:true,editable:false"></select>
 				</div>
 				<div class="fitem">
-					<lable>维修人员</lable>
+					<lable><span class="required">*</span>维修人员</lable>
 					<input class="easyui-textbox" name="viceman" id="viceman" data-options="required:true"/>
 				</div>
 				<div class="fitem">
@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-textbox" name="money" id="money"/>
 				</div>
 				<div class="fitem">
-					<lable>起始时间</lable>
+					<lable><span class="required">*</span>起始时间</lable>
 					<input class="easyui-datetimebox" name="startTime" id="startTime" data-options="required:true"/>
 				</div>
 				<div class="fitem">
@@ -110,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 			<div id="dlg-buttons">
 					<a href="javascript:saveMaintain();" class="easyui-linkbutton"	iconCls="icon-ok">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="maintain/goMaintain" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+					<a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 			</div>
 		</div>
 	    <!-- 选择焊机 -->
@@ -163,7 +163,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="remove-buttons">
 			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
-			<a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:closeD();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 	</div>
   </body>

@@ -64,9 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 				<div align="center" data-options="title:'谨慎操作'"/> -->
 				<input type="hidden" id="validname" />
 				<div class="fitem">
-					<lable>名称</lable>
-					
-					<input type="hidden" id="flag" value="1"/>
+					<lable><span class="required">*</span>名称</lable>					<input type="hidden" id="flag" value="1"/>
 					<input class="easyui-textbox" name="name" id="name" data-options="validType:'insfnameValidate',required:true"/>
 				</div>
 				<div class="fitem">
@@ -78,20 +76,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-textbox" name="code" id="code"/>
 				</div>
 				<div class="fitem">
-					<lable>上级项目</lable>
+					<lable><span class="required">*</span>上级项目</lable>
 					<input type="hidden"  id="insframework" name="insframeworkId" />
 					<input type="hidden" name="parentid" id="parentid"/>
 					<input class="easyui-textbox" id="inparent" readonly="readonly"/>
 					<select class="easyui-combobox" name="parent" id="parent" data-options="required:true,editable:false"></select>
 				</div>
 				<div class="fitem">
-					<lable>项目类型</lable>
+					<lable><span class="required">*</span>项目类型</lable>
 					<select class="easyui-combobox" name="typeid" id="typeid" data-options="required:true,editable:false"></select>
 				</div>
 			</form>
 			<div id="fdlg-buttons">
 				<a href="javascript:saveInsframework();" class="easyui-linkbutton"	iconCls="icon-ok">保存</a>
-				<a href="insframework/goInsframework" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+				<a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 			</div>
 		</div>
 		<!-- 删除 -->	
@@ -124,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 			<div id="remove-buttons">
 					<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
-					<a href="insframework/goInsframework" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+					<a href="javascript:closeD();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 			</div>
 		</div>
   </body>

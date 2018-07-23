@@ -24,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/jquery.min.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
 	<script type="text/javascript" src="resources/js/insframework/insframeworktree.js"></script>
 	<script type="text/javascript" src="resources/js/user/alluser.js"></script>
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
@@ -69,26 +70,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="dlg" class="easyui-dialog" style="width: 800px; height: 600px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
             <div class="fitem">
-            	<lable>用户名</lable>
+            	<lable><span class="required">*</span>用户名</lable>
                 <input name="userName" id="userName" class="easyui-textbox" data-options="required:true">
-            	<lable>登录名</lable>
+            	<lable><span class="required">*</span>登录名</lable>
+            	<input type="hidden"  id="validName"/>
                 <input name="userLoginName" class="easyui-textbox" data-options="validType:'userValidate',required:true">
             </div>
             <div class="fitem">
-            	<lable>密码</lable>
+            	<lable><span class="required">*</span>密码</lable>
                 <input name="userPassword" type="password" class="easyui-textbox" data-options="required:true">
                 <lable>电话</lable>
-                <input name="userPhone" class="easyui-textbox" data-options="required:false">
+                <input name="userPhone" class="easyui-textbox" data-options="validType:'phoneNum',required:false">
             </div>
             <div class="fitem">
             	<lable>邮箱</lable>
-                <input name="userEmail" class="easyui-textbox" data-options="required:false">
-                <lable>岗位</lable>
+                <input name="userEmail" class="easyui-textbox" data-options="validType:'email',required:false">
+                <lable><span class="required">*</span>岗位</lable>
                 <input name="userPosition" class="easyui-textbox" data-options="required:true">
             </div>
             <div class="fitem">
-				<lable>部门</lable>
-<!-- 			<select class="easyui-combobox" name="userInsframework" id="userInsframework" data-options="required:true"></select> -->
+				<lable><span class="required">*</span>部门</lable>
+				<select class="easyui-combobox" name="insframework" id="insframework" data-options="required:true,editable:false"></select>
 				<input type="hidden"  id="insid"/>
 				<input class="easyui-textbox" name="userInsframework" id="userInsframework" readonly="readonly"/>
         		<lable>状态</lable>&nbsp;&nbsp;
@@ -101,8 +103,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </div>
 	    <div id="dlg-buttons">
 			<lable>
-			       <a href="javascript:saveUser();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			       <a href="user/AllUser" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+			       <a href="javascript:saveUser();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+			       <a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		    </lable>
     </div>
     <!-- 删除 -->
@@ -141,7 +143,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 		<div id="remove-buttons">
 			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
-			<a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:closeD()" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
   </div>

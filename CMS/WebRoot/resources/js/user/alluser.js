@@ -4,7 +4,7 @@
         $(function(){
         	$('#dlg').dialog( {
         		onClose : function() {
-        			$('#insid').combobox('clear');
+        			$('#insframework').combobox('clear');
         			$("#fm").form("disableValidation");
         		}
         	})
@@ -25,6 +25,7 @@
     			}
     		});
             statusRadio();
+            insfCombobox();
         	insframeworkTree();
 	    $("#tt").datagrid( {
 		fitColumns : true,
@@ -122,6 +123,13 @@
         },{
 			field : 'statusid',
 			title : '状态id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden: true
+		}, {
+			field : 'userPassword',
+			title : '密码',
 			width : 100,
 			halign : "center",
 			align : "left",
@@ -225,6 +233,10 @@
         var url = "";
         var flag = 1;
         function addUser(){
+        	$("#insframework").next().hide();
+        	//insframework为必填项
+    		$("#insframework").combobox('setValue',0);
+        	$("#userInsframework").next().show();
         	var node = $('#myTree').tree('getSelected');
         	if(node==null || node==""){
         		alert("请先选择该用户所属组织机构(部门)！");
@@ -237,6 +249,8 @@
         	});
         	$('#dlg').window('open');
         	$('#fm').form('clear');
+        	$('#tt').datagrid('clearSelections');
+
         	//写入当前行列的数据
 			$("#insid").val(node.id);
 			$("#userInsframework").textbox('setValue',node.text);
@@ -248,6 +262,8 @@
   }
         function editUser(){
         	flag = 2;
+        	$("#insframework").next().show();
+        	$("#userInsframework").next().hide();
         	$('#fm').form('clear');
         	var row = $('#dg').datagrid('getSelected');
         	$("#insid").val(row.insid);
@@ -259,7 +275,8 @@
         		$('#dlg').window('open');
         		UserDatagrid();
         		$('#fm').form('load', row);
-        		$('#validName').val(row.id);
+        		$('#validName').val(row.userLoginName);
+        		$("#insframework").combobox('setValue',row.insid);
         		url = "user/updateUser?uid="+ row.id;
         	}
         }
@@ -311,7 +328,6 @@
         } 
        function saveUser(){
            //flag = 1;
-            var insframework = $("#insid").val();
             var sid = $("input[name='statusid']:checked").val();
             var rows = $("#tt").datagrid("getSelections");
             var str="";
@@ -320,13 +336,12 @@
    			str += rows[i].id+",";
    			}
             var url2;
-            // url = "user/addUser?userInsframework="+insframework+"&status="+sid+"&rid="+str;
              if(flag==1){
             		messager = "新增成功！";
-            		url2 = "user/addUser?userInsframework="+insframework+"&status="+sid+"&rid="+str;
+            		url2 = "user/addUser?userInsframework="+$("#insid").val()+"&status="+sid+"&rid="+str;
             	}else{
             		messager = "修改成功！";
-            		url2 = url+"&userInsframework="+insframework+"&status="+sid+"&rid="+str;
+            		url2 = url+"&userInsframework="+$("#insframework").combobox('getValue')+"&status="+sid+"&rid="+str;
             	}
                $('#fm').form('submit',{
                    url: url2,
@@ -531,6 +546,29 @@
 		    }  
 		});
 	}
+               
+function insfCombobox(){
+	$.ajax({
+	   type: "post", 
+	   url: "user/getIns",
+	   dataType: "json",
+	   data: {},
+	   success: function (result) {
+	      if (result) {
+	    	  var optionstring = "";
+	    	  //循环遍历 下拉框绑定
+	    	  for(var k=0;k<result.rows.length;k++){
+	    		  optionstring += "<option value=\"" + result.rows[k].insid + "\" >" + result.rows[k].insname + "</option>";
+	    	  }
+	    	  $("#insframework").html(optionstring);
+	      	  $("#insframework").combobox();
+	      }
+	   },
+	   error: function () {
+	      alert('error');
+	   }
+	});
+}
           
         //监听窗口大小变化
           window.onresize = function() {

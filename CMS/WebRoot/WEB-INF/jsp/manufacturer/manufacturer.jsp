@@ -61,14 +61,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="dlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
 			<div class="fitem">
-					<lable>生产厂商</lable>
+					<lable><span class="required">*</span>生产厂商</lable>
 					<input type="hidden" id="id"  name="id" >
 					<input type="hidden" id="oldname" >
 					<input type="hidden" id="creator"  name="creator" >
 					<input class="easyui-textbox" name="name" id="name"  data-options="validType:['manuValidate'],required:true"/>
 				</div>
 				<div class="fitem">
-					<lable>厂商类型</lable>
+					<lable><span class="required">*</span>厂商类型</lable>
 					<input type="hidden" id="typeid" >
 					<select class="easyui-combobox" name="type" id="type" data-options="required:true,editable:false"></select>
 				</div>
@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 		<div id="dlg-buttons">
 				<a href="javascript:saveManufacturer();" class="easyui-linkbutton"	iconCls="icon-ok">保存</a>
-				<a href="manufacturer/goManufacturer" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+				<a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
 	<!-- 删除 -->
 	<div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
@@ -101,7 +101,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 		<div id="remove-buttons">
 				<a href="javascript:remove();" class="easyui-linkbutton"	iconCls="icon-remove">删除</a>
-				<a href="manufacturer/goManufacturer" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+				<a href="javascript:closeD();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
 	</div>
   </body>

@@ -1251,7 +1251,7 @@ public class BlocChartController {
 		int flag = Integer.parseInt(request.getParameter("flag"));
 		WeldDto dto = new WeldDto();
 		BigInteger parent = null;
-		List<ModelDto> list = null;
+		List<Insframework> insf = null;
 		if(iutil.isNull(parentid)){
 			parent = new BigInteger(parentid);
 		}
@@ -1265,18 +1265,18 @@ public class BlocChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			list = lm.getMaintenanceratio(page, dto);
+			insf = insm.getCause(page, parent);
 		}else{
-			list = lm.getMaintenanceratio(dto);
+			insf = insm.getCause(parent, null);
 		}
 		long total = 0;
-		if(list!=null){
-			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
+		if(insf!=null){
+			PageInfo<Insframework> pageinfo = new PageInfo<Insframework>(insf);
 			total = pageinfo.getTotal();
 		}
 		try{
 			//获取所选组织机构的所有下级部门
-			List<Insframework> insf = insm.getCause(parent, null);
+			List<ModelDto> list = lm.getMaintenanceratio(dto);
 			List<ModelDto> money = lm.getMachineMoney();
 			int sumnum = 0;
 			for(int i=0;i<list.size();i++){
@@ -1286,15 +1286,27 @@ public class BlocChartController {
 				for(int j=0;j<insf.size();j++){
 					boolean flagnum = false;
 					int rmoney = 0, mmoney = 0, num = 0;
-					for(int i=0;i<list.size();i++){
-						for(int x=0;x<money.size();x++){
-							if(list.get(i).getFid().equals(insf.get(j).getId()) && insf.get(j).getId().equals(money.get(x).getFid())){
-								flagnum = true;
-								rmoney += list.get(i).getRmoney();
-								mmoney += money.get(x).getMmoney();
-								num += list.get(i).getTotal();
-							}
+					//统计设备费用
+					for(int x=0;x<money.size();x++){
+						if(insf.get(j).getId().equals(money.get(x).getFid())){
+							mmoney += money.get(x).getMmoney();
 						}
+					}
+					for(int i=0;i<list.size();i++){
+						if(list.get(i).getFid().equals(insf.get(j).getId())){
+							flagnum = true;
+							rmoney += list.get(i).getRmoney();
+							num += list.get(i).getTotal();
+						}
+					}
+					if(list.isEmpty()){
+						json.put("name",insf.get(j).getName());
+						json.put("total", 0);
+						json.put("rmoney", 0);
+						json.put("mmoney", mmoney);
+						json.put("sumnum", 0);
+						json.put("proportion", (double)Math.round(1/(double)insf.size()*100)/100);
+						ary.add(json);
 					}
 					if(flagnum){
 						json.put("name",insf.get(j).getName());
@@ -1302,6 +1314,7 @@ public class BlocChartController {
 						json.put("rmoney", rmoney);
 						json.put("mmoney", mmoney);
 						json.put("sumnum", sumnum);
+						json.put("proportion", (double)Math.round(num/sumnum*100)/100);
 						ary.add(json);
 					}
 				}
@@ -1324,6 +1337,7 @@ public class BlocChartController {
 						json.put("total", num);
 						json.put("rmoney", rmoney);
 						json.put("mmoney", mmoney);
+						json.put("sumnum", sumnum);
 						ary.add(json);
 					}
 				}
@@ -1345,6 +1359,7 @@ public class BlocChartController {
 						json.put("total", list.get(i).getTotal());
 						json.put("rmoney", list.get(i).getRmoney());
 						json.put("mmoney", list.get(i).getMmoney());
+						json.put("sumnum", sumnum);
 						ary.add(json);
 					}
 				}

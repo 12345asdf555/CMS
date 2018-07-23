@@ -9,7 +9,7 @@
         		}
         	})
         	$("#fm").form("disableValidation");
-	    $("#tt").datagrid( {
+/*	    $("#tt").datagrid( {
 		fitColumns : true,
 		height : ($("#body").height()),
 		width : $("#body").width(),
@@ -30,7 +30,7 @@
 			align : "left"
 		}]]
 		
-	});
+	});*/
 })   
        
        $(function(){
@@ -410,8 +410,7 @@
         	if(flag==1){
         		urls="authority/getAllResource";
         	}else{
-        		//urls="authority/getAllResource1?id="+row.id;
-        		urls="authority/getAllResource1?id="+$("#id").val()
+        		urls="authority/getAllResource1?id="+row.id;
         	}
         	$("#tt").datagrid( {
         		fitColumns : true,

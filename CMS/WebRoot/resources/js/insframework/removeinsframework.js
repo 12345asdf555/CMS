@@ -30,13 +30,12 @@ function remove(){
 								msg : result.errorMsg
 							});
 						} else {
-							if(result.msg==null){
-								$.messager.alert("提示", "删除成功！");
-							}else{
-								$.messager.alert("提示", "删除成功！");
-								$('#rdlg').dialog('close');
-								$('#dg').datagrid('reload');
+							$.messager.alert("提示", "删除成功！");
+							if(result.msg!=null){
+								$.messager.show( {title : '提示',msg : result.msg});
 							}
+							$('#rdlg').dialog('close');
+							$('#dg').datagrid('reload');
 						}
 		            }  
 		        },  
