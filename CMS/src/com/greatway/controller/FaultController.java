@@ -161,20 +161,7 @@ public class FaultController {
 
   @RequestMapping("/editFault")
   @ResponseBody
-  public String editFault(HttpServletRequest request){//,@ModelAttribute("fault") Fault fault){
-    Fault fault = new Fault();
-    String a = request.getParameter("creator");
-    String b = request.getParameter("code");
-    String c = request.getParameter("type");
-    String d = request.getParameter("typeid");
-    String g = request.getParameter("desc");
-    String f = request.getParameter("id");
-    fault.setCode(request.getParameter("code"));
-    fault.setCreator(request.getParameter("creator"));
-    fault.setType(Integer.valueOf(request.getParameter("typeid")));
-    fault.setDesc(request.getParameter("desc"));
-    fault.setId(new BigInteger(request.getParameter("id")));
-    System.out.println(a+","+b+","+c+","+d+","+g+","+f);
+  public String editFault(HttpServletRequest request,@ModelAttribute("fault") Fault fault){
     JSONObject obj = new JSONObject();
     try{
       //获取创建者信息
