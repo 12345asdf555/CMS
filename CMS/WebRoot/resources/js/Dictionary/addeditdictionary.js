@@ -1,10 +1,10 @@
 $(function(){
   typeidCombobox();
-  contentCombobox();
+//  contentCombobox();
   DictionaryDataGrid();
   $('#dlg').dialog( {
     onClose : function() {
-      $('#back').combobox('clear');
+      $('#typeid').combobox('clear');
       $("#fm").form("disableValidation");
     }
   })
