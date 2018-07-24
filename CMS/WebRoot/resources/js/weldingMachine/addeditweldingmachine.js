@@ -3,8 +3,6 @@ $(function(){
   InsframeworkCombobox();
   manuCombobox();
   statusRadio();
-//  gatherCombobox();
-  insframeworkSelectTree();
   $("#iId").combobox({
         onChange:function(){  
           itemid = $("#iId").combobox("getValue");
@@ -270,21 +268,6 @@ function statusRadio(){
           alert("数据请求失败，请联系系统管理员!");  
       }  
   });
-}
-
-var nodeid;
-//树形菜单点击事件
-function insframeworkSelectTree(){
-  $("#myTree").tree({  
-    onClick : function(node){
-      $("#iId").combobox('select',node.id);
-      if($("#iId").combobox('getText')==$("#iId").combobox('getValue')){
-        $("#iId").combobox('clear');
-      }else{
-    	  nodeid = node.id;
-      }
-     }
-  })
 }
 
 var searchStr = "g.fid not in (select g.fid from tb_gather g INNER JOIN tb_welding_machine m on m.fgather_id = g.fid) and fstatus!='迁移'";

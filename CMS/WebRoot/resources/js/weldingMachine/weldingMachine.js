@@ -248,6 +248,7 @@ function importWeldingMachine(){
   }
 }
 
+var nodeid;
 function insframeworkTree(){
   $("#myTree").tree({  
     onClick : function(node){
@@ -255,7 +256,12 @@ function insframeworkTree(){
         "parent" : node.id
       })
       $("#treeid").val(node.id);
-     
+      $("#iId").combobox('select',node.id);
+      if($("#iId").combobox('getText')==$("#iId").combobox('getValue')){
+        $("#iId").combobox('clear');
+      }else{
+    	  nodeid = node.id;
+      }
      }
   })
 }
