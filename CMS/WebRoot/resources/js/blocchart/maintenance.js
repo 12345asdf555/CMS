@@ -389,13 +389,13 @@ function dgDatagrid(){
 				halign : "center",
 				align : "left"
 			},{
-				field : "num",
+				field : "faultratio",
 				title : "故障率",
 				width : 100,
 				halign : "center",
 				align : "left"
 			},{
-				field : "useratio",
+				field : "faultmaintenanceratio",
 				title : "故障维修率",
 				width : 100,
 				halign : "center",

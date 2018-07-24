@@ -698,4 +698,8 @@ function closeIU(){
 function closeD(){
 	$('#rdlg').dialog('close');
 }
+//关闭增改dialog
+function closeFdlog(){
+	$('#fdlg').dialog('close');
+}
 

@@ -88,7 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 			<div id="fdlg-buttons">
 				<a href="javascript:saveInsframework();" class="easyui-linkbutton"	iconCls="icon-ok">保存</a>
-				<a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+				<a href="javascript:closeFdlog();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 			</div>
 		</div>
 		<!-- 删除 -->	
