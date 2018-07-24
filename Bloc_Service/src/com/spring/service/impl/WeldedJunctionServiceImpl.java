@@ -154,7 +154,6 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			wj.setNextwall_thickness(json.getString("NEXTWALLTHICKNESS"));
 			wj.setElectricity_unit(json.getString("ELECTRICITYUNIT"));
 			wj.setValtage_unit(json.getString("VALTAGEUNIT"));
-			wj.setStartTime(json.getString("STARTTIME"));
 			String starttime =json.getString("STARTTIME");
 			if(starttime!=null && !"".equals(starttime)){
 				wj.setStartTime(starttime);
