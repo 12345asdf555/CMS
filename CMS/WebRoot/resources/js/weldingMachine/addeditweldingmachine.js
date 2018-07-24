@@ -4,7 +4,7 @@ $(function(){
   manuCombobox();
   statusRadio();
 //  gatherCombobox();
-  insframeworkTree();
+  insframeworkSelectTree();
   $("#iId").combobox({
         onChange:function(){  
           itemid = $("#iId").combobox("getValue");
@@ -40,6 +40,7 @@ function addWeldingMachine(){
   });
   $('#dlg').window('open');
   $('#fm').form('clear');
+  $("#iId").combobox('select',nodeid);
   var statusId = document.getElementsByName("statusId");
   statusId[0].checked = 'checked';
   var isnetworkingId = document.getElementsByName("isnetworkingId");
@@ -271,14 +272,16 @@ function statusRadio(){
   });
 }
 
+var nodeid;
 //树形菜单点击事件
-function insframeworkTree(){
+function insframeworkSelectTree(){
   $("#myTree").tree({  
     onClick : function(node){
       $("#iId").combobox('select',node.id);
       if($("#iId").combobox('getText')==$("#iId").combobox('getValue')){
-        alert("请选择项目部！");
         $("#iId").combobox('clear');
+      }else{
+    	  nodeid = node.id;
       }
      }
   })

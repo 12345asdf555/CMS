@@ -255,6 +255,7 @@ function insframeworkTree(){
         "parent" : node.id
       })
       $("#treeid").val(node.id);
+     
      }
   })
 }
