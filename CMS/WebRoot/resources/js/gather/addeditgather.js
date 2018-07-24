@@ -28,17 +28,22 @@ var url = "";
 var flag = 1;
 function addGather(){
 	flag = 1;
+	$("#itemname").next().hide();
+	$("#itemid").next().show();
 	$('#dlg').window( {
 		title : "新增采集模块",
 		modal : true
 	});
 	$('#dlg').window('open');
 	$('#fm').form('clear');
+	$("#itemname").textbox('setValue','0');
 	url = "gather/addGather";
 }
 
 function editGather2(){
 	flag = 2;
+	$("#itemname").next().show();
+	$("#itemid").next().hide();
 	$('#fm').form('clear');
 	var row = $('#gatherTable').datagrid('getSelected');
 	if (row) {
@@ -48,6 +53,7 @@ function editGather2(){
 		});
 		$('#dlg').window('open');
 		$('#fm').form('load', row);
+		$("#itemid").combobox('setValue',row.itemid);
 		$('#validgatherno').val(row.gatherNo);
 		url = "gather/editGather?id="+ row.id;
 	}

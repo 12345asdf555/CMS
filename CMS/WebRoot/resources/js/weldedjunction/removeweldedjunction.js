@@ -31,9 +31,11 @@ function remove(){
 							});
 						} else {
 							$.messager.alert("提示", "删除成功！");
+							if(result.msg!=null){
+								$.messager.show( {title : '提示',msg : result.msg});
+							}
 							$('#rdlg').dialog('close');
 							$('#weldedJunctionTable').datagrid('reload');
-
 						}
 		            }  
 		        },  

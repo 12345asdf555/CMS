@@ -3,9 +3,7 @@ $(function(){
   insframworkCombobox();
   $('#dlg').dialog( {
     onClose : function() {
-      $('#leveid').combobox('clear');
-      $('#quali').combobox('clear');
-      $('#owner').combobox('clear');
+      $('#itemname').combobox('clear');
       $("#fm").form("disableValidation");
     }
   })
@@ -98,23 +96,29 @@ function insframworkCombobox(){
         }  
     }); 
     $("#itemname").combobox();
-  
 }
+
 var url = "";
 var flag = 1;
 function saveWelder(){
   flag = 1;
+  $("#itemname").next().show();
+  $("#itemid").next().hide();
   $('#dlg').window( {
     title : "新增焊工",
     modal : true
   });
   $('#dlg').window('open');
   $('#fm').form('clear');
+  //itemid为必填
+  $("#itemid").textbox('setValue','0');
   url = "welder/addWelder";
 }
 
 function editWelder(){
   flag = 2;
+  $("#itemname").next().hide();
+  $("#itemid").next().show();
   var row = $('#welderTable').datagrid('getSelected');
   if (row) {
     $('#dlg').window( {
@@ -124,7 +128,7 @@ function editWelder(){
     $('#dlg').window('open');
     $('#fm').form('load', row);
     $('#oldwelder').val(row.welderno);
-//    $("#itemname").combobox("setValue",row.iid);
+    $("#itemid").textbox('setValue',row.itemname);
     url = "welder/editWelder";
   }
 }
@@ -183,14 +187,11 @@ function removeWelder(){
       });
       $('#rdlg').window('open');
       $('#rfm').form('load', row);
-    //url = "welders/destroyWelder?fid="+row.id;
-    url = "welder/removeWelder?id="+row.id +"&insfid="+row.iid;  
+      url = "welder/removeWelder?id="+row.id +"&insfid="+row.iid;  
     }
   }
   
-  function remove(){
-//  var url2 = "";
-//  url2 = "welder/removeWelder?id="+row.id +"&insfid="+row.iid; 
+  function remove(){ 
   $.messager.confirm('提示', '此操作不可撤销，是否确认删除?', function(flag) {
     if (flag) {
         $('#rfm').form('submit',{
@@ -206,47 +207,18 @@ function removeWelder(){
                         msg: result.errorMsg
                     });
                 } else {
-                  if(result.msg==null){
-              $.messager.alert("提示", "删除成功！");
-                  }
-            $('#rdlg').dialog('close');
-            $('#welderTable').datagrid('reload');
-//            var url = "welders/AllWelder";
-//            var img = new Image();
-//              img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-//              url = img.src;  // 此时相对路径已经变成绝对路径
-//              img.src = null; // 取消请求
-//            window.location.href = encodeURI(url);
+					$.messager.alert("提示", "删除成功！");
+					if(result.msg!=null){
+						$.messager.show( {title : '提示',msg : result.msg});
+					}
+					$('#rdlg').dialog('close');
+					$('#welderTable').datagrid('reload');
                 }
             }
         })
     }
   });
 }
-  //所属项目
-  function InsframeworkCombobox(){
-    $.ajax({  
-        type : "post",  
-        async : false,
-        url : "weldingMachine/getInsframeworkAll",  
-        data : {},  
-        dataType : "json", //返回数据形式为json  
-        success : function(result) {  
-            if (result) {
-                var optionStr = '';
-                for (var i = 0; i < result.ary.length; i++) {  
-                    optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
-                            + result.ary[i].name + "</option>";
-                }
-                $("#iid").html(optionStr);
-            }  
-        },  
-        error : function(errorMsg) {  
-            alert("数据请求失败，请联系系统管理员!");  
-        }  
-    }); 
-    $("#iid").combobox();
-  }
 //监听窗口大小变化
 window.onresize = function() {
   setTimeout(domresize, 500);

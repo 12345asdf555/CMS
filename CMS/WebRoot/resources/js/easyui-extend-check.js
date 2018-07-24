@@ -347,6 +347,21 @@ $(function(){
                     	return /^1[3-8]+\d{9}$/.test(value);
                     },     
                     message: '请输入正确的手机号码'    
-                }
+                },
+				
+				checkLength : {
+					validator : function(value, param){
+						if(flag){
+							if(value.length!=4){
+								return false;
+							}else{
+								return true;
+							}
+						}else{
+							return true;
+						}
+					},
+					message : '长度必须为四位'
+				},
 			})
 })
