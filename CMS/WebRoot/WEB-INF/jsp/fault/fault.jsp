@@ -66,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <input class="easyui-textbox" name="code" id="code" data-options="required:true"/>
         </div>
         <div class="fitem">
-          <lable>故障类别</lable>
+          <lable><span class="required">*</span>故障类别</lable>
           <input type="hidden" id="typeid" name="typeid">
           <select class="easyui-combobox" name="type" id="type" data-options="required:true,editable:false"></select>
         </div>
@@ -84,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
       <form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
       <div class="fitem">
-        <lable><span class="required">*</span>故障代码</lable>
+        <lable>故障代码</lable>
           <input class="easyui-textbox" name="code" id="code" data-options="required:true" readonly="readonly"/>
         </div>
         <div class="fitem">

@@ -73,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <lable>状态</lable>&nbsp;&nbsp;
            <span id="radios"></span>
       </div>
-            <div style="margin-bottom:20px;margin-left:100px;" align="center">
+            <div style="margin-bottom:10px;margin-left:20px;" align="center">
                 <table id="tt" title="权限列表" checkbox="true" style="table-layout:fixed"></table>
             </div>
       </form>
@@ -103,8 +103,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--       <span id="radio"></span> -->
         <input id="roleStatus" name="roleStatus" class="easyui-textbox" readonly="readonly"/>
       </div>
-            <div style="margin-bottom:20px;margin-left:100px;" align="center">
-                <table id="tt" title="权限列表" checkbox="true" readonly="true" style="table-layout:fixed;width:100%"></table>
+            <div style="margin-bottom:10px;margin-left:20px;" align="center">
+                <table id="rtt" title="权限列表" checkbox="true" readonly="true" style="table-layout:fixed;width:100%"></table>
             </div>
       </form>
   </div>

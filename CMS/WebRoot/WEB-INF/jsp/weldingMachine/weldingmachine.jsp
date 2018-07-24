@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <input class="easyui-textbox" name="equipmentNo" id="equipmentNo"  data-options="validType:['wmEnoValidate'],required:true"/>
         </div>
         <div class="fitem">
-          <lable>设备类型</lable>
+          <lable><span class="required">*</span>设备类型</lable>
           <select class="easyui-combobox" name="typeId" id="tId" data-options="required:true,editable:false" ></select>
         </div>
         <div class="fitem">
@@ -90,7 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <select class="easyui-combobox" name="insframeworkName" id="iId" data-options="required:true,editable:false"></select>
         </div>
         <div class="fitem">
-          <lable>生产厂商</lable>
+          <lable><span class="required">*</span>生产厂商</lable>
           <select class="easyui-combobox" name="manufacturerId" id="manufacturerId" data-options="required:true,editable:false"></select>
         </div>
         <div class="fitem" style="margin-left: -100px;">
@@ -139,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
     <form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
     <div class="fitem">
-        <lable><span class="required">*</span>固定资产编号</lable>
+        <lable>固定资产编号</lable>
         <input class="easyui-textbox" id="wid" readonly="readonly"/>
         <input class="easyui-textbox" id="equipmentNo" name="equipmentNo" readonly="readonly" />
       </div>
@@ -153,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <input class="easyui-textbox" name="joinTime" id="joinTime" readonly="readonly"/>
       </div>
       <div class="fitem">
-        <lable><span class="required">*</span>所属项目</lable>
+        <lable>所属项目</lable>
         <input type="hidden" id="insfid" value="${insfid }"/>
 <!--       <input class="easyui-textbox"  name="iId" id="iId" readonly="readonly" /> -->
         <input class="easyui-textbox"  name="insframeworkName" id="insframeworkName" readonly="readonly" />

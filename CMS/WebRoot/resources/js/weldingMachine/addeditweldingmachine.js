@@ -295,8 +295,8 @@ function GatherDatagrid(){
   var url = "gather/getGatherList?parent="+parent+"&searchStr="+encodeURI(searchStr);
   $("#gatherTable").datagrid( {
     fitColumns : true,
-    height : $("#dlg").height(),
-    width : $("#dlg").width(),
+    height : $("#fdlg").height(),
+    width : $("#fdlg").width(),
     idField : 'id',
     pageSize : 10,
     pageList : [ 10, 20, 30, 40, 50 ],

@@ -65,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
     <form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
       <div class="fitem">
-            <lable><span class="required">*</span>名称</lable>
+            <lable>名称</lable>
             <input name="id" id="id" lass="easyui-textbox" type="hidden"  >
             <input class="easyui-textbox" name="valueName" id="valueName"  readonly="readonly"/>
        </div>

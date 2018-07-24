@@ -72,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <input class="easyui-textbox" id="welderno" name="welderno" data-options="validType:['weldernoValidate'],required:true" />
         </div>
         <div class="fitem">
-          <lable>所属项目</lable>
+          <lable><span class="required">*</span>所属项目</lable>
           <select class="easyui-combobox" name="iid" id="itemname" data-options="required:true,editable:false"></select>
         </div>
       </form>

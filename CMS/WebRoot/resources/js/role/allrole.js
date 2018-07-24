@@ -9,28 +9,28 @@
             }
           })
           $("#fm").form("disableValidation");
-      $("#tt").datagrid( {
-    fitColumns : true,
-    height : ($("#body").height()),
-    width : $("#body").width(),
-    idField : 'authorities_desc',
-    url : "role/getAllAuthority",
-    rownumbers : false,
-    showPageList : false,
-    checkOnSelect:true,
-    selectOnCheck:true,
-    columns : [ [ {
-        field:'ck',
-      checkbox:true
-    },{
-      field : 'authorities_desc',
-      title : '权限描述',
-      width : 100,
-      halign : "center",
-      align : "left"
-    }]]
-    
-  });
+//      $("#TT").DATAGRID( {
+//    FITCOLUMNS : TRUE,
+//    HEIGHT : ($("#BODY").HEIGHT()),
+//    WIDTH : $("#BODY").WIDTH(),
+//    IDFIELD : 'AUTHORITIES_DESC',
+//    URL : "ROLE/GETALLAUTHORITY",
+//    ROWNUMBERS : FALSE,
+//    SHOWPAGELIST : FALSE,
+//    CHECKONSELECT:TRUE,
+//    SELECTONCHECK:TRUE,
+//    COLUMNS : [ [ {
+//        FIELD:'CK',
+//      CHECKBOX:TRUE
+//    },{
+//      FIELD : 'AUTHORITIES_DESC',
+//      TITLE : '权限描述',
+//      WIDTH : 100,
+//      HALIGN : "CENTER",
+//      ALIGN : "LEFT"
+//    }]]
+//    
+//  });
 })   
        
        $(function(){
@@ -158,14 +158,6 @@ function RoleDatagrid(){
       halign : "center",
       align : "left"
     }]],
-    rowStyler: function(index,row){
-            if ((index % 2)!=0){
-              //处理行代背景色后无法选中
-              var color=new Object();
-                color.class="rowColor";
-                return color;
-            }
-    },
     onBeforeLoad:function(data){
        $('#tt').datagrid('clearChecked');
     },
@@ -180,6 +172,56 @@ function RoleDatagrid(){
     }
   });
 }
+        
+        function RoleRemoveDatagrid(){
+        	  var urls="";
+        	  var row = $('#dg').datagrid('getSelected');
+        	  if(flag==1){
+        	    urls="role/getAllAuthority";
+        	  }else{
+        	    urls="role/getAllAuthority1?id="+row.id;
+        	  }
+        	  $("#rtt").datagrid( {
+        	    fitColumns : true,
+        	    height : '250px',
+        	    width : '80%',
+        	    idField : 'roleName',
+        	    url : urls,
+        	    rownumbers : false,
+        	    showPageList : false,
+        	    checkOnSelect:true,
+        	    selectOnCheck:true,
+        	    columns : [ [ {
+        	        field:'ck',
+        	      checkbox:true
+        	    },{
+        	      field : 'id',
+        	      title : 'id',
+        	      width : 100,
+        	      halign : "center",
+        	      align : "left",
+        	      hidden: true
+        	    },{
+        	      field : 'authorities_desc',
+        	      title : '权限描述',
+        	      width : 100,
+        	      halign : "center",
+        	      align : "left"
+        	    }]],
+        	    onBeforeLoad:function(data){
+        	       $('#rtt').datagrid('clearChecked');
+        	    },
+        	    onLoadSuccess:function(data){
+        	       if(data){
+        	         $.each(data.rows, function(index, item){
+        	           if(item.symbol==1){
+        	                 $('#rtt').datagrid('checkRow', index);
+        	           }
+        	         })
+        	       }
+        	    }
+        	  });
+        	}
         var url = "";
         var flag = 1;
         function addRole(){
@@ -268,7 +310,7 @@ function removeRole(){
     });
     $('#rdlg').window('open');
     $('#rfm').form('load', row);
-    RoleDatagrid();
+    RoleRemoveDatagrid();
   //  $('#validName').val(row.roleName);
 //    var statusid = document.getElementsByName("statusid");
 //    statusid[0].checked =  'checked';
