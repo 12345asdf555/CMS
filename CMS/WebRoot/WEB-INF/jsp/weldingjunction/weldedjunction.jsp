@@ -87,6 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-textbox" id="serialNo" name="serialNo" data-options="required:true"/>
 					<lable><span class="required">*</span>所属项目</lable>
 					<select class="easyui-combobox" id="itemid"  name="itemid" data-options="required:true,editable:false"></select>
+					<input class="easyui-textbox" id="itemname"  name="itemname" data-options="required:true" readonly="readonly"/>
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>上游外径</lable>
@@ -125,8 +126,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-textbox" id="valtage_unit"  name="valtage_unit" data-options="required:true"/>
 				</div>
 				<div class="fitem">
-					<lable>开始时间</lable>
-					<input class="easyui-datetimebox" id="startTime"  name="startTime"/>
+					<lable><span class="required">*</span>开始时间</lable>
+					<input class="easyui-datetimebox" id="startTime"  name="startTime" data-options="required:true"/>
 					<lable>完成时间</lable>
 					<input class="easyui-datetimebox" id="endTime"  name="endTime"/>
 				</div>

@@ -23,18 +23,24 @@ var url = "";
 var flag = 1;
 function addWeldedjunction(){
 	flag = 1;
+	$("#itemid").next().show();
+	$("#itemname").next().hide();
 	$('#dlg').window( {
 		title : "新增焊口",
 		modal : true
 	});
 	$('#dlg').window('open');
 	$('#fm').form('clear');
+	//itemname为必填项
+	$("#itemname").textbox('setValue',"0");
 	url = "weldedjunction/addWeldedJunction";
 }
 
 function editWeldedjunction(){
 	flag = 2;
 	$('#fm').form('clear');
+	$("#itemid").next().hide();
+	$("#itemname").next().show();
 	var row = $('#weldedJunctionTable').datagrid('getSelected');
 	if (row) {
 		$('#dlg').window( {
@@ -43,14 +49,11 @@ function editWeldedjunction(){
 		});
 		$('#dlg').window('open');
 		$('#fm').form('load', row);
+		//itemid为必填项
+		$("#itemid").combobox('setValue',row.itemid);
 		$('#oldno').val(row.weldedJunctionno);
-		//url = "weldedjunction/editWeldedJunction?id="+ row.id;
-		var itemid = $('#itemid').combobox('getValue');
 		url = "weldedjunction/editWeldedJunction?id="+ row.id+"&itemid="+row.itemid+"&dyne="+row.dyne;
 	}
-//		$('#oldno').val(row.weldedJunctionno);
-	
-	//save();
 }
 
 //提交

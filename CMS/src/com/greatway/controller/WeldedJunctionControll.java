@@ -156,17 +156,13 @@ public class WeldedJunctionControll {
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
 			Client client = dcf.createClient(companyurl);
 			iutil.Authority(client);
-			String starttime = "";
-			if(iutil.isNull(request.getParameter("startTime"))){
-				starttime = request.getParameter("startTime");
-			}
 			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
 			String obj2 = "{\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"SERIALNO\":\""+request.getParameter("serialNo")+"\",\"PIPELINENO\":\""+request.getParameter("pipelineNo")+"\",\"ROOMNO\":\""+request.getParameter("roomNo")+"\"," +
 					"\"UNIT\":\""+request.getParameter("unit")+"\",\"AREA\":\""+request.getParameter("area")+"\",\"SYSTEMS\":\""+request.getParameter("systems")+"\",\"CHILDREN\":\""+request.getParameter("children")+"\",\"DYNE\":\""+request.getParameter("dyne")+"\"," +
 					"\"SPECIFICATION\":\""+request.getParameter("specification")+"\",\"MAXELECTRICITY\":\""+request.getParameter("maxElectricity")+"\",\"MINELECTRICITY\":\""+request.getParameter("minElectricity")+"\",\"MAXVALTAGE\":\""+request.getParameter("maxValtage")+"\"," +
 					"\"MINVALTAGE\":\""+request.getParameter("minValtage")+"\",\"MATERIAL\":\""+request.getParameter("material")+"\",\"NEXTMATERIAL\":\""+request.getParameter("next_material")+"\",\"EXTERNALDIAMETER\":\""+request.getParameter("externalDiameter")+"\"," +
 					"\"NEXTEXTERNALDIAMETER\":\""+request.getParameter("nextexternaldiameter")+"\",\"WALLTHICKNESS\":\""+request.getParameter("wallThickness")+"\",\"NEXTWALLTHICKNESS\":\""+request.getParameter("nextwall_thickness")+"\",\"ELECTRICITYUNIT\":\""+request.getParameter("electricity_unit")+"\"," +
-					"\"VALTAGEUNIT\":\""+request.getParameter("valtage_unit")+"\",\"STARTTIME\":\""+starttime+"\",\"ENDTIME\":\""+request.getParameter("endTime")+"\",\"INSFID\":\""+request.getParameter("itemid")+"\"," +
+					"\"VALTAGEUNIT\":\""+request.getParameter("valtage_unit")+"\",\"STARTTIME\":\""+request.getParameter("startTime")+"\",\"ENDTIME\":\""+request.getParameter("endTime")+"\",\"INSFID\":\""+request.getParameter("itemid")+"\"," +
 					"\"CREATOR\":\""+myuser.getId()+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\"}";
 			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
 			if(objects[0].toString().equals("true")){
