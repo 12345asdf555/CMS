@@ -393,4 +393,14 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getMachineMoney();
 	}
 
+	@Override
+	public List<ModelDto> getFaultRatio(WeldDto dto) {
+		return live.getFaultRatio(dto);
+	}
+
+	@Override
+	public List<ModelDto> getFaultMaintenanceRatio(WeldDto dto) {
+		return live.getFaultMaintenanceRatio(dto);
+	}
+
 }

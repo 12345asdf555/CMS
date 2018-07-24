@@ -513,4 +513,18 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getMachineMoney();
+	
+	/**
+	 * 设备故障率
+	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
+	List<ModelDto> getFaultRatio(WeldDto dto);
+
+	/**
+	 * 设备故障维修率
+	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
+	List<ModelDto> getFaultMaintenanceRatio(WeldDto dto);
 }

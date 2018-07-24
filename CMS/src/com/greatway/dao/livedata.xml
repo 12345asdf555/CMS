@@ -2174,5 +2174,38 @@
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent GROUP BY m.finsframework_id
 	</select>
+	
+	<select id="getFaultRatio" resultMap="dtoMap">
+		SELECT insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,count(l.fid) total FROM tb_warn l 
+		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = m.finsframework_id INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fUploadDataTime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fUploadDataTime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY i.fid
+	</select>
+	
+	<select id="getFaultMaintenanceRatio" resultMap="dtoMap">
+		SELECT insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,count(l.fid) total FROM tb_warn l 
+		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id INNER JOIN tb_welding_maintenance w on w.fwelding_id = m.fid 
+		INNER JOIN tb_maintenance_record r on r.fid = w.fmaintenance_id INNER JOIN tb_insframework i on i.fid = m.finsframework_id 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstart_time &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fend_time &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY i.fid;
+	
+	</select>
 
 </mapper>

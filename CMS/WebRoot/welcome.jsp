@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<div id="wcrightdiv">
   			<div id="autoshowdiv">
 	  			<div class="wcright" onclick="companymesclick()">
-	  				<div class="wcrighttitle"><img src="resources/images/companymsg.png">&nbsp;公司信息栏</div><div class="wcrighticon"><img src="resources/images/arrow-1.png" id="mesimg"/></div>
+	  				<div class="wcrighttitle"><img src="resources/images/companymsg.png">&nbsp;组织机构信息栏</div><div class="wcrighticon"><img src="resources/images/arrow-1.png" id="mesimg"/></div>
 	  			</div>
   			</div>
   			<div class="wcright" style="margin-top:10px;" onclick="onlineclick()">

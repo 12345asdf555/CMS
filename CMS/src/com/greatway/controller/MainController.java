@@ -82,22 +82,68 @@ public class MainController {
 	
 	@RequestMapping("/getHierarchy")
 	@ResponseBody
-	public String getHierarchy(){
+	public String getHierarchy(HttpServletRequest request){
 		JSONObject obj = new JSONObject();
 		JSONArray ary1 = new JSONArray();
 		JSONArray ary2 = new JSONArray();
 		JSONObject json1 = new JSONObject();
 		JSONObject json2 = new JSONObject();
-		List<Insframework> company = im.getConmpany(null);
-		for(Insframework i:company){
-			json1.put("companyid", i.getId());
-			json1.put("companyname", i.getName());
-			ary1.add(json1);
-			List<Insframework> caust = im.getCause(i.getId(), null);
-			for(Insframework j:caust){
-				json2.put("companyid", i.getId());
-				json2.put("caustid", j.getId());
-				json2.put("caustname", j.getName());
+		BigInteger uid = lm.getUserId(request);
+		
+		List<Insframework> insframework = im.getInsByUserid(uid);
+		int types = insframework.get(0).getType();
+		BigInteger insfid = insframework.get(0).getId();
+		if(types==20){
+			List<Insframework> company = im.getConmpany(null);
+			for(Insframework i:company){
+				json1.put("companyid", i.getId());
+				json1.put("companyname", i.getName());
+				ary1.add(json1);
+				List<Insframework> caust = im.getCause(i.getId(), null);
+				for(Insframework j:caust){
+					json2.put("companyid", i.getId());
+					json2.put("caustid", j.getId());
+					json2.put("caustname", j.getName());
+					ary2.add(json2);
+				}
+			}
+		}else if(types==21){
+			List<Insframework> caust = im.getCause(insfid, null);
+			for(Insframework i:caust){
+				json1.put("companyid", i.getId());
+				json1.put("companyname", i.getName());
+				ary1.add(json1);
+				List<Insframework> item = im.getCause(i.getId(), null);
+				for(Insframework j:item){
+					json2.put("companyid", i.getId());
+					json2.put("caustid", j.getId());
+					json2.put("caustname", j.getName());
+					ary2.add(json2);
+				}
+			}
+		}else if(types==22){
+			Insframework insf = im.getInsById(insfid);
+			if(insf!=null){
+				json1.put("companyid", insf.getId());
+				json1.put("companyname", insf.getName());
+				ary1.add(json1);
+				List<Insframework> item = im.getCause(insf.getId(), null);
+				for(Insframework j:item){
+					json2.put("companyid", insf.getId());
+					json2.put("caustid", j.getId());
+					json2.put("caustname", j.getName());
+					ary2.add(json2);
+				}
+			}
+		}else if(types==23){
+			Insframework insf = im.getInsById(insfid);
+			if(insf!=null){
+				json1.put("companyid", insf.getId());
+				json1.put("companyname", insf.getName());
+				ary1.add(json1);
+				json2.put("companyid", insf.getId());
+				json2.put("caustid", insf.getId());
+				json2.put("caustname", insf.getName());
 				ary2.add(json2);
 			}
 		}
@@ -137,7 +183,7 @@ public class MainController {
 	}
 	
 	/**
-	 * 跳转班组生产数据报表
+	 * 跳转利用率报表
 	 * @param request
 	 * @return
 	 */
@@ -179,7 +225,7 @@ public class MainController {
 	
 	
 	/**
-	 * 跳转班组生产数据报表
+	 * 符合率
 	 * @param request
 	 * @return
 	 */

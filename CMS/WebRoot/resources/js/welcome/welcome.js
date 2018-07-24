@@ -374,7 +374,7 @@ function loadchart(){
 		legend:{
 			data: ary2,
 			backgroundColor:'#dfdfdf',
-			padding:[5,500,5,60],//上右下左，目的为产生说明与图表分离的假象
+			padding:[5,700,5,60],//上右下左，目的为产生说明与图表分离的假象
 			itemGap:30,//项与项间距
 			left:0
 		},
@@ -421,6 +421,8 @@ function loadchart(){
 		series:[]
 	}
 	option.series = Series;
+	//彻底清理图表
+	charts.clear();
 	//为echarts对象加载数据
 	charts.setOption(option);
 	//隐藏动画加载效果

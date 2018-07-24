@@ -84,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(this)"><a href="javascript:openBlocLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
-<!--     		<li onclick="changeColor(this)"><a href="javascript:openMaintenance()"><div><i class="iconfont icon-bijiben"></i>设备维修率</div></a></li> -->
+    		<li onclick="changeColor(this)"><a href="javascript:openMaintenance()"><div><i class="iconfont icon-bijiben"></i>设备维修率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocIdle()"><div><i class="iconfont icon-bijiben"></i>设备闲置率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocHour()"><div><i class="iconfont icon-bijiben"></i>焊口焊接工时</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocovertime()"><div><i class="iconfont icon-bijiben"></i>超时待机统计</div></a></li>

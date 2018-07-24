@@ -135,4 +135,8 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	List<ModelDto> getItemMachineSumMoneyByType();
 	
 	List<ModelDto> getMachineMoney();
+
+	List<ModelDto> getFaultRatio(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getFaultMaintenanceRatio(@Param("dto")WeldDto dto);
 }

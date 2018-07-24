@@ -1278,18 +1278,35 @@ public class BlocChartController {
 			//获取所选组织机构的所有下级部门
 			List<ModelDto> list = lm.getMaintenanceratio(dto);
 			List<ModelDto> money = lm.getMachineMoney();
-			int sumnum = 0;
+			List<ModelDto> fault = lm.getFaultRatio(dto);
+			List<ModelDto> faultmaintenance = lm.getFaultMaintenanceRatio(dto);
+			int sumnum = 0,faultnum = 0;
 			for(int i=0;i<list.size();i++){
 				sumnum += list.get(i).getTotal();
+			}
+			for(int i=0;i<fault.size();i++){
+				faultnum += fault.get(i).getTotal();
 			}
 			if(flag==0){//集团层
 				for(int j=0;j<insf.size();j++){
 					boolean flagnum = false;
-					int rmoney = 0, mmoney = 0, num = 0;
+					int rmoney = 0, mmoney = 0, num = 0, faultratio = 0, faultmaintenanceratio = 0;
 					//统计设备费用
 					for(int x=0;x<money.size();x++){
 						if(insf.get(j).getId().equals(money.get(x).getFid())){
 							mmoney += money.get(x).getMmoney();
+						}
+					}
+					//统计设备故障率
+					for(int x=0;x<money.size();x++){
+						if(insf.get(j).getId().equals(fault.get(x).getFid())){
+							faultratio += fault.get(x).getTotal();
+						}
+					}
+					//统计设备故障维修率
+					for(int x=0;x<money.size();x++){
+						if(insf.get(j).getId().equals(faultmaintenance.get(x).getFid())){
+							faultmaintenanceratio += faultmaintenance.get(x).getTotal();
 						}
 					}
 					for(int i=0;i<list.size();i++){
@@ -1306,6 +1323,8 @@ public class BlocChartController {
 						json.put("mmoney", mmoney);
 						json.put("sumnum", 0);
 						json.put("proportion", (double)Math.round(1/(double)insf.size()*100)/100);
+						json.put("faultratio", (double)Math.round(1/(double)fault.size()*100)/100);
+						json.put("faultmaintenanceratio", 100);
 						ary.add(json);
 					}
 					if(flagnum){
@@ -1315,6 +1334,8 @@ public class BlocChartController {
 						json.put("mmoney", mmoney);
 						json.put("sumnum", sumnum);
 						json.put("proportion", (double)Math.round(num/sumnum*100)/100);
+						json.put("faultratio", (double)Math.round(faultratio/faultnum*100)/100);
+						json.put("faultmaintenanceratio", (double)Math.round(faultmaintenanceratio/faultratio*100)/100);
 						ary.add(json);
 					}
 				}
