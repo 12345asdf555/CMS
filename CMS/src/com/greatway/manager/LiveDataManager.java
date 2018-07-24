@@ -474,7 +474,7 @@ public interface LiveDataManager {
 	
 	/**
 	 * 设备维修率
-	 * @param dto dtoTime1 起始时间 dtoTime2 结束时间
+	 * @param dto dto.parent组织机构id dtoTime1 起始时间 dtoTime2 结束时间
 	 * @return
 	 */
 	List<ModelDto> getMaintenanceratio(WeldDto dto);
@@ -506,7 +506,8 @@ public interface LiveDataManager {
 	 * 根据不同厂商不同类型获取总焊机费用及厂商信息
 	 * @return
 	 */
-	List<ModelDto> getItemMachineSumMoneyByType();
+	List<ModelDto> getItemMachineSumMoneyByType(BigInteger itemid);
+	List<ModelDto> getItemMachineSumMoneyByType(Page page,BigInteger itemid);
 	
 	/**
 	 * 获取各组织机构焊机价格
@@ -516,15 +517,22 @@ public interface LiveDataManager {
 	
 	/**
 	 * 设备故障率
-	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @param dto dto.parent组织机构id dto.dtoTime1起始时间 dto.dtoTime2结束时间
 	 * @return
 	 */
 	List<ModelDto> getFaultRatio(WeldDto dto);
 
 	/**
-	 * 设备故障维修率
-	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * 不同厂商不同类型的焊机维修次数
+	 * @param dto dto.parent项目部id dto.dtoTime1起始时间 dto.dtoTime2结束时间
 	 * @return
 	 */
-	List<ModelDto> getFaultMaintenanceRatio(WeldDto dto);
+	List<ModelDto> getMaintenanceNum(WeldDto dto);
+
+	/**
+	 * 不同厂商不同类型的焊机故障次数
+	 * @param dto dto.parent项目部id dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
+	List<ModelDto> getFaultNum(WeldDto dto);
 }

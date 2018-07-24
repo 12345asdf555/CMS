@@ -1,11 +1,10 @@
 $(function(){
 	flagnum=1;
 	parentCombobox();
-	dgDatagrid();
 })
 
 $(document).ready(function(){
-	showChart();
+//	showChart();
 })
 
 var type,flagnum,position;
@@ -47,6 +46,19 @@ function parentCombobox(){
 	$("#parent").combobox('select',data[0].value);
 }
 
+function dealwith(num,url){
+	$("#charts").show();
+	$("#explain").show();
+	$("#itemcharts1").hide();
+	$("#itemcharts2").hide();
+	position = num;
+	activeurl = url;
+	setTimeout(function() {
+		dgDatagrid();
+		showChart();
+	}, 500);
+}
+
 var activeurl = "blocChart/getMaintenanceratio?flag=999";
 function serach(){
 	if(flagnum!=1){
@@ -54,26 +66,11 @@ function serach(){
 	}
 	flagnum = 0;
 	if(type==20){
-		position = 0;
-		activeurl = "blocChart/getMaintenanceratio?flag=0";
-		setTimeout(function() {
-			dgDatagrid();
-			showChart();
-		}, 500);
+		dealwith(0,"blocChart/getMaintenanceratio?flag=0");
 	}else if(type==21){
-		position = 0;
-		activeurl = "blocChart/getMaintenanceratio?flag=1";
-		setTimeout(function() {
-			dgDatagrid();
-			showChart();
-		}, 500);
+		dealwith(0,"blocChart/getMaintenanceratio?flag=1");
 	}else if(type==22){
-		position = 1;
-		activeurl = "blocChart/getMaintenanceratio?flag=2";
-		setTimeout(function() {
-			dgDatagrid();
-			showChart();
-		}, 500);
+		dealwith(1,"blocChart/getMaintenanceratio?flag=2");
 	}else if(type==23){
 		$("#charts").hide();
 		$("#explain").hide();
@@ -81,8 +78,10 @@ function serach(){
 		$("#itemcharts2").show();
 		position = 0;
 		activeurl = "itemChart/getItemTypeMaintain?flag=3";
-		showItemNumChart();
-		showItemMoneyChart();
+		setTimeout(function() {
+			itemDgDatagrid();
+			showItemChart();
+		}, 500);
 	}
 	array1 = new Array();
 	array2 = new Array();
@@ -90,6 +89,8 @@ function serach(){
 	array4 = new Array();
 	array5 = new Array();
 	array6 = new Array();
+	array7 = new Array();
+	array8 = new Array();
 }
 
 var chartStr = "",dtoTime1,dtoTime2;
@@ -107,6 +108,8 @@ var array3 = new Array();
 var array4 = new Array();
 var array5 = new Array();
 var array6 = new Array();
+var array7 = new Array();
+var array8 = new Array();
 var avg = 0;
 function showChart(){
 	setParam();
@@ -120,10 +123,12 @@ function showChart(){
             if (result) {
             	for(var i=0;i<result.rows.length;i++){
             		array1.push(result.rows[i].name);
-	        		array2.push({
-	        			value : result.rows[i].proportion*100,
-	        			name : result.rows[i].name
-	        		});
+            		if(result.rows[i].proportion!=0){
+    	        		array2.push({
+    	        			value : result.rows[i].proportion*100,
+    	        			name : result.rows[i].name
+    	        		});
+            		}
             		
             	}
             }  
@@ -186,28 +191,39 @@ function showChart(){
 	$("#chartLoading").hide();
 }
 
-//显示项目部设备费用及维修费用对比图
-function showItemMoneyChart(){
+function showItemChart(){
 	setParam();
-	 $.ajax({  
-       type : "post",  
-       async : false,
-       url : activeurl+chartStr,
-       data : {},  
-       dataType : "json", //返回数据形式为json  
-       success : function(result) {  
-           if (result) {
-           	for(var i=0;i<result.ary.length;i++){
-           		array1.push(result.ary[i].manufacturername);
-           		array2.push(result.ary[i].maintainmoney);
-           		array3.push(result.ary[i].machinemoney);
-           	}
+	$.ajax({
+        type : "post",  
+        async : false,
+        url : activeurl+chartStr,
+        data : {},  
+        dataType : "json", //返回数据形式为json  
+        success : function(result) {  
+        	
+            if (result) {
+            	for(var i=0;i<result.ary.length;i++){
+	           		array3.push(result.ary[i].manufacturername);
+	           		array7.push(result.ary[i].maintainmoney);
+	           		array8.push(result.ary[i].machinemoney);
+	           	}
+	           	for(var i=0;i<result.arys.length;i++){
+	           		array4.push(result.arys[i].manufacturername);
+	           		array5.push(result.arys[i].maintainnum);
+	           		array6.push(result.arys[i].faultnum);
+	           	}
            }  
        },  
-      error : function(errorMsg) {  
+       error : function(errorMsg) {  
            alert("请求数据失败啦,请联系系统管理员!");  
        }  
-  }); 
+	}); 
+	showItemNumChart();
+	showItemMoneyChart();
+}
+
+//显示项目部设备费用及维修费用对比图
+function showItemMoneyChart(){
    	//初始化echart实例
 	charts = echarts.init(document.getElementById("itemcharts2"));
 	//显示加载动画效果
@@ -239,7 +255,7 @@ function showItemMoneyChart(){
 			},
 			xAxis:{
 				type:'category',
-				data: array1,
+				data: array3,
 				axisLabel : {
 					rotate: 50, //x轴文字倾斜
 				    interval:0 //允许x轴文字全部显示并重叠
@@ -253,13 +269,13 @@ function showItemMoneyChart(){
 					name:'维修费用',
 					type:'bar',
 		            barMaxWidth:20,//最大宽度
-					data:array2
+					data:array7
 				},
 				{
 					name:'设备总费用',
 					type:'bar',
 		            barMaxWidth:20,//最大宽度
-					data:array3
+					data:array8
 				}
 			]
 		}
@@ -273,26 +289,6 @@ function showItemMoneyChart(){
 
 //设备维修次数-故障次数对比图
 function showItemNumChart(){
-	setParam();
-	 $.ajax({  
-       type : "post",  
-       async : false,
-       url : activeurl+chartStr,
-       data : {},  
-       dataType : "json", //返回数据形式为json  
-       success : function(result) {  
-           if (result) {
-           	for(var i=0;i<result.ary.length;i++){
-           		array4.push(result.ary[i].manufacturername);
-           		array5.push(result.ary[i].maintainmoney);
-           		array6.push(result.ary[i].machinemoney);
-           	}
-           }  
-       },  
-      error : function(errorMsg) {  
-           alert("请求数据失败啦,请联系系统管理员!");  
-       }  
-  }); 
    	//初始化echart实例
 	charts = echarts.init(document.getElementById("itemcharts1"));
 	//显示加载动画效果
@@ -359,60 +355,111 @@ function showItemNumChart(){
 
 function dgDatagrid(){
 	setParam();
-	 $("#dg").datagrid( {
-			fitColumns : true,
-			height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
-			width : $("#body").width(),
-			pageSize : 10,
-			pageList : [ 10, 20, 30, 40, 50],
-			url : activeurl+chartStr,
-			singleSelect : true,
-			rownumbers : true,
-			showPageList : false,
-			pagination : true,
-			columns :[[{
-				field : "name",
-				title : "部门",
-				width : 100,
-				halign : "center",
-				align : "left"
-			},{
-				field : "total",
-				title : "维修次数",
-				width : 100,
-				halign : "center",
-				align : "left"
-			},{
-				field : "proportion",
-				title : "维修次数占比",
-				width : 100,
-				halign : "center",
-				align : "left"
-			},{
-				field : "faultratio",
-				title : "故障率",
-				width : 100,
-				halign : "center",
-				align : "left"
-			},{
-				field : "faultmaintenanceratio",
-				title : "故障维修率",
-				width : 100,
-				halign : "center",
-				align : "left"
-			},{
-				field : "rmoney",
-				title : "维护费用",
-				width : 100,
-				halign : "center",
-				align : "left"
-			},{
-				field : "mmoney",
-				title : "设备费用",
-				width : 100,
-				halign : "center",
-				align : "left"
-			}]]
+	$("#dg1").show();
+	$("#dg2").hide();
+	$("#dg").datagrid( {
+		fitColumns : true,
+		height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
+		width : $("#body").width(),
+		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50],
+		url : activeurl+chartStr,
+		singleSelect : true,
+		rownumbers : true,
+		showPageList : false,
+		pagination : true,
+		columns :[[{
+			field : "name",
+			title : "部门",
+			width : 100,
+			halign : "center",
+			align : "left"
+		},{
+			field : "total",
+			title : "维修次数",
+			width : 100,
+			halign : "center",
+			align : "left"
+		},{
+			field : "proportion",
+			title : "维修次数占比",
+			width : 100,
+			halign : "center",
+			align : "left"
+		},{
+			field : "faultratio",
+			title : "故障率(%)",
+			width : 100,
+			halign : "center",
+			align : "left"
+		},{
+			field : "faultmaintenanceratio",
+			title : "故障维修率(%)",
+			width : 100,
+			halign : "center",
+			align : "left"
+		},{
+			field : "rmoney",
+			title : "维护费用(元)",
+			width : 100,
+			halign : "center",
+			align : "left"
+		},{
+			field : "mmoney",
+			title : "设备费用(元)",
+			width : 100,
+			halign : "center",
+			align : "left"
+		}]]
+	 })
+}
+
+function itemDgDatagrid(){
+	setParam();
+	$("#dg1").hide();
+	$("#dg2").show();
+	$("#itemdg").datagrid( {
+		fitColumns : true,
+		height : $("#body").height() - $("#itemcharts1").height()-$("#search_btn").height()-15,
+		width : $("#body").width(),
+		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50],
+		url : "itemChart/getItemTypeMaintainList?flag=3"+chartStr,
+		singleSelect : true,
+		rownumbers : true,
+		showPageList : false,
+		pagination : true,
+		columns :[[{
+			field : "manufacturername",
+			title : "厂商-类型",
+			width : 100,
+			halign : "center",
+			align : "left"
+		},{
+			field : "maintainnum",
+			title : "设备维修次数",
+			width : 100,
+			halign : "center",
+			align : "left"
+		},{
+			field : "faultnum",
+			title : "设备故障次数",
+			width : 100,
+			halign : "center",
+			align : "left"
+		},{
+			field : "maintainmoney",
+			title : "设备维修费用",
+			width : 100,
+			halign : "center",
+			align : "left"
+		},{
+			field : "machinemoney",
+			title : "设备费用",
+			width : 100,
+			halign : "center",
+			align : "left"
+		}]]
 	 })
 }
 
@@ -425,6 +472,10 @@ window.onresize = function() {
 function domresize() {
 	$("#dg").datagrid('resize', {
 		height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
+		width : $("#body").width()
+	});
+	$("#itemdg").datagrid('resize', {
+		height : $("#body").height() - $("#itemcharts1").height()-$("#search_btn").height()-15,
 		width : $("#body").width()
 	});
 	echarts.init(document.getElementById('charts')).resize();

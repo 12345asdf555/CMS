@@ -1227,7 +1227,7 @@ public class ItemChartController {
 	}
 	
 	/**
-	 * 项目部获取维修及焊机费用
+	 * 项目部获取维修及焊机费用,维修次数及故障次数
 	 * @param request
 	 * @return
 	 */
@@ -1247,13 +1247,18 @@ public class ItemChartController {
 		}
 		if(iutil.isNull(parentid)){
 			itemid = new BigInteger(parentid);
+			dto.setParent(itemid);
 		}
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
 		JSONObject json = new JSONObject();
+		JSONArray arys = new JSONArray();
+		JSONObject jsons = new JSONObject();
 		try{
-			List<ModelDto> machine = lm.getItemMachineSumMoneyByType();
+			List<ModelDto> machine = lm.getItemMachineSumMoneyByType(itemid);
 			List<ModelDto> list = lm.getItemTypeMaintain(dto, itemid);
+			List<ModelDto> maintenance = lm.getMaintenanceNum(dto);
+			List<ModelDto> fault = lm.getFaultNum(dto);
 			for(int i=0; i<machine.size(); i++){
 				boolean flag = false;
 				for(int j=0; j<list.size();j++){
@@ -1270,10 +1275,114 @@ public class ItemChartController {
 				json.put("machinemoney",machine.get(i).getMmoney());
 				ary.add(json);
 			}
+			for(int x=0; x<machine.size(); x++){
+				boolean flag1 = false, flag2 = false;
+				for(int i=0; i<maintenance.size(); i++){
+					if(machine.get(x).getTypeid() == maintenance.get(i).getTypeid() && machine.get(x).getFid() == maintenance.get(i).getFid()){
+						flag1 = true;
+						jsons.put("maintainnum",maintenance.get(i).getTotal());
+					}
+				}
+				for(int j=0; j<fault.size();j++){
+					if(machine.get(x).getTypeid() == fault.get(j).getTypeid() && machine.get(x).getFid() == fault.get(j).getFid()){
+						flag2 = true;
+						jsons.put("faultnum",fault.get(j).getTotal());
+					}
+				}
+				if(!flag1){
+					jsons.put("maintainnum",0);
+				}
+				if(!flag2){
+					jsons.put("faultnum",0);
+				}
+				jsons.put("manufacturername", machine.get(x).getFname() + "-" + machine.get(x).getType());
+				arys.add(jsons);
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		obj.put("ary",ary);
+		obj.put("arys",arys);
+		return obj.toString();
+	}
+	
+	/**
+	 * 项目部获取维修及焊机费用,维修次数及故障次数列表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getItemTypeMaintainList")
+	@ResponseBody
+	public String getItemTypeMaintainList(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		String parentid = request.getParameter("parent");
+		
+		WeldDto dto = new WeldDto();
+		BigInteger itemid = null;
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(parentid)){
+			itemid = new BigInteger(parentid);
+			dto.setParent(itemid);
+		};
+		page = new Page(pageIndex,pageSize,total);
+		List<ModelDto> machine = lm.getItemMachineSumMoneyByType(page,itemid);
+		PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(machine);
+		long total = pageinfo.getTotal();
+		
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		try{
+			List<ModelDto> list = lm.getItemTypeMaintain(dto, itemid);
+			List<ModelDto> maintenance = lm.getMaintenanceNum(dto);
+			List<ModelDto> fault = lm.getFaultNum(dto);
+			for(int i=0; i<machine.size(); i++){
+				boolean flag = false, flag1 = false, flag2 = false;
+				for(int j=0; j<list.size();j++){
+					//厂家id相同且焊机类型相同
+					if(machine.get(i).getTypeid() == list.get(j).getTypeid() && machine.get(i).getFid() == list.get(j).getFid()){
+						flag = true;
+						json.put("maintainmoney",list.get(j).getRmoney());
+					}
+				}
+				for(int j=0; j<maintenance.size(); j++){
+					if(machine.get(i).getTypeid() == maintenance.get(j).getTypeid() && machine.get(i).getFid() == maintenance.get(j).getFid()){
+						flag1 = true;
+						json.put("maintainnum",maintenance.get(j).getTotal());
+					}
+				}
+				for(int j=0; j<fault.size();j++){
+					if(machine.get(i).getTypeid() == fault.get(j).getTypeid() && machine.get(i).getFid() == fault.get(j).getFid()){
+						flag2 = true;
+						json.put("faultnum",fault.get(j).getTotal());
+					}
+				}
+				if(!flag){
+					json.put("maintainmoney", 0);
+				}
+				if(!flag1){
+					json.put("maintainnum",0);
+				}
+				if(!flag2){
+					json.put("faultnum",0);
+				}
+				json.put("manufacturername", machine.get(i).getFname() + "-" + machine.get(i).getType());
+				json.put("machinemoney",machine.get(i).getMmoney());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
 		return obj.toString();
 	}
 }

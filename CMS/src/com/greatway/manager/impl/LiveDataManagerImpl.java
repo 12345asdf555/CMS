@@ -384,8 +384,14 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getItemMachineSumMoneyByType() {
-		return live.getItemMachineSumMoneyByType();
+	public List<ModelDto> getItemMachineSumMoneyByType(BigInteger itemid) {
+		return live.getItemMachineSumMoneyByType(itemid);
+	}
+
+	@Override
+	public List<ModelDto> getItemMachineSumMoneyByType(Page page,BigInteger itemid) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getItemMachineSumMoneyByType(itemid);
 	}
 
 	@Override
@@ -399,8 +405,13 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getFaultMaintenanceRatio(WeldDto dto) {
-		return live.getFaultMaintenanceRatio(dto);
+	public List<ModelDto> getMaintenanceNum(WeldDto dto) {
+		return live.getMaintenanceNum(dto);
+	}
+
+	@Override
+	public List<ModelDto> getFaultNum(WeldDto dto) {
+		return live.getFaultNum(dto);
 	}
 
 }

@@ -1254,6 +1254,7 @@ public class BlocChartController {
 		List<Insframework> insf = null;
 		if(iutil.isNull(parentid)){
 			parent = new BigInteger(parentid);
+			dto.setParent(parent);
 		}
 		if(iutil.isNull(time1)){
 			dto.setDtoTime1(time1);
@@ -1279,7 +1280,6 @@ public class BlocChartController {
 			List<ModelDto> list = lm.getMaintenanceratio(dto);
 			List<ModelDto> money = lm.getMachineMoney();
 			List<ModelDto> fault = lm.getFaultRatio(dto);
-			List<ModelDto> faultmaintenance = lm.getFaultMaintenanceRatio(dto);
 			int sumnum = 0,faultnum = 0;
 			for(int i=0;i<list.size();i++){
 				sumnum += list.get(i).getTotal();
@@ -1289,8 +1289,8 @@ public class BlocChartController {
 			}
 			if(flag==0){//集团层
 				for(int j=0;j<insf.size();j++){
-					boolean flagnum = false;
-					int rmoney = 0, mmoney = 0, num = 0, faultratio = 0, faultmaintenanceratio = 0;
+					boolean flagnum = true;
+					int rmoney = 0, mmoney = 0, num = 0, faultratio = 0;
 					//统计设备费用
 					for(int x=0;x<money.size();x++){
 						if(insf.get(j).getId().equals(money.get(x).getFid())){
@@ -1298,32 +1298,26 @@ public class BlocChartController {
 						}
 					}
 					//统计设备故障率
-					for(int x=0;x<money.size();x++){
+					for(int x=0;x<fault.size();x++){
 						if(insf.get(j).getId().equals(fault.get(x).getFid())){
 							faultratio += fault.get(x).getTotal();
 						}
 					}
-					//统计设备故障维修率
-					for(int x=0;x<money.size();x++){
-						if(insf.get(j).getId().equals(faultmaintenance.get(x).getFid())){
-							faultmaintenanceratio += faultmaintenance.get(x).getTotal();
-						}
-					}
 					for(int i=0;i<list.size();i++){
 						if(list.get(i).getFid().equals(insf.get(j).getId())){
-							flagnum = true;
 							rmoney += list.get(i).getRmoney();
 							num += list.get(i).getTotal();
 						}
 					}
 					if(list.isEmpty()){
+						flagnum = false;
 						json.put("name",insf.get(j).getName());
 						json.put("total", 0);
 						json.put("rmoney", 0);
 						json.put("mmoney", mmoney);
 						json.put("sumnum", 0);
 						json.put("proportion", (double)Math.round(1/(double)insf.size()*100)/100);
-						json.put("faultratio", (double)Math.round(1/(double)fault.size()*100)/100);
+						json.put("faultratio", 0);
 						json.put("faultmaintenanceratio", 100);
 						ary.add(json);
 					}
@@ -1333,25 +1327,53 @@ public class BlocChartController {
 						json.put("rmoney", rmoney);
 						json.put("mmoney", mmoney);
 						json.put("sumnum", sumnum);
-						json.put("proportion", (double)Math.round(num/sumnum*100)/100);
-						json.put("faultratio", (double)Math.round(faultratio/faultnum*100)/100);
-						json.put("faultmaintenanceratio", (double)Math.round(faultmaintenanceratio/faultratio*100)/100);
+						json.put("proportion", (double)Math.round((double)num/(double)sumnum*100)/100);
+						if(faultratio==0 && faultnum==0){
+							json.put("faultratio", 0);
+						}else{
+							json.put("faultratio", (double)Math.round((double)faultratio/(double)faultnum*100*100)/100);
+						}
+						if(faultratio==0){
+							json.put("faultmaintenanceratio", 100);
+						}else{
+							json.put("faultmaintenanceratio", (double)Math.round((double)num/(double)faultratio*100*100)/100);
+						}
 						ary.add(json);
 					}
 				}
 			}else if(flag==1){//公司层
 				for(int j=0;j<insf.size();j++){
-					boolean flagnum = false;
-					int rmoney = 0, mmoney = 0, num = 0;
-					for(int i=0;i<list.size();i++){
-						for(int x=0;x<money.size();x++){
-							if(list.get(i).getIid().equals(insf.get(j).getId()) && insf.get(j).getId().equals(money.get(x).getIid())){
-								flagnum = true;
-								rmoney += list.get(i).getRmoney();
-								mmoney += money.get(x).getMmoney();
-								num += list.get(i).getTotal();
-							}
+					boolean flagnum = true;
+					int rmoney = 0, mmoney = 0, num = 0, faultratio = 0;
+					//统计设备费用
+					for(int x=0;x<money.size();x++){
+						if(insf.get(j).getId().equals(money.get(x).getCaustid())){
+							mmoney += money.get(x).getMmoney();
 						}
+					}
+					//统计设备故障率
+					for(int x=0;x<fault.size();x++){
+						if(insf.get(j).getId().equals(fault.get(x).getCaustid())){
+							faultratio += fault.get(x).getTotal();
+						}
+					}
+					for(int i=0;i<list.size();i++){
+						if(list.get(i).getCaustid().equals(insf.get(j).getId())){
+							rmoney += list.get(i).getRmoney();
+							num += list.get(i).getTotal();
+						}
+					}
+					if(list.isEmpty()){
+						flagnum = false;
+						json.put("name",insf.get(j).getName());
+						json.put("total", 0);
+						json.put("rmoney", 0);
+						json.put("mmoney", mmoney);
+						json.put("sumnum", 0);
+						json.put("proportion", (double)Math.round(1/(double)insf.size()*100)/100);
+						json.put("faultratio", 0);
+						json.put("faultmaintenanceratio", 100);
+						ary.add(json);
 					}
 					if(flagnum){
 						json.put("name",insf.get(j).getName());
@@ -1359,28 +1381,71 @@ public class BlocChartController {
 						json.put("rmoney", rmoney);
 						json.put("mmoney", mmoney);
 						json.put("sumnum", sumnum);
+						json.put("proportion", (double)Math.round((double)num/(double)sumnum*100)/100);
+						if(faultratio==0 && faultnum==0){
+							json.put("faultratio", 0);
+						}else{
+							json.put("faultratio", (double)Math.round((double)faultratio/(double)faultnum*100*100)/100);
+						}
+						if(faultratio==0){
+							json.put("faultmaintenanceratio", 100);
+						}else{
+							json.put("faultmaintenanceratio", (double)Math.round((double)num/(double)faultratio*100*100)/100);
+						}
 						ary.add(json);
 					}
 				}
-//				for(int i=0;i<list.size();i++){
-//					for(int x=0;x<money.size();x++){
-//						if(list.get(i).getIid().equals(parent) && money.get(x).getIid().equals(parent)){
-//							json.put("name", list.get(i).getIname());
-//							json.put("total", list.get(i).getTotal());
-//							json.put("rmoney", list.get(i).getRmoney());
-//							json.put("mmoney", list.get(i).getMmoney());
-//							ary.add(json);
-//						}
-//					}
-//				}
 			}else if(flag==2){
-				for(int i=0;i<list.size();i++){
-					if(list.get(i).getCaustid().equals(parent)){
-						json.put("name", list.get(i).getWname());
-						json.put("total", list.get(i).getTotal());
-						json.put("rmoney", list.get(i).getRmoney());
-						json.put("mmoney", list.get(i).getMmoney());
+				for(int j=0;j<insf.size();j++){
+					boolean flagnum = true;
+					int rmoney = 0, mmoney = 0, num = 0, faultratio = 0 ;
+					//统计设备费用
+					for(int x=0;x<money.size();x++){
+						if(insf.get(j).getId().equals(money.get(x).getItemid())){
+							mmoney += money.get(x).getMmoney();
+						}
+					}
+					//统计设备故障率
+					for(int x=0;x<fault.size();x++){
+						if(insf.get(j).getId().equals(fault.get(x).getItemid())){
+							faultratio += fault.get(x).getTotal();
+						}
+					}
+					for(int i=0;i<list.size();i++){
+						if(list.get(i).getItemid().equals(insf.get(j).getId())){
+							rmoney += list.get(i).getRmoney();
+							num += list.get(i).getTotal();
+						}
+					}
+					if(list.isEmpty()){
+						flagnum = false;
+						json.put("name",insf.get(j).getName());
+						json.put("total", 0);
+						json.put("rmoney", 0);
+						json.put("mmoney", mmoney);
+						json.put("sumnum", 0);
+						json.put("proportion", (double)Math.round(1/(double)insf.size()*100)/100);
+						json.put("faultratio", 0);
+						json.put("faultmaintenanceratio", 100);
+						ary.add(json);
+					}
+					if(flagnum){
+						json.put("name",insf.get(j).getName());
+						json.put("total", num);
+						json.put("rmoney", rmoney);
+						json.put("mmoney", mmoney);
 						json.put("sumnum", sumnum);
+						json.put("proportion", (double)Math.round((double)num/(double)sumnum*100)/100);
+						if(faultratio==0 && faultnum==0){
+							json.put("faultratio", 0);
+						}else{
+							json.put("faultratio", (double)Math.round((double)faultratio/(double)faultnum*100*100)/100);
+						}
+						if(faultratio==0){
+							json.put("faultmaintenanceratio", 100);
+						}else{
+							json.put("faultmaintenanceratio", (double)Math.round((double)num/(double)faultratio*100*100)/100);
+						}
 						ary.add(json);
 					}
 				}
