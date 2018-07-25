@@ -11,7 +11,7 @@ function mainDatagrid(){
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-		url : "maintain/getMaintainList",
+		url : "maintain/getMaintainList?str="+$("#str").val(),
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,

@@ -37,6 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	<input type="hidden" id="treeid"/>
 	  	<div id="maintainTable_btn">
 			<div style="margin-bottom: 5px;">
+				<input type="hidden" id="str" value="${str }"/>
 				<a href="javascript:addMaintain();" class="easyui-linkbutton" iconCls="icon-add">新增</a>
 				<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-excel">导入</a>
 				<a href="javascript:exporMaintain();" class="easyui-linkbutton" iconCls="icon-excel">导出</a>

@@ -1,6 +1,5 @@
 $(function(){
 	typeCombobox();
-	//equipmentCombobox();
 	updatetext();
 	$('#dlg').dialog( {
 		onClose : function() {

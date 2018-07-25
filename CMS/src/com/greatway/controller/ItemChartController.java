@@ -1376,6 +1376,9 @@ public class ItemChartController {
 				}
 				json.put("manufacturername", machine.get(i).getFname() + "-" + machine.get(i).getType());
 				json.put("machinemoney",machine.get(i).getMmoney());
+				json.put("manufacturerid", machine.get(i).getFid());
+				json.put("machinetypeid", machine.get(i).getTypeid());
+				json.put("itemid", parentid);
 				ary.add(json);
 			}
 		}catch(Exception e){

@@ -1245,6 +1245,8 @@ public class BlocChartController {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
+		JSONObject jsons = new JSONObject();
+		JSONArray arys = new JSONArray();
 		String parentid = request.getParameter("parent");
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
@@ -1280,13 +1282,27 @@ public class BlocChartController {
 			List<ModelDto> list = lm.getMaintenanceratio(dto);
 			List<ModelDto> money = lm.getMachineMoney();
 			List<ModelDto> fault = lm.getFaultRatio(dto);
-			int sumnum = 0,faultnum = 0;
+			int sumnum = 0,faultnum = 0,summoney = 0,sumrmoney = 0;
 			for(int i=0;i<list.size();i++){
 				sumnum += list.get(i).getTotal();
+				sumrmoney += list.get(i).getRmoney();
 			}
 			for(int i=0;i<fault.size();i++){
 				faultnum += fault.get(i).getTotal();
 			}
+			for(int i=0;i<money.size();i++){
+				summoney += money.get(i).getMmoney();
+			}
+			jsons.put("sumnum", sumnum);//总维护次数
+			jsons.put("faultnum", faultnum);//总故障次数
+			if(faultnum==0){
+				jsons.put("sumfaultmaintenance", 100);//总故障维修率
+			}else{
+				jsons.put("sumfaultmaintenance", (double)Math.round((double)sumnum/(double)faultnum*100*100)/100);//总故障维修率
+			}
+			jsons.put("sumrmoney", sumrmoney);//维护总费用
+			jsons.put("summoney", summoney);//焊机总费用
+			arys.add(jsons);
 			if(flag==0){//集团层
 				for(int j=0;j<insf.size();j++){
 					boolean flagnum = true;
@@ -1328,11 +1344,7 @@ public class BlocChartController {
 						json.put("mmoney", mmoney);
 						json.put("sumnum", sumnum);
 						json.put("proportion", (double)Math.round((double)num/(double)sumnum*100)/100);
-						if(faultratio==0 && faultnum==0){
-							json.put("faultratio", 0);
-						}else{
-							json.put("faultratio", (double)Math.round((double)faultratio/(double)faultnum*100*100)/100);
-						}
+						json.put("faultratio", faultratio);
 						if(faultratio==0){
 							json.put("faultmaintenanceratio", 100);
 						}else{
@@ -1382,11 +1394,7 @@ public class BlocChartController {
 						json.put("mmoney", mmoney);
 						json.put("sumnum", sumnum);
 						json.put("proportion", (double)Math.round((double)num/(double)sumnum*100)/100);
-						if(faultratio==0 && faultnum==0){
-							json.put("faultratio", 0);
-						}else{
-							json.put("faultratio", (double)Math.round((double)faultratio/(double)faultnum*100*100)/100);
-						}
+						json.put("faultratio", faultratio);
 						if(faultratio==0){
 							json.put("faultmaintenanceratio", 100);
 						}else{
@@ -1436,11 +1444,7 @@ public class BlocChartController {
 						json.put("mmoney", mmoney);
 						json.put("sumnum", sumnum);
 						json.put("proportion", (double)Math.round((double)num/(double)sumnum*100)/100);
-						if(faultratio==0 && faultnum==0){
-							json.put("faultratio", 0);
-						}else{
-							json.put("faultratio", (double)Math.round((double)faultratio/(double)faultnum*100*100)/100);
-						}
+						json.put("faultratio", faultratio);
 						if(faultratio==0){
 							json.put("faultmaintenanceratio", 100);
 						}else{
@@ -1454,6 +1458,7 @@ public class BlocChartController {
 			e.printStackTrace();
 		}
 		obj.put("rows", ary);
+		obj.put("ary", arys);
 		obj.put("total", total);
 		return obj.toString();
 	}

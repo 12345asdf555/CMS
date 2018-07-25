@@ -32,6 +32,7 @@
 		inner join tb_maintenance_record r on  fmaintenance_id = r.fid
         INNER JOIN tb_dictionary d on r.ftype_id = d.fvalue
 		inner join tb_welding_machine wm on m.fwelding_id = wm.fid
+		INNER JOIN tb_equipment_manufacturer e on e.fid = wm.fmanufacturer_id
 		INNER JOIN tb_insframework i on i.fid = wm.finsframework_id 
 		INNER JOIN tb_insframework ins on ins.fid=i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent
 		where 1=1

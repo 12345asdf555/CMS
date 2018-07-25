@@ -53,7 +53,8 @@ public class MaintainController {
 	 * @return
 	 */
 	@RequestMapping("/goMaintain")
-	public String goWeldingMahine(){
+	public String goWeldingMahine(HttpServletRequest request){
+		request.setAttribute("str", request.getParameter("str"));
 		return "maintain/maintain";
 	}
 	
@@ -107,6 +108,7 @@ public class MaintainController {
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String weldingmachineId = request.getParameter("wid");
 		String parent = request.getParameter("parent");
+		String str = request.getParameter("str");
 		String searchStr = request.getParameter("searchStr");
 		BigInteger parentid = null;
 		if(iutil.isNull(parent)){
@@ -119,9 +121,16 @@ public class MaintainController {
 			parentid = im.getUserInsfId(BigInteger.valueOf(uid));
 		}
 		if(iutil.isNull(searchStr)){
-			searchStr += " and (i.fid="+parentid+" or ins.fid="+parentid+" or insf.fid="+parentid+" or insf.fparent="+parentid+")";
+			if(iutil.isNull(str)){
+				searchStr += " and "+ str;
+			}else{
+				searchStr += " and (i.fid="+parentid+" or ins.fid="+parentid+" or insf.fid="+parentid+" or insf.fparent="+parentid+")";
+			}
 		} else{
 			searchStr = "(i.fid="+parentid+" or ins.fid="+parentid+" or insf.fid="+parentid+" or insf.fparent="+parentid+")";
+			if(iutil.isNull(str)){
+				searchStr = str;
+			}
 		}
 		request.getSession().setAttribute("searchStr", searchStr);
 		BigInteger wid = null;

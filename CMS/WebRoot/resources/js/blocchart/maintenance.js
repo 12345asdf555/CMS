@@ -59,7 +59,7 @@ function dealwith(num,url){
 	}, 500);
 }
 
-var activeurl = "blocChart/getMaintenanceratio?flag=999";
+var activeurl = "";
 function serach(){
 	if(flagnum!=1){
 		$("#chartLoading").show();
@@ -111,6 +111,7 @@ var array6 = new Array();
 var array7 = new Array();
 var array8 = new Array();
 var avg = 0;
+var sumnum = 0,faultnum = 0,summoney = 0,sumrmoney = 0;
 function showChart(){
 	setParam();
 	 $.ajax({  
@@ -129,6 +130,14 @@ function showChart(){
     	        			name : result.rows[i].name
     	        		});
             		}
+            		
+            	}
+            	for(var i=0;i<result.ary.length;i++){
+            		sumnum = result.ary[i].sumnum;
+            		faultnum = result.ary[i].faultnum;
+            		sumfaultmaintenance = result.ary[i].sumfaultmaintenance;
+            		sumrmoney = result.ary[i].sumrmoney;
+            		summoney = result.ary[i].summoney;
             		
             	}
             }  
@@ -163,15 +172,15 @@ function showChart(){
 			right:'2%'
 		},
 		series:[{
-			name:'设备利用率',
+			name:'设备维修率',
 			type:'pie',
             radius : '80%',
             center : ['40%', '50%'],
-            label: {
-                normal: {
-                    position: 'inner'
-                }
-            },
+//            label: {
+//                normal: {
+//                    position: 'inner'//文字显示在里面
+//                }
+//            },
 			data:array2,
       		itemStyle : {
       			normal: {
@@ -189,6 +198,7 @@ function showChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	domresize();
 }
 
 function showItemChart(){
@@ -284,6 +294,7 @@ function showItemMoneyChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	domresize();
 
 }
 
@@ -388,7 +399,7 @@ function dgDatagrid(){
 			align : "left"
 		},{
 			field : "faultratio",
-			title : "故障率(%)",
+			title : "故障次数",
 			width : 100,
 			halign : "center",
 			align : "left"
@@ -410,8 +421,24 @@ function dgDatagrid(){
 			width : 100,
 			halign : "center",
 			align : "left"
-		}]]
+		}]],
+		onLoadSuccess : function(data){
+			$('#dg').datagrid('insertRow',{
+				index: 0,// 索引从0开始
+				row: {
+					total: '总维护次数：'+sumnum,
+					proportion: '总维护占比：'+1,
+					faultratio:'总故障次数：'+faultnum,
+					faultmaintenanceratio:'总故障维修率：'+sumfaultmaintenance,
+					rmoney:'维护总费用：'+sumrmoney,
+					mmoney:'焊机总费用：'+summoney
+				}
+
+			});
+		}
 	 })
+	
+
 }
 
 function itemDgDatagrid(){
@@ -434,7 +461,10 @@ function itemDgDatagrid(){
 			title : "厂商-类型",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "left",
+			formatter : function(value,row,index){
+				return "<a href='"+encodeURI("maintain/goMaintain?str=i.fid %3D "+row.itemid+" and e.fid %3D "+row.manufacturerid+" and wm.ftype_id %3D "+row.machinetypeid)+"'>"+value+"</a>";
+			}
 		},{
 			field : "maintainnum",
 			title : "设备维修次数",
@@ -459,8 +489,33 @@ function itemDgDatagrid(){
 			width : 100,
 			halign : "center",
 			align : "left"
+		},{
+			field : "manufacturerid",
+			title : "厂商id",
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		},{
+			field : "machinetypeid",
+			title : "设备类型id",
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		},{
+			field : "itemid",
+			title : "设备类型id",
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
 		}]]
 	 })
+}
+
+function openMaintenance(value){
+	alert(value);
 }
 
 //监听窗口大小变化
@@ -470,15 +525,19 @@ window.onresize = function() {
 
 //改变表格，图表高宽
 function domresize() {
-	$("#dg").datagrid('resize', {
-		height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
-		width : $("#body").width()
-	});
-	$("#itemdg").datagrid('resize', {
-		height : $("#body").height() - $("#itemcharts1").height()-$("#search_btn").height()-15,
-		width : $("#body").width()
-	});
-	echarts.init(document.getElementById('charts')).resize();
-	echarts.init(document.getElementById('itemcharts1')).resize();
-	echarts.init(document.getElementById('itemcharts2')).resize();
+	if(!$("#dg1").is(":hidden")){
+		$("#dg").datagrid('resize', {
+			height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
+			width : $("#body").width()
+		});
+		echarts.init(document.getElementById('charts')).resize();
+	}else{
+
+		$("#itemdg").datagrid('resize', {
+			height : $("#body").height() - $("#itemcharts1").height()-$("#search_btn").height()-15,
+			width : $("#body").width()
+		});
+		echarts.init(document.getElementById('itemcharts1')).resize();
+		echarts.init(document.getElementById('itemcharts2')).resize();
+	}
 }
