@@ -12,8 +12,8 @@ var dtoTime1,dtoTime2;
 function setParam(){
 	var parent = $("#parent").combobox('getValue');
 	var ranking = $("#ranking").combobox('getValue');
-	dtoTime1 = $("#dtoTime1").datebox('getValue');
-	dtoTime2 = $("#dtoTime2").datebox('getValue');
+	dtoTime1 = $("#dtoTime1").datetimebox('getValue');
+	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	chartStr = "?parent="+parent+"&ranking="+ranking+"&time1="+dtoTime1+"&time2="+dtoTime2;
 }
 

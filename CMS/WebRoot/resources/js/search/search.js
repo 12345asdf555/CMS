@@ -54,9 +54,10 @@ function insertSearchFault(){
 //故障代码下拉框
 function searchFaultCombobox(){
 	var optionFields = 
-		"<option value='fcode'>故障代码</option>" +
-		"<option value='fvaluename'>故障类别</option>" +
-		"<option value='fdesc'>故障描述</option>";
+		"<option value='fequipment_no'>固定资产编号</option>" +
+		"<option value='d.fvaluename'>故障代码</option>" +
+		"<option value='dic.fvaluename'>故障类别</option>" +
+		"<option value='fUploadDataTime'>录入时间</option>";
 	$(".fields").html(optionFields);
 	createSearchCombobox();
 }

@@ -98,6 +98,9 @@ function getUserInsframework(){
 		}
 	})
 }
+function openFaultRatio(){
+	addTab("设备故障率","blocChart/goFaultratio");
+}
 
 function openMaintenance(){
 	addTab("设备维修率","blocChart/goMaintenanceratio");

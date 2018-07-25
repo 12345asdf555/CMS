@@ -414,4 +414,9 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getFaultNum(dto);
 	}
 
+	@Override
+	public List<ModelDto> getFaultRatioByType(WeldDto dto) {
+		return live.getFaultRatioByType(dto);
+	}
+
 }

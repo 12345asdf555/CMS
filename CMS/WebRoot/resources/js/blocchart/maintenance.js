@@ -97,8 +97,8 @@ var chartStr = "",dtoTime1,dtoTime2;
 
 function setParam(){
 	parentid = $("#parent").combobox('getValue');
-	dtoTime1 = $("#dtoTime1").datebox('getValue');  
-	dtoTime2 = $("#dtoTime2").datebox('getValue');
+	dtoTime1 = $("#dtoTime1").datetimebox('getValue');
+	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	chartStr = "&parent="+parentid+"&time1="+dtoTime1+"&time2="+dtoTime2;
 }
 
@@ -512,10 +512,6 @@ function itemDgDatagrid(){
 			hidden : true
 		}]]
 	 })
-}
-
-function openMaintenance(value){
-	alert(value);
 }
 
 //监听窗口大小变化

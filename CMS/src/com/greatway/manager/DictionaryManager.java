@@ -30,6 +30,7 @@ public interface DictionaryManager {
 	 * @return
 	 */
 	List<Dictionarys> getDictionaryValue(int typeid);
+	List<Dictionarys> getDictionaryValue(Page page,int typeid);
 	
 	/**
 	 * 根据类型值及字典值获取字典值及值名称

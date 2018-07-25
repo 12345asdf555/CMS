@@ -56,51 +56,72 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <a href="javascript:searchFault();" class="easyui-linkbutton" iconCls="icon-ok">查询</a>
       <a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
     </div>
-      <!-- 新增修改 -->
+    <!-- 选择焊机 -->
+	<div id="fdlg" class="easyui-dialog" style="width: 700px; height: 530px;" title="选择焊机" closed="true" buttons="#fdlg-buttons">
+		<div id="dlgSearch" style="backgroud:#fff;">
+			固定资产编号：<input class="easyui-textbox" id="searchname"/>
+			<a href="javascript:dlgSearchMachine();" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+		</div>
+    	<table id="weldingmachineTable" style="table-layout: fixed; width:100%;"></table>
+	</div>
+	<div id="fdlg-buttons">
+		<a href="javascript:saveWeldingMachine();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+		<a href="javascript:$('#fdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+	</div>
+	
+    <!-- 新增修改 -->
     <div id="dlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
       <form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+        <div class="fitem">
+          <lable><span class="required">*</span>固定资产编号</lable>
+          <input type="hidden" name="machineid" id="machineid"/>
+          <input class="easyui-textbox" name="machineno" id="machineno" data-options="required:true" readonly="readonly"/>
+		  <a href="javascript:selectMachine();" class="easyui-linkbutton" id="selectMachine">选择</a>
+        </div>
         <div class="fitem  ">
           <lable><span class="required">*</span>故障代码</lable>
-          <input type="hidden" id="id"  name="id">
-          <input type="hidden" id="creator"  name="creator">
-          <input class="easyui-textbox" name="code" id="code" data-options="required:true"/>
+          <input type="hidden" name="itemid" id="itemid"/>
+          <select class="easyui-combobox" name="codeid" id="codeid" data-options="required:true,editable:false"></select>
         </div>
         <div class="fitem">
           <lable><span class="required">*</span>故障类别</lable>
-          <input type="hidden" id="typeid" name="typeid">
-          <select class="easyui-combobox" name="type" id="type" data-options="required:true,editable:false"></select>
+          <select class="easyui-combobox" name="typeid" id="typeid" data-options="required:true,editable:false"></select>
         </div>
         <div class="fitem">
-          <lable>故障描述</lable>
-          <textarea name="desc" id="desc" style="height:60px;width:150px"></textarea>
-        </div>  
+          <lable><span class="required">*</span>录入时间</lable>
+          <input class="easyui-datetimebox" name="time" id="time" data-options="required:true"/>
+        </div>
     </form>
     </div>
     <div id="dlg-buttons">
       <a href="javascript:saveFault();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-      <a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+      <a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
     </div>
     <!-- 删除 -->
       <div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
-      <form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
-      <div class="fitem">
-        <lable>故障代码</lable>
-          <input class="easyui-textbox" name="code" id="code" data-options="required:true" readonly="readonly"/>
+	      <form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+	      	<div class="fitem">
+          <lable><span class="required">*</span>固定资产编号</lable>
+          <input class="easyui-textbox" name="machineno" id="machineno"readonly="readonly"/>
+        </div>
+        <div class="fitem  ">
+          <lable><span class="required">*</span>故障代码</lable>
+          <select class="easyui-textbox" name="code" id="code" readonly="readonly"></select>
         </div>
         <div class="fitem">
-          <lable>故障类别</lable>
-          <select class="easyui-textbox" name="type" id="type" data-options="required:true,editable:false" readonly="readonly"></select>
+          <lable><span class="required">*</span>故障类别</lable>
+          <select class="easyui-textbox" name="type" id="type" readonly="readonly"></select>
         </div>
         <div class="fitem">
-          <lable>故障描述</lable>
-          <textarea name="desc" id="desc" style="height:60px;width:150px" readonly="readonly"></textarea>
+          <lable><span class="required">*</span>录入时间</lable>
+          <input class="easyui-textbox" name="time" id="time" readonly="readonly"/>
         </div>
-      </form>
-      <div id="remove-buttons">
-          <a href="javascript:remove();" class="easyui-linkbutton"  iconCls="icon-remove">删除</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="fault/goFault" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
-      </div>
-    </div>
+	      </form>
+     </div>
+     <div id="remove-buttons">
+         <a href="javascript:remove();" class="easyui-linkbutton"  iconCls="icon-remove">删除</a>
+         <a href="javascript:closeD()" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+     </div>
   </div>
   </body>
 </html>

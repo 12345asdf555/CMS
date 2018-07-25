@@ -34,9 +34,13 @@ public class FaultServiceImpl implements FaultService {
 			for(int i=0;i<list.size();i++){
 				obj.put("ID", jutil.setValue(list.get(i).getId()));
 				obj.put("CODE",jutil.setValue(list.get(i).getCode()));
-				obj.put("TYPEID",jutil.setValue(list.get(i).getType()));
-				obj.put("TYPENAME",jutil.setValue(list.get(i).getValuename()));
-				obj.put("DESC",jutil.setValue(list.get(i).getDesc()));
+				obj.put("TYPE",jutil.setValue(list.get(i).getType()));
+				obj.put("CODEID",jutil.setValue(list.get(i).getCodeid()));
+				obj.put("TYPEID",jutil.setValue(list.get(i).getTypeid()));
+				obj.put("MACHINEID",jutil.setValue(list.get(i).getMachineid()));
+				obj.put("MACHINENO",jutil.setValue(list.get(i).getMachineno()));
+				obj.put("ITEMID",jutil.setValue(list.get(i).getItemid()));
+				obj.put("TIME",jutil.setValue(list.get(i).getTime()));
 				ary.add(obj);
 			}
 			return JSON.toJSONString(ary);
@@ -55,10 +59,13 @@ public class FaultServiceImpl implements FaultService {
 			if(list!=null){
 				obj.put("ID", jutil.setValue(list.getId()));
 				obj.put("CODE",jutil.setValue(list.getCode()));
-				obj.put("TYPEID",jutil.setValue(list.getType()));
-				obj.put("TYPENAME",jutil.setValue(list.getValuename()));
-				obj.put("DESC",jutil.setValue(list.getDesc()));
-				obj.put("CREATOR",jutil.setValue(list.getCreator()));
+				obj.put("TYPE",jutil.setValue(list.getType()));
+				obj.put("CODEID",jutil.setValue(list.getCodeid()));
+				obj.put("TYPEID",jutil.setValue(list.getTypeid()));
+				obj.put("MACHINEID",jutil.setValue(list.getMachineid()));
+				obj.put("MACHINENO",jutil.setValue(list.getMachineno()));
+				obj.put("ITEMID",jutil.setValue(list.getItemid()));
+				obj.put("TIME",jutil.setValue(list.getTime()));
 			}
 			return JSON.toJSONString(obj);
 		}catch(Exception e){
@@ -73,10 +80,10 @@ public class FaultServiceImpl implements FaultService {
 			JSONObject json = JSONObject.fromObject(object);
 			Fault f = new Fault();
 			f.setId(new BigInteger(json.getString("ID")));
-			f.setCode(json.getString("CODE"));
-			f.setDesc(json.getString("DESC"));
-			f.setType(json.getInt("TYPEID"));
-			f.setCreator(json.getString("CREATOR"));
+			f.setCodeid(json.getInt("CODEID"));
+			f.setTime(json.getString("TIME"));
+			f.setTypeid(json.getInt("TYPEID"));
+			f.setMachineid(new BigInteger(json.getString("MACHINEID")));
 			return fm.addFault(f);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -90,10 +97,10 @@ public class FaultServiceImpl implements FaultService {
 			JSONObject json = JSONObject.fromObject(object);
 			Fault f = new Fault();
 			f.setId(new BigInteger(json.getString("ID")));
-			f.setCode(json.getString("CODE"));
-			f.setDesc(json.getString("DESC"));
-			f.setType(json.getInt("TYPEID"));
-			f.setModifier(json.getString("MODIFIER"));
+			f.setCodeid(json.getInt("CODEID"));
+			f.setTime(json.getString("TIME"));
+			f.setTypeid(json.getInt("TYPEID"));
+			f.setMachineid(new BigInteger(json.getString("MACHINEID")));
 			return fm.editFault(f);
 		}catch(Exception e){
 			e.printStackTrace();

@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
 	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
-	<script type="text/javascript" src="resources/js/getDate.js"></script>
+	<script type="text/javascript" src="resources/js/getTime.js"></script>
 	<script type="text/javascript" src="resources/js/blocchart/maintenance.js"></script>
 
   </head>
@@ -42,8 +42,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div style="margin-bottom: 5px;">
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 				时间：
-				<input class="easyui-datebox" name="dtoTime1" id="dtoTime1">--
-				<input class="easyui-datebox" name="dtoTime2" id="dtoTime2">
+				<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">--
+				<input class="easyui-datetimebox" name="dtoTime2" id="dtoTime2">
 				组织机构：
 				<select class="easyui-combobox" id="parent" name="parent" data-options="editable:false"></select>
 				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>

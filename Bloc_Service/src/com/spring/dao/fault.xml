@@ -5,36 +5,49 @@
 
 	<resultMap id="faultMap" type="com.spring.model.Fault">
 		<id property="id" column="fid"></id> 
-        <result property="code" column="fcode"></result>  
-        <result property="type" column="ftype"></result>  
+        <result property="code" column="code"></result>  
+        <result property="type" column="type"></result> 
+        <result property="codeid" column="fstatus"></result>  
+        <result property="typeid" column="ftype"></result>   
+        <result property="time" column="time"></result>  
+        <result property="itemid" column="finsframework_id"></result>  
+		<result property="machineid" column="machineid" /> 
+		<result property="machineno" column="machineno" />
         <result property="desc" column="fdesc"></result>  
 		<result property="creator" column="fcreator" />
 		<result property="modifier" column="fmodifier" />
-		<result property="valuename" column="fvaluename" />
 	</resultMap>
 	
 	<select id="getFaultAll" resultMap="faultMap">
-		SELECT f.fid,fcode,fdesc,ftype,d.fvaluename FROM tb_fault_code f INNER JOIN tb_dictionary d on d.fvalue = f.ftype where ftypeid = 7
+		SELECT l.fid,m.fid machineid,m.fequipment_no machineno,m.finsframework_id,fstatus,d.fvaluename code,ftype,dic.fvaluename type,fUploadDataTime time FROM tb_warn l 
+		INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id 
+		INNER JOIN tb_dictionary d on d.fvalue = fstatus 
+		INNER JOIN tb_dictionary dic on dic.fvalue = ftype 
+		where (d.ftypeid=9 and dic.ftypeid=7)
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>
-		ORDER BY f.fid
+		ORDER BY l.fid
 	</select>
 	
 	<select id="getFaultById" resultMap="faultMap">
-		SELECT f.fid,fcode,fdesc,ftype,d.fvaluename,f.fcreator FROM tb_fault_code f INNER JOIN tb_dictionary d on d.fvalue = f.ftype where ftypeid = 7 and f.fid = #{id}
+		SELECT l.fid,m.fid machineid,m.fequipment_no,m.finsframework_id,fstatus,d.fvaluename,ftype,dic.fvaluename,fUploadDataTime time FROM tb_warn l 
+		INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id 
+		INNER JOIN tb_dictionary d on d.fvalue = fstatus 
+		INNER JOIN tb_dictionary dic on dic.fvalue = ftype 
+		where (d.ftypeid=9 and dic.ftypeid=7) and f.fid = #{id}
 	</select>
 	
 	<insert id="addFault" parameterType="com.spring.model.Fault" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO tb_fault_code(fcode, fdesc, ftype, fcreator, fcreatetime) VALUES (#{code},#{desc},#{type},#{creator},now())
+		INSERT INTO tb_warn (fmachine_id,fstatus,ftype,fUploadDataTime)VALUES(#{machineid},#{codeid},#{typeid},#{time})
  	</insert>
 	
 	<update id="editFault" parameterType="com.spring.model.Fault">
-		UPDATE tb_fault_code SET fcode=#{code},fdesc=#{desc},ftype=#{type},fmodifier=#{modifier},fupdatetime=now() where fid=#{id}
+		UPDATE tb_warn set fmachine_id=#{machineid},fstatus=#{codeid},ftype=#{typeid},fUploadDataTime=#{time} where fid = #{id}
 	</update>
 	
 	<delete id="deleteFault" parameterType="java.math.BigInteger">
-		DELETE FROM tb_fault_code WHERE fid=#{id}
+		DELETE FROM tb_warn WHERE fid=#{id}
 	</delete>
 	
 </mapper>

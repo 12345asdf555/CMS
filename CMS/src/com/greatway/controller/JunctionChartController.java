@@ -39,6 +39,17 @@ public class JunctionChartController {
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
+
+	/**
+	 * 跳转焊口明细
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/goFaultDetail")
+	public String goFaultDetail(HttpServletRequest request){
+		return "junctionchart/faultdetail";
+	}
+	
 	/**
 	 * 跳转焊机工时
 	 * @param request

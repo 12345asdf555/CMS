@@ -90,10 +90,13 @@ public class FaultController {
       for(int i=0;i<list.size();i++){
         json.put("id", list.get(i).getId());
         json.put("code", list.get(i).getCode());
-        json.put("desc", list.get(i).getDesc());
-        json.put("type", list.get(i).getValuename());
-        json.put("typeid", list.get(i).getType());
-        json.put("creator", list.get(i).getCreator());
+        json.put("type", list.get(i).getType());
+        json.put("codeid", list.get(i).getCodeid());
+        json.put("typeid", list.get(i).getTypeid());
+        json.put("machineid", list.get(i).getMachineid());
+        json.put("machineno", list.get(i).getMachineno());
+        json.put("itemid", list.get(i).getItemid());
+        json.put("time", list.get(i).getTime());
         ary.add(json);
       }
     }catch(Exception e){
@@ -108,50 +111,29 @@ public class FaultController {
   public String addFault(HttpServletRequest request,@ModelAttribute("fault") Fault fault){
     JSONObject obj = new JSONObject();
     try{
-      //当前层级
-      String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
-      //获取当前用户
-      Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-      MyUser myuser = (MyUser)object;
-      BigInteger insfid = im.getUserInsfId(new BigInteger(myuser.getId()+""));
-      int type = im.getUserInsfType(new BigInteger(myuser.getId()+""));
-      String url = "",method = "enterTheIDU",itemid="";
-      if(hierarchy.equals("1")){
-        url = request.getSession().getServletContext().getInitParameter("blocurl");
-        method = "enterTheWS";
-      }else{
-        if(type==23){
-          itemid = insfid.toString();
-          Insframework ins = im.getParent(insfid);
-          Insframework companyid = im.getParent(ins.getId());
-          url = request.getSession().getServletContext().getInitParameter(companyid.getId().toString());
-        }else{
-          url = request.getSession().getServletContext().getInitParameter("companyurl");
-        }
-      }
-      //客户端执行操作
-      JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-      Client client = dcf.createClient(url);
-      iutil.Authority(client);
-      String obj1 = "{\"CLASSNAME\":\"faultServiceImpl\",\"METHOD\":\"addFault\"}";
-      String obj2 = "{\"CODE\":\""+fault.getCode()+"\",\"DESC\":\""+fault.getDesc()+"\",\"TYPEID\":\""+fault.getType()+"\",\"CREATOR\":\""+myuser.getId()+"\",\"INSFID\":\""+itemid+"\"}";
-      Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", method), new Object[]{obj1,obj2});  
-      if(method.equals("enterTheWS")){
-        //集团层返回的是id
-        if(objects[0].toString()!=null && !"".equals(objects[0].toString())){
-          obj.put("success", true);
-        }
-      }else{
-        if(objects[0].toString().equals("true")){
-          obj.put("success", true);
-        }else if(!objects[0].toString().equals("false")){
-          obj.put("success", true);
-          obj.put("msg", objects[0].toString());
-        }else{
-          obj.put("success", false);
-          obj.put("errorMsg", "操作失败！");
-        }
-      }
+    	//当前层级
+		String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
+		//获取项目层url
+		String itemurl = request.getSession().getServletContext().getInitParameter("itemurl");
+		//获取公司发布地址
+		String companyurl = im.webserviceDto(request, fault.getItemid());
+		//客户端执行操作
+		JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+		Client client = dcf.createClient(companyurl);
+		iutil.Authority(client);
+		String obj1 = "{\"CLASSNAME\":\"faultServiceImpl\",\"METHOD\":\"addFault\"}";
+		String obj2 = "{\"MACHINEID\":\""+fault.getMachineid()+"\",\"TYPEID\":\""+fault.getTypeid()+"\",\"CODEID\":\""+fault.getCodeid()+"\","
+				+ "\"TIME\":\""+fault.getTime()+"\",\"INSFID\":\""+fault.getItemid()+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\"}";
+		Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
+		if(objects[0].toString().equals("true")){
+			obj.put("success", true);
+		}else if(!objects[0].toString().equals("false")){
+			obj.put("success", true);
+			obj.put("msg", objects[0].toString());
+		}else{
+			obj.put("success", false);
+			obj.put("errorMsg", "操作失败！");
+		}
     }catch(Exception e){
       obj.put("success", false);
       obj.put("errorMsg", e.getMessage());
@@ -164,37 +146,29 @@ public class FaultController {
   public String editFault(HttpServletRequest request,@ModelAttribute("fault") Fault fault){
     JSONObject obj = new JSONObject();
     try{
-      //获取创建者信息
-      BigInteger insfid = im.getUserInsfId(new BigInteger(fault.getCreator()));
-      int type = im.getUserInsfType(new BigInteger(fault.getCreator()));
-      String url = "",method = "enterTheIDU",itemid="";
-      if(type==20){
-        url = request.getSession().getServletContext().getInitParameter("blocurl");
-        method = "enterTheWS";
-      }else if(type==23){
-        itemid = insfid.toString();
-        Insframework ins = im.getParent(insfid);
-        Insframework companyid = im.getParent(ins.getId());
-        url = request.getSession().getServletContext().getInitParameter(companyid.getId().toString());
-      }else{
-        url = request.getSession().getServletContext().getInitParameter("companyurl");
-      }
-      //客户端执行操作
-      JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-      Client client = dcf.createClient(url);
-      iutil.Authority(client);
-      String obj1 = "{\"CLASSNAME\":\"faultServiceImpl\",\"METHOD\":\"editFault\"}";
-      String obj2 = "{\"ID\":\""+fault.getId()+"\",\"CODE\":\""+fault.getCode()+"\",\"DESC\":\""+fault.getDesc()+"\",\"TYPEID\":\""+fault.getType()+"\",\"MODIFIER\":\""+fault.getCreator()+"\",\"INSFID\":\""+itemid+"\"}";
-      Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", method), new Object[]{obj1,obj2});  
-      if(objects[0].toString().equals("true")){
-        obj.put("success", true);
-      }else if(!objects[0].toString().equals("false")){
-        obj.put("success", true);
-        obj.put("msg", objects[0].toString());
-      }else{
-        obj.put("success", false);
-        obj.put("errorMsg", "操作失败！");
-      }
+		//当前层级
+		String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
+		//获取项目层url
+		String itemurl = request.getSession().getServletContext().getInitParameter("itemurl");
+		//获取公司发布地址
+		String companyurl = im.webserviceDto(request, fault.getItemid());
+		//客户端执行操作
+		JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+		Client client = dcf.createClient(companyurl);
+		iutil.Authority(client);
+		String obj1 = "{\"CLASSNAME\":\"faultServiceImpl\",\"METHOD\":\"editFault\"}";
+		String obj2 = "{\"ID\":\""+fault.getId()+"\",\"MACHINEID\":\""+fault.getMachineid()+"\",\"TYPEID\":\""+fault.getTypeid()+"\",\"CODEID\":\""+fault.getCodeid()+"\","
+				+ "\"TIME\":\""+fault.getTime()+"\",\"INSFID\":\""+fault.getItemid()+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\"}";
+		Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
+		if(objects[0].toString().equals("true")){
+			obj.put("success", true);
+		}else if(!objects[0].toString().equals("false")){
+			obj.put("success", true);
+			obj.put("msg", objects[0].toString());
+		}else{
+			obj.put("success", false);
+			obj.put("errorMsg", "操作失败！");
+		}
     }catch(Exception e){
       e.printStackTrace();
       obj.put("success", false);
@@ -202,43 +176,35 @@ public class FaultController {
     }
     return obj.toString();
   }
-@RequestMapping("/removeFault")
+  
+  @RequestMapping("/removeFault")
   @ResponseBody
-  public String removeFault(HttpServletRequest request,@RequestParam String id){
+  public String removeFault(HttpServletRequest request,@RequestParam String id,@RequestParam String insfid){
     JSONObject obj = new JSONObject();
     try{
-      //获取创建者信息
-      String uid = request.getParameter("uid");
-      BigInteger insfid = im.getUserInsfId(new BigInteger(uid));
-      int type = im.getUserInsfType(new BigInteger(uid));
-      String url = "",method = "enterTheIDU",itemid="";
-      if(type==20){
-        url = request.getSession().getServletContext().getInitParameter("blocurl");
-        method = "enterTheWS";
-      }else if(type==23){
-        itemid = insfid.toString();
-        Insframework ins = im.getParent(insfid);
-        Insframework companyid = im.getParent(ins.getId());
-        url = request.getSession().getServletContext().getInitParameter(companyid.getId().toString());
-      }else{
-        url = request.getSession().getServletContext().getInitParameter("companyurl");
-      }
-      //客户端执行操作
-      JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-      Client client = dcf.createClient(url);
-      iutil.Authority(client);
-      String obj1 = "{\"CLASSNAME\":\"faultServiceImpl\",\"METHOD\":\"deleteFault\"}";
-      String obj2 = "{\"ID\":\""+id+"\",\"INSFID\":\""+itemid+"\"}";
-      Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", method), new Object[]{obj1,obj2});  
-      if(objects[0].toString().equals("true")){
-        obj.put("success", true);
-      }else if(!objects[0].toString().equals("false")){
-        obj.put("success", true);
-        obj.put("msg", objects[0].toString());
-      }else{
-        obj.put("success", false);
-        obj.put("errorMsg", "操作失败！");
-      }
+		//当前层级
+		String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
+		//获取项目层url
+		String itemurl = request.getSession().getServletContext().getInitParameter("itemurl");
+		//获取公司发布地址
+		String companyurl = im.webserviceDto(request, new BigInteger(insfid));
+		//客户端执行操作
+		JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+		Client client = dcf.createClient(companyurl);
+		iutil.Authority(client);
+	    String obj1 = "{\"CLASSNAME\":\"faultServiceImpl\",\"METHOD\":\"deleteFault\"}";
+		String obj2 = "{\"ID\":\""+id+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\",\"INSFID\":\""+insfid+"\"}";
+		Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
+		if(objects[0].toString().equals("true")){
+			obj.put("success", true);
+			obj.put("msg", null);
+		}else if(!objects[0].toString().equals("false")){
+			obj.put("success", true);
+			obj.put("msg", objects[0].toString());
+		}else{
+			obj.put("success", false);
+			obj.put("errorMsg", "操作失败！");
+		}
     }catch(Exception e){
       obj.put("success", true);
       obj.put("errorMsg", e.getMessage());
@@ -253,12 +219,12 @@ public class FaultController {
    */
   @RequestMapping("/getTypeAll")
   @ResponseBody
-  public String getTypeAll(){
+  public String getTypeAll(int num){
     JSONObject json = new JSONObject();
     JSONArray ary = new JSONArray();
     JSONObject obj = new JSONObject();
     try{
-      List<Dictionarys> dictionary = dm.getDictionaryValue(7);
+      List<Dictionarys> dictionary = dm.getDictionaryValue(num);
       for(Dictionarys d:dictionary){
         json.put("id", d.getValue());
         json.put("name", d.getValueName());

@@ -535,4 +535,11 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getFaultNum(WeldDto dto);
+	
+	/**
+	 * 根据故障类别求故障率
+	 * @param dto dto.parent组织机构id dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
+	List<ModelDto> getFaultRatioByType(WeldDto dto);
 }

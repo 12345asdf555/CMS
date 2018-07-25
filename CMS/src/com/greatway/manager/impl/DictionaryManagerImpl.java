@@ -70,4 +70,9 @@ public class DictionaryManagerImpl implements DictionaryManager {
 	public List<Dictionarys> getBack() {
 		return dictionaryMapper.getBack();
 	}
+	@Override
+	public List<Dictionarys> getDictionaryValue(Page page, int typeid) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return dictionaryMapper.getDictionaryValue(typeid);
+	}
 }

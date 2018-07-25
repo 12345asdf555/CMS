@@ -141,4 +141,6 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	List<ModelDto> getMaintenanceNum(@Param("dto")WeldDto dto);
 
 	List<ModelDto> getFaultNum(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getFaultRatioByType(@Param("dto")WeldDto dto);
 }

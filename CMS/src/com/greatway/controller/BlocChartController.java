@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
+import com.greatway.manager.DictionaryManager;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.LiveDataManager;
 import com.greatway.manager.WeldingMachineManager;
+import com.greatway.model.Dictionarys;
 import com.greatway.model.Insframework;
 import com.greatway.model.LiveData;
 import com.greatway.page.Page;
@@ -43,8 +45,12 @@ public class BlocChartController {
 	
 	@Autowired
 	private WeldingMachineManager wm;
+	
 	@Autowired
 	private InsframeworkManager insm;
+	
+	@Autowired
+	private DictionaryManager dm;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -163,6 +169,17 @@ public class BlocChartController {
 	public String goMaintenanceratio(HttpServletRequest request){
 		lm.getUserId(request);
 		return "blocchart/maintenance";
+	}
+	
+	/**
+	 * 跳转设备维修率页面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/goFaultratio")
+	public String goFaultratio(HttpServletRequest request){
+		lm.getUserId(request);
+		return "blocchart/fault";
 	}
 	
 	/**
@@ -1459,6 +1476,91 @@ public class BlocChartController {
 		}
 		obj.put("rows", ary);
 		obj.put("ary", arys);
+		obj.put("total", total);
+		return obj.toString();
+	}
+	
+
+	/**
+	 * 故障率
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getFaultratio")
+	@ResponseBody
+	public String getFaultratio(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		String parentid = request.getParameter("parent");
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		WeldDto dto = new WeldDto();
+		List<Dictionarys> faulttype = null;
+		if(iutil.isNull(parentid)){
+			dto.setParent(new BigInteger(parentid));
+		}
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(request.getParameter("page")) && iutil.isNull(request.getParameter("rows"))){
+			pageIndex = Integer.parseInt(request.getParameter("page"));
+			pageSize = Integer.parseInt(request.getParameter("rows"));
+			page = new Page(pageIndex,pageSize,total);
+			faulttype = dm.getDictionaryValue(page, 7);
+		}else{
+			faulttype = dm.getDictionaryValue(7);
+		}
+		long total = 0;
+		if(faulttype!=null){
+			PageInfo<Dictionarys> pageinfo = new PageInfo<Dictionarys>(faulttype);
+			total = pageinfo.getTotal();
+		}
+		try{
+
+			List<ModelDto> list = lm.getFaultRatioByType(dto);
+			int faultnum = 0;
+			for(int i=0;i<list.size();i++){
+				faultnum += list.get(i).getTotal();
+			}
+			for(int x=0;x<faulttype.size();x++){
+
+				if(list.isEmpty()){
+					json.put("typeid", faulttype.get(x).getValue());
+					json.put("type", faulttype.get(x).getValueName());
+					json.put("faultnum", 0);
+					json.put("faultratio", (double)Math.round(1/(double)faulttype.size()*100*100)/100);
+				}else{
+					boolean flag = false;
+					for(int i=0;i<list.size();i++){
+						if(faulttype.get(x).getValue()==list.get(i).getTypeid()){
+							flag = true;
+							json.put("typeid", list.get(i).getTypeid());
+							json.put("type", list.get(i).getType());
+							json.put("faultnum", list.get(i).getTotal());
+							if(faultnum==0){
+								json.put("faultratio", (double)Math.round(1/(double)faulttype.size()*100*100)/100);
+							}else{
+								json.put("faultratio", (double)Math.round((double)list.get(i).getTotal()/(double)faultnum*100*100)/100);
+							}
+						}
+					}
+					if(!flag){
+						json.put("typeid", faulttype.get(x).getValue());
+						json.put("type", faulttype.get(x).getValueName());
+						json.put("faultnum", 0);
+						json.put("faultratio", 0);
+					}
+				}
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("rows", ary);
 		obj.put("total", total);
 		return obj.toString();
 	}
