@@ -1,6 +1,6 @@
 $(function() {
 	getUserInsframework();
-	addTab("欢迎使用", "welcome.jsp");
+	addTab("欢迎使用", "newwelcome.jsp");
 	tabsIncident();
 })
 
