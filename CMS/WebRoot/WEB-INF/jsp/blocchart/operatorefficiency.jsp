@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>事业部单台设备运行数据统计</title>
+    <title>操作者效率</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -29,32 +29,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
 	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
+	<script type="text/javascript" src="resources/js/blocchart/operatorefficiency.js"></script>
 	<script type="text/javascript" src="resources/js/getTime.js"></script>
-	<script type="text/javascript" src="resources/js/caustchart/caustuse.js"></script>
+
   </head>
-  
   <body class="easyui-layout">
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="事业部单台设备运行数据统计" style="background: witch; height: 335px;">
-	  	<div id="caustUse_btn">
+    <div id="body" region="center"  hide="true"  split="false" title="设备利用率" style="background: witch;">
+	  	<div id="search_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 				时间：
 				<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">--
 				<input class="easyui-datetimebox" name="dtoTime2" id="dtoTime2">
-				<select class="easyui-combobox" name="type" id="type"></select>
-				<a href="javascript:serachcaustUse();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
+				组织机构：
+				<select class="easyui-combobox" id="parent" name="parent" data-options="editable:false"></select>
+				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 10%;margin-left:10px;">
-		按组织机构和日期对设备运行数据统计：<br/>
-		统计时间段内的不同厂家不同类型的焊机使用情况；</div>
-		<div id="caustUseChart" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
-		
-	    <table id="caustUseTable" style="table-layout: fixed; width:100%;"></table>
+		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 6%;margin-left:10px;">
+		按组织机构对操作者工作效率进行统计：<br/>
+		统计时间段内的焊工工作情况；<br/>
+		上机率=开机时长/上班时长<br/>
+		有效焊接率=焊接时长/开机时长<br/>
+		焊接时长=开机时长-待机时长<br/>
+		工作效率=焊接时长/上班时长</div>
+		<div id="charts" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
+	    <table id="dg" style="table-layout: fixed; width:100%;"></table>
 	</div>
   </body>
 </html>

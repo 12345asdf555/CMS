@@ -82,7 +82,14 @@ function showCaustHourChart(){
 				name:'工时(s)',
 				type:'bar',
 	            barMaxWidth:20,//最大宽度
-				data:array2
+				data:array2,
+				label : {
+					normal : {
+						position : 'top',
+						show : true, //显示每个折点的值
+						formatter : '{c}%'
+					}
+				}
 			}
 		]
 	}

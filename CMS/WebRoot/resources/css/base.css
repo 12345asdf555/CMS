@@ -511,3 +511,7 @@ select::-ms-expand {
 .wcdate{
 	padding-top:10px;
 }
+
+#explain{
+	color:red;
+}

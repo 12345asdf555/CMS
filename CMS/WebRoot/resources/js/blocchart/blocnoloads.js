@@ -36,7 +36,7 @@ function showBlocnoLoadsChart(){
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'4%',
+			right:'60',
 			bottom:'20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
@@ -51,7 +51,8 @@ function showBlocnoLoadsChart(){
 		},
 		xAxis:{
 			type:'category',
-			data: array1
+			data: array1,
+			name: '日期'
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
@@ -60,7 +61,8 @@ function showBlocnoLoadsChart(){
                   interval: 'auto',  
                   formatter: '{value}%'  
             },  
-            show: true  
+            show: true,
+			name: '空载率'  
 		},
 		series:[
 		]
@@ -95,17 +97,16 @@ function BlocnoloadsDatagrid(){
                 	 array2.push(result.arys1[m].name);
                      Series.push({
                    		name : result.arys1[m].name,
-                   		type :'line',//折线图
+                   		type :'bar',//折线图
                         barMaxWidth:20,//柱状图最大宽度
                    		data : result.arys1[m].loads,
-                   		itemStyle : {
-                   			normal: {
-                   				label : {
-                   					show: true,//显示每个折点的值
-                   					formatter: '{c}%'  
-                   				}
-                   			}
-                   		}
+						label : {
+							normal : {
+								position : 'top',
+								show : true, //显示每个折点的值
+								formatter : '{c}%'
+							}
+						}
                    	 });
                  }
              }  

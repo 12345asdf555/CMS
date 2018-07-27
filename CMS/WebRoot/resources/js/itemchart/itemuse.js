@@ -51,7 +51,7 @@ function showitemUseChart(){
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'4%',
+			right:'120',
 			bottom:'20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
@@ -66,17 +66,26 @@ function showitemUseChart(){
 		},
 		xAxis:{
 			type:'category',
-			data: array1
+			data: array1,
+			name: '厂家-类型'
 		},
 		yAxis:{
-			type: 'value'//value:数值轴，category:类目轴，time:时间轴，log:对数轴
+			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
+			name: '焊接平均时长(h)'
 		},
 		series:[
 			{
 				name:'时长(h)',
 				type:'bar',
 	            barMaxWidth:20,//最大宽度
-				data:array2
+				data:array2,
+				label : {
+					normal : {
+						position : 'top',
+						show : true, //显示每个折点的值
+						formatter : '{c}%'
+					}
+				}
 			}
 		]
 	}

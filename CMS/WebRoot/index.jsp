@@ -82,6 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<ul>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanytEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><i class="iconfont icon-bijiben"></i>实时监测</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
@@ -101,6 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<ul>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustTd()"><div><i class="iconfont icon-bijiben"></i>实时监测</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率</div></a></li>
@@ -120,6 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<ul>
     		<li onclick="changeColor(this)"><a href="javascript:openItemEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemTd()"><div><i class="iconfont icon-bijiben"></i>实时监测</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>

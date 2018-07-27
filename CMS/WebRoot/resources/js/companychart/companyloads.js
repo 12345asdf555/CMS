@@ -37,7 +37,7 @@ function showCompanyLoadsChart(){
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'4%',
+			right:'60',
 			bottom:'20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
@@ -52,7 +52,8 @@ function showCompanyLoadsChart(){
 		},
 		xAxis:{
 			type:'category',
-			data: array1
+			data: array1,
+			name: '日期'
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
@@ -61,7 +62,8 @@ function showCompanyLoadsChart(){
                   interval: 'auto',  
                   formatter: '{value}%'  
             },  
-            show: true  
+            show: true,
+			name: '负荷率'
 		},
 		series:[
 		]
@@ -94,18 +96,17 @@ function CompanyloadsDatagrid(){
                 	 column.push({field:"a"+m,title:"<a href='caustChart/goCaustLoads?parent="+result.arys1[m].itemid+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+result.arys1[m].name+"(负荷率)</a>",width:width,halign : "center",align : "left"});
                 	 array2.push(result.arys1[m].name);
                   	 Series.push({
-                  		name : result.arys1[m].name,
-                  		type :'line',//折线图
-                        barMaxWidth:20,//柱状图最大宽度
-                  		data : result.arys1[m].loads,
-                  		itemStyle : {
-                  			normal: {
-                  				label : {
-                  					show: true,//显示每个折点的值
-                  					formatter: '{c}%'  
-                  				}
-                  			}
-                  		}
+                   		name : result.arys1[m].name,
+                   		type :'bar',//折线图
+                         barMaxWidth:20,//柱状图最大宽度
+                   		data : result.arys1[m].loads,
+                   		label: {
+         		            normal: {
+         		                position: 'top',
+         		                show: true,//显示每个折点的值
+              					formatter: '{c}%'  
+         		            }
+         		        }
                     });
                  }
              }  

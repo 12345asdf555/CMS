@@ -51,7 +51,7 @@ function showItemHourChart(){
 		},
 		grid:{
 			left:'60',//组件距离容器左边的距离
-			right:'10%',
+			right:'100',
 			bottom:'20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
@@ -78,7 +78,14 @@ function showItemHourChart(){
 				name:'工时(s)',
 				type:'bar',
 	            barMaxWidth:20,//最大宽度
-				data:array2
+				data:array2,
+				label : {
+					normal : {
+						position : 'top',
+						show : true, //显示每个折点的值
+						formatter : '{c}%'
+					}
+				}
 			}
 		]
 	}

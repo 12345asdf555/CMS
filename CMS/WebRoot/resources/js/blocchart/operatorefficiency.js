@@ -2,19 +2,19 @@ $(function(){
 	flagnum=1;
 	parentCombobox();
 	dgDatagrid();
-	dtoTime1 = $("#dtoTime1").datebox('getValue');  
-	dtoTime2 = $("#dtoTime2").datebox('getValue');
-	$("#dtoTime1").datebox({
+	dtoTime1 = $("#dtoTime1").datetimebox('getValue');  
+	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
+	$("#dtoTime1").datetimebox({
 		onChange: function (newvalue,oldvalue) {
 			if(newvalue==null || newvalue==""){
-				$("#dtoTime1").datebox('setValue',dtoTime1);
+				$("#dtoTime1").datetimebox('setValue',dtoTime1);
 			}
 		}
 	})
-	$("#dtoTime2").datebox({
+	$("#dtoTime2").datetimebox({
 		onChange: function (newvalue,oldvalue) {
 			if(newvalue==null || newvalue==""){
-				$("#dtoTime2").datebox('setValue',dtoTime2);
+				$("#dtoTime2").datetimebox('setValue',dtoTime2);
 			}
 		}
 	})
@@ -63,7 +63,8 @@ function parentCombobox(){
 	var data = $("#parent").combobox('getData');
 	$("#parent").combobox('select',data[0].value);
 }
-var activeurl;
+var activeurl = "blocChart/getOperatorEfficiency?flag=0";
+var dgname = "部门";
 function serach(){
 	if(flagnum!=1){
 		$("#chartLoading").show();
@@ -71,19 +72,25 @@ function serach(){
 	flagnum = 0;
 	if(type==20){
 		position = 0;
-		activeurl = "blocChart/getUseratio?flag=0";
+		dgname = "部门";
+		activeurl = "blocChart/getOperatorEfficiency?flag=0";
 	}else if(type==21){
 		position = 0;
-		activeurl = "blocChart/getUseratio?flag=1";
+		dgname = "部门";
+		activeurl = "blocChart/getOperatorEfficiency?flag=1";
 	}else if(type==22){
 		position = 1;
-		activeurl = "blocChart/getUseratio?flag=2";
+		dgname = "部门";
+		activeurl = "blocChart/getOperatorEfficiency?flag=2";
 	}else if(type==23){
-		position = 0;
-		activeurl = "blocChart/getUseratio?flag=3";
+		position = 1;
+		dgname = "姓名";
+		activeurl = "itemChart/getOperatorEfficiency?flag=3";
 	}
+	array0 = new Array();
 	array1 = new Array();
 	array2 = new Array();
+	array3 = new Array();
 	setTimeout(function() {
 		dgDatagrid();
 		showChart();
@@ -94,14 +101,15 @@ var chartStr = "",dtoTime1,dtoTime2;
 
 function setParam(){
 	parentid = $("#parent").combobox('getValue');
-	dtoTime1 = $("#dtoTime1").datebox('getValue');  
-	dtoTime2 = $("#dtoTime2").datebox('getValue');
+	dtoTime1 = $("#dtoTime1").datetimebox('getValue');  
+	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	chartStr = "&parent="+parentid+"&time1="+dtoTime1+"&time2="+dtoTime2;
 }
 
+var array0 = new Array();
 var array1 = new Array();
 var array2 = new Array();
-var avg = 0;
+var array3 = new Array();
 function showChart(){
 	setParam();
 	 $.ajax({  
@@ -113,8 +121,11 @@ function showChart(){
         success : function(result) {  
             if (result) {
             	for(var i=0;i<result.rows.length;i++){
-            		array1.push(result.rows[i].name);
-            		array2.push(result.rows[i].useratio);
+            		array0.push(result.rows[i].name);
+            		array1.push(result.rows[i].worktime);
+            		array2.push(result.rows[i].weldtime);
+            		array3.push(result.rows[i].workratio);
+
             	}
             }  
         },  
@@ -144,12 +155,12 @@ function chart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['设备利用率']
+			data:['上班时长(h)','焊接时长(h)','工作效率']
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
 			right:'100',
-			bottom:bootomnum,
+			bottom: bootomnum,
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -163,27 +174,44 @@ function chart(){
 		},
 		xAxis:{
 			type:'category',
-			data: array1,
-			name: '组织机构',
+			data: array0,
+			name : '    '+dgname,
 			axisLabel : {
 				rotate: rotatenum, //x轴文字倾斜
 			    interval:interval //0:允许x轴文字全部显示并重叠
 			}
 		},
-		yAxis:{
+		yAxis:[{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name: '利用率',
+			name : '时长(h)'
+		},{
+			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
+			name : '工作效率',
 			axisLabel: {  
                   show: true,  
                   interval: 'auto',  
                   formatter: '{value}%'  
             }
-		},
+		}],
 		series:[{
-			name:'设备利用率',
+			name:'上班时长(h)',
+			type:'bar',
+            barMaxWidth:20,//最大宽度
+			data:array1
+		},{
+			name:'焊接时长(h)',
 			type:'bar',
             barMaxWidth:20,//最大宽度
 			data:array2
+		},{
+			name:'工作效率',
+            min: 0,
+            max: 100,//最大最小值
+            interval: 20,//间隔
+			type:'line',
+            yAxisIndex: 1,
+            barMaxWidth:20,//最大宽度
+			data:array3
 		}]
 	}
 	//为echarts对象加载数据
@@ -208,37 +236,58 @@ function dgDatagrid(){
 			pagination : true,
 			columns :[[{
 				field : "name",
-				title : "部门",
+				title : dgname,
 				width : 100,
 				halign : "center",
 				align : "left"
 			},{
-				field : "day",
-				title : "天数",
+				field : "worktime",
+				title : "上班时长(h)",
 				width : 100,
 				halign : "center",
 				align : "left"
 			},{
-				field : "time",
-				title : "设备运行时长(h)",
+				field : "boottime",
+				title : "开机时长(h)",
 				width : 100,
 				halign : "center",
 				align : "left"
 			},{
-				field : "num",
-				title : "设备数量(台)",
+				field : "shutdowntime",
+				title : "关机时长(h)",
 				width : 100,
 				halign : "center",
 				align : "left"
 			},{
-				field : "useratio",
-				title : "设备利用率",
+				field : "standbytime",
+				title : "待机时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left",
-				formatter : function(value,row,index){
-					return value + "%";
-				}
+				align : "left"
+			},{
+				field : "weldtime",
+				title : "焊接时长(h)",
+				width : 100,
+				halign : "center",
+				align : "left"
+			},{
+				field : "sjratio",
+				title : "上机率(%)",
+				width : 100,
+				halign : "center",
+				align : "left"
+			},{
+				field : "effectiveratio",
+				title : "有效焊接率(%)",
+				width : 100,
+				halign : "center",
+				align : "left"
+			},{
+				field : "workratio",
+				title : "工作效率(%)",
+				width : 100,
+				halign : "center",
+				align : "left"
 			}]]
 	 })
 }
