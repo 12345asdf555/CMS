@@ -130,7 +130,7 @@ function chart(){
 	if(position==0){
 		bootomnum=20,rotatenum=0,interval="auto";
 	}else{
-		bootomnum=70,rotatenum=50,interval=0;
+		bootomnum=50,rotatenum=30,interval=0;
 	}
    	//初始化echart实例
 	charts = echarts.init(document.getElementById("charts"));

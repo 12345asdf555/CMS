@@ -24,6 +24,10 @@ public class WelderManagerImpl implements WelderManager {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
 		return wm.getWelderAll(str);
 	}
+	@Override
+	public List<Welder> getWelderAll(String str) {
+		return wm.getWelderAll(str);
+	}
 
 	@Override
 	public void addWelder(Welder we) {
