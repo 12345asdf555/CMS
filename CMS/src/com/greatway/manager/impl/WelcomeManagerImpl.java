@@ -19,18 +19,18 @@ public class WelcomeManagerImpl implements WelcomeManager {
 	private WelcomeMapper wm;
 	
 	@Override
-	public List<Welcome> getItemMachineCount(BigInteger parent) {
-		return wm.getItemMachineCount(parent);
+	public List<Welcome> getItemMachineCount(WeldDto dto) {
+		return wm.getItemMachineCount(dto);
 	}
 
 	@Override
-	public List<Welcome> getWorkRank(BigInteger parent, String time) {
-		return wm.getWorkRank(parent, time);
+	public List<Welcome> getWorkRank(WeldDto dto) {
+		return wm.getWorkRank(dto);
 	}
 
 	@Override
-	public Welcome getWorkMachineCount(BigInteger itemid, String time) {
-		return wm.getWorkMachineCount(itemid, time);
+	public Welcome getWorkMachineCount(BigInteger itemid, WeldDto dto) {
+		return wm.getWorkMachineCount(itemid, dto);
 	}
 
 	@Override

@@ -35,15 +35,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="welder" style="float:right;height:70%;width:48%;margin-top:10px;"></div>
 	<div style="height:28%;width:99%;">
 		<div class="wcchart">
-			<a href="javascript:void(0)"><div id="div1" style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-01.png" width="20%"></div></a>
+			<a href="hierarchy/goWorkRank"><div id="div1" style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-01.png" width="20%"></div></a>
 			焊工工作量排行
 		</div>
 		<div class="wcchart">
-			<a href="javascript:void(0)"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-02.png" width="20%"></div></a>
+			<a href="hierarchy/goUseratio"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-02.png" width="20%"></div></a>
 			班组设备利用率
 		</div>
 		<div class="wcchart">
-			<a href="javascript:void(0)"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-03.png" width="20%"></div></a>
+			<a href="hierarchy/goLoadrate"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-03.png" width="20%"></div></a>
 			焊接规范符合率
 		</div>
 	</div>

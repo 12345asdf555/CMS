@@ -84,8 +84,7 @@ function showcompanyUseChart(){
 				label : {
 					normal : {
 						position : 'top',
-						show : true, //显示每个折点的值
-						formatter : '{c}%'
+						show : true //显示每个折点的值
 					}
 				}
 			}

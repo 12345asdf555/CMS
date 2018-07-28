@@ -13,15 +13,14 @@ public interface WelcomeManager {
 	 * @param parent 组织机构父id
 	 * @return
 	 */
-	List<Welcome> getItemMachineCount(BigInteger parent);
+	List<Welcome> getItemMachineCount(WeldDto dto);
 	
 	/**
 	 * 焊工工作量排行
-	 * @param parent 事业部id
-	 * @param time 时间
+	 * @param dto dto.parent 组织机构id dtoTime1 开始时间 dtoTime2 结束时间
 	 * @return
 	 */
-	List<Welcome> getWorkRank(BigInteger parent,String time);
+	List<Welcome> getWorkRank(WeldDto dto);
 	
 	/**
 	 * 获取工作的焊机数
@@ -29,7 +28,7 @@ public interface WelcomeManager {
 	 * @param time
 	 * @return
 	 */
-	Welcome getWorkMachineCount(BigInteger itemid, String time);
+	Welcome getWorkMachineCount(BigInteger itemid, WeldDto dto);
 	
 	/**
 	 * 获取项目部正常工作时长

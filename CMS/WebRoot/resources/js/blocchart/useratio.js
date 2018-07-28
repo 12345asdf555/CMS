@@ -183,7 +183,14 @@ function chart(){
 			name:'设备利用率',
 			type:'bar',
             barMaxWidth:20,//最大宽度
-			data:array2
+			data:array2,
+			label : {
+				normal : {
+					position : 'top',
+					show : true, //显示每个折点的值
+					formatter : '{c}%'
+				}
+			}
 		}]
 	}
 	//为echarts对象加载数据

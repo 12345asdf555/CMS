@@ -197,12 +197,24 @@ function chart(){
 			name:'上班时长(h)',
 			type:'bar',
             barMaxWidth:20,//最大宽度
-			data:array1
+			data:array1,
+			label : {
+				normal : {
+					position : 'top',
+					show : true //显示每个折点的值
+				}
+			}
 		},{
 			name:'焊接时长(h)',
 			type:'bar',
             barMaxWidth:20,//最大宽度
-			data:array2
+			data:array2,
+			label : {
+				normal : {
+					position : 'top',
+					show : true //显示每个折点的值
+				}
+			}
 		},{
 			name:'工作效率',
             min: 0,
@@ -211,7 +223,14 @@ function chart(){
 			type:'line',
             yAxisIndex: 1,
             barMaxWidth:20,//最大宽度
-			data:array3
+			data:array3,
+			label : {
+				normal : {
+					position : 'top',
+					show : true, //显示每个折点的值
+					formatter : '{c}%'
+				}
+			}
 		}]
 	}
 	//为echarts对象加载数据

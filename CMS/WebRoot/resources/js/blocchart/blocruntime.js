@@ -58,7 +58,7 @@ function showChart(){
 		grid:{
 			left:'50',//组件距离容器左边的距离
 			right:'100',
-			bottom:'70',
+			bottom:'50',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -106,7 +106,13 @@ function showChart(){
 		            } 
 		        }
             } ,
-			data:array2
+			data:array2,
+			label : {
+				normal : {
+					position : 'top',
+					show : true //显示每个折点的值
+				}
+			}
 		}]
 	}
 	//为echarts对象加载数据

@@ -330,3 +330,15 @@ window.setInterval(function () {
 	var data = [{value:work.length, name:'工作'},{value:wait.length, name:'待机'},{value:machine.length-work.length-wait.length, name:'关机'}];
 	refreshWelderData(data);
 },30000);
+
+//监听窗口大小变化
+window.onresize = function() {
+	setTimeout(domresize, 500);
+}
+
+
+//改变表格高宽
+function domresize() {
+	echarts.init(document.getElementById('person')).resize();
+	echarts.init(document.getElementById('welder')).resize();
+}
