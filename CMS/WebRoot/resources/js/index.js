@@ -248,7 +248,7 @@ function openCompanyIdle() {
 }
 
 function openCompanyTd() {
-	addTab("实时监测", "td/AllTd");
+	addTab("实时监测", "td/newAllTd");
 }
 
 function openItemEfficiency() {

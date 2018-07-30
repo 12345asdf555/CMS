@@ -216,6 +216,18 @@ function showPersonChart(){
 		        trigger: 'item',
 		        formatter: "{a} <br/>{b} : {c} ({d}%)"
 		    },
+		    graphic:{
+		    	type:'image',
+		    	left:'center',
+		    	top:'center',
+		    	z:2,
+		    	zlevel:100,
+		    	style:{
+		    		image:'resources/images/welder.png',
+		    		width: 60,
+		    		height:80
+		    	}
+		    },
 		    series : [
 		        {
 		            name:'焊工在线统计',
@@ -281,6 +293,18 @@ function showWelderChart(){
 		    tooltip : {
 		        trigger: 'item',
 		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+		    },
+		    graphic:{
+		    	type:'image',
+		    	left:'center',
+		    	top:'center',
+		    	z:2,
+		    	zlevel:100,
+		    	style:{
+		    		image:'resources/images/machine.png',
+		    		width: 60,
+		    		height:80
+		    	}
 		    },
 		    series : [
 		        {
