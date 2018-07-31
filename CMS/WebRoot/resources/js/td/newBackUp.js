@@ -218,7 +218,7 @@ function getMachine(insfid) {
 				showChart();
 				for(var i=0;i<machine.length;i++){
 					var str = '<div id="machine'+machine[i].fid+'" style="width:180px;height:120px;float:left;display:none">'+
-						'<div style="float:left;width:40%;height:100%;"><img id="img'+machine[i].fid+'" src="resources/images/welder_04.png" style="height:100px;width:100%;padding-top:10px;"></div>'+
+						'<div style="float:left;width:40%;height:100%;"><a href="td/goNextcurve?value='+machine[i].fid+'&valuename='+machine[i].fequipment_no+'"><img id="img'+machine[i].fid+'" src="resources/images/welder_04.png" style="height:100px;width:100%;padding-top:10px;"></a></div>'+
 						'<div style="float:left;width:60%;height:100%;">'+
 						'<ul><li>设备编号：<span id="m1'+machine[i].fid+'">'+machine[i].fequipment_no+'</span></li>'+
 						'<li>焊缝编号：<span id="m2'+machine[i].fid+'">--</span></li>'+

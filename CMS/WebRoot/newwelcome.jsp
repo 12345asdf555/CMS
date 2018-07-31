@@ -33,18 +33,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body style="background:#ffffff;">
 	<div id="person" style="float:left;height:70%;width:48%;margin-top:10px;"></div>
 	<div id="welder" style="float:right;height:70%;width:48%;margin-top:10px;"></div>
-	<div style="height:28%;width:99%;float:left;background-color:#CCCCCC">
-		<hr style="background-color:#999999;height: 5px">
+	<div style="height:5px;width:100%;float:left;background-color:#e9e9e9"></div>
+	<div style="height:27%;width:100%;float:left;background-color:#CCCCCC">
 		<div class="wcchart">
-			<a href="hierarchy/goWorkRank"><div id="div1" style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-01.png" width="20%"></div></a>
+			<a href="javascript:openParentMethod(0);"><div id="div1" style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-01.png" width="20%"></div></a>
 			焊工工作量排行
 		</div>
 		<div class="wcchart">
-			<a href="hierarchy/goUseratio"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-02.png" width="20%"></div></a>
+			<a href="javascript:openParentMethod(1)"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-02.png" width="20%"></div></a>
 			班组设备利用率
 		</div>
 		<div class="wcchart">
-			<a href="hierarchy/goLoadrate"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-03.png" width="20%"></div></a>
+			<a href="javascript:openParentMethod(2)"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/wc-03.png" width="20%"></div></a>
 			焊接规范符合率
 		</div>
 	</div>

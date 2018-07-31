@@ -224,8 +224,8 @@ function showPersonChart(){
 		    	zlevel:100,
 		    	style:{
 		    		image:'resources/images/welder.png',
-		    		width: 60,
-		    		height:80
+		    		width: 70,
+		    		height:90
 		    	}
 		    },
 		    series : [
@@ -355,11 +355,21 @@ window.setInterval(function () {
 	refreshWelderData(data);
 },30000);
 
+//调用父类（index页面）方法
+function openParentMethod(index){
+	if(index==0){
+		parent.openChildrenWorkRank();
+	}else if(index==1){
+		parent.openChildrenUseratio();
+	}else{
+		parent.openChildrenLoadrate();
+	}
+}
+
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);
 }
-
 
 //改变表格高宽
 function domresize() {

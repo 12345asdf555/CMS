@@ -522,6 +522,7 @@ select::-ms-expand {
 	height:32%;
 	margin-bottom:1%;
 	text-align: center;
+	padding-top:10px;
 }
 
 

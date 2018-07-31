@@ -95,6 +95,17 @@ function getUserInsframework() {
 		}
 	})
 }
+function openChildrenUseratio(){
+	addTab("班组设备利用率", "hierarchy/goUseratio");
+}
+
+function openChildrenLoadrate(){
+	addTab("焊接规范符合率", "hierarchy/goLoadrate");
+}
+
+function openChildrenWorkRank() {
+	addTab("焊工工作量排行", "hierarchy/goWorkRank");
+}
 
 function openOperatorEfficiency() {
 	addTab("操作者效率", "blocChart/goOperatorEfficiency");
