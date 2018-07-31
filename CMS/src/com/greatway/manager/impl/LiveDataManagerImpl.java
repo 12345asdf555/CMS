@@ -419,4 +419,30 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getFaultRatioByType(dto);
 	}
 
+	@Override
+	public List<ModelDto> getFaultDetail(Page page,WeldDto dto) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getFaultDetail(dto);
+	}
+
+	@Override
+	public List<ModelDto> getOnlineNumber(WeldDto dto) {
+		return live.getOnlineNumber(dto);
+	}
+
+	@Override
+	public List<ModelDto> getOperatoreTime(WeldDto dto) {
+		return live.getOperatoreTime(dto);
+	}
+
+	@Override
+	public List<ModelDto> getItemWorkTime(WeldDto dto) {
+		return live.getItemWorkTime(dto);
+	}
+
+	@Override
+	public List<ModelDto> getItemStandbyTime(WeldDto dto) {
+		return live.getItemStandbyTime(dto);
+	}
+
 }

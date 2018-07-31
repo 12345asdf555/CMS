@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			</div>
   			<div id="wcleft2_1">
   				<p class="wcdate"></p>
-  				<div style="margin-top:5px;margin-bottom:5px;"><img src="resources/images/wc-02.png" width="40%"></div>
+  				<div style="margin-top:5px;margin-bottom:5px;"><img src="resources/images/wc-02.png" id="img1" width="40%"></div>
   				班组设备利用率<br/>The Utilization Rate Of Group Equipment
   			</div>
   			<div id="wcleft2_2">

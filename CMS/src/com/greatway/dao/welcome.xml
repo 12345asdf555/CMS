@@ -32,41 +32,57 @@
 		select i.fid,i.fname,count(w.fid) total from tb_insframework i 
 		inner join tb_welding_machine w on w.finsframework_id=i.fid
 		inner join tb_insframework ins on ins.fid = i.fparent 
+		inner join tb_insframework insf on insf.fid = ins.fparent 
 		where i.ftype=23 
-		<if test="parent!=null and parent!=''">
-			and (i.fid=#{parent} or ins.fid=#{parent} or ins.fparent=#{parent})
+		<if test="dto!=null and dto!=''">
+			<if test="dto.parent!=null and dto.parent!=''">
+				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
+			</if>
 		</if>
 		group by i.fid
-		UNION
-		select i.fid,i.fname,0 total from tb_insframework  i 
-		inner join tb_insframework ins on ins.fid = i.fparent 
-		where i.ftype=23 
-		<if test="parent!=null and parent!=''">
-			and (i.fid=#{parent} or ins.fid=#{parent} or ins.fparent=#{parent})
-		</if>
-		and i.fid not in 
-		(select i.fid from tb_insframework i 
-		inner join tb_welding_machine w on w.finsframework_id=i.fid 
-		inner join tb_insframework ins on ins.fid = i.fparent 
-		where i.ftype=23 
-		<if test="parent!=null and parent!=''">
-			and (i.fid=#{parent} or ins.fid=#{parent} or ins.fparent=#{parent})
-		</if>
-		 group by i.fid )
 		)temp order by fid
 	</select>
 	
 	
 	<!-- 	焊工工作排行榜 -->
 	<select id="getWorkRank" resultMap="welcomeMap">
-		select sum(fworktime) /60/60 hour,w.fname,w.fwelder_no welderno,i.fname insname FROM  tb_work l  left JOIN  tb_welder w on w.fwelder_no = l.fwelder_id 
+	select * from (
+		(select sum(fworktime) /60/60 hour,w.fname,l.fwelder_id welderno,i.fname insname FROM  tb_work l  left JOIN  tb_welder w on w.fwelder_no = l.fwelder_id 
 		INNER join tb_insframework i on i.fid = l.fitemid INNER join tb_insframework ins on ins.fid = i.fparent 
-		where fstarttime &gt;= #{time} and fendtime &lt; date_sub(date_sub(#{time},interval -1 day),interval 0 minute)
-		<if test="parent!=null and parent!=''">
-			AND (i.fid=#{parent} or ins.fid=#{parent} or ins.fparent=#{parent})
+		INNER join tb_insframework insf on insf.fid = ins.fparent 
+		where 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.parent!=null and dto.parent!=''">
+				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
 		</if>
-		group by w.fname ORDER by hour 
-		LIMIT 10
+		group by w.fname ORDER by hour desc
+		LIMIT 1)
+		union
+		(select sum(fworktime) /60/60 hour,w.fname,l.fwelder_id welderno,i.fname insname FROM  tb_work l  left JOIN  tb_welder w on w.fwelder_no = l.fwelder_id 
+		INNER join tb_insframework i on i.fid = l.fitemid INNER join tb_insframework ins on ins.fid = i.fparent 
+		INNER join tb_insframework insf on insf.fid = ins.fparent 
+		where 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.parent!=null and dto.parent!=''">
+				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by w.fname ORDER by hour
+		LIMIT 1)
+		)temp
 	</select>
 	
 	<!-- 获取工作的焊机数-->
@@ -76,18 +92,25 @@
 		<if test="itemid!=null and itemid!=''">
 			and fitemid= #{itemid}
 		</if>
-		and fstarttime &gt;= #{time} and fendtime &lt; date_sub(date_sub(#{time},interval -1 day),interval 0 minute)
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
 	</select>
 	
 	<!-- 查询组织机构正常焊接时长 -->
 	<select id="getItemWeldTime"  resultMap="welcomeMap">
-		select * from (select i.fid,i.fname,SUM(fworktime)/60/60 hour,DATE_FORMAT( fstarttime,'%Y-%m-%d' ) time from tb_insframework i 
-		inner join tb_insframework ins on ins.fid = i.fparent 
+		select * from (select i.fid,i.fname,SUM(fworktime)/60/60 hour from tb_insframework i 
+		inner join tb_insframework ins on ins.fid = i.fparent inner join tb_insframework insf on insf.fid = ins.fparent 
 		inner join tb_work w on w.fitemid=i.fid
 		where i.ftype=23
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
-				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or ins.fparent=#{dto.parent})
+				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -96,20 +119,20 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
-		group by i.fid,time
+		group by i.fid
 		)temp
 	</select>
 
 	<!-- 查询组织机构超规范焊接时长 -->
 	<select id="getItemOverProofTime"  resultMap="welcomeMap">
 		select * from (
-		select i.fid,i.fname,SUM(w.falarmtime)/60/60 hour,DATE_FORMAT( fstarttime,'%Y-%m-%d' ) time from tb_insframework i 
-		inner join tb_insframework ins on ins.fid = i.fparent 
+		select i.fid,i.fname,SUM(w.falarmtime)/60/60 hour from tb_insframework i 
+		inner join tb_insframework ins on ins.fid = i.fparent inner join tb_insframework insf on insf.fid = ins.fparent 
 		inner join tb_alarm w on w.fitemid=i.fid
 		where i.ftype=23
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
-				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or ins.fparent=#{dto.parent})
+				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -118,7 +141,7 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
-		group by i.fid,time
+		group by i.fid
 		)temp
 	</select>
 </mapper>

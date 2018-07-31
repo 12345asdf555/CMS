@@ -130,7 +130,7 @@ function chart(){
 	if(position==0){
 		bootomnum=20,rotatenum=0,interval="auto";
 	}else{
-		bootomnum=70,rotatenum=50,interval=0;
+		bootomnum=50,rotatenum=30,interval=0;
 	}
    	//初始化echart实例
 	charts = echarts.init(document.getElementById("charts"));
@@ -148,7 +148,7 @@ function chart(){
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'4%',
+			right:'100',
 			bottom:bootomnum,
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
@@ -164,6 +164,7 @@ function chart(){
 		xAxis:{
 			type:'category',
 			data: array1,
+			name: '组织机构',
 			axisLabel : {
 				rotate: rotatenum, //x轴文字倾斜
 			    interval:interval //0:允许x轴文字全部显示并重叠
@@ -171,6 +172,7 @@ function chart(){
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
+			name: '利用率',
 			axisLabel: {  
                   show: true,  
                   interval: 'auto',  
@@ -181,7 +183,14 @@ function chart(){
 			name:'设备利用率',
 			type:'bar',
             barMaxWidth:20,//最大宽度
-			data:array2
+			data:array2,
+			label : {
+				normal : {
+					position : 'top',
+					show : true, //显示每个折点的值
+					formatter : '{c}%'
+				}
+			}
 		}]
 	}
 	//为echarts对象加载数据

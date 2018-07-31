@@ -14,6 +14,7 @@ public interface WelderManager {
 	 * @return
 	 */
 	List<Welder> getWelderAll(Page page, String str);
+	List<Welder> getWelderAll(String str);
 	
 	/**
 	 * 新增焊工信息

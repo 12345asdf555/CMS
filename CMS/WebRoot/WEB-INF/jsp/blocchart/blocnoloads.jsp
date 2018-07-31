@@ -53,9 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 6%;margin-left:10px;">
 		按组织机构和日期对设备空载率趋势统计：<br/>
 		统计时间段内的各部门设备空载率趋势；<br/>
-		空载率=待机时长/工作时长/焊机待机数量；<br/>
-		X轴：日期<br/>
-		Y轴：空载率<br/></div>
+		空载率=待机时长/工作时长/焊机待机数量；</div>
 		<div id="blocNoLoadsChart" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
 		
 	    <table id="blocNoLoadsTable" style="table-layout: fixed; width:100%;"></table>

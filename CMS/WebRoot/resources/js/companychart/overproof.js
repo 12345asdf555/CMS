@@ -54,7 +54,7 @@ function showOverproof(){
 		grid:{
 			left:'6%',//组件距离容器左边的距离
 			right:'4%',
-			bottom:'30%',
+			bottom:'100',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -68,7 +68,7 @@ function showOverproof(){
 			data: array1,
 			axisLabel: {
 				interval:0,  
-				rotate:60  
+				rotate:30  
 			}
 		},
 		yAxis:{

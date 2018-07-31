@@ -55,9 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="parentMsg"><h2>${str }</h2></div>
 		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 10%;margin-left:10px;">
 		按组织机构和日期对设备闲置率趋势统计：<br/>
-		统计时间段内的各部门设备闲置趋势；<br/>
-		X轴：日期<br/>
-		Y轴：闲置数量(台)<br/></div>
+		统计时间段内的各部门设备闲置趋势；</div>
 		<div id="caustIdleChart" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
 		
 	    <table id="caustIdleTable" style="table-layout: fixed; width:100%;"></table>

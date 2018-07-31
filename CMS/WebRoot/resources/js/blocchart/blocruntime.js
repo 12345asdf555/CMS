@@ -57,8 +57,8 @@ function showChart(){
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'4%',
-			bottom:'70',
+			right:'100',
+			bottom:'50',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -73,13 +73,15 @@ function showChart(){
 		xAxis:{
 			type:'category',
 			data: array1,
+			name: '运行时长',
 			axisLabel : {
 				rotate: 40, //x轴文字倾斜
 			    interval:0 //允许x轴文字全部显示并重叠
 			}
 		},
 		yAxis:{
-			type: 'value'//value:数值轴，category:类目轴，time:时间轴，log:对数轴
+			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
+			name: '运行时长(h)'
 		},
 		series:[{
 			name:'运行时长(h)',
@@ -104,7 +106,13 @@ function showChart(){
 		            } 
 		        }
             } ,
-			data:array2
+			data:array2,
+			label : {
+				normal : {
+					position : 'top',
+					show : true //显示每个折点的值
+				}
+			}
 		}]
 	}
 	//为echarts对象加载数据

@@ -76,6 +76,15 @@ public class TdController {
 		}*/
 	}
 	
+	@RequestMapping("/goNextcurve")
+	public String goNextcurve(HttpServletRequest request){
+	    String value = request.getParameter("value");
+	    String valuename = request.getParameter("valuename");
+	    request.setAttribute("value", value);
+	    request.setAttribute("valuename", valuename);
+	    return "td/nextCurve";
+	}
+	
 	@RequestMapping("/AllTdd")
 	public String AllTdd(HttpServletRequest request){
 		request.setAttribute("divi", request.getParameter("value"));
@@ -121,6 +130,16 @@ public class TdController {
 /*		}else{
 			return "/Error";
 		}*/
+	}
+	
+	@RequestMapping("/newAllTd")
+	public String newAllTd(HttpServletRequest request){
+		String uid = lm.getUserId(request).toString();
+		if(uid!=null){
+			String insname = tdService.findInsname(tdService.findIns(Long.parseLong(uid)));
+			request.setAttribute("proj", insname);
+		}
+		return "td/newBackUp";
 	}
 	
 	@RequestMapping("/AllTdad")

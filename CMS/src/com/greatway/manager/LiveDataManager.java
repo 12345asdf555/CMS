@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.model.LiveData;
@@ -542,4 +544,39 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getFaultRatioByType(WeldDto dto);
+	
+	/**
+	 * 获取故障明细
+	 * @param dto dto dto.parent组织机构id dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
+	List<ModelDto> getFaultDetail(Page page,WeldDto dto);
+	
+	/**
+	 * 获取在线焊工人数
+	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
+	List<ModelDto> getOnlineNumber(WeldDto dto);
+	
+	/**
+	 * 获取开机时长,焊接时长，待机时长
+	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
+	List<ModelDto> getOperatoreTime(WeldDto dto);
+	
+	/**
+	 * 获取项目部正常开机时长,焊接时长，待机时长，焊工编号，姓名
+	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
+	List<ModelDto> getItemWorkTime(WeldDto dto);
+	
+	/**
+	 * 获取项目部待机开机时长,焊接时长，待机时长，焊工编号，姓名
+	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
+	List<ModelDto> getItemStandbyTime(WeldDto dto);
 }

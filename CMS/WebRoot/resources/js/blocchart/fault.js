@@ -70,7 +70,7 @@ function serach(){
 	}, 500);
 }
 
-var chartStr = "",dtoTime1,dtoTime2;
+var chartStr = "",parentid,dtoTime1,dtoTime2;
 
 function setParam(){
 	parentid = $("#parent").combobox('getValue');
@@ -181,8 +181,8 @@ function dgDatagrid(){
 			width : 100,
 			halign : "center",
 			align : "left",
-			formatter : function(){
-				return "<a href='junctionChart/goFaultDetail'></a>";
+			formatter : function(value,row,index){
+				return "<a href='junctionChart/goFaultDetail?typeid="+row.typeid+chartStr+"'>"+value+"</a>";
 			}
 		},{
 			field : "typeid",
