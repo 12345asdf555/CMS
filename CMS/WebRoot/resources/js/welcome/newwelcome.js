@@ -238,7 +238,7 @@ function showPersonChart(){
 		            data:[
 		                {value:weld.length, name:'在线'},
 		                {value:namex.length-weld.length, name:'离线'}
-		            ].sort(function (a, b) { return a.value - b.value; }),
+		            ],
 		            roseType: 'radius',
 		            label: {
 		                normal: {
@@ -317,7 +317,7 @@ function showWelderChart(){
 		                {value:work.length, name:'工作'},
 		                {value:wait.length, name:'待机'},
 		                {value:machine.length-work.length-wait.length, name:'关机'}
-		            ].sort(function (a, b) { return a.value - b.value; }),
+		            ],
 		            roseType: 'radius',
 		            label: {
 		                normal: {
@@ -347,7 +347,7 @@ function refreshWelderData(data){
     }
     //更新数据
      var option = weldercharts.getOption();
-     option.series[0].data = data.sort(function (a, b) { return a.value - b.value; });   
+     option.series[0].data = data;   
      weldercharts.setOption(option);    
 }
 window.setInterval(function () {
