@@ -58,29 +58,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div region="west" hide="true" split="true" title="导航菜单" style="width: 200px;" id="west">
 	  	<div class="easyui-accordion" border="false" id="accordiondiv"></div>
 	</div>
-	<!-- 管理员 -->
-	<div id="admin">
-		<ul>
-			<li onclick="changeColor(this)"><a href="javascript:openUser()"><div><i class="iconfont icon-bijiben"></i>用户管理</div></a></li>
-			<li onclick="changeColor(this)"><a href="javascript:openRole()"><div><i class="iconfont icon-bijiben"></i>角色管理</div></a></li>
-			<li onclick="changeColor(this)"><a href="javascript:openAuthority()"><div><i class="iconfont icon-bijiben"></i>权限管理</div></a></li>
-			<li onclick="changeColor(this)"><a href="javascript:openResource()"><div><i class="iconfont icon-bijiben"></i>资源管理</div></a></li>
-	        <li onclick="changeColor(this)"><a href="javascript:openDictionary()"><div><i class="iconfont icon-bijiben"></i>字典管理</div></a></li>
-	        <li onclick="changeColor(this)"><a href="javascript:openWedJunction()"><div><i class="iconfont icon-bijiben"></i>焊口管理</div></a></li>
-	        <li onclick="changeColor(this)"><a href="javascript:openWelder()"><div><i class="iconfont icon-bijiben"></i>焊工管理</div></a></li>
-			<li onclick="changeColor(this)"><a href="javascript:openWeldingMachine()"><div><i class="iconfont icon-bijiben"></i>焊机设备管理</div></a></li>
-			<li onclick="changeColor(this)"><a href="javascript:openMachineMigrate()"><div><i class="iconfont icon-bijiben"></i>焊机设备迁移</div></a></li>
-		    <li onclick="changeColor(this)"><a href="javascript:openMachine()"><div><i class="iconfont icon-bijiben"></i>维修记录管理</div></a></li>
-		    <li onclick="changeColor(this)"><a href="javascript:openFault()"><div><i class="iconfont icon-bijiben"></i>故障代码管理</div></a></li>
-		    <li onclick="changeColor(this)"><a href="javascript:openManufacturer()"><div><i class="iconfont icon-bijiben"></i>生产厂商管理</div></a></li>
-	        <li onclick="changeColor(this)"><a href="javascript:openInsframework()"><div><i class="iconfont icon-bijiben"></i>组织机构管理</div></a></li>
-	        <li style="margin-bottom: 10px;" onclick="changeColor(this)"><a href="javascript:openGather()"><div><i class="iconfont icon-bijiben"></i>采集模块管理</div></a></li>
-	   	</ul>
-    </div>
 	<!-- 集团 -->
 	<div id="bloc" >
     	<ul>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
@@ -100,9 +82,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<ul>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanytEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><i class="iconfont icon-bijiben"></i>实时监测</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openMaintenance()"><div><i class="iconfont icon-bijiben"></i>设备维修率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyIdle()"><div><i class="iconfont icon-bijiben"></i>设备闲置率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyHour()"><div><i class="iconfont icon-bijiben"></i>焊口焊接工时</div></a></li>
@@ -118,8 +102,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<ul>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustTd()"><div><i class="iconfont icon-bijiben"></i>实时监测</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openMaintenance()"><div><i class="iconfont icon-bijiben"></i>设备维修率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustIdle()"><div><i class="iconfont icon-bijiben"></i>设备闲置率</div></a></li>
@@ -136,9 +122,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<ul>
     		<li onclick="changeColor(this)"><a href="javascript:openItemEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemTd()"><div><i class="iconfont icon-bijiben"></i>实时监测</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openMaintenance()"><div><i class="iconfont icon-bijiben"></i>设备维修率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemIdle()"><div><i class="iconfont icon-bijiben"></i>设备闲置率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemHour()"><div><i class="iconfont icon-bijiben"></i>焊口焊接工时</div></a></li>
@@ -148,6 +136,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(this)"><a href="javascript:openOverproofRecall()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标回溯</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemUse()"><div><i class="iconfont icon-bijiben"></i>单台设备运行数据统计</div></a></li>
     	</ul>
+    </div>
+	<!-- 管理员 -->
+	<div id="admin">
+		<ul>
+			<li onclick="changeColor(this)"><a href="javascript:openUser()"><div><i class="iconfont icon-bijiben"></i>用户管理</div></a></li>
+			<li onclick="changeColor(this)"><a href="javascript:openRole()"><div><i class="iconfont icon-bijiben"></i>角色管理</div></a></li>
+			<li onclick="changeColor(this)"><a href="javascript:openAuthority()"><div><i class="iconfont icon-bijiben"></i>权限管理</div></a></li>
+			<li onclick="changeColor(this)"><a href="javascript:openResource()"><div><i class="iconfont icon-bijiben"></i>资源管理</div></a></li>
+	        <li onclick="changeColor(this)"><a href="javascript:openDictionary()"><div><i class="iconfont icon-bijiben"></i>字典管理</div></a></li>
+	        <li onclick="changeColor(this)"><a href="javascript:openWedJunction()"><div><i class="iconfont icon-bijiben"></i>焊口管理</div></a></li>
+	        <li onclick="changeColor(this)"><a href="javascript:openWelder()"><div><i class="iconfont icon-bijiben"></i>焊工管理</div></a></li>
+			<li onclick="changeColor(this)"><a href="javascript:openWeldingMachine()"><div><i class="iconfont icon-bijiben"></i>焊机设备管理</div></a></li>
+			<li onclick="changeColor(this)"><a href="javascript:openMachineMigrate()"><div><i class="iconfont icon-bijiben"></i>焊机设备迁移</div></a></li>
+		    <li onclick="changeColor(this)"><a href="javascript:openMachine()"><div><i class="iconfont icon-bijiben"></i>维修记录管理</div></a></li>
+		    <li onclick="changeColor(this)"><a href="javascript:openFault()"><div><i class="iconfont icon-bijiben"></i>故障代码管理</div></a></li>
+		    <li onclick="changeColor(this)"><a href="javascript:openManufacturer()"><div><i class="iconfont icon-bijiben"></i>生产厂商管理</div></a></li>
+	        <li onclick="changeColor(this)"><a href="javascript:openInsframework()"><div><i class="iconfont icon-bijiben"></i>组织机构管理</div></a></li>
+	        <li style="margin-bottom: 10px;" onclick="changeColor(this)"><a href="javascript:openGather()"><div><i class="iconfont icon-bijiben"></i>采集模块管理</div></a></li>
+	   	</ul>
     </div>
 	<div id="mainPanle" region="center" style="background: white; overflow-y: hidden">
 		<div id="tabs" class="easyui-tabs" fit="true" border="false"></div>

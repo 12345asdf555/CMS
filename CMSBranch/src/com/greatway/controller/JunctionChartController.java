@@ -47,6 +47,11 @@ public class JunctionChartController {
 	 */
 	@RequestMapping("/goFaultDetail")
 	public String goFaultDetail(HttpServletRequest request){
+		lm.getUserId(request);
+		request.setAttribute("typeid", request.getParameter("typeid"));
+		request.setAttribute("parent", request.getParameter("parent"));
+		request.setAttribute("time1", request.getParameter("time1"));
+		request.setAttribute("time2", request.getParameter("time2"));
 		return "junctionchart/faultdetail";
 	}
 	
@@ -489,6 +494,60 @@ public class JunctionChartController {
 				json.put("name",l.getFname());
 				json.put("itemid",l.getFid());
 				json.put("machineno", l.getFmachine_id());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 获取焊机负荷率明细
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getFaultDetail")
+	@ResponseBody
+	public String getFaultDetail(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String parent = request.getParameter("parent");
+		String typeid = request.getParameter("typeid");
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		WeldDto dto = new WeldDto();
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(parent)){
+			dto.setParent(new BigInteger(parent));
+		}
+		if(iutil.isNull(typeid)){
+			dto.setDtoStatus(Integer.parseInt(typeid));
+		}
+		page = new Page(pageIndex,pageSize,total);
+		List<ModelDto> list = lm.getFaultDetail(page, dto);
+		long total = 0;
+		if(list != null){
+			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(ModelDto l:list){
+				json.put("type", l.getType());
+				json.put("machineno", l.getFmachine_id());
+				json.put("total",l.getTotal());
+				json.put("time",l.getWeldTime());
+				json.put("itemname", l.getFname());
 				ary.add(json);
 			}
 		}catch(Exception e){

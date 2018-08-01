@@ -183,6 +183,17 @@ public class BlocChartController {
 	}
 	
 	/**
+	 * 跳转操作者效率页面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/goOperatorEfficiency")
+	public String goOperatorEfficiency(HttpServletRequest request){
+		lm.getUserId(request);
+		return "blocchart/operatorefficiency";
+	}
+	
+	/**
 	 * 集团工时报表信息查询
 	 * @param request
 	 * @return
@@ -1556,6 +1567,188 @@ public class BlocChartController {
 					}
 				}
 				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("rows", ary);
+		obj.put("total", total);
+		return obj.toString();
+	}
+
+	/**
+	 * 操作者效率
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getOperatorEfficiency")
+	@ResponseBody
+	public String getOperatorEfficiency(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		String parentid = request.getParameter("parent");
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		int flag = Integer.parseInt(request.getParameter("flag"));
+		WeldDto dto = new WeldDto();
+		BigInteger parent = null;
+		List<Insframework> insf = null;
+		if(iutil.isNull(parentid)){
+			parent = new BigInteger(parentid);
+			dto.setParent(parent);
+		}
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(request.getParameter("page")) && iutil.isNull(request.getParameter("rows"))){
+			pageIndex = Integer.parseInt(request.getParameter("page"));
+			pageSize = Integer.parseInt(request.getParameter("rows"));
+			page = new Page(pageIndex,pageSize,total);
+			insf = insm.getCause(page, parent);
+		}else{
+			insf = insm.getCause(parent, null);
+		}
+		long total = 0;
+		if(insf!=null){
+			PageInfo<Insframework> pageinfo = new PageInfo<Insframework>(insf);
+			total = pageinfo.getTotal();
+		}
+		try{
+			//获取所选组织机构的所有下级部门
+			List<ModelDto> list = lm.getOnlineNumber(dto);
+			List<ModelDto> time = lm.getOperatoreTime(dto);
+			//获取时间差
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			long t1 = sdf.parse(time1).getTime();
+			long t2 = sdf.parse(time2).getTime();
+			int days = (int)((t2-t1)/(1000*60*60*24))+1;
+			if(flag==0){//集团层
+				for(int j=0;j<insf.size();j++){
+					double worktime = 0,boottime = 0,weldtime = 0,standbytime = 0;
+					//上班时长
+					for(int x=0;x<list.size();x++){
+						if(insf.get(j).getId().equals(list.get(x).getFid())){
+							worktime += list.get(x).getTotal();
+						}
+					}
+					//开机时长,焊接时长，待机时长
+					for(int x=0;x<time.size();x++){
+						if(insf.get(j).getId().equals(time.get(x).getFid())){
+							boottime += time.get(x).getWorktime();
+							weldtime += time.get(x).getLoads();
+							standbytime += time.get(x).getTime();
+						}
+					}
+					if(list.isEmpty()){
+						json.put("name",insf.get(j).getName());
+						json.put("worktime", 0);//上班时长
+						json.put("boottime", 0);//开机时长
+						json.put("shutdowntime", days*24);//关机时长
+						json.put("weldtime", 0);//焊接时长
+						json.put("standbytime", 0);//待机时长
+						json.put("sjratio", 0);//上机率
+						json.put("effectiveratio", 0);//有效焊接率
+						json.put("workratio", 0);//工作效率
+						ary.add(json);
+					}else{
+						json.put("name",insf.get(j).getName());
+						json.put("worktime", (double)Math.round(worktime*100)/100);
+						json.put("boottime", (double)Math.round(boottime*100)/100);
+						json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);
+						json.put("weldtime", (double)Math.round(weldtime*100)/100);
+						json.put("standbytime", (double)Math.round(standbytime*100)/100);
+						json.put("sjratio", (double)Math.round(boottime/worktime*100)/100);
+						json.put("effectiveratio", (double)Math.round(weldtime/boottime*100)/100);
+						json.put("workratio", (double)Math.round(weldtime/worktime*100)/100);
+						ary.add(json);
+					}
+				}
+			}else if(flag==1){//公司层
+				for(int j=0;j<insf.size();j++){
+					double worktime = 0,boottime = 0,weldtime = 0,standbytime = 0;
+					//上班时长
+					for(int x=0;x<list.size();x++){
+						if(insf.get(j).getId().equals(list.get(x).getCaustid())){
+							worktime += list.get(x).getTotal();
+						}
+					}
+					//开机时长,焊接时长，待机时长
+					for(int x=0;x<time.size();x++){
+						if(insf.get(j).getId().equals(time.get(x).getCaustid())){
+							boottime += time.get(x).getWorktime();
+							weldtime += time.get(x).getLoads();
+							standbytime += time.get(x).getTime();
+						}
+					}
+					if(list.isEmpty()){
+						json.put("name",insf.get(j).getName());
+						json.put("worktime", 0);//上班时长
+						json.put("boottime", 0);//开机时长
+						json.put("shutdowntime", days*24);//关机时长
+						json.put("weldtime", 0);//焊接时长
+						json.put("standbytime", 0);//待机时长
+						json.put("sjratio", 0);//上机率
+						json.put("effectiveratio", 0);//有效焊接率
+						json.put("workratio", 0);//工作效率
+						ary.add(json);
+					}else{
+						json.put("name",insf.get(j).getName());
+						json.put("worktime", (double)Math.round(worktime*100)/100);
+						json.put("boottime", (double)Math.round(boottime*100)/100);
+						json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);
+						json.put("weldtime", (double)Math.round(weldtime*100)/100);
+						json.put("standbytime", (double)Math.round(standbytime*100)/100);
+						json.put("sjratio", (double)Math.round(boottime/worktime*100)/100);
+						json.put("effectiveratio", (double)Math.round(weldtime/boottime*100)/100);
+						json.put("workratio", (double)Math.round(weldtime/worktime*100)/100);
+						ary.add(json);
+					}
+				}
+			}else if(flag==2){
+				for(int j=0;j<insf.size();j++){
+					double worktime = 0,boottime = 0,weldtime = 0,standbytime = 0;
+					//上班时长
+					for(int x=0;x<list.size();x++){
+						if(insf.get(j).getId().equals(list.get(x).getItemid())){
+							worktime += list.get(x).getTotal();
+						}
+					}
+					//开机时长,焊接时长，待机时长
+					for(int x=0;x<time.size();x++){
+						if(insf.get(j).getId().equals(time.get(x).getItemid())){
+							boottime += time.get(x).getWorktime();
+							weldtime += time.get(x).getLoads();
+							standbytime += time.get(x).getTime();
+						}
+					}
+					if(list.isEmpty()){
+						json.put("name",insf.get(j).getName());
+						json.put("worktime", 0);//上班时长
+						json.put("boottime", 0);//开机时长
+						json.put("shutdowntime", days*24);//关机时长
+						json.put("weldtime", 0);//焊接时长
+						json.put("standbytime", 0);//待机时长
+						json.put("sjratio", 0);//上机率
+						json.put("effectiveratio", 0);//有效焊接率
+						json.put("workratio", 0);//工作效率
+						ary.add(json);
+					}else{
+						json.put("name",insf.get(j).getName());
+						json.put("worktime", (double)Math.round(worktime*100)/100);
+						json.put("boottime", (double)Math.round(boottime*100)/100);
+						json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);
+						json.put("weldtime", (double)Math.round(weldtime*100)/100);
+						json.put("standbytime", (double)Math.round(standbytime*100)/100);
+						json.put("sjratio", (double)Math.round(boottime/worktime*100)/100);
+						json.put("effectiveratio", (double)Math.round(weldtime/boottime*100)/100);
+						json.put("workratio", (double)Math.round(weldtime/worktime*100)/100);
+						ary.add(json);
+					}
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();

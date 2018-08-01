@@ -49,7 +49,7 @@ function parentCombobox(){
 function dealwith(num,url){
 	$("#charts").show();
 	$("#explain").show();
-	$("#itemcharts1").hide();
+//	$("#itemcharts1").hide();
 	$("#itemcharts2").hide();
 	position = num;
 	activeurl = url;
@@ -74,7 +74,7 @@ function serach(){
 	}else if(type==23){
 		$("#charts").hide();
 		$("#explain").hide();
-		$("#itemcharts1").show();
+//		$("#itemcharts1").show();
 		$("#itemcharts2").show();
 		position = 0;
 		activeurl = "itemChart/getItemTypeMaintain?flag=3";
@@ -228,7 +228,7 @@ function showItemChart(){
            alert("请求数据失败啦,请联系系统管理员!");  
        }  
 	}); 
-	showItemNumChart();
+//	showItemNumChart();
 	showItemMoneyChart();
 }
 
@@ -251,7 +251,7 @@ function showItemMoneyChart(){
 			grid:{
 				left:'60',//组件距离容器左边的距离
 				right:'4%',
-				bottom:'90',
+				bottom:'70',
 				containLaber:true//区域是否包含坐标轴刻度标签
 			},
 			toolbox:{
@@ -267,7 +267,7 @@ function showItemMoneyChart(){
 				type:'category',
 				data: array3,
 				axisLabel : {
-					rotate: 50, //x轴文字倾斜
+					rotate: 30, //x轴文字倾斜
 				    interval:0 //允许x轴文字全部显示并重叠
 				}
 			},
@@ -398,18 +398,18 @@ function dgDatagrid(){
 			halign : "center",
 			align : "left"
 		},{
-			field : "faultratio",
-			title : "故障次数",
-			width : 100,
-			halign : "center",
-			align : "left"
-		},{
-			field : "faultmaintenanceratio",
-			title : "故障维修率(%)",
-			width : 100,
-			halign : "center",
-			align : "left"
-		},{
+//			field : "faultratio",
+//			title : "故障次数",
+//			width : 100,
+//			halign : "center",
+//			align : "left"
+//		},{
+//			field : "faultmaintenanceratio",
+//			title : "故障维修率(%)",
+//			width : 100,
+//			halign : "center",
+//			align : "left"
+//		},{
 			field : "rmoney",
 			title : "维护费用(元)",
 			width : 100,
@@ -428,8 +428,8 @@ function dgDatagrid(){
 				row: {
 					total: '总维护次数：'+sumnum,
 					proportion: '总维护占比：'+1,
-					faultratio:'总故障次数：'+faultnum,
-					faultmaintenanceratio:'总故障维修率：'+sumfaultmaintenance,
+//					faultratio:'总故障次数：'+faultnum,
+//					faultmaintenanceratio:'总故障维修率：'+sumfaultmaintenance,
 					rmoney:'维护总费用：'+sumrmoney,
 					mmoney:'焊机总费用：'+summoney
 				}
@@ -447,7 +447,7 @@ function itemDgDatagrid(){
 	$("#dg2").show();
 	$("#itemdg").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#itemcharts1").height()-$("#search_btn").height()-15,
+		height : $("#body").height() - $("#itemcharts2").height()-$("#search_btn").height()-15,
 		width : $("#body").width(),
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50],
@@ -530,10 +530,10 @@ function domresize() {
 	}else{
 
 		$("#itemdg").datagrid('resize', {
-			height : $("#body").height() - $("#itemcharts1").height()-$("#search_btn").height()-15,
+			height : $("#body").height() - $("#itemcharts2").height()-$("#search_btn").height()-15,
 			width : $("#body").width()
 		});
-		echarts.init(document.getElementById('itemcharts1')).resize();
+//		echarts.init(document.getElementById('itemcharts1')).resize();
 		echarts.init(document.getElementById('itemcharts2')).resize();
 	}
 }

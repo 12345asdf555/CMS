@@ -35,25 +35,23 @@ function showblocEfficiencyChart(){
             		 for(var i=0;i<result.ary.length;i++){
                        	array1 = result.ary[i].num1;
                        	Series.push({
-                       		name : '工效(1:1)',
-                       		type :'line',//折线图
-                            barMaxWidth:20,//柱状图最大宽度
-                       		smooth: true,//是否平滑曲线显示
-                       		data : result.ary[i].num2,
-                       		itemStyle : {
-                       			normal: {
-                       				label : {
-                       					show: true,//显示每个折点的值
-                     					formatter: '{c}%'  
-                       				}
-                       			}
-                       		}
+            				name:'工效(1:1)',
+            				type:'bar',
+            	            barMaxWidth:20,//最大宽度
+            				data:result.ary[i].num2,
+            		        label: {
+            		            normal: {
+            		                position: 'top',
+            		                show: true,//显示每个折点的值
+                 					formatter: '{c}%'  
+            		            }
+            		        }
                        	});
                       }
                   }else{
                 	  Series.push({
                      		name : '工效(1:1)',
-                     		type :'line',//折线图
+                     		type :'bar',//折线图
                      		data : ''
                       });
                   }
@@ -82,7 +80,7 @@ function showblocEfficiencyChart(){
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'4%',
+			right:'60',
 			bottom:'20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
@@ -97,10 +95,12 @@ function showblocEfficiencyChart(){
 		},
 		xAxis:{
 			type:'category',
-			data: array1
+			data: array1,
+			name : '时间(h)'
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
+			name : '工效(%)',
 			axisLabel: {  
                   show: true,  
                   interval: 'auto',  

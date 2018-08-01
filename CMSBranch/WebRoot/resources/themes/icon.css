@@ -91,3 +91,19 @@
 .icon-excel{
 	background:url('icons/excel.png') no-repeat center center;
 }
+
+.icon-work{
+	background:url('icons/weld_04.png') no-repeat center center;
+}
+.icon-standby{
+	background:url('icons/weld_02.png') no-repeat center center;
+}
+.icon-off{
+	background:url('icons/weld_05.png') no-repeat center center;
+}
+.icon-overtimestandby{
+	background:url('icons/weld_03.png') no-repeat center center;
+}
+.icon-overproof{
+	background:url('icons/weld_01.png') no-repeat center center;
+}

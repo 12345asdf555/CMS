@@ -2,6 +2,7 @@ package com.greatway.controller;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -59,6 +60,33 @@ public class MainController {
 		JSONObject obj = new JSONObject();
 		obj.put("hierarchy", hierarchy);
 		return obj.toString();
+	}
+	
+	/**
+	 * 跳转焊工工作量排行
+	 * @return
+	 */
+	@RequestMapping("/goWorkRank")
+	public String goWorkRank(HttpServletRequest request){
+		return "welcome/workrank";
+	}
+	
+	/**
+	 * 跳转焊接规范负荷率
+	 * @return
+	 */
+	@RequestMapping("/goLoadrate")
+	public String goLoadrate(HttpServletRequest request){
+		return "welcome/loadrate";
+	}
+	
+	/**
+	 * 跳转班组设备利用率
+	 * @return
+	 */
+	@RequestMapping("/goUseratio")
+	public String goUseratio(HttpServletRequest request){
+		return "welcome/useratio";
 	}
 	
 	@RequestMapping("/getUserInsframework")
@@ -158,17 +186,20 @@ public class MainController {
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
 		JSONObject json = new JSONObject();
-		try{ 
-			String parentid = request.getParameter("parent");
-			BigInteger parent = null;
-			if(iutil.isNull(parentid)){
-				parent = new BigInteger(parentid);
-			}
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			List<Welcome> list = wm.getWorkRank(parent, sdf.format(date));
+		try{
+			WeldDto dto = new WeldDto();
+			dto.setDtoTime1(request.getParameter("time1"));
+			dto.setDtoTime2(request.getParameter("time2"));
+			BigInteger uid = lm.getUserId(request);
+			dto.setParent(im.getUserInsfId(uid));
+			
+			List<Welcome> list = wm.getWorkRank(dto);
 			for(int i=0;i<list.size();i++){
-				json.put("rownum", i+1);
+				if(i==0){
+					json.put("rownum", "第一名");
+				}else{
+					json.put("rownum", "最后一名");
+				}
 				json.put("welderno", list.get(i).getWelderno());
 				json.put("name", list.get(i).getName());
 				json.put("item", list.get(i).getInsname());
@@ -194,27 +225,56 @@ public class MainController {
 		JSONArray ary = new JSONArray();
 		JSONObject json = new JSONObject();
 		try{
-			String parentid = request.getParameter("parent");
-			BigInteger parent = null;
-			if(iutil.isNull(parentid)){
-				parent = new BigInteger(parentid);
-			}
-			List<Welcome> list = wm.getItemMachineCount(parent);
+			WeldDto dto = new WeldDto();
+			dto.setDtoTime1(request.getParameter("time1"));
+			dto.setDtoTime2(request.getParameter("time2"));
+			BigInteger uid = lm.getUserId(request);
+			dto.setParent(im.getUserInsfId(uid));
+			
+			List<Welcome> list = wm.getItemMachineCount(dto);
+			List<Welcome> temp = new ArrayList<Welcome>();
 			for(Welcome i:list){
-				json.put("itemname", i.getName());//班组
-				json.put("machinenum", i.getTotal());//设备总数
-				Date date = new Date();
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Welcome machine = wm.getWorkMachineCount(i.getId(), sdf.format(date));
+				Welcome w = new Welcome();
+				w.setInsname(i.getName());
+				w.setTotal(i.getTotal());
+				Welcome machine = wm.getWorkMachineCount(i.getId(), dto);
+				w.setMachinenum(machine.getMachinenum());
 				if(machine!=null){
-					json.put("worknum", machine.getMachinenum());//工作设备数
-					double useratio =(double)Math.round(Double.valueOf(machine.getMachinenum())/Double.valueOf(i.getTotal())*100*100)/100;
-					json.put("useratio", useratio);//设备利用率
-				}else{
-					json.put("worknum", 0);//工作设备数
-					json.put("useratio", 0);//设备利用率
+					w.setHour((double)Math.round((double)machine.getMachinenum()/(double)i.getTotal()*100*100)/100);
+				}else {
+					w.setHour(0);
 				}
-				ary.add(json);
+				temp.add(w);
+			}
+			double max=0,min=0;
+			int maxindex = -1,minindex = -1;
+			for(int i=0;i<temp.size();i++){
+				double tempmax = temp.get(i).getHour();
+				double tempmin = temp.get(i).getHour();
+				min = tempmin;
+				if(tempmax >= max){
+					max = tempmax;
+					maxindex = i;
+				}
+				if(tempmin <= min){
+					min = tempmin;
+					minindex = i;
+				}
+			}
+			if(!temp.isEmpty() && maxindex>=0 && minindex>=0){
+				for(int i=0;i<2;i++){
+					int index = 0;
+					if(i==0){
+						index = maxindex;
+					}else{
+						index = minindex;
+					}
+					json.put("itemname", temp.get(index).getInsname());//班组
+					json.put("machinenum", temp.get(index).getTotal());//设备总数
+					json.put("worknum", temp.get(index).getMachinenum());//工作设备数
+					json.put("useratio", temp.get(index).getHour());//设备利用率
+					ary.add(json);
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -234,60 +294,64 @@ public class MainController {
 	public String getLoadRate(HttpServletRequest request){
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
-		JSONArray timeary = new JSONArray();
 		JSONObject json = new JSONObject();
-		JSONObject timejson = new JSONObject();
 		try{
-			String parentid = request.getParameter("parent");
-			String time1 = request.getParameter("time1");
-			String time2 = request.getParameter("time2");
 			WeldDto dto = new WeldDto();
-			BigInteger parent = null;
-			if(iutil.isNull(parentid)){
-				parent = new BigInteger(parentid);
-				dto.setParent(parent);
-			}
-			dto.setDtoTime1(time1.substring(0, 10));
-			dto.setDtoTime2(time2.substring(0, 10));
+			dto.setDtoTime1(request.getParameter("time1"));
+			dto.setDtoTime2(request.getParameter("time2"));
+			BigInteger uid = lm.getUserId(request);
+			dto.setParent(im.getUserInsfId(uid));
 			dto.setDay("day");
 			List<Welcome> ilist = wm.getItemWeldTime(dto);
 			List<Welcome> olist = wm.getItemOverProofTime(dto);
-			List<ModelDto> time =  lm.getAllTimes(dto);
-			List<LiveData> insf = lm.getAllInsf(parent, 23);
-			List<Welcome> temp = ilist;
+			List<Welcome> temp = new ArrayList<Welcome>();
 			for(int i=0;i<ilist.size();i++){
+				Welcome w = new Welcome();
 				double num = 100;
-				temp.get(i).setInsname(ilist.get(i).getName());
-				temp.get(i).setTime(ilist.get(i).getTime());
+				w.setInsname(ilist.get(i).getName());
+				w.setElectricity((double)Math.round(ilist.get(i).getHour()*100)/100);
 				for(int o=0;o<olist.size();o++){
-					if(ilist.get(i).getId().equals(olist.get(o).getId()) && ilist.get(i).getTime().equals(olist.get(o).getTime())){
+					if(ilist.get(i).getId().equals(olist.get(o).getId())){
+						w.setAirflow((double)Math.round((ilist.get(i).getHour()-olist.get(o).getHour())*100)/100);
 						num = (double)Math.round(((ilist.get(i).getHour()-olist.get(o).getHour())/ilist.get(i).getHour())*100*100)/100;
 					}
 				}
-				temp.get(i).setHour(num);
+				w.setHour(num);
+				temp.add(w);
 			}
-			for(ModelDto t:time){
-				timejson.put("weldtime", t.getWeldTime());//日期
-				timeary.add(timejson);
-			}
-			for(LiveData item:insf){
-				json.put("itemname", item.getFname());//班组
-				double[] num = new double[time.size()];
-				for(int i=0;i<time.size();i++){
-					num[i] = 0;
-					for(Welcome t:temp){
-						if(time.get(i).getWeldTime().equals(t.getTime()) && item.getFname().equals(t.getName())){
-							num[i] = t.getHour();
-						}
-					}
+			double max=0,min=0;
+			int maxindex = -1,minindex = -1;
+			for(int i=0;i<temp.size();i++){
+				double tempmax = temp.get(i).getHour();
+				double tempmin = temp.get(i).getHour();
+				min = tempmin;
+				if(tempmax >= max){
+					max = tempmax;
+					maxindex = i;
 				}
-				json.put("hour", num);
-				ary.add(json);
+				if(tempmin <= min){
+					min = tempmin;
+					minindex = i;
+				}
+			}
+			if(!temp.isEmpty() && maxindex>=0 && minindex>=0){
+				for(int i=0;i<2;i++){
+					int index = 0;
+					if(i==0){
+						index = maxindex;
+					}else{
+						index = minindex;
+					}
+					json.put("itemname", temp.get(index).getInsname());//班组
+					json.put("loadtime", temp.get(index).getElectricity());//焊接时长
+					json.put("normaltime", temp.get(index).getAirflow());//正常焊接时长
+					json.put("weldtime", temp.get(index).getHour());//符合率
+					ary.add(json);
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		obj.put("time", timeary);
 		obj.put("ary", ary);
 		return obj.toString();
 	}

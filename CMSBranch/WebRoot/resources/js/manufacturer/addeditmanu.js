@@ -91,7 +91,7 @@ function saveManufacturer(){
 	});
 }
 
-//所属项目
+//类型
 function typeCombobox(){
 	$.ajax({  
       type : "post",  

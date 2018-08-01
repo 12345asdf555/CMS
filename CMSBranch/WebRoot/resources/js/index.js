@@ -1,334 +1,347 @@
-$(function(){
-	$('#accordiondiv').accordion('add', {
-		title: '<i class="iconfont icon-ren"></i>    管理员',
-		content: $("#admin").html()
-	});
+$(function() {
 	getUserInsframework();
-	addTab("欢迎使用","welcome.jsp");
+	addTab("欢迎使用", "newwelcome.jsp");
 	tabsIncident();
 })
 
 var type;
-function hierarchyLoding(){
-	$.ajax({  
-	      type : "post",  
-	      async : false,
-	      url : "hierarchy/goIndex",  
-	      data : {},  
-	      dataType : "json", //返回数据形式为json  
-	      success : function(result) {
-	          if (result) {
-	              if(result.hierarchy==1){//集团层
-	            	  $('#accordiondiv').accordion('add', {
-	            			title: '<i class="iconfont icon-ren"></i>    报表分析',
-	            			content: $("#bloc").html(),
-	            			selected: false
-	            		});
-	              }else if(result.hierarchy==2 || result.hierarchy==3){//公司层/事业部层
-	            	  if(type==21){
-		            	  $('#accordiondiv').accordion('add', {
-		            			title: '<i class="iconfont icon-ren"></i>    报表分析',
-		            			content: $("#company").html(),
-		            			selected: false
-		            		});
-	            	  }else if(type==22){
-		            	  $('#accordiondiv').accordion('add', {
-		            			title: '<i class="iconfont icon-ren"></i>    报表分析',
-		            			content: $("#caust").html(),
-		            			selected: false
-		            		});
-	            	  }
-	              }else if(result.hierarchy==4){//项目部层
-	            	  $('#accordiondiv').accordion('add', {
-	            			title: '<i class="iconfont icon-ren"></i>    报表分析',
-	            			content: $("#item").html(),
-	            			selected: false
-	            		});
-	              }
-	          }  
-	      },
-	      error : function(errorMsg) {  
-	          alert("数据请求失败，请联系系统管理员!");  
-	      }  
-	 }); 
-}
+/*function hierarchyLoding() {
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "hierarchy/goIndex",
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.hierarchy == 1) { //集团层
+					$('#accordiondiv').accordion('add', {
+						title : '<i class="iconfont icon-ren"></i>    报表分析',
+						content : $("#bloc").html(),
+						selected : false
+					});
+				} else if (result.hierarchy == 2 || result.hierarchy == 3) { //公司层/事业部层
+					if (type == 21) {
+						$('#accordiondiv').accordion('add', {
+							title : '<i class="iconfont icon-ren"></i>    报表分析',
+							content : $("#company").html(),
+							selected : false
+						});
+					} else if (type == 22) {
+						$('#accordiondiv').accordion('add', {
+							title : '<i class="iconfont icon-ren"></i>    报表分析',
+							content : $("#caust").html(),
+							selected : false
+						});
+					}
+				} else if (result.hierarchy == 4) { //项目部层
+					$('#accordiondiv').accordion('add', {
+						title : '<i class="iconfont icon-ren"></i>    报表分析',
+						content : $("#item").html(),
+						selected : false
+					});
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}*/
 
-function getUserInsframework(){
+function getUserInsframework() {
 	$.ajax({
 		type : "post",
 		async : true,
 		url : "hierarchy/getUserInsframework",
 		data : {},
 		dataType : "json",
-		success : function(result){
+		success : function(result) {
 			type = result.type;
-			var str = "<span>"+result.insframework+": </span><span>"+result.uname+"</span>";
+			var str = "<span>" + result.insframework + ": </span><span>" + result.uname + "</span>";
 			$("#uname").val(result.uname);
 			$("#uid").val(result.id);
 			$("#userInsframework").append(str);
-//			hierarchyLoding();
-			if(type==20){
-          	  $('#accordiondiv').accordion('add', {
-          			title: '<i class="iconfont icon-ren"></i>    报表分析',
-          			content: $("#bloc").html(),
-          			selected: false
-          		});
-			}else if(type==21){
-          	  $('#accordiondiv').accordion('add', {
-          			title: '<i class="iconfont icon-ren"></i>    报表分析',
-          			content: $("#company").html(),
-          			selected: false
-          		});
-      	  }else if(type==22){
-          	  $('#accordiondiv').accordion('add', {
-          			title: '<i class="iconfont icon-ren"></i>    报表分析',
-          			content: $("#caust").html(),
-          			selected: false
-          		});
-      	  }else if(type==23){
-        	  $('#accordiondiv').accordion('add', {
-        			title: '<i class="iconfont icon-ren"></i>    报表分析',
-        			content: $("#item").html(),
-        			selected: false
-        		});
-      	  }
+			//			hierarchyLoding();
+			if (type == 20) {
+				$('#accordiondiv').accordion('add', {
+					title : '<i class="iconfont icon-ren"></i>    报表分析',
+					content : $("#bloc").html()
+				});
+			} else if (type == 21) {
+				$('#accordiondiv').accordion('add', {
+					title : '<i class="iconfont icon-ren"></i>    报表分析',
+					content : $("#company").html()
+				});
+			} else if (type == 22) {
+				$('#accordiondiv').accordion('add', {
+					title : '<i class="iconfont icon-ren"></i>    报表分析',
+					content : $("#caust").html()
+				});
+			} else if (type == 23) {
+				$('#accordiondiv').accordion('add', {
+					title : '<i class="iconfont icon-ren"></i>    报表分析',
+					content : $("#item").html()
+				});
+			}
+			$('#accordiondiv').accordion('add', {
+				title : '<i class="iconfont icon-ren"></i>    管理员',
+				content : $("#admin").html(),
+				selected : false
+			});
 		},
-		error : function(errorMsg){
+		error : function(errorMsg) {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	})
 }
-function openFaultRatio(){
-	addTab("设备故障率","blocChart/goFaultratio");
+function openChildrenUseratio(){
+	addTab("班组设备利用率", "hierarchy/goUseratio");
 }
 
-function openMaintenance(){
-	addTab("设备维修率","blocChart/goMaintenanceratio");
+function openChildrenLoadrate(){
+	addTab("焊接规范符合率", "hierarchy/goLoadrate");
 }
 
-function openUseratio(){
-	addTab("设备利用率","blocChart/goUseratio");
+function openChildrenWorkRank() {
+	addTab("焊工工作量排行", "hierarchy/goWorkRank");
 }
 
-function openRunTime(){
-	addTab("设备运行时长","blocChart/goBlocRunTime");
+function openOperatorEfficiency() {
+	addTab("操作者效率", "blocChart/goOperatorEfficiency");
 }
 
-function openOverproofRecall(){
-	addTab("焊接工艺超标回溯","companyChart/goSelectWelderJunction");
+function openFaultRatio() {
+	addTab("设备故障率", "blocChart/goFaultratio");
 }
 
-function openUser(){
-	addTab("用户管理","user/AllUser");
+function openMaintenance() {
+	addTab("设备维修率", "blocChart/goMaintenanceratio");
 }
 
-function openRole(){
-	addTab("角色管理","role/AllRole");
+function openUseratio() {
+	addTab("设备利用率", "blocChart/goUseratio");
 }
 
-function openAuthority(){
-	addTab("权限管理","authority/AllAuthority");
+function openRunTime() {
+	addTab("设备运行时长", "blocChart/goBlocRunTime");
 }
 
-function openResource(){
-	addTab("资源管理","resource/AllResource");
-}
-function openData(){
-	addTab("实时数据","data/AllData");
+function openOverproofRecall() {
+	addTab("焊接工艺超标回溯", "companyChart/goSelectWelderJunction");
 }
 
-function openTd(){
-	addTab("实时监测","td/AllTdp");
+function openUser() {
+	addTab("用户管理", "user/AllUser");
 }
 
-function openWeldingMachine(){
-	addTab("焊机设备管理","weldingMachine/goWeldingMachine");
+function openRole() {
+	addTab("角色管理", "role/AllRole");
 }
 
-function openMachineMigrate(){
-	addTab("焊机设备迁移","weldingMachine/goMachineMigrate");
+function openAuthority() {
+	addTab("权限管理", "authority/AllAuthority");
 }
 
-function openMachine(){
-	addTab("维修记录管理","maintain/goMaintain");
+function openResource() {
+	addTab("资源管理", "resource/AllResource");
+}
+function openData() {
+	addTab("实时数据", "data/AllData");
 }
 
-function openFault(){
-	addTab("故障代码管理","fault/goFault");
+function openTd() {
+	addTab("实时监测", "td/AllTdp");
 }
 
-function openManufacturer(){
-	addTab("生产厂商管理","manufacturer/goManufacturer");
+function openWeldingMachine() {
+	addTab("焊机设备管理", "weldingMachine/goWeldingMachine");
 }
 
-function openWedJunction(){
-	addTab("焊口列表","weldedjunction/goWeldedJunction");
+function openMachineMigrate() {
+	addTab("焊机设备迁移", "weldingMachine/goMachineMigrate");
 }
 
-function openWelder(){
-	addTab("焊工列表","welder/goWelder");
+function openMachine() {
+	addTab("维修记录管理", "maintain/goMaintain");
 }
 
-function openInsframework(){
-	addTab("组织机构管理","insframework/goInsframework");
+function openFault() {
+	addTab("故障代码管理", "fault/goFault");
 }
 
-function openGather(){
-	addTab("采集模块管理","gather/goGather");
+function openManufacturer() {
+	addTab("生产厂商管理", "manufacturer/goManufacturer");
 }
 
-function openCaustEfficiency(){
-	addTab("工效","caustChart/goCaustEfficiency");
+function openWedJunction() {
+	addTab("焊口列表", "weldedjunction/goWeldedJunction");
 }
 
-function openCaustHour(){
-	addTab("焊口焊接工时","caustChart/goCaustHour");
+function openWelder() {
+	addTab("焊工列表", "welder/goWelder");
 }
 
-function openCaustoverproof(){
-	addTab("焊接工艺超标统计","caustChart/goCaustOverproof");
+function openInsframework() {
+	addTab("组织机构管理", "insframework/goInsframework");
 }
 
-function openCaustovertime(){
-	addTab("超时待机统计","caustChart/goCaustOvertime");
+function openGather() {
+	addTab("采集模块管理", "gather/goGather");
 }
 
-function openCaustLoads(){
-	addTab("设备负荷率","caustChart/goCaustLoads");
+function openCaustEfficiency() {
+	addTab("工效", "caustChart/goCaustEfficiency");
 }
 
-function openCaustNoLoads(){
-	addTab("设备空载率","caustChart/goCaustNoLoads");
+function openCaustHour() {
+	addTab("焊口焊接工时", "caustChart/goCaustHour");
 }
 
-function openCaustIdle(){
-	addTab("设备闲置率","caustChart/goCaustIdle");
+function openCaustoverproof() {
+	addTab("焊接工艺超标统计", "caustChart/goCaustOverproof");
 }
 
-function openCaustUse(){
-	addTab("单台设备运行数据统计","caustChart/goCaustUse");
+function openCaustovertime() {
+	addTab("超时待机统计", "caustChart/goCaustOvertime");
 }
 
-function openCaustTd(){
-	addTab("实时监测","td/AllTddi");
+function openCaustLoads() {
+	addTab("设备负荷率", "caustChart/goCaustLoads");
 }
 
-function openCompanytEfficiency(){
-	addTab("工效","companyChart/goCompanyEfficiency");
+function openCaustNoLoads() {
+	addTab("设备空载率", "caustChart/goCaustNoLoads");
 }
 
-function openCompanyUse(){
-	addTab("单台设备运行数据统计","companyChart/goCompanyUse");
+function openCaustIdle() {
+	addTab("设备闲置率", "caustChart/goCaustIdle");
 }
 
-function openCompanyHour(){
-	addTab("焊口焊接工时","companyChart/goCompanyHour");
+function openCaustUse() {
+	addTab("单台设备运行数据统计", "caustChart/goCaustUse");
 }
 
-function openCompanyoverproof(){
-	addTab("焊接工艺超标统计","companyChart/goCompanyOverproof");
+function openCaustTd() {
+	addTab("实时监测", "td/AllTddi");
 }
 
-function openCompanyovertime(){
-	addTab("超时待机统计","companyChart/goCompanyOvertime");
+function openCompanytEfficiency() {
+	addTab("工效", "companyChart/goCompanyEfficiency");
 }
 
-function openCompanyLoads(){
-	addTab("设备负荷率","companyChart/goCompanyLoads");
+function openCompanyUse() {
+	addTab("单台设备运行数据统计", "companyChart/goCompanyUse");
 }
 
-function openCompanyNoLoads(){
-	addTab("设备空载率","companyChart/goCompanyNoLoads");
+function openCompanyHour() {
+	addTab("焊口焊接工时", "companyChart/goCompanyHour");
 }
 
-function openCompanyIdle(){
-	addTab("设备闲置率","companyChart/goCompanyIdle");
+function openCompanyoverproof() {
+	addTab("焊接工艺超标统计", "companyChart/goCompanyOverproof");
 }
 
-function openCompanyTd(){
-	addTab("实时监测","td/AllTd");
+function openCompanyovertime() {
+	addTab("超时待机统计", "companyChart/goCompanyOvertime");
 }
 
-function openItemEfficiency(){
-	addTab("工效","itemChart/goItemEfficiency");
+function openCompanyLoads() {
+	addTab("设备负荷率", "companyChart/goCompanyLoads");
 }
 
-function openItemHour(){
-	addTab("焊口焊接工时","itemChart/goItemHour");
+function openCompanyNoLoads() {
+	addTab("设备空载率", "companyChart/goCompanyNoLoads");
 }
 
-function openItemovertime(){
-	addTab("超时待机统计","itemChart/goItemOvertime");
+function openCompanyIdle() {
+	addTab("设备闲置率", "companyChart/goCompanyIdle");
 }
 
-function openItemLoads(){
-	addTab("设备负荷率","itemChart/goItemLoads");
+function openCompanyTd() {
+	addTab("实时监测", "td/newAllTd");
 }
 
-function openItemNoLoads(){
-	addTab("设备空载率","itemChart/goItemNoLoads");
+function openItemEfficiency() {
+	addTab("工效", "itemChart/goItemEfficiency");
 }
 
-function openItemIdle(){
-	addTab("设备闲置率","itemChart/goItemIdle");
+function openItemHour() {
+	addTab("焊口焊接工时", "itemChart/goItemHour");
 }
 
-function openItemTd(){
-	addTab("实时监测","td/AllTdp");
+function openItemovertime() {
+	addTab("超时待机统计", "itemChart/goItemOvertime");
 }
 
-function openItemoverproofs(){
-	addTab("焊接工艺超标统计","itemChart/goItemoverproof");
+function openItemLoads() {
+	addTab("设备负荷率", "itemChart/goItemLoads");
 }
 
-function openItemUse(){
-	addTab("单台设备运行数据统计","itemChart/goItemUse");
+function openItemNoLoads() {
+	addTab("设备空载率", "itemChart/goItemNoLoads");
 }
 
-function openBlocEfficiency(){
-	addTab("工效","blocChart/goBlocEfficiency");
+function openItemIdle() {
+	addTab("设备闲置率", "itemChart/goItemIdle");
 }
 
-function openBlocUse(){
-	addTab("单台设备运行数据统计","blocChart/goBlocUse");
+function openItemTd() {
+	addTab("实时监测", "td/AllTdp");
 }
 
-function openBlocHour(){
-	addTab("焊口焊接工时","blocChart/goBlocHour");
+function openItemoverproofs() {
+	addTab("焊接工艺超标统计", "itemChart/goItemoverproof");
 }
 
-function openBlocoverproof(){
-	addTab("焊接工艺超标统计","blocChart/goBlocOverproof");
+function openItemUse() {
+	addTab("单台设备运行数据统计", "itemChart/goItemUse");
 }
 
-function openBlocovertime(){
-	addTab("超时待机统计","blocChart/goBlocOvertime");
+function openBlocEfficiency() {
+	addTab("工效", "blocChart/goBlocEfficiency");
 }
 
-function openBlocLoads(){
-	addTab("设备负荷率","blocChart/goBlocLoads");
+function openBlocUse() {
+	addTab("单台设备运行数据统计", "blocChart/goBlocUse");
 }
 
-function openBlocNoLoads(){
-	addTab("设备空载率","blocChart/goBlocNoLoads");
+function openBlocHour() {
+	addTab("焊口焊接工时", "blocChart/goBlocHour");
 }
 
-function openBlocIdle(){
-	addTab("设备闲置率","blocChart/goBlocIdle");
+function openBlocoverproof() {
+	addTab("焊接工艺超标统计", "blocChart/goBlocOverproof");
 }
-function openDictionary(){
-	addTab("字典管理",'Dictionary/goDictionary')
+
+function openBlocovertime() {
+	addTab("超时待机统计", "blocChart/goBlocOvertime");
 }
-function addTab(title,url){
+
+function openBlocLoads() {
+	addTab("设备负荷率", "blocChart/goBlocLoads");
+}
+
+function openBlocNoLoads() {
+	addTab("设备空载率", "blocChart/goBlocNoLoads");
+}
+
+function openBlocIdle() {
+	addTab("设备闲置率", "blocChart/goBlocIdle");
+}
+function openDictionary() {
+	addTab("字典管理", 'Dictionary/goDictionary')
+}
+function addTab(title, url) {
 	//该面板是否已打开
-	if(!$("#tabs").tabs('exists',title)){
-		$("#tabs").tabs('add',{    
-		    title:title,    
-		    content:createFrame(url),    
-		    closable:true 
+	if (!$("#tabs").tabs('exists', title)) {
+		$("#tabs").tabs('add', {
+			title : title,
+			content : createFrame(url),
+			closable : true
 		});
-	}else{
-		$("#tabs").tabs('select',title);
+	} else {
+		$("#tabs").tabs('select', title);
 	}
 	// 为选项卡绑定右键
 	$(".tabs-inner").bind('contextmenu', function(e) {
@@ -343,7 +356,7 @@ function addTab(title,url){
 		$('#tabs').tabs('select', subtitle);
 		return false;
 	});
-	
+
 }
 
 function createFrame(url) {
@@ -353,7 +366,7 @@ function createFrame(url) {
 
 
 //标签页事件
-function tabsIncident(){
+function tabsIncident() {
 	//刷新
 	$('#refreshtab').click(function() {
 		var currTab = $('#tabs').tabs('getSelected');
@@ -366,7 +379,7 @@ function tabsIncident(){
 		})
 	})
 	//关闭标签页
-	$("#closetab").click(function(){
+	$("#closetab").click(function() {
 		var currtab_title = $('#tabMenu').data("currtab");
 		$('#tabs').tabs('close', currtab_title);
 	})
@@ -374,7 +387,7 @@ function tabsIncident(){
 	$('#closeAll').click(function() {
 		$('.tabs-inner span').each(function(i, n) {
 			var t = $(n).text();
-			if(t!="欢迎使用"){
+			if (t != "欢迎使用") {
 				$('#tabs').tabs('close', t);
 			}
 		});
@@ -385,11 +398,11 @@ function tabsIncident(){
 		$('#closeLeft').click();
 	});
 	//关闭右侧标签页
-	$('#closeRight').click(function(){
+	$('#closeRight').click(function() {
 		var nextall = $('.tabs-selected').nextAll();
 		nextall.each(function(i, n) {
 			var t = $('a:eq(0) span', $(n)).text();
-			if(t!="欢迎使用"){
+			if (t != "欢迎使用") {
 				$('#tabs').tabs('close', t);
 			}
 		});
@@ -399,7 +412,7 @@ function tabsIncident(){
 		var prevall = $('.tabs-selected').prevAll();
 		prevall.each(function(i, n) {
 			var t = $('a:eq(0) span', $(n)).text();
-			if(t!="欢迎使用"){
+			if (t != "欢迎使用") {
 				$('#tabs').tabs('close', t);
 			}
 		});
@@ -407,13 +420,13 @@ function tabsIncident(){
 }
 
 //选中时改变背景颜色
-function changeColor(obj){
-	$("ul li").css("backgroundColor","#ffffff");
+function changeColor(obj) {
+	$("ul li").css("backgroundColor", "#ffffff");
 	obj.style.background = "#ffe48d";
 }
 
-function updatePwd(){
-	$('#dlg').window( {
+function updatePwd() {
+	$('#dlg').window({
 		modal : true
 	});
 	$("#dlg").dialog("open");
@@ -421,62 +434,86 @@ function updatePwd(){
 	$("#pwds").val("");
 	noticeAssign(99);
 }
-function pwdKeyUp(password){
+function pwdKeyUp(password) {
 	var pwd = $(password).val();
-	if(pwd){
-		if(/[a-zA-Z]+/.test(pwd) && /[0-9]+/.test(pwd) && /\W+|_+/.test(pwd)) {
+	if (pwd) {
+		if (/[a-zA-Z]+/.test(pwd) && /[0-9]+/.test(pwd) && /\W+|_+/.test(pwd)) {
 			noticeAssign(2);
-		}else if(/[a-zA-Z]+/.test(pwd) || /[0-9]+/.test(pwd) || /\W+|_+/.test(pwd)) {
-			if(/[a-zA-Z]+/.test(pwd) && /[0-9]+/.test(pwd)) {
+		} else if (/[a-zA-Z]+/.test(pwd) || /[0-9]+/.test(pwd) || /\W+|_+/.test(pwd)) {
+			if (/[a-zA-Z]+/.test(pwd) && /[0-9]+/.test(pwd)) {
 				noticeAssign(1);
-			}else if(/[a-zA-Z]+/.test(pwd) && /\W+|_+/.test(pwd)) {
+			} else if (/[a-zA-Z]+/.test(pwd) && /\W+|_+/.test(pwd)) {
 				noticeAssign(1);
-			}else if(/[0-9]+/.test(pwd) && /\W+|_+/.test(pwd)) {
+			} else if (/[0-9]+/.test(pwd) && /\W+|_+/.test(pwd)) {
 				noticeAssign(1);
-			}else{
+			} else {
 				noticeAssign(0);
 			}
-		 }
-	}else{
+		}
+	} else {
 		noticeAssign(99);
 	}
 }
 function noticeAssign(num) {
-	 if(num == 2) {
-		 $('#weak').css({backgroundColor:''});
-		 $('#middle').css({backgroundColor:''});
-		 $('#strength').css({backgroundColor:'#ffcc33'});
-	 }else if(num == 1){
-		 $('#weak').css({backgroundColor:''});
-		 $('#middle').css({backgroundColor:'#ffcc33'});
-		 $('#strength').css({backgroundColor:''});
-	 }else if(num ==0) {
-		 $('#weak').css({backgroundColor:'#ffcc33'});
-		 $('#middle').css({backgroundColor:''});
-		 $('#strength').css({backgroundColor:''});
-	 }else{
-		 $('#weak').css({backgroundColor:''});
-		 $('#middle').css({backgroundColor:''});
-		 $('#strength').css({backgroundColor:''});
-	 }
+	if (num == 2) {
+		$('#weak').css({
+			backgroundColor : ''
+		});
+		$('#middle').css({
+			backgroundColor : ''
+		});
+		$('#strength').css({
+			backgroundColor : '#ffcc33'
+		});
+	} else if (num == 1) {
+		$('#weak').css({
+			backgroundColor : ''
+		});
+		$('#middle').css({
+			backgroundColor : '#ffcc33'
+		});
+		$('#strength').css({
+			backgroundColor : ''
+		});
+	} else if (num == 0) {
+		$('#weak').css({
+			backgroundColor : '#ffcc33'
+		});
+		$('#middle').css({
+			backgroundColor : ''
+		});
+		$('#strength').css({
+			backgroundColor : ''
+		});
+	} else {
+		$('#weak').css({
+			backgroundColor : ''
+		});
+		$('#middle').css({
+			backgroundColor : ''
+		});
+		$('#strength').css({
+			backgroundColor : ''
+		});
+	}
 }
 
-function updatePassword(){
+function updatePassword() {
 	$("#pwdcheck").html("");
-	if(!$("#pwd").val()){
+	if (!$("#pwd").val()) {
 		$("#pwdcheck").append("请输入密码");
-	}else if(!$("#pwds").val()){
+	} else if (!$("#pwds").val()) {
 		$("#pwdcheck").append("请确认密码");
-	}else if($("#pwd").val() != $("#pwds").val()){
+	} else if ($("#pwd").val() != $("#pwds").val()) {
 		$("#pwdcheck").append("两次密码不一致");
-	}else{
+	} else {
 		$('#fm').form('submit', {
-			url : "user/updatePwd?id="+$("#uid").val()+"&pwd="+$("#pwd").val(),
+			url : "user/updatePwd?id=" + $("#uid").val() + "&pwd=" + $("#pwd").val(),
 			success : function(result) {
-				if(result){
+				if (result) {
 					var result = eval('(' + result + ')');
 					if (!result.success) {
-						$.messager.show( {
+						$.messager.show({
 							title : 'Error',
 							msg : result.errorMsg
 						});
@@ -485,18 +522,18 @@ function updatePassword(){
 						$('#dlg').dialog('close');
 						var url = "user/logout";
 						var img = new Image();
-					    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-					    url = img.src;  // 此时相对路径已经变成绝对路径
-					    img.src = null; // 取消请求
+						img.src = url; // 设置相对路径给Image, 此时会发送出请求
+						url = img.src; // 此时相对路径已经变成绝对路径
+						img.src = null; // 取消请求
 						window.location.href = encodeURI(url);
-						
+
 					}
 				}
-				
-			},  
-		    error : function(errorMsg) {  
-		        alert("数据请求失败，请联系系统管理员!");  
-		    } 
+
+			},
+			error : function(errorMsg) {
+				alert("数据请求失败，请联系系统管理员!");
+			}
 		});
 	}
 }

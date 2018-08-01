@@ -54,8 +54,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		统计时间段内的设备维修情况；<br/>
 		</div>
 		<div id="charts" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
-		<div id="itemcharts1" style="height:50%;width:49.5%;margin-bottom:10px;float:left;display:none;"></div>
-		<div id="itemcharts2" style="height:50%;width:49.5%;margin-bottom:10px;float:right;display:none;"></div>
+<!-- 		<div id="itemcharts1" style="height:50%;width:49.5%;margin-bottom:10px;float:left;display:none;"></div> -->
+		<div id="itemcharts2" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;display:none;"></div>
 	    <div id="dg1"><table id="dg" style="table-layout: fixed; width:100%;"></table></div>
 	    <div id="dg2"><table id="itemdg" style="table-layout: fixed; width:100%;"></table></div>
 	</div>

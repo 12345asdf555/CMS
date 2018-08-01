@@ -13,8 +13,8 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   <listener>
-    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-  </listener>
+	 <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+</listener>
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:config/spring-common.xml,classpath:config/applicationContext-security.xml,</param-value>
@@ -51,29 +51,40 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  
+  <!-- 自定义参数：webservice地址 -->
   <context-param>
-    <param-name>itemurl</param-name>
-    <param-value>http://121.196.222.216:8080/Item_Service/itemWebService?wsdl</param-value>
+  	<param-name>itemurl</param-name>
+  	<param-value>http://121.196.222.216:8080/Item_Service/itemWebService?wsdl</param-value>
   </context-param>
   <context-param>
-    <param-name>companyurl</param-name>
-    <param-value>http://121.196.222.216:8080/Company_Service/companyWebService?wsdl</param-value>
+  	<param-name>companyurl</param-name>
+  	<param-value>http://121.196.222.216:8080/Company_Service/companyWebService?wsdl</param-value>
   </context-param>
   <context-param>
-    <param-name>blocurl</param-name>
-    <param-value>http://121.196.222.216:8080/Bloc_Service/blocWebService?wsdl</param-value>
+  	<param-name>blocurl</param-name>
+  	<param-value>http://121.196.222.216:8080/Bloc_Service/blocWebService?wsdl</param-value>
+  </context-param>
+  
+  
+  <!-- 集团层下所有公司url -->
+  <context-param>
+  	<param-name>13</param-name>
+  	<param-value>http://121.196.222.216:8080/Company_Service/companyWebService?wsdl</param-value>
+  </context-param>
+<!--   <context-param> -->
+<!--   	<param-name>25</param-name> -->
+<!--   	<param-value>http://121.196.222.216:8080/Company_Service/companyWebService?wsdl</param-value> -->
+<!--   </context-param> -->
+ 
+  <!-- 自定义分层参数  1:集团 2:公司 3:事业部 4:项目部 -->
+  <context-param>
+  	<param-name>hierarchy</param-name>
+  	<param-value>2</param-value>
   </context-param>
   <context-param>
-    <param-name>13</param-name>
-    <param-value>http://121.196.222.216:8080/Company_Service/companyWebService?wsdl</param-value>
-  </context-param>
-  <context-param>
-    <param-name>hierarchy</param-name>
-    <param-value>2</param-value>
-  </context-param>
-  <context-param>
-    <param-name>websocket</param-name>
-    <param-value>&quot;ws://121.196.222.216:5554/SerialPortDemo/ws/张三&quot;</param-value>
+  	<param-name>websocket</param-name>
+  	<param-value>"ws://121.196.222.216:5550/SerialPortDemo/ws/张三"</param-value>
   </context-param>
   <welcome-file-list>
     <welcome-file>/index.jsp</welcome-file>

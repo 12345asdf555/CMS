@@ -251,7 +251,7 @@ function showItemMoneyChart(){
 			grid:{
 				left:'60',//组件距离容器左边的距离
 				right:'4%',
-				bottom:'90',
+				bottom:'70',
 				containLaber:true//区域是否包含坐标轴刻度标签
 			},
 			toolbox:{
@@ -267,7 +267,7 @@ function showItemMoneyChart(){
 				type:'category',
 				data: array3,
 				axisLabel : {
-					rotate: 50, //x轴文字倾斜
+					rotate: 30, //x轴文字倾斜
 				    interval:0 //允许x轴文字全部显示并重叠
 				}
 			},
@@ -317,7 +317,7 @@ function showItemNumChart(){
 			grid:{
 				left:'60',//组件距离容器左边的距离
 				right:'4%',
-				bottom:'90',
+				bottom:'70',
 				containLaber:true//区域是否包含坐标轴刻度标签
 			},
 			toolbox:{
@@ -333,7 +333,7 @@ function showItemNumChart(){
 				type:'category',
 				data: array4,
 				axisLabel : {
-					rotate: 50, //x轴文字倾斜
+					rotate: 30, //x轴文字倾斜
 				    interval:0 //允许x轴文字全部显示并重叠
 				}
 			},

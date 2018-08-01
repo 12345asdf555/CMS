@@ -54,9 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 10%;margin-left:10px;">
 		按组织机构对设备时长进行统计：<br/>
-		统计时间段内的设备运行时长排行；<br/>
-		X轴：设备编号<br/>
-		Y轴：运行时长(h)<br/></div>
+		统计时间段内的设备运行时长排行；</div>
 		<div id="charts" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
 	    <table id="dg" style="table-layout: fixed; width:100%;"></table>
 	</div>
