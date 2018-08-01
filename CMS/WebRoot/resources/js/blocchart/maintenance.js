@@ -472,12 +472,12 @@ function itemDgDatagrid(){
 			halign : "center",
 			align : "left"
 		},{
-			field : "faultnum",
-			title : "设备故障次数",
-			width : 100,
-			halign : "center",
-			align : "left"
-		},{
+//			field : "faultnum",
+//			title : "设备故障次数",
+//			width : 100,
+//			halign : "center",
+//			align : "left"
+//		},{
 			field : "maintainmoney",
 			title : "设备维修费用",
 			width : 100,
