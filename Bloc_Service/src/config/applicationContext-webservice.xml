@@ -15,7 +15,7 @@
 	
 	
 	<!-- 	address的名称就是访问的WebService的name -->
-	<jaxws:server id="blocService" serviceClass="com.sshome.ssmcxf.webservice.BlocWebService" address="blocWebService">
+	<jaxws:server id="blocService" serviceClass="com.sshome.ssmcxf.webservice.BlocWebService" address="/blocWebService">
     	<jaxws:serviceBean>
 			<!--  要暴露的 bean 的引用 -->
         	<ref bean="blocWebService"/>
