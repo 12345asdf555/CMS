@@ -45,7 +45,7 @@ function showblocHourChart() {
 			trigger : 'axis' //坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend : {
-			data : [ '工时(s)' ]
+			data : [ '工时(h)' ]
 		},
 		grid : {
 			left : '60', //组件距离容器左边的距离
@@ -79,11 +79,11 @@ function showblocHourChart() {
 		},
 		yAxis : {
 			type : 'value', //value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name : '焊接平均时长(s)'
+			name : '焊接平均时长(h)'
 		},
 		series : [
 			{
-				name : '工时(s)',
+				name : '工时(h)',
 				type : 'bar',
 				barMaxWidth : 20, //最大宽度
 				data : array2,
@@ -135,7 +135,7 @@ function BlocHourDatagrid() {
 			align : "left"
 		}, {
 			field : 'manhour',
-			title : '焊接平均工时(s)',
+			title : '焊接平均工时(h)',
 			width : 100,
 			halign : "center",
 			align : "left",

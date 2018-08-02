@@ -69,7 +69,7 @@ function showitemOverproofChart() {
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name: '超标时长(s)'
+			name: '超标时长(h)'
 		},
 		series : []
 	}
@@ -106,7 +106,7 @@ function ItemoverproofDatagrid() {
 				for (var m = 0; m < result.arys.length; m++) {
 					column.push({
 						field : "overproof",
-						title : result.arys[m].name + "(s)",
+						title : result.arys[m].name + "(h)",
 						width : width,
 						halign : "center",
 						align : "left"
@@ -127,8 +127,7 @@ function ItemoverproofDatagrid() {
 						label : {
 							normal : {
 								position : 'top',
-								show : true, //显示每个折点的值
-								formatter : '{c}%'
+								show : true//显示每个折点的值
 							}
 						}
 					});

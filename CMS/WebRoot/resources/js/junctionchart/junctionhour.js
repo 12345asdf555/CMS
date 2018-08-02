@@ -49,7 +49,7 @@ function itemjunctionDatagrid(){
 			}
 		}, {
 			field : 'manhour',
-			title : '焊接工时(s)',
+			title : '焊接工时(h)',
 			width : 100,
 			halign : "center",
 			align : "left"

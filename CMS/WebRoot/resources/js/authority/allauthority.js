@@ -156,6 +156,7 @@
         		AutorityDatagrid();
         		$('#fm').form('load', row);
         		$('#validName').val(row.authorityName);
+        		$("#authorityName").textbox("setValue", row.authorityName.substring(5));
         		url = "authority/updateAuthority?aid="+ row.id;
         	}
         }

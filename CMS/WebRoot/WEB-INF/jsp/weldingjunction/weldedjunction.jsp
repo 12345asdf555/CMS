@@ -25,12 +25,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/weldedjunction/weldedjunction.js"></script>
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
+    <script type="text/javascript" src="resources/js/insframework/insframeworktree.js"></script>
 	<script type="text/javascript" src="resources/js/weldedjunction/addeditweldedjunction.js"></script>
 	<script type="text/javascript" src="resources/js/weldedjunction/removeweldedjunction.js"></script>
 	
   </head>
   
   <body  class="easyui-layout">
+    <jsp:include  page="../insframeworktree.jsp"/>
   	<div id="body" region="center"  hide="true"  split="true" title="焊口" style="background: white; height: 335px;">
 	  	<div id="disctionaryTable_btn">
 			<div style="margin-bottom: 5px;">

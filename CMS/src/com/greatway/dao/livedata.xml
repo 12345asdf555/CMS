@@ -128,7 +128,7 @@
 		SELECT *
 		FROM (
 		(
-		SELECT  SUM(fworktime) AS hous, insf.fname fname, insf.fid fid,group_concat(distinct(j.fid)) jidgather
+		SELECT  SUM(fworktime)/60/60 AS hous, insf.fname fname, insf.fid fid,group_concat(distinct(j.fid)) jidgather
 		FROM tb_work l
 		INNER JOIN tb_welded_junction j ON l.fjunction_id = j.fwelded_junction_no
 		INNER JOIN tb_insframework i ON i.fid = l.fitemid
@@ -185,7 +185,7 @@
 	<!-- 事业部焊接工时 -->
 	<select id="getCausehour" resultMap="dtoMap">
 		select * from (
-		(SELECT SUM(fworktime) AS hous,  i.fname fname, i.fid fid,group_concat(distinct(j.fid)) jidgather
+		(SELECT SUM(fworktime)/60/60 AS hous,  i.fname fname, i.fid fid,group_concat(distinct(j.fid)) jidgather
 		FROM tb_work l
 		INNER JOIN tb_welded_junction j ON l.fjunction_id = j.fwelded_junction_no
 		INNER JOIN tb_insframework i ON i.fid = l.fitemid
@@ -260,7 +260,7 @@
 		SELECT *
 		FROM (
 		(
-		SELECT SUM(fworktime) AS hous, ins.fname fname, ins.fid fid,group_concat(distinct(j.fid)) jidgather
+		SELECT SUM(fworktime)/60/60 AS hous, ins.fname fname, ins.fid fid,group_concat(distinct(j.fid)) jidgather
 		FROM tb_work l
 		INNER JOIN tb_welded_junction j ON l.fjunction_id = j.fwelded_junction_no
 		INNER JOIN tb_insframework i ON i.fid = l.fitemid
@@ -328,7 +328,7 @@
 	<!-- 项目部焊口工时 -->
 	<select id="getItemhour" resultMap="dtoMap">
 		select * from (
-		SELECT SUM(fworktime) AS hous, fmaterial, fexternal_diameter, fwall_thickness, fnextExternal_diameter,fnext_material nextmaterial , fnextwall_thickness,group_concat(distinct(j.fid)) jidgather,j.fitemid itemid
+		SELECT SUM(fworktime)/60/60 AS hous, fmaterial, fexternal_diameter, fwall_thickness, fnextExternal_diameter,fnext_material nextmaterial , fnextwall_thickness,group_concat(distinct(j.fid)) jidgather,j.fitemid itemid
 		FROM tb_work l
 		INNER JOIN tb_welded_junction j ON l.fjunction_id = j.fwelded_junction_no
 		INNER JOIN tb_insframework i ON i.fid = l.fitemid
@@ -379,7 +379,7 @@
 	<select id="getJunctionHous" resultMap="dtoMap">
 		SELECT *
 		FROM (
-		SELECT SUM(fworktime) AS hous,  fdyne dyne, fjunction_id fname, j.fid fid,j.fstart_time starttime,j.fend_time endtime,i.fname iname,GROUP_CONCAT(DISTINCT(w.fname)) fwelder_id
+		SELECT SUM(fworktime)/60/60 AS hous,  fdyne dyne, fjunction_id fname, j.fid fid,j.fstart_time starttime,j.fend_time endtime,i.fname iname,GROUP_CONCAT(DISTINCT(w.fname)) fwelder_id
 		FROM tb_work l
 		INNER JOIN tb_welded_junction j ON l.fjunction_id = j.fwelded_junction_no
 		INNER JOIN tb_insframework i ON l.fitemid = i.fid
@@ -423,7 +423,7 @@
 
 	<!-- 集团超标统计 -->
 	<select id="getBlocOverproof" resultMap="dtoMap">
-		select * from (select sum(falarmtime) as overproof,
+		select * from (select sum(falarmtime)/60/60 as overproof,
 		<if test="dto!=null and dto!=''">
 			<if test="dto.year!=null and dto.year!=''">
 				DATE_FORMAT( fstarttime,  '%Y' )
@@ -457,7 +457,7 @@
 	
 	<!-- 公司超标统计 -->
 	<select id="getCompanyOverproof" resultMap="dtoMap">
-		select * from (select sum(falarmtime) as overproof,
+		select * from (select sum(falarmtime)/60/60 as overproof,
 		<if test="dto!=null and dto!=''">
 			<if test="dto.year!=null and dto.year!=''">
 				DATE_FORMAT( fstarttime,   '%Y' )
@@ -493,7 +493,7 @@
 	
 	<!-- 事业部超标统计 -->
 	<select id="getCauseOverproof" resultMap="dtoMap">
-		select * from (select sum(falarmtime) as overproof,
+		select * from (select sum(falarmtime)/60/60 as overproof,
 		<if test="dto!=null and dto!=''">
 			<if test="dto.year!=null and dto.year!=''">
 				DATE_FORMAT( fstarttime,  '%Y' )
@@ -529,7 +529,7 @@
 	
 	<!-- 项目部超标统计 -->
 	<select id="getItemOverproof" resultMap="dtoMap">
-		select * from (select sum(falarmtime) as overproof,
+		select * from (select sum(falarmtime)/60/60 as overproof,
 		<if test="dto!=null and dto!=''">
 			<if test="dto.year!=null and dto.year!=''">
 				DATE_FORMAT( fstarttime,  '%Y' )
@@ -2063,10 +2063,20 @@
 	</select>
 	
 	<select id="getUseratio" resultMap="dtoMap">
-		SELECT insf.fid, ins.fid caustid,i.fid itemid,i.fname,sum(fworktime)/60/60 worktime FROM tb_work w 
-		INNER JOIN tb_insframework i on i.fid = w.fitemid INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		SELECT fid,caustid,itemid,fname,max(machinenum) total,weldTime,worktime from (
+		SELECT fid,caustid,itemid,fname,COUNT(fmachine_id) machinenum,weldTime,sum(num) worktime from (
+		SELECT insf.fid,ins.fid caustid,i.fid itemid,i.fname,m.fid fmachine_id,DATE_FORMAT(fstarttime, '%Y-%m-%d') weldTime,sum(fworktime)/60/60 num FROM tb_work l 
+		INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+        INNER JOIN tb_insframework i on i.fid = l.fitemid INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
-		where fstarttime &gt;= #{time1} and fstarttime &lt;= #{time2}group by i.fid
+		where  1=1 and fstarttime &gt;= #{time1} and fstarttime &lt;= #{time2} group by i.fid,fmachine_id,weldTime
+   	 	UNION
+    	SELECT insf.fid,ins.fid caustid,i.fid itemid,i.fname,m.fid fmachine_id,DATE_FORMAT(fstarttime, '%Y-%m-%d') weldTime,sum(fstandbytime)/60/60 num FROM tb_standby l 
+		INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+        INNER JOIN tb_insframework i on i.fid = l.fitemid INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
+		where  1=1 and fstarttime &gt;= #{time1} and fstarttime &lt;= #{time2} group by i.fid,fmachine_id,weldTime
+		)temp group by ${insftype},weldTime)A group by itemid
 	</select>
 	
 	<select id="getMaintenanceratio" resultMap="dtoMap">
@@ -2305,7 +2315,7 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if> group by i.fid,fwelder_id,dates 
-		UNION ALL 
+		UNION 
 		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,fwelder_id,DATE_FORMAT( fstarttime,'%Y-%m-%d') dates from tb_standby ts 
 		INNER JOIN tb_insframework i on i.fid = ts.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
@@ -2337,7 +2347,7 @@
 			</if>
 		</if>
 		group by i.fid
-		UNION
+		UNION all
 		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,SUM(fstandbytime)/60/60 time,
 		0 wtime,SUM(fstandbytime)/60/60 stime from tb_standby ts 
 		INNER JOIN tb_insframework i on i.fid = ts.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
@@ -2350,7 +2360,6 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
-		
 		group by i.fid
     	)temp group by itemid
 	</select>
@@ -2387,6 +2396,29 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if> group by fwelder_id
+	</select>
+	
+	<select id="getInsfandMachinenum" resultMap="dtoMap">
+		SELECT * FROM(
+		SELECT insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,count(m.fid) total from tb_welding_machine m  
+		INNER JOIN tb_insframework i on i.fid=m.finsframework_id INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent  where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		UNION ALL
+		SELECT insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,0 num from tb_insframework i 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		and i.fid NOT IN (SELECT i.fid num from tb_welding_machine m  INNER JOIN tb_insframework i on i.fid=m.finsframework_id 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent  where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if> group by m.finsframework_id)
+	    )temp ORDER by itemid
 	</select>
 	
 

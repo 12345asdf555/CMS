@@ -359,8 +359,8 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getUseratio(String time1, String time2) {
-		return live.getUseratio(time1, time2);
+	public List<ModelDto> getUseratio(String time1, String time2, String insftype) {
+		return live.getUseratio(time1, time2, insftype);
 	}
 
 	@Override
@@ -443,6 +443,17 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	@Override
 	public List<ModelDto> getItemStandbyTime(WeldDto dto) {
 		return live.getItemStandbyTime(dto);
+	}
+
+	@Override
+	public List<ModelDto> getInsfandMachinenum(BigInteger parent) {
+		return live.getInsfandMachinenum(parent);
+	}
+
+	@Override
+	public List<ModelDto> getInsfandMachinenum(Page page,BigInteger parent) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getInsfandMachinenum(parent);
 	}
 
 }

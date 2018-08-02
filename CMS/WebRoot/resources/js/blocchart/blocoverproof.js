@@ -57,7 +57,7 @@ function showBlocOverproofChart(){
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name: '超标时长(s)'
+			name: '超标时长(h)'
 		},
 		series:[
 		]
@@ -84,7 +84,7 @@ function BlocHourDatagrid(){
             	 var width=$("#body").width()/result.rows.length;
                  column.push({field:"w",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "left"});
                  for(var m=0;m<result.arys1.length;m++){
-                	 column.push({field:"a"+m,title:"<a href='companyChart/goCompanyOverproof?parent="+result.arys1[m].itemid+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+result.arys1[m].name+"(s)</a>",width:width,halign : "center",align : "left"});
+                	 column.push({field:"a"+m,title:"<a href='companyChart/goCompanyOverproof?parent="+result.arys1[m].itemid+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+result.arys1[m].name+"(h)</a>",width:width,halign : "center",align : "left"});
                 	 array2.push(result.arys1[m].name);
                   	 Series.push({
                   		name : result.arys1[m].name,
@@ -94,8 +94,7 @@ function BlocHourDatagrid(){
 						label : {
 							normal : {
 								position : 'top',
-								show : true, //显示每个折点的值
-								formatter : '{c}%'
+								show : true //显示每个折点的值
 							}
 						}
                   	 });

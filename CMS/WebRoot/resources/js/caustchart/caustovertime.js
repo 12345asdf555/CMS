@@ -53,11 +53,11 @@ function showCaustOverptimeChart(){
 		xAxis:{
 			type:'category',
 			data: array1,
-			name: '焊机数量'
+			name: '日期'
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name: '日期'
+			name: '焊机数量'
 		},
 		series:[
 		]
@@ -99,8 +99,7 @@ function CausttimeDatagrid(){
 						label : {
 							normal : {
 								position : 'top',
-								show : true, //显示每个折点的值
-								formatter : '{c}%'
+								show : true //显示每个折点的值
 							}
 						}
                   	});

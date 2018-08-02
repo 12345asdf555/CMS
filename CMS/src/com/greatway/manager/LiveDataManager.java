@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.model.LiveData;
@@ -472,7 +470,7 @@ public interface LiveDataManager {
 	 * @param time2 结束时间
 	 * @return
 	 */
-	List<ModelDto> getUseratio(String time1,String time2);
+	List<ModelDto> getUseratio(String time1,String time2,String insftype);
 	
 	/**
 	 * 设备维修率
@@ -579,4 +577,12 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getItemStandbyTime(WeldDto dto);
+	
+	/**
+	 * 获取各部门及焊机数量
+	 * @param parent 组织机构id
+	 * @return
+	 */
+	List<ModelDto> getInsfandMachinenum(BigInteger parent);
+	List<ModelDto> getInsfandMachinenum(Page page,BigInteger parent);
 }

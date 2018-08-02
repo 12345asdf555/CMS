@@ -239,7 +239,7 @@ function showPersonChart(){
 		                {value:weld.length, name:'在线'},
 		                {value:namex.length-weld.length, name:'离线'}
 		            ],
-		            roseType: 'radius',
+//		            roseType: 'radius',
 		            label: {
 		                normal: {
 		                	formatter: '{b}:{c}({d}%)',
@@ -267,14 +267,14 @@ function refreshPersonData(data){
          return;
     }
     //更新数据
-     var option = personcharts.getOption();
-     option.series[0].data = data.sort(function (a, b) { return a.value - b.value; });   
-     personcharts.setOption(option);    
+    var option = personcharts.getOption();
+    option.series[0].data = data.sort(function (a, b) { return a.value - b.value; });   
+    personcharts.setOption(option);    
 }
 window.setInterval(function () {
 	var data = [{value:weld.length, name:'在线'},{value:namex.length-weld.length, name:'离线'}];
 	refreshPersonData(data);
-},5000);
+},30000);
 
 var weldercharts;
 function showWelderChart(){
@@ -318,7 +318,7 @@ function showWelderChart(){
 		                {value:wait.length, name:'待机'},
 		                {value:machine.length-work.length-wait.length, name:'关机'}
 		            ],
-		            roseType: 'radius',
+//		            roseType: 'radius',
 		            label: {
 		                normal: {
 			            	formatter: '{b}:{c}({d}%)',
@@ -344,11 +344,11 @@ function showWelderChart(){
 function refreshWelderData(data){
     if(!weldercharts){
          return;
-    }
-    //更新数据
-     var option = weldercharts.getOption();
-     option.series[0].data = data;   
-     weldercharts.setOption(option);    
+	}
+	//更新数据
+	var option = weldercharts.getOption();
+	option.series[0].data = data;
+	weldercharts.setOption(option);
 }
 window.setInterval(function () {
 	var data = [{value:work.length, name:'工作'},{value:wait.length, name:'待机'},{value:machine.length-work.length-wait.length, name:'关机'}];

@@ -1147,97 +1147,118 @@ public class BlocChartController {
 		String time2 = request.getParameter("time2");
 		int flag = Integer.parseInt(request.getParameter("flag"));
 		BigInteger parent = null;
-		List<Insframework> caust = null;
+		List<Insframework> insf = null;
+		String status = "itemid";
 		if(iutil.isNull(parentid)){
 			parent = new BigInteger(parentid);
+			int type = insm.getTypeById(parent);
+			if(type==20){
+				status = "fid";
+			}else if(type==21){
+				status = "caustid";
+			}else if(type==22){
+				status = "itemid";
+			}else if(type==23){
+				status = "itemid";
+			}
 		}
 		if(iutil.isNull(request.getParameter("page")) && iutil.isNull(request.getParameter("rows"))){
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			caust = insm.getCause(page, parent);
+			insf = insm.getCause(page, parent);
 		}else{
-			caust = insm.getCause(parent,null);
+			insf = insm.getCause(parent, null);
 		}
 		long total = 0;
-		if(caust!=null){
-			PageInfo<Insframework> pageinfo = new PageInfo<Insframework>(caust);
+		if(insf!=null){
+			PageInfo<Insframework> pageinfo = new PageInfo<Insframework>(insf);
 			total = pageinfo.getTotal();
 		}
 		try{
-			List<ModelDto> list = lm.getUseratio(time1, time2);
+			List<ModelDto> list = lm.getUseratio(time1, time2, status);
 			//获取时间差
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			long t1 = sdf.parse(time1).getTime();
 			long t2 = sdf.parse(time2).getTime();
 			int days = (int)((t2-t1)/(1000*60*60*24))+1;
 			if(flag==0){//集团层
-				for(Insframework c:caust){
-					double worktime = 0;
-					for(ModelDto i:list){
-						if(i.getFid().equals(c.getId())){
-							worktime += i.getWorktime();
+				for(int i=0;i<insf.size();i++){
+					double max = 0,worktime = 0;
+					int machinenum = 0, maxnum = 0;
+					for(int j=0;j<list.size();j++){
+						if(insf.get(i).getId().equals(list.get(j).getFid())){
+							worktime = list.get(j).getWorktime();
+							maxnum = list.get(j).getTotal();
+							machinenum = lm.getMachineCount(insf.get(i).getId());
+							max = (double)Math.round(((double)list.get(j).getTotal()/(double)machinenum)*10000)/100;
 						}
 					}
-					double wt = (double)Math.round(worktime*100)/100;
-					int num = lm.getMachineCount(c.getId());
-					double useratio = (double)Math.round(wt/num/days*100*100)/100;
-					json.put("name", c.getName());
+					json.put("name", insf.get(i).getName());
 					json.put("day", days);
-					json.put("time", wt);
-					json.put("num", num);
-					json.put("useratio", useratio);
+					json.put("time", (double)Math.round(worktime*100)/100);
+					json.put("maxnum", maxnum);
+					json.put("num", machinenum);
+					json.put("useratio", max);
 					ary.add(json);
 				}
 			}else if(flag==1){//公司层
-				for(Insframework c:caust){
-					double worktime = 0;
-					for(ModelDto i:list){
-						if(i.getCaustid().equals(c.getId())){
-							worktime += i.getWorktime();
+				for(int i=0;i<insf.size();i++){
+					double max = 0,worktime = 0;
+					int machinenum = 0, maxnum = 0;
+					for(int j=0;j<list.size();j++){
+						if(insf.get(i).getId().equals(list.get(j).getCaustid())){
+							worktime = list.get(j).getWorktime();
+							maxnum = list.get(j).getTotal();
+							machinenum = lm.getMachineCount(insf.get(i).getId());
+							max = (double)Math.round(((double)list.get(j).getTotal()/machinenum)*10000)/100;
 						}
 					}
-					double wt = (double)Math.round(worktime*100)/100;
-					int num = lm.getMachineCount(c.getId());
-					double useratio = (double)Math.round(wt/num/days*100*100)/100;
-					json.put("name", c.getName());
+					json.put("name", insf.get(i).getName());
 					json.put("day", days);
-					json.put("time", wt);
-					json.put("num", num);
-					json.put("useratio", useratio);
+					json.put("time", (double)Math.round(worktime*100)/100);
+					json.put("maxnum", maxnum);
+					json.put("num", machinenum);
+					json.put("useratio", max);
 					ary.add(json);
 				}
 			}else if(flag==2){
-				for(Insframework c:caust){
-					double worktime = 0;
-					for(ModelDto i:list){
-						if(i.getItemid().equals(c.getId())){
-							worktime += i.getWorktime();
+				for(int i=0;i<insf.size();i++){
+					double max = 0,worktime = 0;
+					int machinenum = 0, maxnum = 0;
+					for(int j=0;j<list.size();j++){
+						if(insf.get(i).getId().equals(list.get(j).getItemid())){
+							worktime = list.get(j).getWorktime();
+							maxnum = list.get(j).getTotal();
+							machinenum = lm.getMachineCount(insf.get(i).getId());
+							max = (double)Math.round(((double)list.get(j).getTotal()/machinenum)*10000)/100;
 						}
 					}
-					double wt = (double)Math.round(worktime*100)/100;
-					int num = lm.getMachineCount(c.getId());
-					double useratio = (double)Math.round(wt/num/days*100*100)/100;
-					json.put("name", c.getName());
+					json.put("name", insf.get(i).getName());
 					json.put("day", days);
-					json.put("time", wt);
-					json.put("num", num);
-					json.put("useratio", useratio);
+					json.put("time", (double)Math.round(worktime*100)/100);
+					json.put("maxnum", maxnum);
+					json.put("num", machinenum);
+					json.put("useratio", max);
 					ary.add(json);
 				}
 			}else if(flag==3){
 				boolean flags = false;
-				for(ModelDto i:list){
-					if(i.getItemid().equals(parent)){
+				for(int i=0;i<list.size();i++){
+					double max = 0,worktime = 0;
+					int machinenum = 0, maxnum = 0;
+					if(list.get(i).getItemid().equals(parent)){
 						flags = true;
-						double wt = (double)Math.round(i.getWorktime()*100)/100;
-						int num = lm.getMachineCount(i.getItemid());
-						double useratio = (double)Math.round(wt/num/days*100*100)/100;
-						json.put("name", i.getFname());
+						worktime = list.get(i).getWorktime();
+						maxnum = list.get(i).getTotal();
+						machinenum = lm.getMachineCount(parent);
+						max = (double)Math.round(((double)list.get(i).getTotal()/machinenum)*10000)/100;
+						json.put("name", list.get(i).getFname());
 						json.put("day", days);
-						json.put("time", wt);
-						json.put("num", num);
-						json.put("useratio", useratio);
+						json.put("time", (double)Math.round(worktime*100)/100);
+						json.put("maxnum", maxnum);
+						json.put("num", machinenum);
+						json.put("useratio", max);
 						ary.add(json);
 					}
 				}
@@ -1247,6 +1268,7 @@ public class BlocChartController {
 						json.put("name", ins.getName());
 						json.put("day", days);
 						json.put("time", 0);
+						json.put("maxnum", 0);
 						json.put("num", lm.getMachineCount(ins.getId()));
 						json.put("useratio", "0");
 						ary.add(json);

@@ -152,6 +152,7 @@ function openData() {
 
 function openTd() {
 	addTab("实时监测", "td/AllTdp");
+//	window.open("td/AllTdp");
 }
 
 function openWeldingMachine() {
@@ -259,7 +260,8 @@ function openCompanyIdle() {
 }
 
 function openCompanyTd() {
-	addTab("实时监测", "td/newAllTd");
+//	addTab("实时监测", "td/newAllTd");
+	window.open("td/newAllTd");
 }
 
 function openItemEfficiency() {

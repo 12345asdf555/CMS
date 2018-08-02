@@ -64,7 +64,7 @@
 		</if>
 		group by w.fname ORDER by hour desc
 		LIMIT 1)
-		union
+		union all
 		(select sum(fworktime) /60/60 hour,w.fname,l.fwelder_id welderno,i.fname insname FROM  tb_work l  left JOIN  tb_welder w on w.fwelder_no = l.fwelder_id 
 		INNER join tb_insframework i on i.fid = l.fitemid INNER join tb_insframework ins on ins.fid = i.fparent 
 		INNER join tb_insframework insf on insf.fid = ins.fparent 

@@ -122,7 +122,7 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 
 	List<ModelDto> getBlocRunTime(@Param("parent")BigInteger parent,@Param("dto")WeldDto dto,@Param("startindex")int startindex,@Param("endindex")int endindex);
 	
-	List<ModelDto> getUseratio(@Param("time1")String time1,@Param("time2")String time2);
+	List<ModelDto> getUseratio(@Param("time1")String time1,@Param("time2")String time2,@Param("insftype")String insftype);
 	
 	List<ModelDto> getMaintenanceratio(@Param("dto")WeldDto dto);
 	
@@ -153,4 +153,6 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	List<ModelDto> getItemWorkTime(@Param("dto")WeldDto dto);
 	
 	List<ModelDto> getItemStandbyTime(@Param("dto")WeldDto dto);
+	
+	List<ModelDto> getInsfandMachinenum(@Param("parent")BigInteger parent);
 }

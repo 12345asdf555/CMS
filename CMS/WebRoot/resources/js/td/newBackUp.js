@@ -315,7 +315,7 @@ function webclient() {
 	};
 	//发生了错误事件
 	socket.onerror = function() {
-		aler("发生异常，正在尝试重新连接服务器！！！");
+		alert("发生异常，正在尝试重新连接服务器！！！");
 	}
 }
 
@@ -564,9 +564,9 @@ function getOvertime(){
         		if(machine[i].fequipment_no==starows[j].fname){
         			var count = (parseInt(starows[j].ftime)/parseInt(starows[starows.length/2+j].ftime)).toFixed(2);
         			if(count>(parseInt(dic[0].name)/100).toFixed(2)){
-						$("#m6"+machine[f].fid).html("超时待机");
-						$("#status"+machine[f].fid).val(4);
-						$("#img"+machine[f].fid).attr("src","resources/images/welder_05.png");
+						$("#m6"+machine[i].fid).html("超时待机");
+						$("#status"+machine[i].fid).val(4);
+						$("#img"+machine[i].fid).attr("src","resources/images/welder_05.png");
         			}
         			starows[j].ftime=0;
         			starows[starows.length/2+j].ftime=0;

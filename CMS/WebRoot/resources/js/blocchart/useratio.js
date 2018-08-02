@@ -232,8 +232,14 @@ function dgDatagrid(){
 				halign : "center",
 				align : "left"
 			},{
+				field : "maxnum",
+				title : "设备最大使用数(台)",
+				width : 100,
+				halign : "center",
+				align : "left"
+			},{
 				field : "num",
-				title : "设备数量(台)",
+				title : "设备总数(台)",
 				width : 100,
 				halign : "center",
 				align : "left"

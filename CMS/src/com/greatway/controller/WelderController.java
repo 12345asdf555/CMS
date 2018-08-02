@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.greatway.manager.InsframeworkManager;
+import com.greatway.manager.LiveDataManager;
 import com.greatway.manager.WelderManager;
 import com.greatway.model.Welder;
 import com.greatway.page.Page;
@@ -40,6 +41,9 @@ public class WelderController {
 
 	@Autowired
 	private InsframeworkManager im;
+
+	@Autowired
+	private LiveDataManager lm;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -74,6 +78,7 @@ public class WelderController {
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String search = request.getParameter("searchStr");
+		String parent = request.getParameter("parent");
 		page = new Page(pageIndex,pageSize,total);
 		List<Welder> list =wm.getWelderAll(page, search);
 		long total = 0;
@@ -82,7 +87,11 @@ public class WelderController {
 			PageInfo<Welder> pageinfo = new PageInfo<Welder>(list);
 			total = pageinfo.getTotal();
 		}
-		
+
+		String id = lm.getUserId(request).toString();
+		if(iutil.isNull(id)){
+			BigInteger insfid = im.getUserInsfId(new BigInteger(id));
+		}
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
