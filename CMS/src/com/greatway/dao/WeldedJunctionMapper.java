@@ -10,7 +10,7 @@ import com.greatway.model.WeldedJunction;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface WeldedJunctionMapper extends Mapper<WeldedJunction>{
-	List<WeldedJunction> getWeldedJunctionAll(@Param("str")String str);
+	List<WeldedJunction> getWeldedJunctionAll(@Param("str")String str,@Param("parent")BigInteger parent);
 	
 	WeldedJunction getWeldedJunctionById(@Param("id")BigInteger id);
 	
@@ -20,5 +20,5 @@ public interface WeldedJunctionMapper extends Mapper<WeldedJunction>{
 
 	boolean deleteJunction(@Param("id")BigInteger id);
 	
-	int getWeldedjunctionByNo(@Param("wjno")String wjno);
+	int getWeldedjunctionByNo(@Param("wjno")String wjno,@Param("parent") BigInteger parent);
 }

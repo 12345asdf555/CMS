@@ -551,11 +551,11 @@ public interface LiveDataManager {
 	List<ModelDto> getFaultDetail(Page page,WeldDto dto);
 	
 	/**
-	 * 获取在线焊工人数
+	 * 获取在线焊工人数总时长
 	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
 	 * @return
 	 */
-	List<ModelDto> getOnlineNumber(WeldDto dto);
+	List<ModelDto> getOnlineNumber(WeldDto dto,double time);
 	
 	/**
 	 * 获取开机时长,焊接时长，待机时长

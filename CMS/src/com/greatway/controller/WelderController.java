@@ -41,9 +41,6 @@ public class WelderController {
 
 	@Autowired
 	private InsframeworkManager im;
-
-	@Autowired
-	private LiveDataManager lm;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -78,19 +75,24 @@ public class WelderController {
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String search = request.getParameter("searchStr");
-		String parent = request.getParameter("parent");
+		String parentid = request.getParameter("parent");
 		page = new Page(pageIndex,pageSize,total);
-		List<Welder> list =wm.getWelderAll(page, search);
+		BigInteger parent = null;
+		if(iutil.isNull(parentid)){
+			parent = new BigInteger(parentid);
+		}else{
+			MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
+				    .getAuthentication()  
+				    .getPrincipal();
+			long uid = myuser.getId();
+			parent = im.getUserInsfId(BigInteger.valueOf(uid));
+		}
+		List<Welder> list =wm.getWelderAll(page, search, parent);
 		long total = 0;
 		
 		if(list != null){
 			PageInfo<Welder> pageinfo = new PageInfo<Welder>(list);
 			total = pageinfo.getTotal();
-		}
-
-		String id = lm.getUserId(request).toString();
-		if(iutil.isNull(id)){
-			BigInteger insfid = im.getUserInsfId(new BigInteger(id));
 		}
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -230,9 +232,9 @@ public class WelderController {
 	 */
 	@RequestMapping("/wnoValidate")
 	@ResponseBody
-	public String wnoValidate(@RequestParam String wno){
+	public String wnoValidate(@RequestParam String wno, @RequestParam BigInteger parent){
 		boolean flag = true;
-		int count = wm.getWeldernoCount(wno);
+		int count = wm.getWeldernoCount(wno, parent);
 		if(count > 0){
 			flag = false;
 		}

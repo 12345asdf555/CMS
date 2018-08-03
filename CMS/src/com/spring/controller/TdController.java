@@ -134,11 +134,7 @@ public class TdController {
 	
 	@RequestMapping("/newAllTd")
 	public String newAllTd(HttpServletRequest request){
-		String uid = lm.getUserId(request).toString();
-		if(uid!=null){
-			String insname = tdService.findInsname(tdService.findIns(Long.parseLong(uid)));
-			request.setAttribute("proj", insname);
-		}
+		lm.getUserId(request);
 		return "td/newBackUp";
 	}
 	

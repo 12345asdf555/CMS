@@ -11,7 +11,7 @@ public interface WeldedJunctionManager {
 	/**
 	 * 查询所有焊口
 	 */
-	List<WeldedJunction> getWeldedJunctionAll(Page page, String str);
+	List<WeldedJunction> getWeldedJunctionAll(Page page, String str, BigInteger parent);
 	
 	/**
 	 * 根据id查找焊口
@@ -25,7 +25,7 @@ public interface WeldedJunctionManager {
 	 * @param wjno 悍缝编号
 	 * @return 受影响的行数
 	 */
-	int getWeldedjunctionByNo(String wjno);
+	int getWeldedjunctionByNo(String wjno, BigInteger parent);
 	
 	/**
 	 * 新增焊缝

@@ -146,7 +146,7 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 
 	List<ModelDto> getFaultDetail(@Param("dto")WeldDto dto);
 
-	List<ModelDto> getOnlineNumber(@Param("dto")WeldDto dto);
+	List<ModelDto> getOnlineNumber(@Param("dto")WeldDto dto,@Param("time")double time);
 
 	List<ModelDto> getOperatoreTime(@Param("dto")WeldDto dto);
 	

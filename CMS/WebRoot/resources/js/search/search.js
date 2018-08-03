@@ -6,6 +6,52 @@ var content="";
 var joint = "";
 var flag = true;
 
+//新增工艺查询条件
+function newSearchWps(){
+	fillcontent();
+	newSearch();
+	searchWpsCombobox();
+	initSearch();
+}
+
+//工艺查询下拉框
+function searchWpsCombobox(){
+	var optionFields = 
+		"<option value='FWPSNum'>工艺编号</option>" +
+		"<option value='Fweld_I'>标准焊接电流</option>" +
+		"<option value='Fweld_V'>标准焊接电压</option>" +
+		"<option value='Fweld_I_MAX'>最大焊接电流</option>" +
+		"<option value='Fweld_I_MIN'>最小焊接电流</option>" +
+		"<option value='Fweld_V_MAX'>最大焊接电压</option>" +
+		"<option value='Fweld_V_MIN'>最小焊接电压</option>" +
+		"<option value='Fweld_Alter_I'>报警电流</option>" +
+		"<option value='Fweld_Alter_V'>报警电压</option>" +
+		"<option value='Fweld_PreChannel'>预置通道</option>" +
+//		"<option value='FCReateDate'>提交时间</option>" +
+//		"<option value='FUpdateDate'>修改时间</option>" +
+		"<option value='i.fname'>所属项目</option>";
+	$(".fields").html(optionFields);
+	createSearchCombobox();
+}
+
+function insertSearchWps(){
+	$("#searchdiv").dialog("open");
+	searchWpsCombobox();
+	initSearch();
+}
+
+function searchWps(){
+	fillcontent();
+	if(!getContent()){
+		return;
+	}
+	$('#dg').datagrid('load', {
+		"searchStr" : searchStr
+	});
+	$("#searchdiv").dialog("close");
+	searchStr="";
+}
+
 //生产厂商进入查询
 function insertSearchManufacturer(){
 	$("#searchdiv").dialog("open");

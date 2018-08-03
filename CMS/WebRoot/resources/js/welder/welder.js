@@ -1,13 +1,20 @@
-$(function(){
-  weldDatagrid();
-  insframworkCombobox();
-  $('#dlg').dialog( {
-    onClose : function() {
-      $('#itemname').combobox('clear');
-      $("#fm").form("disableValidation");
-    }
-  })
-  $("#fm").form("disableValidation");
+$(function() {
+	weldDatagrid();
+	insframeworkTree();
+	insframworkCombobox();
+	$('#dlg').dialog({
+		onClose : function() {
+			$('#itemname').combobox('clear');
+			$("#fm").form("disableValidation");
+		}
+	});
+	$("#itemname").combobox({
+		onChange : function() {
+			var no = $("#welderno").val();
+			$("#welderno").textbox('setValue', no); //组织机构发生变化时重新修改焊工编号，触发约束
+		}
+	})
+	$("#fm").form("disableValidation");
 });
 
 function weldDatagrid(){
@@ -128,7 +135,7 @@ function editWelder(){
     $('#dlg').window('open');
     $('#fm').form('load', row);
     $('#oldwelder').val(row.welderno);
-    $("#itemid").textbox('setValue',row.itemname);
+    $("#itemid").textbox('setValue',row.iid);
     url = "welder/editWelder";
   }
 }
@@ -219,6 +226,19 @@ function removeWelder(){
     }
   });
 }
+  
+
+//树形菜单点击事件
+function insframeworkTree(){
+	$("#myTree").tree({  
+		onClick : function(node){
+			$("#welderTable").datagrid('load',{
+				"parent" : node.id
+			})
+		 }
+	})
+}
+  
 //监听窗口大小变化
 window.onresize = function() {
   setTimeout(domresize, 500);

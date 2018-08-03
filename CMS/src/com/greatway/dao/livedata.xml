@@ -2303,7 +2303,7 @@
 	<!-- 统计在线焊工人数 -->
 	<select id="getOnlineNumber" resultMap="dtoMap">
 		select fid,fname,caustid,iname,itemid,wname,sum(weldtime) total from (
-		select fid,fname,caustid,iname,itemid,wname,count(fwelder_id)*8 weldtime,dates from (
+		select fid,fname,caustid,iname,itemid,wname,count(fwelder_id)*#{time} weldtime,dates from (
 		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,fwelder_id,DATE_FORMAT( fstarttime,'%Y-%m-%d') dates from tb_work tw 
 		INNER JOIN tb_insframework i on i.fid = tw.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
@@ -2366,6 +2366,7 @@
 	
 	<select id="getItemWorkTime" resultMap="dtoMap">
 		select SUM(fworktime)/60/60 worktime,fwelder_id,w.fname from tb_work tw 
+		INNER JOIN tb_insframework i on i.fid = tw.fitemid
 		left JOIN tb_welder w on w.fwelder_no = tw.fwelder_id
 		where 1=1 
 		<if test="dto!=null and dto!=''">

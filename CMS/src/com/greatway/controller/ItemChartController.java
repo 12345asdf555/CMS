@@ -1428,9 +1428,9 @@ public class ItemChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			welder = weldmanager.getWelderAll(page, " i.fid = "+parent);
+			welder = weldmanager.getWelderAll(page, null, parent);
 		}else{
-			welder = weldmanager.getWelderAll(" i.fid = "+parent);
+			welder = weldmanager.getWelderAll(null,parent);
 		}
 		long total = 0;
 		if(welder!=null){

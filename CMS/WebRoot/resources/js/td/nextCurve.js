@@ -437,7 +437,7 @@ function iview() {
 	vol.length = 0;
 	ele.length = 0;
 	for (var i = 0; i < redata.length; i += 69) {
-		if (redata.substring(8 + i, 12 + i) != "0000") {
+//		if (redata.substring(8 + i, 12 + i) != "0000") {
 			if (parseInt(redata.substring(4 + i, 8 + i)) == document.getElementById("in2").value) {
 				var liveele = parseInt(redata.substring(12+i, 16+i));
 	            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
@@ -537,8 +537,7 @@ function iview() {
 			}
 		}
 		z++;
-	}
-	;
+//	}
 	if ((time.length) % 3 == 1) {
 		ele[time.length] = ele[time.length - 1];
 		ele[time.length + 1] = ele[time.length - 1];

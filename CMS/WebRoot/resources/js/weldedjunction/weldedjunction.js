@@ -1,5 +1,12 @@
 $(function(){
+	insframeworkTree();
 	weldedJunctionDatagrid();
+	$("#itemid").combobox({
+		onChange : function(){
+			var no = $("#weldedJunctionno").val();
+			$("#weldedJunctionno").textbox('setValue',no);//组织机构发生变化时重新修改焊口编号，触发约束
+		}
+	})
 });
 
 function weldedJunctionDatagrid(){
@@ -24,7 +31,7 @@ function weldedJunctionDatagrid(){
 		}, {
 			field : 'weldedJunctionno',
 			title : '编号',
-			width : 50,
+			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
@@ -86,37 +93,37 @@ function weldedJunctionDatagrid(){
 		}, {
 			field : 'externalDiameter',
 			title : '上游外径',
-			width : 50,
+			width : 60,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'nextexternaldiameter',
 			title : '下游外径',
-			width : 50,
+			width : 60,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'wallThickness',
 			title : '上游壁厚',
-			width : 50,
+			width : 60,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'nextwall_thickness',
 			title : '下游璧厚',
-			width : 50,
+			width : 60,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'material',
 			title : '上游材质',
-			width : 50,
+			width : 80,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'next_material',
 			title : '下游材质',
-			width : 50,
+			width : 80,
 			halign : "center",
 			align : "left"
 		}, {
@@ -137,25 +144,29 @@ function weldedJunctionDatagrid(){
 			title : '电流上限',
 			width : 50,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'minElectricity',
 			title : '电流下限',
 			width : 50,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'maxValtage',
 			title : '电压上限',
 			width : 50,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'minValtage',
 			title : '电压下限',
 			width : 50,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'itemname',
 			title : '所属项目',
@@ -249,6 +260,17 @@ function showMore(){
 
 function closeshowmore(){
 	$('#moredlg').window('close');
+}
+
+//树形菜单点击事件
+function insframeworkTree(){
+	$("#myTree").tree({  
+		onClick : function(node){
+			$("#weldedJunctionTable").datagrid('load',{
+				"parent" : node.id
+			})
+		 }
+	})
 }
 
 //监听窗口大小变化

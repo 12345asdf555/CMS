@@ -426,8 +426,8 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getOnlineNumber(WeldDto dto) {
-		return live.getOnlineNumber(dto);
+	public List<ModelDto> getOnlineNumber(WeldDto dto,double time) {
+		return live.getOnlineNumber(dto,time);
 	}
 
 	@Override

@@ -322,7 +322,7 @@ function webclient() {
 //获取实时数据
 function iview() {
 	for (var i = 0; i < redata.length; i += 69) {
-		if (redata.substring(8 + i, 12 + i) != "0000") {
+//		if (redata.substring(8 + i, 12 + i) != "0000") {
 			for(var f=0;f<machine.length;f++){
 				if(machine[f].fid==(parseInt(redata.substring(4+i, 8+i)))){
 					for(var k=0;k<welderName.length;k++){
@@ -385,7 +385,7 @@ function iview() {
 					}
 				}
 			}
-		}
+//		}
 //		if(starows.length==0){
 //			var arr  =
 //		     {

@@ -126,7 +126,7 @@ public class DictonaryController {
 				obj.put("msg", objects[0].toString());
 			}else{
 				obj.put("success", false);
-				obj.put("errorMsg", "鎿嶄綔澶辫触锛�");
+				obj.put("errorMsg", "操作失败！");
 			}
 		}catch(Exception e){
 			obj.put("success",false);
@@ -150,7 +150,7 @@ public class DictonaryController {
 			Client client = dcf.createClient(blocurl);
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"dictionaryWebServiceImpl\",\"METHOD\":\"editDictionary\"}";
-			String obj2 = "{\"ID\":\""+dic.getId()+"\",\"BACK\":\""+request.getParameter("back")+"\",\"TYPEID\":\""+request.getParameter("typeid")+"\",\"VALUENAME\":\""+request.getParameter("valueName")+"\",\"MODIFIER\":\""+myuser.getId()+"\"}";
+			String obj2 = "{\"ID\":\""+dic.getId()+"\",\"BACK\":\""+request.getParameter("back")+"\",\"TYPEID\":\""+request.getParameter("value")+"\",\"VALUENAME\":\""+request.getParameter("valueName")+"\",\"MODIFIER\":\""+myuser.getId()+"\"}";
 			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
 			if(objects[0].toString().equals("true")){
 				obj.put("success", true);
@@ -159,7 +159,7 @@ public class DictonaryController {
 				obj.put("msg", objects[0].toString());
 			}else{
 				obj.put("success", false);
-				obj.put("errorMsg", "鎿嶄綔澶辫触锛�");
+				obj.put("errorMsg", "操作失败！");
 			}
 		}catch(Exception e){
 			obj.put("success",false);
@@ -189,7 +189,7 @@ public class DictonaryController {
 				obj.put("msg", objects[0].toString());
 			}else{
 				obj.put("success", false);
-				obj.put("errorMsg", "鎿嶄綔澶辫触锛�");
+				obj.put("errorMsg", "操作失败！");
 			}
 		}catch(Exception e){
 			obj.put("success",false);

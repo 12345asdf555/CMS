@@ -20,14 +20,14 @@ public class WeldedJunctionManagerImpl implements WeldedJunctionManager{
 	private WeldedJunctionMapper wjm;
 
 	@Override
-	public List<WeldedJunction> getWeldedJunctionAll(Page page, String str) {
+	public List<WeldedJunction> getWeldedJunctionAll(Page page, String str, BigInteger parent) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return wjm.getWeldedJunctionAll(str);
+		return wjm.getWeldedJunctionAll(str,parent);
 	}
 
 	@Override
-	public int getWeldedjunctionByNo(String wjno) {
-		return wjm.getWeldedjunctionByNo(wjno);
+	public int getWeldedjunctionByNo(String wjno, BigInteger parent) {
+		return wjm.getWeldedjunctionByNo(wjno, parent);
 	}
 
 	@Override

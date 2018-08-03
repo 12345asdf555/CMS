@@ -84,7 +84,8 @@
   </context-param>
   <context-param>
   	<param-name>websocket</param-name>
-  	<param-value>"ws://121.196.222.216:5550/SerialPortDemo/ws/张三"</param-value>
+<!--   	<param-value>"ws://121.196.222.216:5550/SerialPortDemo/ws/张三"</param-value> -->
+  	<param-value>"ws://192.168.3.234:4555/SerialPortDemo/ws/张三"</param-value>
   </context-param>
   <welcome-file-list>
     <welcome-file>/index.jsp</welcome-file>

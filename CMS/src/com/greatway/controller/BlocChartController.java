@@ -1640,8 +1640,9 @@ public class BlocChartController {
 			total = pageinfo.getTotal();
 		}
 		try{
+			List<Dictionarys> dictionary = dm.getDictionaryValue(10);
 			//获取所选组织机构的所有下级部门
-			List<ModelDto> list = lm.getOnlineNumber(dto);
+			List<ModelDto> list = lm.getOnlineNumber(dto,Double.valueOf(dictionary.get(0).getValueName()));
 			List<ModelDto> time = lm.getOperatoreTime(dto);
 			//获取时间差
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

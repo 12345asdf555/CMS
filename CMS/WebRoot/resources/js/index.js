@@ -95,6 +95,11 @@ function getUserInsframework() {
 		}
 	})
 }
+
+function openWps(){
+	addTab("工艺管理", "wps/goWps");
+}
+
 function openChildrenUseratio(){
 	addTab("班组设备利用率", "hierarchy/goUseratio");
 }

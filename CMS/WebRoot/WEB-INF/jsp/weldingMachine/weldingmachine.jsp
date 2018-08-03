@@ -23,6 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript" src="resources/js/jquery.min.js"></script>
   <script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
   <script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
   <script type="text/javascript" src="resources/js/insframework/insframeworktree.js"></script>
   <script type="text/javascript" src="resources/js/weldingMachine/weldingMachine.js"></script>
   <script type="text/javascript" src="resources/js/weldingMachine/addeditweldingmachine.js"></script>
@@ -30,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript" src="resources/js/search/search.js"></script>
   </head>
   
-  <body  class="easyui-layout">
+  <body class="easyui-layout">
     <jsp:include  page="../insframeworktree.jsp"/>
     <div id="body" region="center"  hide="true"  split="true" title="焊机设备管理" style="background: #eee;height: 335px;">
       <input type="hidden" id="treeid"/>

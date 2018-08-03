@@ -20,13 +20,13 @@ public class WelderManagerImpl implements WelderManager {
 	private WelderMapper wm;
 	
 	@Override
-	public List<Welder> getWelderAll(Page page, String str) {
+	public List<Welder> getWelderAll(Page page, String str, BigInteger parent) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return wm.getWelderAll(str);
+		return wm.getWelderAll(str,parent);
 	}
 	@Override
-	public List<Welder> getWelderAll(String str) {
-		return wm.getWelderAll(str);
+	public List<Welder> getWelderAll(String str, BigInteger parent) {
+		return wm.getWelderAll(str,parent);
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class WelderManagerImpl implements WelderManager {
 	}
 
 	@Override
-	public int getWeldernoCount(String wno) {
-		return wm.getWeldernoCount(wno);
+	public int getWeldernoCount(String wno, BigInteger parent) {
+		return wm.getWeldernoCount(wno, parent);
 	}
 
 	@Override

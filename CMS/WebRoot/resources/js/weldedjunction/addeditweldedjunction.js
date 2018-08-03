@@ -96,43 +96,7 @@ function save(){
 	    } 
 	});
 }
-////提交
-//function save(){
-//	var messager = "";
-//	var url2 = "";
-//	if(flag==1){
-//		messager = "新增成功！";
-//		url2 = url;
-//	}else{
-//		messager = "修改成功！";
-//		url2 = url;
-//	}
-//	$('#fm').form('submit', {
-//		url : url2,
-//		onSubmit : function() {
-//			return $(this).form('enableValidation').form('validate');
-//		},
-//		success : function(result) {
-//			if(result){
-//				var result = eval('(' + result + ')');
-//				if (!result.success) {
-//					$.messager.show( {
-//						title : 'Error',
-//						msg : result.errorMsg
-//					});
-//				}else{
-//					$.messager.alert("提示", messager);
-//					$('#dlg').dialog('close');
-//					$('#weldedJunctionTable').datagrid('reload');
-//				}
-//			}
-//			
-//		},  
-//	    error : function(errorMsg) {  
-//	        alert("数据请求失败，请联系系统管理员!");  
-//	    } 
-//	});
-//}
+
 //所属项目
 function InsframeworkCombobox(){
 	$.ajax({  

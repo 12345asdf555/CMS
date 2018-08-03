@@ -83,9 +83,19 @@ public class WeldedJunctionControll {
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String serach = request.getParameter("searchStr");
-		
+		String parentid = request.getParameter("parent");
+		BigInteger parent = null;
+		if(iutil.isNull(parentid)){
+			parent = new BigInteger(parentid);
+		}else{
+			MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
+				    .getAuthentication()  
+				    .getPrincipal();
+			long uid = myuser.getId();
+			parent = im.getUserInsfId(BigInteger.valueOf(uid));
+		}
 		page = new Page(pageIndex,pageSize,total);
-		List<WeldedJunction> list = wjm.getWeldedJunctionAll(page, serach);
+		List<WeldedJunction> list = wjm.getWeldedJunctionAll(page, serach, parent);
 		long total = 0;
 		
 		if(list != null){
@@ -263,9 +273,9 @@ public class WeldedJunctionControll {
 	
 	@RequestMapping("/wjNoValidate")
 	@ResponseBody
-	private String wjNoValidate(@RequestParam String wjno){
+	private String wjNoValidate(@RequestParam String wjno,@RequestParam BigInteger parent){
 		boolean data = true;
-		int count = wjm.getWeldedjunctionByNo(wjno);
+		int count = wjm.getWeldedjunctionByNo(wjno,parent);
 		if(count>0){
 			data = false;
 		}
