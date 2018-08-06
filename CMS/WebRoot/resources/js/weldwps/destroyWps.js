@@ -12,7 +12,7 @@ function removeWps() {
 		});
 		$('#rdlg').window('open');
 		$('#rfm').form('load', row);
-		url = "wps/destroyWps?fid=" + row.fid;
+		url = "wps/destroyWps?fid=" + row.fid +"&insfid=" + row.insid;
 	}
 }
 
@@ -29,7 +29,10 @@ function remove() {
 							msg : result.errorMsg
 						});
 					} else {
-						$.messager.alert("提示", "删除成功");
+		            	$.messager.alert("提示", "删除成功！");
+						if(result.msg!=null){
+							$.messager.show( {title : '提示',msg : result.msg});
+						}
 						$('#rdlg').dialog('close');
 						$('#dg').datagrid('reload');
 					}

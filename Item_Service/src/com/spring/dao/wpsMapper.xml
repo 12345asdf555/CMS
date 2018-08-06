@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.spring.dao.WpsMapper">
+
+	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
+	<select id="findAll" resultType="Wps">
+		select tb_mainwps.FID fid,tb_mainwps.FWPSNum
+		fwpsnum,tb_mainwps.Fweld_I fweld_i,tb_mainwps.Fweld_V
+		fweld_v,tb_mainwps.Fweld_I_MAX fweld_i_max,tb_mainwps.Fweld_I_MIN
+		fweld_i_min,tb_mainwps.Fweld_V_MAX fweld_v_max,tb_mainwps.Fweld_V_MIN
+		fweld_v_min,tb_mainwps.Fweld_Alter_I
+		fweld_alter_i,tb_mainwps.Fweld_Alter_V
+		fweld_alter_v,tb_mainwps.Fweld_PreChannel
+		fweld_prechannel,tb_mainwps.FCReateDate
+		fcreatedate,tb_mainwps.FUpdateDate fupdatedate,tb_mainwps.Fowner
+		fowner,tb_mainwps.Fback fback,tb_mainwps.Fname
+		fname,tb_mainwps.Fdiameter fdiameter,i.fid insid,i.fname insname from
+		tb_mainwps left join tb_insframework i on tb_mainwps.Fowner=i.fid
+		where 1=1
+		<if test="parent!=null and parent!=''">
+			and i.fid = #{parent}
+		</if>
+		<if test="str!=null and str!=''">
+			and ${str}
+		</if>
+		ORDER by tb_mainwps.FID
+	</select>
+
+	<select id="findById" parameterType="BigInteger" resultType="Wps">
+		select tb_mainwps.FID fid,tb_mainwps.FWPSNum
+		fwpsnum,tb_mainwps.Fweld_I fweld_i,tb_mainwps.Fweld_V
+		fweld_v,tb_mainwps.Fweld_I_MAX fweld_i_max,tb_mainwps.Fweld_I_MIN
+		fweld_i_min,tb_mainwps.Fweld_V_MAX fweld_v_max,tb_mainwps.Fweld_V_MIN
+		fweld_v_min,tb_mainwps.Fweld_Alter_I
+		fweld_alter_i,tb_mainwps.Fweld_Alter_V
+		fweld_alter_v,tb_mainwps.Fweld_PreChannel
+		fweld_prechannel,tb_mainwps.FCReateDate
+		fcreatedate,tb_mainwps.FUpdateDate fupdatedate,tb_mainwps.Fowner
+		fowner,tb_mainwps.Fback fback,tb_mainwps.Fname
+		fname,tb_mainwps.Fdiameter fdiameter from tb_mainwps where
+		tb_mainwps.FID=#{fid}
+	</select>
+
+	<insert id="save" parameterType="Wps">
+		insert into
+		tb_mainwps(FID,FWPSNum,Fweld_I,Fweld_V,Fweld_I_MAX,Fweld_I_MIN,Fweld_V_MAX,Fweld_V_MIN,Fweld_Alter_I,Fweld_Alter_V,Fweld_PreChannel,FCReateDate,Fcreater,Fowner,Fback,Fname,Fdiameter)
+		values(#{fid},#{fwpsnum},#{fweld_i},#{fweld_v},#{fweld_i_max},#{fweld_i_min},#{fweld_v_max},#{fweld_v_min},#{fweld_alter_i},#{fweld_alter_v},#{fweld_prechannel},now(),#{fcreater},#{insid},#{fback},#{fname},#{fdiameter});
+	</insert>
+
+	<update id="update" parameterType="Wps">
+		update tb_mainwps set
+		FWPSNum=#{fwpsnum},Fweld_I=#{fweld_i},Fweld_V=#{fweld_v},Fweld_I_MAX=#{fweld_i_max},Fweld_I_MIN=#{fweld_i_min},Fweld_V_MAX=#{fweld_v_max},Fweld_V_MIN=#{fweld_v_min},Fweld_Alter_I=#{fweld_alter_i},Fweld_Alter_V=#{fweld_alter_v},Fweld_PreChannel=#{fweld_prechannel},FUpdateDate=now(),Fupdater=#{fupdater},Fowner=#{insid},Fback=#{fback},Fname=#{fname},Fdiameter=#{fdiameter}
+		where FID=#{fid};
+	</update>
+
+	<select id="getUsernameCount" parameterType="String" resultType="java.lang.Integer">
+		select count(*) from tb_mainwps where FWPSNum=#{fwpsnum}
+	</select>
+	<delete id="delete" parameterType="BigInteger">
+		delete from tb_mainwps where FID=#{fid}
+	</delete>
+</mapper>

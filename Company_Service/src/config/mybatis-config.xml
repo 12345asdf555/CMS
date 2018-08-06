@@ -16,6 +16,7 @@
 		<typeAlias alias="Td" type="com.spring.model.Td" />
 		<typeAlias alias="Authority" type="com.spring.model.Authority" />
 		<typeAlias alias="Resources" type="com.spring.model.Resources" />
+		<typeAlias alias="Wps" type="com.spring.model.Wps"/>
 	</typeAliases>
 	
 	<plugins>
@@ -47,6 +48,7 @@
 		<mapper resource="com/spring/dao/weldedjunction.xml" />
 		<mapper resource="com/spring/dao/fault.xml" />
 		<mapper resource="com/spring/dao/chart.xml" />
+		<mapper resource="com/spring/dao/wpsMapper.xml"/>
 	</mappers>
 
 </configuration>  

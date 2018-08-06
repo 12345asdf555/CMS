@@ -4,7 +4,10 @@ import java.math.BigInteger;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.namespace.QName;
 
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.WpsService;
 import com.greatway.model.Wps;
 import com.greatway.page.Page;
@@ -32,6 +36,9 @@ public class WpsController {
 
 	@Autowired
 	private WpsService wpsService;
+	
+	@Autowired
+	private InsframeworkManager im;
 
 	IsnullUtil iutil = new IsnullUtil();
 
@@ -96,13 +103,36 @@ public class WpsController {
 	@RequestMapping("/addWps")
 	@ResponseBody
 	public String addUser(HttpServletRequest request,Wps wps) {
-		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		JSONObject obj = new JSONObject();
-		try {
-			wps.setFcreater(myuser.getId());
-			wpsService.save(wps);
-			obj.put("success", true);
-		} catch (Exception e) {
+		try{
+			//当前层级
+			String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
+			//获取当前用户
+			Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			MyUser myuser = (MyUser)object;
+			//获取项目层url
+			String itemurl = request.getSession().getServletContext().getInitParameter("itemurl");
+			//获取公司发布地址
+			String companyurl = im.webserviceDto(request, wps.getInsid());
+			//客户端执行操作
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+			Client client = dcf.createClient(companyurl);
+			iutil.Authority(client);
+			String obj1 = "{\"CLASSNAME\":\"wpsWebServiceImpl\",\"METHOD\":\"save\"}";
+			String obj2 = "{\"WPSNO\":\""+wps.getFwpsnum()+"\",\"PRECHANNEL\":\""+wps.getFweld_prechannel()+"\",\"ALERTELECTRICITY\":\""+wps.getFweld_alter_i()+"\",\"ALERTVALTAGE\":\""+wps.getFweld_alter_v()+"\",\"ELECTRICITY\":\""+wps.getFweld_i()+"\",\"VALTAGE\":\""+
+					wps.getFweld_v()+"\",\"MAXELECTRICITY\":\""+wps.getFweld_i_max()+"\",\"MINELECTRICITY\":\""+wps.getFweld_i_min()+"\",\"MAXVALTAGE\":\""+wps.getFweld_v_max()+"\",\"MINVALTAGE\":\""+wps.getFweld_v_min()+"\",\"NAME\":\""
+					+wps.getFname()+"\",\"DIAMETER\":\""+wps.getFdiameter()+"\",\"INSFID\":\""+wps.getInsid()+"\",\"BACK\":\""+wps.getFback()+"\",\"CREATOR\":\""+myuser.getId()+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
+			if(objects[0].toString().equals("true")){
+				obj.put("success", true);
+			}else if(!objects[0].toString().equals("false")){
+				obj.put("success", true);
+				obj.put("msg", objects[0].toString());
+			}else{
+				obj.put("success", false);
+				obj.put("errorMsg", "操作失败！");
+			}
+		}catch(Exception e){
 			e.printStackTrace();
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
@@ -113,29 +143,73 @@ public class WpsController {
 	@RequestMapping("/updateWps")
 	@ResponseBody
 	public String updateWps(Wps wps, HttpServletRequest request) {
-		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		JSONObject obj = new JSONObject();
-		try {
-			wps.setFupdater(myuser.getId());
-			wpsService.update(wps);
-			obj.put("success", true);
-		} catch (Exception e) {
+		try{
+			//当前层级
+			String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
+			//获取当前用户
+			Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			MyUser myuser = (MyUser)object;
+			//获取项目层url
+			String itemurl = request.getSession().getServletContext().getInitParameter("itemurl");
+			//获取公司发布地址
+			String companyurl = im.webserviceDto(request, wps.getInsid());
+			//客户端执行操作
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+			Client client = dcf.createClient(companyurl);
+			iutil.Authority(client);
+			String obj1 = "{\"CLASSNAME\":\"wpsWebServiceImpl\",\"METHOD\":\"update\"}";
+			String obj2 = "{\"ID\":\""+wps.getFid()+"\",\"WPSNO\":\""+wps.getFwpsnum()+"\",\"PRECHANNEL\":\""+wps.getFweld_prechannel()+"\",\"ALERTELECTRICITY\":\""+wps.getFweld_alter_i()+"\",\"ALERTVALTAGE\":\""+wps.getFweld_alter_v()+"\",\"ELECTRICITY\":\""+wps.getFweld_i()+"\",\"VALTAGE\":\""+
+					wps.getFweld_v()+"\",\"MAXELECTRICITY\":\""+wps.getFweld_i_max()+"\",\"MINELECTRICITY\":\""+wps.getFweld_i_min()+"\",\"MAXVALTAGE\":\""+wps.getFweld_v_max()+"\",\"MINVALTAGE\":\""+wps.getFweld_v_min()+"\",\"NAME\":\""
+					+wps.getFname()+"\",\"DIAMETER\":\""+wps.getFdiameter()+"\",\"INSFID\":\""+wps.getInsid()+"\",\"BACK\":\""+wps.getFback()+"\",\"MODIFIER\":\""+myuser.getId()+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
+			if(objects[0].toString().equals("true")){
+				obj.put("success", true);
+			}else if(!objects[0].toString().equals("false")){
+				obj.put("success", true);
+				obj.put("msg", objects[0].toString());
+			}else{
+				obj.put("success", false);
+				obj.put("errorMsg", "操作失败！");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
 		}
 		return obj.toString();
-
 	}
 
 	@RequestMapping("/destroyWps")
 	@ResponseBody
-	public String destroyWps(@RequestParam BigInteger fid) {
-
+	public String destroyWps(HttpServletRequest request, @RequestParam BigInteger fid, @RequestParam BigInteger insfid) {
 		JSONObject obj = new JSONObject();
-		try {
-			wpsService.delete(fid);
-			obj.put("success", true);
-		} catch (Exception e) {
+		try{
+			//当前层级
+			String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
+			//获取项目层url
+			String itemurl = request.getSession().getServletContext().getInitParameter("itemurl");
+			//获取公司发布地址
+			String companyurl = im.webserviceDto(request, fid);
+			//客户端执行操作
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+			Client client = dcf.createClient(companyurl);
+			iutil.Authority(client);
+			String obj1 = "{\"CLASSNAME\":\"wpsWebServiceImpl\",\"METHOD\":\"delete\"}";
+			String obj2 = "{\"ID\":\""+fid+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\",\"INSFID\":\""+insfid+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
+			if(objects[0].toString().equals("true")){
+				obj.put("success", true);
+				obj.put("msg", null);
+			}else if(!objects[0].toString().equals("false")){
+				obj.put("success", true);
+				obj.put("msg", objects[0].toString());
+			}else{
+				obj.put("success", false);
+				obj.put("errorMsg", "操作失败！");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
 		}

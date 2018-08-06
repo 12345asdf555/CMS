@@ -1,9 +1,9 @@
-package com.greatway.model;
+package com.spring.model;
 
 import java.math.BigInteger;
 
 public class Wps {
-	private long fid;
+	private BigInteger fid;
 	private BigInteger insid;
 	private String insname;
 	private String fwpsnum;
@@ -22,10 +22,10 @@ public class Wps {
 	private String fname;
 	private double fdiameter;
 	
-	public long getFid() {
+	public BigInteger getFid() {
 		return fid;
 	}
-	public void setFid(long fid) {
+	public void setFid(BigInteger fid) {
 		this.fid = fid;
 	}
 	public BigInteger getInsid() {
@@ -130,7 +130,7 @@ public class Wps {
 	public void setFdiameter(double fdiameter) {
 		this.fdiameter = fdiameter;
 	}
-	public Wps(long fid, BigInteger insid, String insname, String fwpsnum, int fweld_i, int fweld_v, int fweld_i_max,
+	public Wps(BigInteger fid, BigInteger insid, String insname, String fwpsnum, int fweld_i, int fweld_v, int fweld_i_max,
 			int fweld_i_min, int fweld_v_max, int fweld_v_min, int fweld_alter_i, int fweld_alter_v,
 			int fweld_prechannel, long fcreater, long fupdater, String fback, String fname, double fdiameter) {
 		super();

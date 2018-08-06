@@ -74,6 +74,9 @@ function save() {
 					});
 				} else {
 					$.messager.alert("提示", messager);
+					if(result.msg!=null){
+						$.messager.show( {title : '提示',msg : result.msg});
+					}
 					$('#dlg').dialog('close');
 					$('#dg').datagrid('reload');
 				}
