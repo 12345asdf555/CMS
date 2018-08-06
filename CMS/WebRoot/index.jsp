@@ -59,82 +59,98 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	<div class="easyui-accordion" border="false" id="accordiondiv"></div>
 	</div>
 	<!-- 集团 -->
-	<div id="bloc" >
+	<div id="bloc1" >
     	<ul>
-    		<li onclick="changeColor(this)"><a href="javascript:openBlocEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
 <!--     		<li onclick="changeColor(this)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率</div></a></li> -->
     		<li onclick="changeColor(this)"><a href="javascript:openMaintenance()"><div><i class="iconfont icon-bijiben"></i>设备维修率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocIdle()"><div><i class="iconfont icon-bijiben"></i>设备闲置率</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openRunTime()"><div><i class="iconfont icon-bijiben"></i>设备运行时长</div></a></li>
+    		<li onclick="changeColor(this)" class="bootomdtyle"><a href="javascript:openBlocUse()"><div><i class="iconfont icon-bijiben"></i>单台设备运行数据统计</div></a></li>
+    	</ul>
+    </div>
+	<div id="bloc2" >
+    	<ul>
+    		<li onclick="changeColor(this)"><a href="javascript:openBlocEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocHour()"><div><i class="iconfont icon-bijiben"></i>焊口焊接工时</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocovertime()"><div><i class="iconfont icon-bijiben"></i>超时待机统计</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openRunTime()"><div><i class="iconfont icon-bijiben"></i>设备运行时长</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openBlocoverproof()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标统计</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openOverproofRecall()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标回溯</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openBlocUse()"><div><i class="iconfont icon-bijiben"></i>单台设备运行数据统计</div></a></li>
+    		<li onclick="changeColor(this)" class="bootomdtyle"><a href="javascript:openOverproofRecall()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标回溯</div></a></li>
     	</ul>
     </div>
 	<!-- 公司 -->
-    <div id="company" >
+    <div id="company1" >
     	<ul>
-    		<li onclick="changeColor(this)"><a href="javascript:openCompanytEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><i class="iconfont icon-bijiben"></i>实时监测</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
 <!--     		<li onclick="changeColor(this)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率</div></a></li> -->
     		<li onclick="changeColor(this)"><a href="javascript:openMaintenance()"><div><i class="iconfont icon-bijiben"></i>设备维修率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyIdle()"><div><i class="iconfont icon-bijiben"></i>设备闲置率</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openRunTime()"><div><i class="iconfont icon-bijiben"></i>设备运行时长</div></a></li>
+    		<li onclick="changeColor(this)" class="bootomdtyle"><a href="javascript:openCompanyUse()"><div><i class="iconfont icon-bijiben"></i>单台设备运行数据统计</div></a></li>
+    	</ul>
+    </div>
+    <div id="company2" >
+    	<ul>
+    		<li onclick="changeColor(this)"><a href="javascript:openCompanytEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyHour()"><div><i class="iconfont icon-bijiben"></i>焊口焊接工时</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyovertime()"><div><i class="iconfont icon-bijiben"></i>超时待机统计</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openRunTime()"><div><i class="iconfont icon-bijiben"></i>设备运行时长</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyoverproof()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标统计</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openOverproofRecall()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标回溯</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openCompanyUse()"><div><i class="iconfont icon-bijiben"></i>单台设备运行数据统计</div></a></li>
+    		<li onclick="changeColor(this)" class="bootomdtyle"><a href="javascript:openOverproofRecall()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标回溯</div></a></li>
     	</ul>
     </div>
 	<!-- 事业部 -->
-    <div id="caust" >
+    <div id="caust1" >
     	<ul>
-    		<li onclick="changeColor(this)"><a href="javascript:openCaustEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><i class="iconfont icon-bijiben"></i>实时监测</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
 <!--     		<li onclick="changeColor(this)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率</div></a></li> -->
     		<li onclick="changeColor(this)"><a href="javascript:openMaintenance()"><div><i class="iconfont icon-bijiben"></i>设备维修率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustIdle()"><div><i class="iconfont icon-bijiben"></i>设备闲置率</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openRunTime()"><div><i class="iconfont icon-bijiben"></i>设备运行时长</div></a></li>
+    		<li onclick="changeColor(this)" class="bootomdtyle"><a href="javascript:openCaustUse()"><div><i class="iconfont icon-bijiben"></i>单台设备运行数据统计</div></a></li>
+    	</ul>
+    </div>
+    <div id="caust2" >
+    	<ul>
+    		<li onclick="changeColor(this)"><a href="javascript:openCaustEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustHour()"><div><i class="iconfont icon-bijiben"></i>焊口焊接工时</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustovertime()"><div><i class="iconfont icon-bijiben"></i>超时待机统计</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openRunTime()"><div><i class="iconfont icon-bijiben"></i>设备运行时长</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustoverproof()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标统计</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openOverproofRecall()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标回溯</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openCaustUse()"><div><i class="iconfont icon-bijiben"></i>单台设备运行数据统计</div></a></li>
+    		<li onclick="changeColor(this)" class="bootomdtyle"><a href="javascript:openOverproofRecall()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标回溯</div></a></li>
     	</ul>
     </div>
 	<!-- 项目部 -->
-    <div  id="item" >
+    <div  id="item1" >
     	<ul>
-    		<li onclick="changeColor(this)"><a href="javascript:openItemEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><i class="iconfont icon-bijiben"></i>实时监测</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
 <!--     		<li onclick="changeColor(this)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率</div></a></li> -->
     		<li onclick="changeColor(this)"><a href="javascript:openMaintenance()"><div><i class="iconfont icon-bijiben"></i>设备维修率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemIdle()"><div><i class="iconfont icon-bijiben"></i>设备闲置率</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openRunTime()"><div><i class="iconfont icon-bijiben"></i>设备运行时长</div></a></li>
+    		<li onclick="changeColor(this)" class="bootomdtyle"><a href="javascript:openItemUse()"><div><i class="iconfont icon-bijiben"></i>单台设备运行数据统计</div></a></li>
+    	</ul>
+    </div>
+    <div  id="item2" >
+    	<ul>
+    		<li onclick="changeColor(this)"><a href="javascript:openItemEfficiency()"><div><i class="iconfont icon-bijiben"></i>工效</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openOperatorEfficiency()"><div><i class="iconfont icon-bijiben"></i>操作者效率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemHour()"><div><i class="iconfont icon-bijiben"></i>焊口焊接工时</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemovertime()"><div><i class="iconfont icon-bijiben"></i>超时待机统计</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openRunTime()"><div><i class="iconfont icon-bijiben"></i>设备运行时长</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemoverproofs()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标统计</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openOverproofRecall()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标回溯</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openItemUse()"><div><i class="iconfont icon-bijiben"></i>单台设备运行数据统计</div></a></li>
+    		<li onclick="changeColor(this)" class="bootomdtyle"><a href="javascript:openOverproofRecall()"><div><i class="iconfont icon-bijiben"></i>焊接工艺超标回溯</div></a></li>
     	</ul>
     </div>
 	<!-- 管理员 -->

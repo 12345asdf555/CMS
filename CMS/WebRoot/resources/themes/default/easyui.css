@@ -13,8 +13,12 @@
   border-style: solid;
 }
 .panel-header {
-  padding: 5px;
+  padding-left:10px;
+  padding-top:6px;/**/
   position: relative;
+  border-radius: 2px;/*弧度*/
+  height: 25px;/*菜单高度*/
+  
 }
 .panel-title {
   background: #48A1E5;/**/
@@ -107,11 +111,11 @@
 }
 .panel-header,
 .panel-body {
-  border-color: #84b5ed;/**/
+  border-color: #c0c0c0;/**/
 }
 .panel-header {
   background-color: red;
-  background: #2da4d7;/*修改标题边框色*/
+  background: #48A1E5;
   /*background: -webkit-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
   background: -moz-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
   background: -o-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
@@ -139,7 +143,7 @@
 .accordion .accordion-header {
   border-width: 0 0 1px;
   cursor: pointer;
-  margin-top: 5px;/*菜单导航间隔*/
+  margin-top: 7px;/*菜单导航间隔*/
 }
 .accordion .accordion-body {
   border-width: 0 0 1px;
@@ -168,7 +172,7 @@
   filter: none;
 }
 .accordion .accordion-header-selected {
-  background: #45c2e1;/**/
+  background: #2da4d7;/**/
 }
 .accordion .accordion-header-selected .panel-title {
   color: #ffffff;/**/

@@ -65,23 +65,43 @@ function getUserInsframework() {
 			//			hierarchyLoding();
 			if (type == 20) {
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    报表分析',
-					content : $("#bloc").html()
+					title : '<i class="iconfont icon-ren"></i>    设备分析',
+					content : $("#bloc1").html()
+				});
+				$('#accordiondiv').accordion('add', {
+					title : '<i class="iconfont icon-ren"></i>    焊工分析',
+					content : $("#bloc2").html(),
+					selected : false
 				});
 			} else if (type == 21) {
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    报表分析',
-					content : $("#company").html()
+					title : '<i class="iconfont icon-ren"></i>    设备分析',
+					content : $("#company1").html()
+				});
+				$('#accordiondiv').accordion('add', {
+					title : '<i class="iconfont icon-ren"></i>    焊工分析',
+					content : $("#company2").html(),
+					selected : false
 				});
 			} else if (type == 22) {
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    报表分析',
-					content : $("#caust").html()
+					title : '<i class="iconfont icon-ren"></i>    设备分析',
+					content : $("#caust1").html()
+				});
+				$('#accordiondiv').accordion('add', {
+					title : '<i class="iconfont icon-ren"></i>    焊工分析',
+					content : $("#caust2").html(),
+					selected : false
 				});
 			} else if (type == 23) {
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    报表分析',
-					content : $("#item").html()
+					title : '<i class="iconfont icon-ren"></i>    设备分析',
+					content : $("#item1").html()
+				});
+				$('#accordiondiv').accordion('add', {
+					title : '<i class="iconfont icon-ren"></i>    焊工分析',
+					content : $("#item2").html(),
+					selected : false
 				});
 			}
 			$('#accordiondiv').accordion('add', {
