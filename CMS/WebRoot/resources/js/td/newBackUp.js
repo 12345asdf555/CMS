@@ -474,7 +474,7 @@ function iview() {
 			$("#overproof").html(overproofnum);
 			$("#overtime").html(overtimenum);
 			showChart();
-		},1000);
+		},5000);
 		flag = 1;
 	}
 }
