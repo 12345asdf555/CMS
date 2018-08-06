@@ -179,7 +179,10 @@ function weldingMachineDatagrid(){
 		] ],
 		toolbar:'#dlgSearch',
 		pagination : true,
-		fitColumns : true
+		fitColumns : true,
+	    onLoadSuccess:function(data){
+	    	$("#weldingmachineTable").datagrid('selectRow',0);
+	    }
 	});
 }
 

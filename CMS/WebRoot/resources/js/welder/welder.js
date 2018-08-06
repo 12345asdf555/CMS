@@ -135,7 +135,7 @@ function editWelder(){
     $('#dlg').window('open');
     $('#fm').form('load', row);
     $('#oldwelder').val(row.welderno);
-    $("#itemid").textbox('setValue',row.iid);
+    $("#itemid").textbox('setValue',row.itemname);
     url = "welder/editWelder";
   }
 }

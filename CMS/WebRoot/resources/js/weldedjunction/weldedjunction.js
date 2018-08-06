@@ -245,6 +245,148 @@ function weldedJunctionDatagrid(){
 	});
 }
 
+var searchStr;
+function wpdDatagrid(){
+	$("#wpsdiv").window({
+		modal : true
+	});
+	$("#wpsdiv").window('open');
+	var url = "wps/getAllWps?parent=" + $("#itemid").combobox('getValue') + "&searchStr=" + encodeURI(searchStr);
+	$("#wpsdg").datagrid({
+		height : $("#wpsdiv").height(),
+		width : $("#wpsdiv").width(),
+		idField : 'id',
+		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50 ],
+		url : url,
+		singleSelect : true,
+		rownumbers : true,
+		pagination : true,
+		showPageList : false,
+		columns : [ [ {
+			field : 'ck',
+			checkbox : true
+		}, {
+			field : 'fid',
+			title : 'FID',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fwpsnum',
+			title : '工艺编号',
+			width : 80,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fname',
+			title : '工艺参数名称',
+			width : 100,
+			halign : "center",
+			align : "left"
+		/*}, {
+			field : 'fweld_i',
+			title : '标准焊接电流',
+			width : 80,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_v',
+			title : '标准焊接电压',
+			width : 80,
+			halign : "center",
+			align : "left"*/
+		}, {
+			field : 'fweld_i_max',
+			title : '最大焊接电流',
+			width : 80,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_i_min',
+			title : '最小焊接电流',
+			width : 80,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_v_max',
+			title : '最大焊接电压',
+			width : 80,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_v_min',
+			title : '最小焊接电压',
+			width : 80,
+			halign : "center",
+			align : "left"
+		}, {
+			/*field : 'fweld_alter_i',
+			title : '报警电流',
+			width : 60,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_alter_v',
+			title : '报警电压',
+			width : 60,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fdiameter',
+			title : '焊丝直径',
+			width : 60,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_prechannel',
+			title : '预置通道',
+			width : 60,
+			halign : "center",
+			align : "left"
+		}, {*/
+			field : 'insname',
+			title : '部门',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'insid',
+			title : '部门id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fback',
+			title : '备注',
+			width : 120,
+			halign : "center",
+			align : "left"
+		} ] ],
+		toolbar : '#fdlgSearch',
+		onLoadSuccess : function(data){
+			$("#wpsdg").datagrid('selectRow',0);
+		}
+	});
+}
+
+function saveWpd(){
+	var row = $("#wpsdg").datagrid('getSelected');
+	$("#maxElectricity").numberbox('setValue',row.fweld_i_max);
+	$("#minElectricity").numberbox('setValue',row.fweld_i_min);
+	$("#maxValtage").numberbox('setValue',row.fweld_v_max);
+	$("#minValtage").numberbox('setValue',row.fweld_v_min);
+	$('#wpsdiv').dialog('close');
+}
+
+function dlgSearchWPS() {
+	if ($("#searchname").val()) {
+		searchStr = " FWPSNum like '%"+$("#searchname").val()+"%'";
+	}
+	wpdDatagrid();
+}
 
 function showMore(){
 	var row = $('#weldedJunctionTable').datagrid('getSelected');

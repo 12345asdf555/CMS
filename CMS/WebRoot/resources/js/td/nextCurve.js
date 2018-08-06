@@ -436,7 +436,7 @@ function iview() {
 
 	vol.length = 0;
 	ele.length = 0;
-	for (var i = 0; i < redata.length; i += 69) {
+	for (var i = 0; i < redata.length; i += 89) {
 //		if (redata.substring(8 + i, 12 + i) != "0000") {
 			if (parseInt(redata.substring(4 + i, 8 + i)) == document.getElementById("in2").value) {
 				var liveele = parseInt(redata.substring(12+i, 16+i));
@@ -458,11 +458,11 @@ function iview() {
 				document.getElementById("in6").value = (maxvol + minvol) / 2 +" V";
 				document.getElementById("in7").value = parseInt(redata.substring(12 + i, 16 + i)) +" A";
 				document.getElementById("in8").value = parseFloat((parseInt(redata.substring(16 + i, 20 + i)) / 10).toFixed(2)) +" V";
-				$("#new1").val(redata.substring(20 + i, 24 + i));
-				$("#new2").val(redata.substring(24 + i, 28 + i));
-				$("#new3").val(redata.substring(28 + i, 32 + i));
-				$("#new4").val(redata.substring(32 + i, 36 + i));
-				$("#new5").val(redata.substring(36 + i, 40 + i));
+				$("#new1").val(parseInt(redata.substring(20 + i, 24 + i)));
+				$("#new2").val(parseInt(redata.substring(24 + i, 28 + i)));
+				$("#new3").val(parseInt(redata.substring(28 + i, 32 + i)));
+				$("#new4").val(parseInt(redata.substring(32 + i, 36 + i)));
+				$("#new5").val(parseInt(redata.substring(36 + i, 40 + i)));
 				for (var k = 0; k < welderName.length; k++) {
 					if (welderName[k].fwelder_no == redata.substring(8 + i, 12 + i)) {
 						document.getElementById("in13").value = welderName[k].fname;

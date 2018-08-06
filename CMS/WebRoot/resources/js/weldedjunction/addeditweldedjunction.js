@@ -10,8 +10,8 @@ $(function(){
 	$("#weldedJunctionno").textbox('textbox').blur(function(){
 		var wjno = $("#weldedJunctionno").val();
 		var len = wjno.length;
-		if(len!=6){
-			for(var i=0;i<6-len;i++){
+		if(len!=8){
+			for(var i=0;i<8-len;i++){
 				wjno = "0"+wjno;
 			}
 		}

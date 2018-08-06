@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>设备利用率</title>
+    <title>设备故障率</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="false" title="设备利用率" style="background: witch;">
+    <div id="body" region="center"  hide="true"  split="false" title="设备故障率" style="background: witch;">
 	  	<div id="search_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>

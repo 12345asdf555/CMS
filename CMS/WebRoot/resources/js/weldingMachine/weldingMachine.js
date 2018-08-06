@@ -29,7 +29,7 @@ function weldingMachineDatagrid(){
     singleSelect : true,
     rownumbers : true,
     showPageList : false, 
-        columns : [ [ {
+    columns : [ [ {
       field : 'id',
       title : '序号',
       width : 50,

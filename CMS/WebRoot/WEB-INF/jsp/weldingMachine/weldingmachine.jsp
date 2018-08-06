@@ -130,7 +130,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         采集模块编号：<input class="easyui-textbox" id="searchname"/>
         <a href="javascript:dlgSearchGather();" class="easyui-linkbutton" iconCls="icon-search">查询</a>
       </div>
-        <table id="gatherTable" style="table-layout: fixed; width:100%;"></table>
+      <table id="gatherTable" style="table-layout: fixed; width:100%;"></table>
     </div>
     <div id="fdlg-buttons">
       <a href="javascript:saveGather();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>

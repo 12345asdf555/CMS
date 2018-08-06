@@ -42,6 +42,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	    <table id="weldedJunctionTable" style="table-layout: fixed; width:100%;"></table>
+	    
+		<div id="wpsdiv" class="easyui-dialog" style="width:800px; height:500px;" closed="true" title="选择工艺" buttons="#savaWps">
+			<div id="fdlgSearch">
+		        工艺编号：<input class="easyui-textbox" id="searchname"/>
+		        <a href="javascript:dlgSearchWPS();" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+		    </div>
+		    <table id="wpsdg" style="table-layout:fixed;width:100%"></table>
+	    </div>
+	    <div id="savaWps">
+			<a href="javascript:saveWpd();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+			<a href="javascript:$('#wpsdiv').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+		</div>
 	    <!-- 自定义多条件查询 -->
 	    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">
 	    	<div id="div0">
@@ -110,11 +122,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<lable><span class="required">*</span>下游材质</lable>
 					<input class="easyui-textbox" id="next_material" name="next_material" data-options="required:true"/>
 				</div>
-				<div class="fitem">
+				<div class="fitem" style="margin-left: -100px;">
 					<lable><span class="required">*</span>电流上限</lable>
 					<input class="easyui-numberbox"  min="0.001" precision="3"  id="maxElectricity" name="maxElectricity" data-options="required:true"/>
 					<lable><span class="required">*</span>电流下限</lable>
 					<input class="easyui-numberbox"  min="0.001" precision="3"  id="minElectricity" name="minElectricity" data-options="required:true"/>
+					<a href="javascript:wpdDatagrid();" class="easyui-linkbutton">选择</a>
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>电压上限</lable>

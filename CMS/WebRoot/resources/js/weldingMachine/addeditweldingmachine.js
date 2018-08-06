@@ -270,88 +270,90 @@ function statusRadio(){
   });
 }
 
-var searchStr = "g.fid not in (select g.fid from tb_gather g INNER JOIN tb_welding_machine m on m.fgather_id = g.fid) and fstatus!='迁移'";
-function GatherDatagrid(){
-  var parent;
-  if(flag==2){
-    parent = $("#insframework").val();
-  }else{
-    parent = $("#iId").combobox('getValue');
-  }
-  var url = "gather/getGatherList?parent="+parent+"&searchStr="+encodeURI(searchStr);
-  $("#gatherTable").datagrid( {
-    fitColumns : true,
-    height : $("#fdlg").height(),
-    width : $("#fdlg").width(),
-    idField : 'id',
-    pageSize : 10,
-    pageList : [ 10, 20, 30, 40, 50 ],
-    url : url,
-    singleSelect : true,
-    rownumbers : true,
-    showPageList : false,
-    columns : [ [ {
-      field : 'ck',
-      checkbox : true
-    }, {
-      field : 'id',
-      title : '序号',
-      width : 100,
-      halign : "center",
-      align : "left",
-      hidden:true
-    }, {
-      field : 'gatherNo',
-      title : '采集模块编号',
-      width : 100,
-      halign : "center",
-      align : "left"
-    }, {
-
-      field : 'itemid',
-      title : '项目id',
-      width : 100,
-      halign : "center",
-      align : "left",
-      hidden : true
-    }, {
-      field : 'itemname',
-      title : '所属项目',
-      width : 100,
-      halign : "center",
-      align : "left"
-    }, {
-      field : 'status',
-      title : '采集模块状态',
-      width : 100,
-      halign : "center",
-      align : "left"
-    }, {
-      field : 'protocol',
-      title : '采集模块通讯协议',
-      width : 150,
-      halign : "center",
-      align : "left"
-    }, {
-      field : 'ipurl',
-      title : '采集模块IP地址',
-      width : 150,
-      halign : "center",
-      align : "left"
-    }, {
-      field : 'macurl',
-      title : '采集模块MAC地址',
-      width : 150,
-      halign : "center",
-      align : "left"
-    }] ],
-    toolbar : '#dlgSearch',
-    pagination : true,
-    onLoadSuccess:function(data){
-          $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-edit'});
-          $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});
-    }
-  });
+var searchStr="";
+function GatherDatagrid() {
+	var parent;
+	if (flag == 2) {
+		parent = $("#insframework").val();
+	} else {
+		parent = $("#iId").combobox('getValue');
+	}
+	searchStr += "g.fid not in (select g.fid from tb_gather g INNER JOIN tb_welding_machine m on m.fgather_id = g.fid) and fstatus!='迁移'";
+	if($("#searchname").val()){
+	    searchStr +=  " and fgather_no like '%"+$("#searchname").val()+"%'";
+	}
+	var url = "gather/getGatherList?parent=" + parent + "&searchStr=" + encodeURI(searchStr);
+	$("#gatherTable").datagrid({
+		fitColumns : true,
+		height : $("#fdlg").height(),
+		width : $("#fdlg").width(),
+		idField : 'id',
+		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50 ],
+		url : url,
+		singleSelect : true,
+		rownumbers : true,
+		showPageList : false,
+		columns : [ [ {
+			field : 'ck',
+			checkbox : true
+		}, {
+			field : 'id',
+			title : '序号',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'gatherNo',
+			title : '采集模块编号',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'itemid',
+			title : '项目id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'itemname',
+			title : '所属项目',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'status',
+			title : '采集模块状态',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'protocol',
+			title : '采集模块通讯协议',
+			width : 150,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'ipurl',
+			title : '采集模块IP地址',
+			width : 150,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'macurl',
+			title : '采集模块MAC地址',
+			width : 150,
+			halign : "center",
+			align : "left"
+		} ] ],
+		toolbar : '#dlgSearch',
+		pagination : true,
+		onLoadSuccess : function(data) {
+			$("#gatherTable").datagrid('selectRow', 0);
+		}
+	});
 }
 
 function selectMachine(){
@@ -371,15 +373,10 @@ function saveGather(){
 }
 
 function dlgSearchGather(){
-  searchStr = "g.fid not in (select g.fid from tb_gather g INNER JOIN tb_welding_machine m on m.fgather_id = g.fid) and fstatus!='迁移'";
-  if($("#searchname").val()){
-    searchStr +=  " and fgather_no like '%"+$("#searchname").val()+"%'";
-  }
   GatherDatagrid();
 }
 
 function reset(){
-//  $("#iId").combobox('select',$("#insframework").val());
   $('#gatherId').val($("#gid").val());
   $('#gatherNo').textbox('setValue',$("#gno").val());
 }

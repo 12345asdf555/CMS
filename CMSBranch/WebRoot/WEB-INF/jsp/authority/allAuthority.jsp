@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="fitem">
 					<lable><span class="required">*</span>权限</lable>
 	           		<input id="validName" type="hidden">
-	                <input name="authorityName" class="easyui-textbox" data-options="validType:'authorityValidate',required:true" style="width:100%">
+	                <input name="authorityName" id="authorityName" class="easyui-textbox" data-options="validType:'authorityValidate',required:true" style="width:100%">
             	</div>
 	            <div class="fitem">
 					<lable><span class="required">*</span>描述</lable>

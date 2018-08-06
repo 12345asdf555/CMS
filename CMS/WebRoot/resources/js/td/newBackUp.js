@@ -321,7 +321,7 @@ function webclient() {
 
 //获取实时数据
 function iview() {
-	for (var i = 0; i < redata.length; i += 69) {
+	for (var i = 0; i < redata.length; i += 89) {
 //		if (redata.substring(8 + i, 12 + i) != "0000") {
 		if(machine!=null && machine!=""){
 			for(var f=0;f<machine.length;f++){
