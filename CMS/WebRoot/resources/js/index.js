@@ -448,7 +448,7 @@ function tabsIncident() {
 
 //选中时改变背景颜色
 function changeColor(obj) {
-	$("ul li").css("backgroundColor", "#ffffff");
+	$("ul li").css("backgroundColor", "#1d294d");
 	obj.style.background = "#ffe48d";
 }
 

@@ -210,7 +210,19 @@ function showPersonChart(){
 	option = {
 		    title: {
 		        text: '焊工在线统计',
-		        left: 'center'
+		        left: 'center',
+		        textStyle: {
+		            color: '#fff'
+		        }
+		    },
+		    legend: {
+		        x: 'right',
+		        top:'40%',
+		        orient: 'vertical',
+		        data:['在线','离线'],
+		        textStyle: {
+		            color: '#ccc'
+		        }
 		    },
 		    tooltip : {
 		        trigger: 'item',
@@ -232,9 +244,9 @@ function showPersonChart(){
 		        {
 		            name:'焊工在线统计',
 		            type:'pie',
-		            radius : ['40%', '70%'],
+		            radius : ['45%', '70%'],
 		            center: ['50%', '50%'],
-		            color:['#3898f2','#84baed'],
+		            color:['#60ffe7','#5d99dd'],
 		            data:[
 		                {value:weld.length, name:'在线'},
 		                {value:namex.length-weld.length, name:'离线'}
@@ -244,8 +256,17 @@ function showPersonChart(){
 		                normal: {
 		                	formatter: '{b}:{c}({d}%)',
 		                    textStyle: {
-		                        color: '#000'
+		                        color: '#fff'
 		                    }
+		                }
+		            },
+		            labelLine: {
+		                normal: {
+		                    lineStyle: {
+		                        color: '#fff'
+		                    },
+		                    length: 20,
+		                    length2: 50
 		                }
 		            },
 		            animationType: 'scale',
@@ -288,7 +309,19 @@ function showWelderChart(){
 	option = {
 		    title: {
 		        text: '焊机在线统计',
-		        left: 'center'
+		        left: 'center',
+		        textStyle: {
+		            color: '#fff'
+		        }
+		    },
+		    legend: {
+		        x: 'right',
+		        top:'40%',
+		        orient: 'vertical',
+		        data:['工作','待机','关机'],
+		        textStyle: {
+		            color: '#ccc'
+		        }
 		    },
 		    tooltip : {
 		        trigger: 'item',
@@ -310,9 +343,9 @@ function showWelderChart(){
 		        {
 		            name:'焊机在线统计',
 		            type:'pie',
-		            radius : ['40%', '70%'],
+		            radius : ['45%', '70%'],
 		            center: ['50%', '50%'],
-		            color:['#3898f2','#b9e1f4','#84baed'],
+		            color:['#f5ae61','#60ffe7','#5d99dd'],
 		            data:[
 		                {value:work.length, name:'工作'},
 		                {value:wait.length, name:'待机'},
@@ -323,8 +356,17 @@ function showWelderChart(){
 		                normal: {
 			            	formatter: '{b}:{c}({d}%)',
 		                    textStyle: {
-		                        color: '#000'
+		                        color: '#fff'
 		                    }
+		                }
+		            },
+		            labelLine: {
+		                normal: {
+		                    lineStyle: {
+		                        color: '#fff'
+		                    },
+		                    length: 20,
+		                    length2: 50
 		                }
 		            },
 		            animationType: 'scale',

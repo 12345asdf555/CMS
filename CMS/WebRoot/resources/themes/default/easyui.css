@@ -143,7 +143,11 @@
 .accordion .accordion-header {
   border-width: 0 0 1px;
   cursor: pointer;
-  margin-top: 7px;/*菜单导航间隔*/
+  margin-top: 3px;/*菜单导航间隔*/
+}
+
+.accordion-body {
+  background: #1d294d;/**/
 }
 .accordion .accordion-body {
   border-width: 0 0 1px;
@@ -164,7 +168,7 @@
   background: url('images/accordion_arrows.png') no-repeat -16px 0;
 }
 .accordion {
-  background: #ffffff;
+  background: #d5d5d5;/**/
   border-color: #95B8E7;
 }
 .accordion .accordion-header {
@@ -749,7 +753,7 @@
   filter: none;
 }
 .tabs li.tabs-selected a.tabs-inner {
-  background-color: #ffffff;
+  background-color: #ffffff;/**/
   color: #0E2D5F;
   background: -webkit-linear-gradient(top,#EFF5FF 0,#ffffff 100%);
   background: -moz-linear-gradient(top,#EFF5FF 0,#ffffff 100%);

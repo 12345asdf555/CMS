@@ -55,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
   	</div>
-  	<div region="west" hide="true" split="true" title="导航菜单" style="width: 200px;" id="west">
+  	<div region="west" hide="true" split="true" title="导航菜单" style="width: 200px;background: #1d294d" id="west">
 	  	<div class="easyui-accordion" border="false" id="accordiondiv"></div>
 	</div>
 	<!-- 集团 -->
