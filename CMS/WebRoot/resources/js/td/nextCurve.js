@@ -535,9 +535,26 @@ function iview() {
 					}
 				}
 			}
-		}
+//		}
 		z++;
-//	}
+		if(flag==0){
+			if(starows.length!=0){
+	        	for(var j=0;j<starows.length/2;j++){
+	        		if(document.getElementById("inn2").value==starows[j].fname){
+	        			var count = (parseInt(starows[j].ftime)/parseInt(starows[starows.length/2+j].ftime)).toFixed(2);
+	        			if(count>(parseInt(dic[0].name)/100).toFixed(2)){
+							document.getElementById("in4").value = "超时待机";
+							document.getElementById("in4").style.backgroundColor = "#55a7f3";
+							document.getElementById("mrjpg").src = "resources/images/welder_05.png";
+	        			}
+	        			starows[j].ftime=0;
+	        			starows[starows.length/2+j].ftime=0;
+	        		}    
+	        	}
+			};
+			flag == 1;
+		}
+	}
 	if ((time.length) % 3 == 1) {
 		ele[time.length] = ele[time.length - 1];
 		ele[time.length + 1] = ele[time.length - 1];
@@ -550,23 +567,6 @@ function iview() {
 		ele[time.length] = ele[time.length - 1];
 		vol[time.length] = vol[time.length - 1];
 		time[time.length] = time[time.length - 1] + 1000;
-	}
-	if(flag==0){
-		if(starows.length!=0){
-        	for(var j=0;j<starows.length/2;j++){
-        		if(document.getElementById("inn2").value==starows[j].fname){
-        			var count = (parseInt(starows[j].ftime)/parseInt(starows[starows.length/2+j].ftime)).toFixed(2);
-        			if(count>(parseInt(dic[0].name)/100).toFixed(2)){
-						document.getElementById("in4").value = "超时待机";
-						document.getElementById("in4").style.backgroundColor = "#55a7f3";
-						document.getElementById("mrjpg").src = "resources/images/welder_05.png";
-        			}
-        			starows[j].ftime=0;
-        			starows[starows.length/2+j].ftime=0;
-        		}    
-        	}
-		};
-		flag == 1;
 	}
 }
 
