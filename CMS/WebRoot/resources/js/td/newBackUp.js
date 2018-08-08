@@ -447,8 +447,8 @@ function iview() {
 		        }
 			}
 		};
-		worknum=0, standbynum=0, overproofnum=0, offnum=0, overtimenum=0;
 		window.setTimeout(function() {
+			worknum=0, standbynum=0, overproofnum=0, offnum=0, overtimenum=0;
 			for(var i=0;i<machine.length;i++){
 				var status = $("#status"+machine[i].fid).val();
 				if(status == $("#status").combobox('getValue')){
@@ -515,7 +515,7 @@ function showChart(){
       			normal: {
       				label : {
       					formatter: function(param){
-      						return param.name+param.value+"%";
+      						return param.name+"："+param.value+"%";
       					}
       				}
       			}
@@ -526,6 +526,23 @@ function showChart(){
 	charts.setOption(option);
 	//隐藏动画加载效果
 	charts.hideLoading();
+	//echarts 点击事件
+	charts.on('click', function (param) {
+		var status;
+		if(param.name=="工作"){
+			status = 0;
+		}else if(param.name=="待机"){
+			status = 1;
+		}else if(param.name=="关机"){
+			status = 2;
+		}else if(param.name=="超标"){
+			status = 3;
+		}else if(param.name=="超时"){
+			status = 4;
+		}
+		statusClick(status);
+	});
+	$("#chartLoading").hide();
 }
 
 //每分钟刷新一次
@@ -578,6 +595,18 @@ function getOvertime(){
         	}
         }
 	};
+}
+
+//状态按钮点击事件
+function statusClick(statusnum){
+	for(var i=0;i<machine.length;i++){
+		var status = $("#status"+machine[i].fid).val();
+		if(status == statusnum){
+			$("#machine"+machine[i].fid).show();
+		}else{
+			$("#machine"+machine[i].fid).hide();
+		}
+	}
 }
 
 //每小时统计超时

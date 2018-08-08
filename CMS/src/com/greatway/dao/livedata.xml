@@ -1101,7 +1101,7 @@
 		</if>
 		weldTime, insf.fname, insf.fid iid
 		FROM tb_standby l
-      INNER JOIN tb_insframework i ON l.fitemId = i.fid 
+      	INNER JOIN tb_insframework i ON l.fitemId = i.fid 
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
 		INNER JOIN tb_insframework insf ON insf.fid = ins.fparent
 		WHERE 1=1 
