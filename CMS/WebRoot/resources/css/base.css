@@ -514,7 +514,25 @@ select::-ms-expand {
 }
 
 #explain{
-	color:red;
+	color:#000;
+	background:#fafafa;
+	table-layout: fixed; 
+	width:18%; 
+	float:left;
+	margin-top: 6%;
+	margin-left:10px;
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:20px;
+	padding-bottom:20px;
+	-webkit-box-shadow: -3px 2px 5px #888888;
+    -moz-box-shadow: -3px 2px 5px #888888;
+    box-shadow: -3px 2px 5px #888888;
+    opacity:0.5;
+    filter:alpha(opacity=50); /* 针对 IE8 以及更早的版本 */
+}
+#explain span{
+	font-weight: bold;
 }
 
 .wcchart{

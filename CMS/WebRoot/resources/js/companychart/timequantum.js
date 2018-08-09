@@ -84,14 +84,6 @@ function weldDatagrid(){
 	});
 }
 
-function formatterDate(){
-	var now = new Date();
-    var year = now.getFullYear();//年  
-    var month = now.getMonth() + 1;//月  
-    var day = now.getDate();//日
-    return year+"-"+month+"-"+day;
-}
-
 //假分页
 function page(){
 	$('#timequantumTable').datagrid({ loadFilter: pagerFilter }).datagrid({  

@@ -433,7 +433,7 @@ public interface LiveDataManager {
 	 * @param mid 焊机id
 	 * @return
 	 */
-	BigInteger getCountByTime(BigInteger parent,String time,BigInteger mid);
+	BigInteger getCountByTime(BigInteger parent,String time1,String time2,BigInteger mid, int type);
 	
 	/**
 	 * 根据焊工获取焊口
@@ -585,4 +585,12 @@ public interface LiveDataManager {
 	 */
 	List<ModelDto> getInsfandMachinenum(BigInteger parent);
 	List<ModelDto> getInsfandMachinenum(Page page,BigInteger parent);
+	
+	/**
+	 * 获取持续时间
+	 * @param sql 获取持续时间sql
+	 * @return
+	 */
+	List<ModelDto> getDurationTime(String time1,String time2,int timetype);
+	List<ModelDto> getDurationTime(Page page,String time1,String time2,int timetype);
 }

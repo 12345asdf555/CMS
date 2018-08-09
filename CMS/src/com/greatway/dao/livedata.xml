@@ -417,7 +417,7 @@
 				and i.fparent = #{dto.parent}
 			</if>
 		</if>
-		group by fjunction_id
+		group by fjunction_id,i.fid
 		)temp
 	</select>
 
@@ -435,7 +435,7 @@
 				DATE_FORMAT( fstarttime,   '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime )
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>weldtime ,insf.fname,insf.fid from  tb_alarm l 
 		inner join tb_welded_junction j on j.fwelded_junction_no=l.fjunction_id 
@@ -469,7 +469,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>weldtime ,ins.fname,ins.fid from  tb_alarm l 
 		inner join tb_welded_junction j on j.fwelded_junction_no=l.fjunction_id 
@@ -505,7 +505,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>weldtime ,i.fname,i.fid from  tb_alarm l 
 		inner join tb_welded_junction j on j.fwelded_junction_no=l.fjunction_id 
@@ -541,7 +541,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>weldtime ,i.fname,i.fid from  tb_alarm l 
 		inner join tb_welded_junction j on j.fwelded_junction_no=l.fjunction_id 
@@ -577,7 +577,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime
 		FROM tb_work WHERE 1=1
@@ -603,7 +603,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime
 		FROM tb_standby WHERE 1=1
@@ -693,7 +693,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		weldTime from tb_standby l  
@@ -730,7 +730,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		weldTime from tb_standby l  
@@ -769,7 +769,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		weldTime from tb_standby l  
@@ -808,7 +808,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		weldTime from tb_standby l  
@@ -887,7 +887,7 @@
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
 				sum(fworktime) / ( 7 *8 *60 *60 ) AS loads, 
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		AS weldTime,insf.fid iid, insf.fname
@@ -927,7 +927,7 @@
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
 				sum(fworktime) / ( 7 *8 *60 *60 ) AS loads, 
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		AS weldTime,ins.fid iid, ins.fname  from tb_work l 
@@ -968,7 +968,7 @@
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
 				sum(fworktime) / ( 7 *8 *60 *60 ) AS loads, 
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		AS weldTime,i.fid iid, i.fname  from tb_work l 
@@ -1009,7 +1009,7 @@
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
 				sum(fworktime) / ( 7 *8 *60 *60 ) AS loads, 
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		AS weldTime,i.fid iid, i.fname  from tb_work l 
@@ -1096,7 +1096,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		weldTime, insf.fname, insf.fid iid
@@ -1133,7 +1133,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		weldTime, ins.fname, ins.fid iid
@@ -1172,7 +1172,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		weldTime, i.fname, i.fid iid
@@ -1211,7 +1211,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>
 		weldTime, i.fname, i.fid fid
@@ -1278,7 +1278,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime ,insf.fname,insf.fid FROM tb_work l
 		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
@@ -1308,7 +1308,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime ,insf.fname,insf.fid FROM tb_standby l
 		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
@@ -1345,7 +1345,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime ,ins.fname,ins.fid FROM tb_work l
 		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
@@ -1377,7 +1377,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime ,ins.fname,ins.fid FROM tb_standby l
 		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
@@ -1416,7 +1416,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime ,i.fname,i.fid FROM tb_work l
 		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
@@ -1448,7 +1448,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime ,i.fname,i.fid FROM tb_standby l
 		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
@@ -1487,7 +1487,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime ,i.fname,i.fid FROM tb_work l
 		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
@@ -1515,7 +1515,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime ,i.fname,i.fid FROM tb_standby l
 		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
@@ -1729,7 +1729,7 @@
 		<if test="min>=0 and max>=0">
 			where roundTime &gt;=#{min} and roundTime &lt;= #{max}
 		</if>
-		group by fwelder_id
+		group by fwelder_id,fid
 		)temp
 	</select>
 	
@@ -1760,7 +1760,7 @@
 		<if test="min>=0 and max>=0">
 			where roundTime &gt;=#{min} and roundTime &lt;= #{max}
 		</if>
-		group by fwelder_id
+		group by fwelder_id,fid
 		)temp
 	</select>
 	
@@ -1790,7 +1790,7 @@
 		<if test="min>=0 and max>=0">
 			where roundTime &gt;=#{min} and roundTime &lt;= #{max}
 		</if>
-		group by fwelder_id
+		group by fwelder_id,fid
 		)temp
 	</select>
 
@@ -1860,7 +1860,7 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
-		group by w.fname ORDER by round(sum(fworktime)/60/60))A)temp
+		group by w.fname,i.fid ORDER by round(sum(fworktime)/60/60))A)temp
 	</select>
 	
 	<!-- 	查询实时数据集团焊机数量 -->
@@ -1877,7 +1877,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime,ins.fparent fid FROM 
 		<if test="dto!=null and dto!=''">
@@ -1917,7 +1917,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime,ins.fid FROM 
 		<if test="dto!=null and dto!=''">
@@ -1957,7 +1957,7 @@
 				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
 			</if>
 			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fstarttime)
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if> weldTime,i.fid FROM 
 		<if test="dto!=null and dto!=''">
@@ -1990,7 +1990,14 @@
 		select sum(fworktime) time from tb_work l 
 		INNER JOIN tb_insframework i on i.fid = l.fitemid 
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
-		where fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time},interval -1 day),interval 0 minute)
+		where 1=1
+		<if test="type!=4">
+			and fstarttime like '${time1}%'
+		</if>
+		<if test="type==4">
+			and fstarttime &gt;=#{time1} and fstarttime &lt;=#{time2} 
+		</if>
+		
 		<if test="parent!=null and parent!=''">
 			and (i.fid=#{parent} or ins.fid=#{parent} or ins.fparent=#{parent})
 		</if>
@@ -2001,7 +2008,13 @@
      	select sum(fstandbytime) time from tb_standby l 
 		INNER JOIN tb_insframework i on i.fid = l.fitemid 
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
-		where fstarttime &gt;= #{time} and fendtime &lt;= date_sub(date_sub(#{time},interval -1 day),interval 0 minute)
+		where 1=1
+		<if test="type!=4">
+			and fstarttime like '${time1}%'
+		</if>
+		<if test="type==4">
+			and fstarttime &gt;=#{time1} and fstarttime &lt;=#{time2} 
+		</if>
 		<if test="parent!=null and parent!=''">
 			and (i.fid=#{parent} or ins.fid=#{parent} or ins.fparent=#{parent})
 		</if>
@@ -2021,7 +2034,7 @@
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fweldtime &gt;=#{dto.dtoTime1}  and fweldtime &lt;= date_sub(date_sub(#{dto.dtoTime1},interval -1 day),interval 0 minute)
 			</if>
-		</if>group by fjunction_id
+		</if>group by fjunction_id,i.fid
 	</select>
 	
 	<select id="getExcessiveBack" resultMap="dtoMap">
@@ -2420,6 +2433,11 @@
 			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if> group by m.finsframework_id)
 	    )temp ORDER by itemid
+	</select>
+	
+	<!-- 获取连续时间 -->
+	<select id="getDurationTime" resultMap="dtoMap">
+		${sql}
 	</select>
 	
 

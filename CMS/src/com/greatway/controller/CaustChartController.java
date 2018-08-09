@@ -315,9 +315,9 @@ public class CaustChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -435,9 +435,9 @@ public class CaustChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -552,9 +552,9 @@ public class CaustChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -683,9 +683,9 @@ public class CaustChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -715,11 +715,26 @@ public class CaustChartController {
 						for(ModelDto m:machine){
 							if(m.getWeldTime().equals(l.getWeldTime()) && m.getFid().equals(l.getIid())){
 								if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
-									livecount[j] = lm.getCountByTime(l.getIid(), l.getWeldTime(),null).doubleValue();
+									if(Integer.parseInt(type)!=4){
+										livecount[j] = lm.getCountByTime(l.getIid(), l.getWeldTime(),null,null,Integer.parseInt(type)).doubleValue();
+									}else{
+										String[] str = l.getWeldTime().split("-");
+										String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+										String[] weektime = weekdate.split("/");
+										if(j==0){
+											livecount[j] = lm.getCountByTime(l.getIid(), time1,weektime[1],null,Integer.parseInt(type)).doubleValue();
+										}else if(j==time.size()-1){
+											livecount[j] = lm.getCountByTime(l.getIid(), weektime[0],time2,null,Integer.parseInt(type)).doubleValue();
+										}else{
+											livecount[j] = lm.getCountByTime(l.getIid(), weektime[0],weektime[1],null,Integer.parseInt(type)).doubleValue();
+										}
+										
+									}
 									noload[j] = l.getLoads();
 									summachine[j] = m.getLoads();
 									num[j] = (double)Math.round(l.getLoads()/livecount[j]/m.getLoads()*100*100)/100;
 								}
+								
 							}
 						}
 					}
@@ -818,9 +833,9 @@ public class CaustChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){

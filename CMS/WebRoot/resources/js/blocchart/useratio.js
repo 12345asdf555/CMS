@@ -2,22 +2,6 @@ $(function(){
 	flagnum=1;
 	parentCombobox();
 	dgDatagrid();
-	dtoTime1 = $("#dtoTime1").datebox('getValue');  
-	dtoTime2 = $("#dtoTime2").datebox('getValue');
-	$("#dtoTime1").datebox({
-		onChange: function (newvalue,oldvalue) {
-			if(newvalue==null || newvalue==""){
-				$("#dtoTime1").datebox('setValue',dtoTime1);
-			}
-		}
-	})
-	$("#dtoTime2").datebox({
-		onChange: function (newvalue,oldvalue) {
-			if(newvalue==null || newvalue==""){
-				$("#dtoTime2").datebox('setValue',dtoTime2);
-			}
-		}
-	})
 })
 
 

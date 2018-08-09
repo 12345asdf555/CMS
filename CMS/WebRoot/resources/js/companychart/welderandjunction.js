@@ -1,6 +1,13 @@
 $(function(){
 	weldDatagrid();
 	insframeworkTree();
+	$("#dtoTime1").datebox({
+		onChange: function (newvalue,oldvalue) {
+			if(newvalue==null || newvalue==""){
+				$("#dtoTime1").datebox('setValue',formatterDate());
+			}
+		}
+	})
 	$("#dtoTime1").datebox('setValue',formatterDate());
 });
 var chartStr = "";

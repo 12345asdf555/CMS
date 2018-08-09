@@ -337,9 +337,9 @@ public class ItemChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -441,9 +441,9 @@ public class ItemChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -627,9 +627,9 @@ public class ItemChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -723,9 +723,9 @@ public class ItemChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -750,7 +750,21 @@ public class ItemChartController {
 						for(ModelDto ma:machine){
 							if(ma.getWeldTime().equals(m.getWeldTime()) && ma.getFid().equals(m.getFid())){
 								if(time.get(i).getWeldTime().equals(m.getWeldTime())){
-									livecount[i] = lm.getCountByTime(m.getIid(), m.getWeldTime(),null).doubleValue();
+									if(Integer.parseInt(type)!=4){
+										livecount[i] = lm.getCountByTime(m.getIid(), m.getWeldTime(),null,null,Integer.parseInt(type)).doubleValue();
+									}else{
+										String[] str = m.getWeldTime().split("-");
+										String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+										String[] weektime = weekdate.split("/");
+										if(i==0){
+											livecount[i] = lm.getCountByTime(m.getIid(), time1,weektime[1],null,Integer.parseInt(type)).doubleValue();
+										}else if(i==time.size()-1){
+											livecount[i] = lm.getCountByTime(m.getIid(), weektime[0],time2,null,Integer.parseInt(type)).doubleValue();
+										}else{
+											livecount[i] = lm.getCountByTime(m.getIid(), weektime[0],weektime[1],null,Integer.parseInt(type)).doubleValue();
+										}
+										
+									}
 									noload[i] = m.getLoads();
 									summachine[i] = ma.getLoads();
 									num[i] = (double)Math.round(noload[i]/livecount[i]/summachine[i]*100*100)/100;
@@ -828,9 +842,9 @@ public class ItemChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){

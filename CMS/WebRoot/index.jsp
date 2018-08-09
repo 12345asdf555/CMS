@@ -110,10 +110,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<ul>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><i class="iconfont icon-bijiben"></i>实时监测</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustLoads()"><div><i class="iconfont icon-bijiben"></i>设备负荷率</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openCaustNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><i class="iconfont icon-bijiben"></i>设备利用率</div></a></li>
 <!--     		<li onclick="changeColor(this)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率</div></a></li> -->
     		<li onclick="changeColor(this)"><a href="javascript:openMaintenance()"><div><i class="iconfont icon-bijiben"></i>设备维修率</div></a></li>
-    		<li onclick="changeColor(this)"><a href="javascript:openCaustNoLoads()"><div><i class="iconfont icon-bijiben"></i>设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustIdle()"><div><i class="iconfont icon-bijiben"></i>设备闲置率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openRunTime()"><div><i class="iconfont icon-bijiben"></i>设备运行时长</div></a></li>
     		<li onclick="changeColor(this)" class="bootomdtyle"><a href="javascript:openCaustUse()"><div><i class="iconfont icon-bijiben"></i>单台设备运行数据统计</div></a></li>

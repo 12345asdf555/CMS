@@ -48,7 +48,6 @@ function parentCombobox(){
 
 function dealwith(num,url){
 	$("#charts").show();
-	$("#explain").show();
 //	$("#itemcharts1").hide();
 	$("#itemcharts2").hide();
 	position = num;
@@ -73,7 +72,6 @@ function serach(){
 		dealwith(1,"blocChart/getMaintenanceratio?flag=2");
 	}else if(type==23){
 		$("#charts").hide();
-		$("#explain").hide();
 //		$("#itemcharts1").show();
 		$("#itemcharts2").show();
 		position = 0;

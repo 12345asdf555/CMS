@@ -56,7 +56,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div id="parentMsg"><h2>${str }</h2></div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 6%;margin-left:10px;">
+		<div id="explain">
+		<span>设备负荷率</span><hr>
 		按组织机构和日期对设备负荷率趋势统计:<br/>
 		统计时间段内的各部门设备负荷率趋势；<br/>
 		负荷率=设备正常工作时间/(8*60*60)/正常工作焊机数量</div>

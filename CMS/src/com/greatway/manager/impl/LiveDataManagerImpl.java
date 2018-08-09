@@ -1,6 +1,9 @@
 package com.greatway.manager.impl;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -337,8 +340,8 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public BigInteger getCountByTime(BigInteger parent, String time, BigInteger mid) {
-		return live.getCountByTime(parent, time, mid);
+	public BigInteger getCountByTime(BigInteger parent, String time1,String time2, BigInteger mid, int type) {
+		return live.getCountByTime(parent, time1, time2, mid, type);
 	}
 
 	@Override
@@ -454,6 +457,194 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	public List<ModelDto> getInsfandMachinenum(Page page,BigInteger parent) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
 		return live.getInsfandMachinenum(parent);
+	}
+
+	@Override
+	public List<ModelDto> getDurationTime(String time1, String time2, int timetype) {
+		String strsql = "";
+		if(timetype==1){
+			strsql = getYear(time1, time2);
+		}else if(timetype==2){
+			strsql = getMonth(time1, time2);
+		}else if(timetype==3){
+			strsql = getDay(time1, time2);
+		}else if(timetype==4){
+			strsql = getWeek(time1, time2);
+		}
+		return live.getDurationTime(strsql);
+	}
+
+	@Override
+	public List<ModelDto> getDurationTime(Page page, String time1, String time2, int timetype) {
+		String strsql = "";
+		if(timetype==1){
+			strsql = getYear(time1, time2);
+		}else if(timetype==2){
+			strsql = getMonth(time1, time2);
+		}else if(timetype==3){
+			strsql = getDay(time1, time2);
+		}else if(timetype==4){
+			strsql = getWeek(time1, time2);
+		}
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getDurationTime(strsql);
+	}
+	
+	/**
+	 * 获取日
+	 * @return
+	 */
+	public String getDay(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date d = sdf.parse(time1);
+			Calendar cal = Calendar.getInstance(); 
+			cal.setTime(d);
+			int day=cal.get(Calendar.DATE);
+			long t1 = sdf.parse(time1).getTime();
+			long t2 = sdf.parse(time2).getTime();
+			int days = day + (int)((t2-t1)/(1000*60*60*24))+1;
+			for(int i = day; i < days; i++){
+				Calendar calendar = Calendar.getInstance();  
+				Date dates = sdf.parse(time1);
+				calendar.setTime(dates);
+				calendar.set(Calendar.DATE, i);
+				if(i!=days-1){
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime UNION ALL ";
+				}else{
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime)temp";
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	/**
+	 * 获取月
+	 * @return
+	 */
+	public String getMonth(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{ 
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+			Date d = sdf.parse(time1);
+			Calendar cal = Calendar.getInstance(); 
+			cal.setTime(d);
+			int day=cal.get(Calendar.MONTH);
+	        Calendar c1 = Calendar.getInstance();
+	        Calendar c2 = Calendar.getInstance();
+	        c1.setTime(sdf.parse(time1));
+	        c2.setTime(sdf.parse(time2));
+	        int result = c2.get(Calendar.MONTH) - c1.get(Calendar.MONTH);
+	        int month = (c2.get(Calendar.YEAR) - c1.get(Calendar.YEAR)) * 12;
+	        int days =  day + Math.abs(month + result);
+			for(int i = day; i <= days; i++){
+				Calendar calendar = Calendar.getInstance();  
+				Date dates = sdf.parse(time1);
+				calendar.setTime(dates);
+				calendar.set(Calendar.MONTH, i);
+				if(i!=days){
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime UNION ALL ";
+				}else{
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime)temp";
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	/**
+	 * 获取年
+	 * @return
+	 */
+	public String getYear(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{ 
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+			Date d = sdf.parse(time1);
+			Calendar cal = Calendar.getInstance(); 
+			cal.setTime(d);
+			int day=cal.get(Calendar.YEAR);
+	        Calendar c1 = Calendar.getInstance();
+	        Calendar c2 = Calendar.getInstance();
+	        c1.setTime(sdf.parse(time1));
+	        c2.setTime(sdf.parse(time2));
+	        int result = c2.get(Calendar.MONTH) - c1.get(Calendar.MONTH);
+	        int month = (c2.get(Calendar.YEAR) - c1.get(Calendar.YEAR)) ;
+	        int days =  day + Math.abs(month+result);
+			for(int i = day; i <= days; i++){
+				Calendar calendar = Calendar.getInstance();  
+				Date dates = sdf.parse(time1);
+				calendar.setTime(dates);
+				calendar.set(Calendar.YEAR, i);
+				if(i!=days){
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime UNION ALL ";
+				}else{
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime)temp";
+				}
+			} 
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+
+	
+	/**
+	 * 获取周
+	 * @return
+	 */
+	public String getWeek(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{
+			//日期不能超过两年
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");   
+			Calendar c1 = Calendar.getInstance();    
+			Calendar c2 = Calendar.getInstance();   
+			c1.setTime(sdf.parse(time1)); 
+			c2.setTime(sdf.parse(time2));     
+			int week1 = c1.get(Calendar.WEEK_OF_YEAR);
+			int week2 = c2.get(Calendar.WEEK_OF_YEAR); 
+			c1.add(Calendar.DAY_OF_MONTH, -7);    
+			c2.add(Calendar.DAY_OF_MONTH, -7);  
+			int year1 = c1.get(Calendar.YEAR);  
+			if(week1<c1.get(Calendar.WEEK_OF_YEAR)){  
+			    year1+=1;  
+			}
+			int year2 = c2.get(Calendar.YEAR);  
+			if(week2<c2.get(Calendar.WEEK_OF_YEAR)){  
+			    year2+=1;  
+			} 
+			if(year1!=year2){
+				for(int i = week1; i <=52; i++){
+					str += "SELECT '"+ year1+"-"+ i +"' AS weldTime UNION ALL ";
+				} 
+				for(int i = 1; i <=week2; i++){
+					if(i!=week2){
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime)temp";
+					}
+				} 
+			}else{
+				for(int i = week1; i <=week2; i++){
+					if(i!=week2){
+						str += "SELECT '"+ year1+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year1+"-"+ i +"' AS weldTime)temp";
+					}
+				} 
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
 	}
 
 }

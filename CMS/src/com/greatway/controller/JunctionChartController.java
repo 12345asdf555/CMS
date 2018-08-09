@@ -487,7 +487,7 @@ public class JunctionChartController {
 		JSONObject obj = new JSONObject();
 		try{
 			for(ModelDto l:list){
-				BigInteger livecount = lm.getCountByTime(l.getFid(), weldtime,l.getJid());
+				BigInteger livecount = lm.getCountByTime(l.getFid(), weldtime,weldtime,l.getJid(),0);
 				double loads = (double)Math.round(l.getLoads()/livecount.doubleValue()*100*100)/100;
 				json.put("loads",  ((double)Math.round(l.getLoads()*1000)/1000)+"/"+((double)Math.round(livecount.doubleValue()*1000)/1000)+"/1="+loads+"%");
 				json.put("weldtime", weldtime);
