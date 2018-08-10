@@ -846,7 +846,7 @@
 	<select id="getDetailovertime" resultMap="dtoMap">
 		SELECT * from (select sum(num) overtime,fid,fname,wname,fequipment_no fmachine_id, fwelder_id, weldTime, worktime from (
 		SELECT case when SUM(fstandbytime)/60 &gt;=#{num} then 1 else 0 end as num,fequipment_no,i.fid,i.fname,w.fname wname,fwelder_id,
-		DATE_FORMAT( fstarttime,'%Y-%m-%d' ) weldTime,SUM(fstandbytime)/60/60 worktime
+		DATE_FORMAT( fstarttime,'%Y-%m-%d' ) weldTime,SUM(fstandbytime)/60 worktime
 		FROM tb_standby l 
         left join tb_welding_machine m on l.fmachine_id = m.fid
         INNER join tb_insframework i on i.fid = l.fitemid
@@ -854,13 +854,20 @@
 		WHERE i.fid=#{parent}
 		<if test="dto!=null and dto!=''">
 			<if test="dto.time!=null and dto.time!=''">
-				and fstarttime like #{dto.time}
-			</if>
-			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				and fstarttime &gt;= #{dto.dtoTime1}
-			</if>
-			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and fendtime &lt;= #{dto.dtoTime2}
+				<choose>
+					<when test="dto.week!=null and dto.week!=''">
+						AND fstarttime &gt;= #{dto.time} AND fendtime &lt;= #{dto.time2}
+					</when>
+					<otherwise>
+						and fstarttime like '${dto.time}%'
+						<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+							AND fstarttime &gt;= #{dto.dtoTime1}
+						</if>
+						<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+							AND fendtime &lt;= #{dto.dtoTime2}
+						</if>
+					</otherwise>
+				</choose>
 			</if>
 		</if>
 		group by fmachine_id ,weldTime ,fwelder_id
@@ -1067,13 +1074,20 @@
 				AND i.fid = #{dto.parent}
 			</if>
 			<if test="dto.time!=null and dto.time!=''">
-				and fstarttime like #{dto.time}
-			</if>
-			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				AND fstarttime &gt;= #{dto.dtoTime1}
-			</if>
-			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				AND fendtime &lt;= #{dto.dtoTime2}
+				<choose>
+					<when test="dto.week!=null and dto.week!=''">
+						AND fstarttime &gt;= #{dto.time} AND fendtime &lt;= #{dto.time2}
+					</when>
+					<otherwise>
+						and fstarttime like '${dto.time}%'
+						<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+							AND fstarttime &gt;= #{dto.dtoTime1}
+						</if>
+						<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+							AND fendtime &lt;= #{dto.dtoTime2}
+						</if>
+					</otherwise>
+				</choose>
 			</if>
 		</if>
 		GROUP BY fmachine_id
@@ -1247,15 +1261,20 @@
 				AND i.fid = #{dto.parent}
 			</if>
 			<if test="dto.time!=null and dto.time!=''">
-				and fstarttime like #{dto.time}
-			</if>
-		</if>
-      	<if test="dto!=null and dto!=''">
-			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				and fstarttime &gt;= #{dto.dtoTime1}
-			</if>
-			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and fendtime &lt;= #{dto.dtoTime2}
+				<choose>
+					<when test="dto.week!=null and dto.week!=''">
+						AND fstarttime &gt;= #{dto.time} AND fendtime &lt;= #{dto.time2}
+					</when>
+					<otherwise>
+						and fstarttime like '${dto.time}%'
+						<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+							AND fstarttime &gt;= #{dto.dtoTime1}
+						</if>
+						<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+							AND fendtime &lt;= #{dto.dtoTime2}
+						</if>
+					</otherwise>
+				</choose>
 			</if>
 		</if>
 		GROUP BY  fmachine_id

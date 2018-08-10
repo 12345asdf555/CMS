@@ -66,12 +66,16 @@ function serach(){
 	flagnum = 0;
 	if(type==20){
 		dealwith(0,"blocChart/getMaintenanceratio?flag=0");
+		$("#explain").html("<span>设备维修率</span><hr><ul><li>展现某一时间段内，各部门的设备维修次数总占比</li></ul>");
 	}else if(type==21){
 		dealwith(0,"blocChart/getMaintenanceratio?flag=1");
+		$("#explain").html("<span>设备维修率</span><hr><ul><li>展现某一时间段内，各部门的设备维修次数总占比</li></ul>");
 	}else if(type==22){
 		dealwith(1,"blocChart/getMaintenanceratio?flag=2");
+		$("#explain").html("<span>设备维修率</span><hr><ul><li>展现某一时间段内，各部门的设备维修次数总占比</li></ul>");
 	}else if(type==23){
 		$("#charts").hide();
+		$("#explain").html("<span>设备维修率</span><hr><ul><li>展现某一时间段内，该部门的不同厂商不同设备类型的焊机总费用及设备维修费用</li></ul>");
 //		$("#itemcharts1").show();
 		$("#itemcharts2").show();
 		position = 0;

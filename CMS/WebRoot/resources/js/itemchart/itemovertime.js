@@ -7,11 +7,12 @@ $(document).ready(function(){
 	showItemOverptimeChart();
 })
 
+var otype = "";
 function setParam(){
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	var item = $("#item").combobox("getValue");
-	var otype = $("input[name='otype']:checked").val();
+	otype = $("input[name='otype']:checked").val();
 	var number = $("#number").val();
 	chartStr += "&item="+item+"&otype="+otype+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number;
 }
@@ -95,7 +96,7 @@ function ItemtimeDatagrid(){
                  for(var m=0;m<result.arys.length;m++){
                 	 column.push({field:"overtime",title:result.arys[m].name+"(台)",width:width,halign : "center",align : "left",
                 		 formatter : function(value,row,index){
-                			 return "<a href='junctionChart/goJunctionOvertime?parent="+row.id+"&weldtime="+row.weldTime+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number+"'>"+value+"</a>";
+                			 return "<a href='junctionChart/goJunctionOvertime?parent="+row.id+"&otype="+otype+"&weldtime="+row.weldTime+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number+"'>"+value+"</a>";
                 		 }
                 	 },{field:"id",title:"项目id",width:width,halign : "center",align : "left",hidden : true});
                    	array2.push(result.arys[m].name);

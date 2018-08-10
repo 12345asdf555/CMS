@@ -48,10 +48,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:serachcompanyUse();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 10%;margin-left:10px;">
-		按组织机构和日期对设备运行数据统计：<br/>
-		统计时间段内的不同厂家不同类型的焊机使用情况；</div>
-		<div id="companyUseChart" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
+		<div id="maxexplain">
+			<div id="explain">
+				<span>单台设备运行数据统计</span><hr>
+				<ul>
+					<li>展现某一时间段内，该部门内的不同厂家不同类型的焊机使用情况</li>
+				</ul>
+			</div>
+		</div>
+		<div id="companyUseChart" style="height:50%;width:70%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
 		
 	    <table id="companyUseTable" style="table-layout: fixed; width:100%;"></table>
 	</div>

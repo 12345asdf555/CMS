@@ -6,14 +6,13 @@ var chartStr = "";
 $(document).ready(function() {
 	showitemNoLoadsChart();
 })
-
+var otype = "";
 function setParam() {
 	var parent = $("#parent").val();
-	var otype = $("input[name='otype']:checked").val();
 	var item = $("#item").combobox("getValue");
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-	var otype = $("input[name='otype']:checked").val();
+	otype = $("input[name='otype']:checked").val();
 	chartStr = "?otype=" + otype + "&parent=" + parent + "&item=" + item + "&dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2;
 }
 
@@ -122,7 +121,7 @@ function ItemnoloadsDatagrid() {
 						halign : "center",
 						align : "left",
 						formatter : function(value, row, index) {
-							return "<a href='junctionChart/goDetailNoLoads?itemid=" + row.itemid + "&weldtime=" + row.weldTime + "&dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2 + "'>" + value + "%" + "</a>";
+							return "<a href='junctionChart/goDetailNoLoads?itemid=" + row.itemid  + "&otype=" + otype + "&weldtime=" + row.weldTime + "&dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2 + "'>" + value + "%" + "</a>";
 						}
 					}, {
 						field : "itemid",

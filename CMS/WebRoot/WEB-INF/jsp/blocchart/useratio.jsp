@@ -29,8 +29,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
 	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
-	<script type="text/javascript" src="resources/js/blocchart/useratio.js"></script>
 	<script type="text/javascript" src="resources/js/getDate.js"></script>
+	<script type="text/javascript" src="resources/js/blocchart/useratio.js"></script>
 
   </head>
   <body class="easyui-layout">
@@ -49,11 +49,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 6%;margin-left:10px;">
-		按组织机构对设备利用率进行统计：<br/>
-		统计时间段内的设备利用情况；<br/>
-		利用率=每天的焊机开机台数/部门焊机设备总台数(取最大值)<br/></div>
-		<div id="charts" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
+		<div id="maxexplain">
+			<div id="explain">
+				<span>设备利用率</span><hr>
+				<ul>
+					<li>展现某一时间段内，各部门的设备利用率及趋势</li>
+					<li>利用率=每天的焊机开机台数/部门焊机设备总台数(取最大值)</li>
+				</ul>
+			</div>
+		</div>
+		<div id="charts" style="height:50%;width:70%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
 	    <table id="dg" style="table-layout: fixed; width:100%;"></table>
 	</div>
   </body>

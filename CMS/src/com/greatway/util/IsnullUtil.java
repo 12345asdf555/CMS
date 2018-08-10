@@ -55,11 +55,11 @@ public class IsnullUtil {
 		ca.setFirstDayOfWeek(Calendar.MONDAY);
 		ca.setTime(cal.getTime());
 		ca.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek()); // Monday
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
 		str = sdf.format(ca.getTime()) + "/";
 
 		SimpleDateFormat sdf2 = new SimpleDateFormat("dd");
-		ca.set(Calendar.DATE, Integer.parseInt(sdf2.format(ca.getTime()))+6);
+		ca.set(Calendar.DATE, Integer.parseInt(sdf2.format(ca.getTime()))+7);
 		str += sdf.format(ca.getTime());
 		return str;
 	}

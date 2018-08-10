@@ -52,10 +52,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 10%;margin-left:10px;">
-		按组织机构对设备时长进行统计：<br/>
-		统计时间段内的设备运行时长排行；</div>
-		<div id="charts" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
+		<div id="maxexplain">
+			<div id="explain">
+				<span>设备运行时长</span><hr>
+				<ul>
+					<li>展现某一时间段内，各部门设备运行时长排行(由高到低)</li>
+				</ul>
+			</div>
+		</div>
+		<div id="charts" style="height:50%;width:70%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
 	    <table id="dg" style="table-layout: fixed; width:100%;"></table>
 	</div>
   </body>

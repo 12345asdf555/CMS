@@ -28,9 +28,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
+	<script type="text/javascript" src="resources/js/getTime.js"></script>
 	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
 	<script type="text/javascript" src="resources/js/blocchart/operatorefficiency.js"></script>
-	<script type="text/javascript" src="resources/js/getTime.js"></script>
 
   </head>
   <body class="easyui-layout">
@@ -49,14 +49,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 6%;margin-left:10px;">
-		按组织机构对操作者工作效率进行统计：<br/>
-		统计时间段内的焊工工作情况；<br/>
-		上机率=开机时长/上班时长<br/>
-		有效焊接率=焊接时长/开机时长<br/>
-		焊接时长=开机时长-待机时长<br/>
-		工作效率=焊接时长/上班时长</div>
-		<div id="charts" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
+		<div id="maxexplain">
+			<div id="explain" style="height:190px;">
+				<span>操作者率</span><hr>
+				<ul>
+					<li>展现某一时间段内，各部门操作者上班时长、焊接时长以及工作效率</li>
+					<li>上机率=开机时长/上班时长</li>
+					<li>有效焊接率=焊接时长/开机时长</li>
+					<li>焊接时长=开机时长-待机时长</li>
+					<li>工作效率=焊接时长/上班时长</li>
+				</ul>
+			</div>
+		</div>
+		<div id="charts" style="height:50%;width:70%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
 	    <table id="dg" style="table-layout: fixed; width:100%;"></table>
 	</div>
   </body>

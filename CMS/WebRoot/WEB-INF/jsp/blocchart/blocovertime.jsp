@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>集团超时待机统计</title>
+    <title>超时待机统计</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="集团超时待机统计" style="background: witch; height: 335px;">
+    <div id="body" region="center"  hide="true"  split="true" title="超时待机统计" style="background: witch; height: 335px;">
 	  	<div id="blocOvertime_btn">
 			<div style="margin-bottom: 5px;">
 				时间：
@@ -53,10 +53,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:serachBlocOvertime();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 10%;margin-left:10px;">
-		按组织机构和日期对超时待机趋势统计：<br/>
-		统计时间段内的各部门焊机超时待机趋势；</div>
-		<div id="blocOvertimeChart" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
+		<div id="maxexplain">
+			<div id="explain">
+				<span>超时待机统计</span><hr>
+				<ul>
+					<li>展现某一时间段内，各部门的超时待机焊机数量及趋势</li>
+				</ul>
+			</div>
+		</div>
+		<div id="blocOvertimeChart" style="height:50%;width:70%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
 		
 	    <table id="blocOvertimeTable" style="table-layout: fixed; width:100%;"></table>
 	    

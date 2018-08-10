@@ -29,7 +29,14 @@ public class WeldDto {
 	private String time;
 	private String hour;
 	private String second;
+	private String time2;
 	
+	public String getTime2() {
+		return time2;
+	}
+	public void setTime2(String time2) {
+		this.time2 = time2;
+	}
 	public String getHour() {
 		return hour;
 	}

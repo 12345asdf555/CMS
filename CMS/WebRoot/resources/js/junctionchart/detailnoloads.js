@@ -7,12 +7,13 @@ function detailnoloadsDatagrid(){
 	var weldtime = $("#weldtime").val();
 	var time1 = $("#time1").val();
 	var time2 = $("#time2").val();
+	var otype = $("#otype").val();
 	$("#detailNoLoadsTable").datagrid( {
 		fitColumns : true,
 		height : $("#body").height() - $("#detailNoLoad_btn").height()-30,
 		width : $("#body").width(),
 		idField : 'id',
-		url : "junctionChart/getDetailNoLoads?parent="+parent+"&weldtime="+weldtime+"&time1="+time1+"&time2="+time2,
+		url : "junctionChart/getDetailNoLoads?parent="+parent+"&weldtime="+weldtime+"&time1="+time1+"&time2="+time2+"&otype="+otype,
 		singleSelect : true,
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50],
@@ -22,7 +23,7 @@ function detailnoloadsDatagrid(){
 		columns : [ [ {
 			field : 'name',
 			title : '项目部',
-			width : 100,
+			width : 150,
 			halign : "center",
 			align : "left"
 		}, {
@@ -34,13 +35,13 @@ function detailnoloadsDatagrid(){
 		}, {
 			field : 'loads',
 			title : '空载率',
-			width : 100,
+			width : 200,
 			halign : "center",
 			align : "left",
 		}, {
 			field : 'weldtime',
 			title : '日期',
-			width : 100,
+			width : 150,
 			halign : "center",
 			align : "left",
 		}] ],

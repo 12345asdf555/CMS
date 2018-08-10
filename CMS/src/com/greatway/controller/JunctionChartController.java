@@ -1,6 +1,9 @@
 package com.greatway.controller;
 
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -109,11 +112,13 @@ public class JunctionChartController {
 		String dtoTime1 = request.getParameter("dtoTime1");
 		String dtoTime2 = request.getParameter("dtoTime2");
 		String number = request.getParameter("number");
+		String type = request.getParameter("otype");
 		request.setAttribute("weldtime", weldtime);
 		request.setAttribute("parent", parentId);
 		request.setAttribute("number",number );
 		request.setAttribute("time1",dtoTime1 );
 		request.setAttribute("time2",dtoTime2 );
+		request.setAttribute("otype",type );
 		insm.showParent(request, parentId);
 		lm.getUserId(request);
 		return "junctionchart/junctionovertime";
@@ -170,12 +175,14 @@ public class JunctionChartController {
 		String itemid = request.getParameter("itemid");
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
+		String otype = request.getParameter("otype");
 		insm.showParent(request,itemid);
 		lm.getUserId(request);
 		request.setAttribute("parent",itemid);
 		request.setAttribute("weldtime",weldtime);
 		request.setAttribute("time1",time1);
 		request.setAttribute("time2",time2);
+		request.setAttribute("otype",otype);
 		return "junctionchart/detailnoloads";
 	}
 	
@@ -299,8 +306,9 @@ public class JunctionChartController {
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
+		String type = request.getParameter("otype");
 		WeldDto dto = new WeldDto();
-		dto.setTime(weldtime+"%");
+		dto.setTime(weldtime);
 		if(iutil.isNull(time1)){
 			dto.setDtoTime1(time1);
 		}
@@ -308,7 +316,34 @@ public class JunctionChartController {
 			dto.setDtoTime2(time2);
 		}
 		page = new Page(pageIndex,pageSize,total);
-		List<ModelDto> list = lm.getDetailovertime(page,dto, number, parent);
+		List<ModelDto> list = null;
+		if(Integer.parseInt(type)!=4){
+			list = lm.getDetailovertime(page,dto, number, parent);
+		}else{
+			String[] str = dto.getTime().split("-");
+			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+			String[] weektime = weekdate.split("/");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				long t1 = sdf.parse(weektime[0]).getTime();
+				long t2 = sdf.parse(time1).getTime();
+				long t3 = sdf.parse(weektime[1]).getTime();
+				long t4 = sdf.parse(time2).getTime();
+				if(t1<=t2){
+					weektime[0] = time1;
+				}
+				if(t3>=t4){
+					weektime[1] = time2;
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			dto.setTime(weektime[0]);
+			dto.setTime2(weektime[1]);
+			dto.setWeek("week");
+			list = lm.getDetailovertime(page,dto, number, parent);
+		}
 		long total = 0;
 		if(list != null){
 			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
@@ -393,7 +428,7 @@ public class JunctionChartController {
 		WeldDto dto = new WeldDto();
 		dto.setDtoStatus(1);
 		if(iutil.isNull(weldtime)){
-			dto.setTime(weldtime+"%");
+			dto.setTime(weldtime);
 		}
 		if(iutil.isNull(time1)){
 			dto.setDtoTime1(time1);
@@ -416,7 +451,33 @@ public class JunctionChartController {
 			}
 		}
 		page = new Page(pageIndex,pageSize,total);
-		List<ModelDto> list = lm.getDetailLoads(page, dto, null);
+		List<ModelDto> list = null;
+		if(Integer.parseInt(type)!=4){
+			list = lm.getDetailLoads(page, dto, null);
+		}else{
+			String[] str = dto.getTime().split("-");
+			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+			String[] weektime = weekdate.split("/");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				long t1 = sdf.parse(weektime[0]).getTime();
+				long t2 = sdf.parse(time1).getTime();
+				long t3 = sdf.parse(weektime[1]).getTime();
+				long t4 = sdf.parse(time2).getTime();
+				if(t1<=t2){
+					weektime[0] = time1;
+				}
+				if(t3>=t4){
+					weektime[1] = time2;
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			dto.setTime(weektime[0]);
+			dto.setTime2(weektime[1]);
+			list = lm.getDetailLoads(page, dto, null);
+		}
 		long total = 0;
 		if(list != null){
 			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
@@ -461,10 +522,11 @@ public class JunctionChartController {
 		String weldtime = request.getParameter("weldtime");
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
+		String type = request.getParameter("otype");
 		WeldDto dto = new WeldDto();
 		dto.setDtoStatus(1);
 		if(iutil.isNull(weldtime)){
-			dto.setTime(weldtime+"%");
+			dto.setTime(weldtime);
 		}
 		if(iutil.isNull(time1)){
 			dto.setDtoTime1(time1);
@@ -476,7 +538,35 @@ public class JunctionChartController {
 			dto.setParent(new BigInteger(parentid));;
 		}
 		page = new Page(pageIndex,pageSize,total);
-		List<ModelDto> list = lm.getDetailNoLoads(page,dto);
+		String[] weektime = null;
+		List<ModelDto> list = null;
+		if(Integer.parseInt(type)!=4){
+			list = lm.getDetailNoLoads(page, dto);
+		}else{
+			String[] str = dto.getTime().split("-");
+			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+			weektime = weekdate.split("/");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				long t1 = sdf.parse(weektime[0]).getTime();
+				long t2 = sdf.parse(time1).getTime();
+				long t3 = sdf.parse(weektime[1]).getTime();
+				long t4 = sdf.parse(time2).getTime();
+				if(t1<=t2){
+					weektime[0] = time1;
+				}
+				if(t3>=t4){
+					weektime[1] = time2;
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			dto.setTime(weektime[0]);
+			dto.setTime2(weektime[1]);
+			dto.setWeek("week");
+			list = lm.getDetailNoLoads(page, dto);
+		}
 		long total = 0;
 		if(list != null){
 			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
@@ -487,7 +577,12 @@ public class JunctionChartController {
 		JSONObject obj = new JSONObject();
 		try{
 			for(ModelDto l:list){
-				BigInteger livecount = lm.getCountByTime(l.getFid(), weldtime,weldtime,l.getJid(),0);
+				BigInteger livecount = new BigInteger("0");
+				if(weektime != null){
+					livecount = lm.getCountByTime(l.getFid(), dto.getTime(),weektime[1],l.getJid(),Integer.parseInt(type));
+				}else{
+					livecount = lm.getCountByTime(l.getFid(), dto.getTime(),null,l.getJid(),Integer.parseInt(type));
+				}
 				double loads = (double)Math.round(l.getLoads()/livecount.doubleValue()*100*100)/100;
 				json.put("loads",  ((double)Math.round(l.getLoads()*1000)/1000)+"/"+((double)Math.round(livecount.doubleValue()*1000)/1000)+"/1="+loads+"%");
 				json.put("weldtime", weldtime);

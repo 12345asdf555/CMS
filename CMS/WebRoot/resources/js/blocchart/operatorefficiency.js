@@ -2,22 +2,6 @@ $(function(){
 	flagnum=1;
 	parentCombobox();
 	dgDatagrid();
-	dtoTime1 = $("#dtoTime1").datetimebox('getValue');  
-	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-	$("#dtoTime1").datetimebox({
-		onChange: function (newvalue,oldvalue) {
-			if(newvalue==null || newvalue==""){
-				$("#dtoTime1").datetimebox('setValue',dtoTime1);
-			}
-		}
-	})
-	$("#dtoTime2").datetimebox({
-		onChange: function (newvalue,oldvalue) {
-			if(newvalue==null || newvalue==""){
-				$("#dtoTime2").datetimebox('setValue',dtoTime2);
-			}
-		}
-	})
 })
 
 
@@ -159,7 +143,7 @@ function chart(){
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'100',
+			right:'120',
 			bottom: bootomnum,
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
@@ -186,7 +170,8 @@ function chart(){
 			name : '时长(h)'
 		},{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name : '工作效率',
+			name : '工作效率', 
+			splitLine:{show: false},//去除网格线
 			axisLabel: {  
                   show: true,  
                   interval: 'auto',  

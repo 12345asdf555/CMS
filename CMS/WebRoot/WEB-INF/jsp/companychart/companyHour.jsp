@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>公司焊口焊接工时</title>
+    <title>焊口焊接工时</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="公司焊口焊接工时" style="background: witch; height: 335px;">
+    <div id="body" region="center"  hide="true"  split="true" title="焊口焊接工时" style="background: witch; height: 335px;">
 	  	<div id="caustHour_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="parent" id="parent" type="hidden" value="${parent }"/>

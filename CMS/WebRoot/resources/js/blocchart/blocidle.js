@@ -38,7 +38,7 @@ function showblocIdleChart(){
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'60',
+			right:'140',
 			bottom:'20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
