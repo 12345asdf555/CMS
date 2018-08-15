@@ -47,6 +47,7 @@ function addWeldingMachine() {
 //saveWeldingMachine();
 }
 
+var gid;
 function editWeldingMachine() {
 	flag = 2;
 	$('#fm').form('clear');
@@ -62,6 +63,10 @@ function editWeldingMachine() {
 		$('#dlg').window('open');
 		$('#fm').form('load', row);
 		$("#insfname").textbox('setValue', row.insframeworkName);
+		$("#valideno").val(row.equipmentNo);
+		$("#validgid").val(row.gatherNo);
+		$("#iId").combobox('select', row.insframeworkId);
+		gid = row.gatherId;
 		//weldingMachineDatagrid();
 		url = "weldingMachine/editWeldingMachine?wid=" + row.id;
 	}
@@ -134,8 +139,8 @@ function editText() {
 	$('#tId').combobox('select', type);
 	$('#iId').combobox('select', insframework);
 	$('#manuno').combobox('select', manu);
-	$('#gatherId').val($("#gid").val());
-	$('#gatherNo').textbox('setValue', $("#gno").val());
+//	$('#gatherId').val($("#gid").val());
+//	$('#gatherNo').textbox('setValue', $("#gno").val());
 	$("#insfname").next().hide();
 	$("#iId").next().hide();
 }
@@ -267,8 +272,8 @@ function statusRadio() {
 	});
 }
 
-var searchStr = "";
 function GatherDatagrid() {
+	var searchStr = "";
 	var parent;
 	if (flag == 2) {
 		parent = $("#insframework").val();
@@ -374,6 +379,6 @@ function dlgSearchGather() {
 }
 
 function reset() {
-	$('#gatherId').val($("#gid").val());
-	$('#gatherNo').textbox('setValue', $("#gno").val());
+	$('#gatherId').val(gid);
+	$('#gatherNo').textbox('setValue', $("#validgid").val());
 }

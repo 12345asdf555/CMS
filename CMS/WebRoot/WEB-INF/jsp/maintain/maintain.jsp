@@ -111,7 +111,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</form>
 			<div id="dlg-buttons">
-					<a href="javascript:saveMaintain();" class="easyui-linkbutton"	iconCls="icon-ok">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="javascript:saveMaintain();" class="easyui-linkbutton"	iconCls="icon-ok">保存</a>
 					<a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 			</div>
 		</div>
