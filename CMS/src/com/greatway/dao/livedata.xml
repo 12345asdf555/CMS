@@ -2156,7 +2156,7 @@
 			</if>
 		</if>
 		AND l.fstatus='0' 
-		GROUP BY m.fequipment_no
+		GROUP BY m.fequipment_no having COUNT(l.fid)/60>=55
 		UNION ALL
 		SELECT m.fequipment_no fname,COUNT(l.fid) AS hous FROM tb_live_data l 
 		INNER join tb_welding_machine m on l.fmachine_id=m.fid WHERE 1=1 
@@ -2180,7 +2180,7 @@
 			</if>
 		</if>
 		AND l.fstatus='0' 
-		GROUP BY m.fequipment_no) 
+		GROUP BY m.fequipment_no having COUNT(l.fid)/60>=55) 
 		GROUP BY m.fequipment_no
 	</select>
 
