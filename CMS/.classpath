@@ -6,7 +6,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry exported="true" kind="con" path="com.genuitec.runtime.library/com.genuitec.jstl_1.2">
 		<attributes>
@@ -58,6 +57,9 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jackson-databind-2.2.3.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jackson-mapper-asl-1.8.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/javassist-3.12.0.GA.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-api-2.2.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-impl-2.2.1.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-xjc-2.2.1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jmxtools-1.2.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jotm.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/json-lib-2.2.2-jdk15.jar"/>
@@ -117,8 +119,5 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/wsdl4j-1.6.2.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xmlschema-core-2.0.3.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-api-2.2.1.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-impl-2.2.1.1.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-xjc-2.2.1.1.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

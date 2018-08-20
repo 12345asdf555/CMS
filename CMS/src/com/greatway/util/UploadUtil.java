@@ -46,8 +46,8 @@ public class UploadUtil {
 		factory.setRepository(file);
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		upload.setHeaderEncoding("UTF-8");
-		upload.setFileSizeMax(1024 * 1024 * 1000);
-		upload.setSizeMax(1024 * 1024 * 5000);
+		upload.setFileSizeMax(1024 * 1024 * 1024);//设置上传的单个文件的最大字节数为1G
+		upload.setSizeMax(1024 * 1024 * 5000);//设置整个表单的最大字节数
 		try {
 			List list = upload.parseRequest(request);
 			Iterator itr = list.iterator();

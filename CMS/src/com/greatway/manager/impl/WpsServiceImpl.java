@@ -20,31 +20,62 @@ public class WpsServiceImpl implements WpsService{
 
 	@Resource
 	private WpsMapper mapper;
-	public List<Wps> findAll(Page page, BigInteger parent, String str) {
-		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return mapper.findAll(parent,str);
-	}
-
-	public void save(Wps wps) {
-		mapper.save(wps);
-	}
-
+	
+	@Override
 	public Wps findById(BigInteger fid) {
 		return mapper.findById(fid);
-	}
-
-	public void update(Wps wps) {
-		mapper.update(wps);
-		
-	}
-
-	public void delete(BigInteger fid) {
-		mapper.delete(fid);
 	}
 
 	@Override
 	public int getUsernameCount(String fwpsnum) {
 		return mapper.getUsernameCount(fwpsnum);
+	}
+
+	@Override
+	public List<Wps> findAll(String wpsnum) {
+		return mapper.findAll(wpsnum);
+	}
+
+	@Override
+	public boolean save(Wps wps) {
+		return mapper.save(wps);
+	}
+
+	@Override
+	public boolean update(Wps wps) {
+		return mapper.update(wps);
+	}
+
+	@Override
+	public boolean delete(BigInteger fid) {
+		return mapper.delete(fid);
+	}
+
+	@Override
+	public List<Wps> findWpsAll(Page page,BigInteger parent, String str) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return mapper.findWpsAll(parent, str);
+	}
+
+	@Override
+	public Wps findWpsByid(BigInteger id) {
+		return mapper.findWpsByid(id);
+	}
+
+	@Override
+	public boolean addWps(Wps wps) {
+		return mapper.addWps(wps);
+	}
+
+	@Override
+	public boolean updateWps(Wps wps) {
+		return mapper.updateWps(wps);
+	}
+
+	@Override
+	public boolean deleteWps(String wpsnum, BigInteger fid) {
+		mapper.deleteByWpsno(wpsnum);
+		return mapper.deleteWps(fid);
 	}
 
 	

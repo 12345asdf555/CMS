@@ -20,92 +20,22 @@ $(function() {
 		}, {
 			field : 'fwpsnum',
 			title : '工艺编号',
-			width : 60,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'fweld_i',
-			title : '标准焊接电流',
-			width : 80,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'fweld_v',
-			title : '标准焊接电压',
-			width : 80,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'fweld_i_max',
-			title : '最大焊接电流',
-			width : 80,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'fweld_i_min',
-			title : '最小焊接电流',
-			width : 80,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'fweld_v_max',
-			title : '最大焊接电压',
-			width : 80,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'fweld_v_min',
-			title : '最小焊接电压',
-			width : 80,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'fweld_alter_i',
-			title : '报警电流',
-			width : 60,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'fweld_alter_v',
-			title : '报警电压',
-			width : 60,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'fdiameter',
-			title : '焊丝直径',
-			width : 60,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'fweld_prechannel',
-			title : '预置通道',
-			width : 60,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'insname',
-			title : '部门',
-			width : 100,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'insid',
-			title : '部门id',
 			width : 100,
 			halign : "center",
 			align : "left",
-			hidden : true
+			formatter : function(value,row,index){
+				return "<a href='wps/goShowWps?id="+row.fid+"'>"+value+"</a>";
+			}
 		}, {
-			field : 'fback',
-			title : '备注',
-			width : 120,
+			field : 'fversions',
+			title : '版本',
+			width : 80,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'fname',
-			title : '工艺参数名称',
-			width : 100,
+			field : 'fproject_code',
+			title : '焊工考试项目代号',
+			width : 600,
 			halign : "center",
 			align : "left"
 		}, {
@@ -116,8 +46,8 @@ $(function() {
 			align : "left",
 			formatter : function(value, row, index) {
 				var str = "";
-				str += '<a id="edit" class="easyui-linkbutton" href="javascript:editWps()"/>';
-				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWps()"/>';
+				str += '<a id="edit" class="easyui-linkbutton" href="wps/goEditWps?id='+row.fid+'"/>';
+				str += '<a id="remove" class="easyui-linkbutton" href="wps/goRemoveWps?id='+row.fid+'"/>';
 				return str;
 			}
 		} ] ],
@@ -137,7 +67,6 @@ $(function() {
 	});
 
 })
-
 
 //监听窗口大小变化
 window.onresize = function() {
