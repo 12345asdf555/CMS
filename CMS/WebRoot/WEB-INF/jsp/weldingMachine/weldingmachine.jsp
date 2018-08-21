@@ -88,9 +88,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="fitem">
           <lable><span class="required">*</span>所属项目</lable>
-          <input type="hidden" id="insframework" name="insframeworkId"/>
+          <input type="hidden" id="insframework" name="insframework"/>
           <input class="easyui-textbox" id="insfname" readonly="readonly"/>
-          <select class="easyui-combobox" name="insframeworkName" id="iId" data-options="required:true,editable:false"></select>
+          <select class="easyui-combobox" name="insframeworkId" id="iId" data-options="required:true,editable:false"></select>
         </div>
         <div class="fitem">
           <lable><span class="required">*</span>生产厂商</lable>

@@ -8,7 +8,7 @@ $(function() {
 			itemid = $("#iId").combobox("getValue");
 			if (itemid != gatheritemid) {
 				$("#gatherId").val("");
-				$("#gatherNo").textbox('setValue');
+				$("#gatherNo").textbox('setValue',"");
 			}
 		//          gatherCombobox();
 		}
@@ -62,10 +62,11 @@ function editWeldingMachine() {
 		});
 		$('#dlg').window('open');
 		$('#fm').form('load', row);
+		$("#insframework").val(row.insframeworkId);
 		$("#insfname").textbox('setValue', row.insframeworkName);
 		$("#valideno").val(row.equipmentNo);
 		$("#validgid").val(row.gatherNo);
-		$("#iId").combobox('select', row.insframeworkId);
+//		$("#iId").combobox('select', row.insframeworkId);
 		gid = row.gatherId;
 		//weldingMachineDatagrid();
 		url = "weldingMachine/editWeldingMachine?wid=" + row.id;

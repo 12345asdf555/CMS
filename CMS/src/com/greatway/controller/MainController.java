@@ -226,7 +226,6 @@ public class MainController {
 			dto.setDtoTime2(request.getParameter("time2"));
 			BigInteger uid = lm.getUserId(request);
 			dto.setParent(im.getUserInsfId(uid));
-			
 			List<Welcome> list = wm.getItemMachineCount(dto);
 			List<Welcome> temp = new ArrayList<Welcome>();
 			for(Welcome i:list){
@@ -237,7 +236,7 @@ public class MainController {
 				w.setMachinenum(machine.getMachinenum());
 				if(machine!=null){
 					w.setHour((double)Math.round((double)machine.getMachinenum()/(double)i.getTotal()*100*100)/100);
-				}else {
+				}else{
 					w.setHour(0);
 				}
 				temp.add(w);
@@ -248,15 +247,22 @@ public class MainController {
 				double tempmax = temp.get(i).getHour();
 				double tempmin = temp.get(i).getHour();
 				min = tempmin;
-				if(tempmax >= max){
+				if(tempmax > max){
 					max = tempmax;
 					maxindex = i;
 				}
-				if(tempmin <= min){
+				if(tempmin < min){
 					min = tempmin;
 					minindex = i;
 				}
 			}
+			if(!temp.isEmpty() && max==0){
+				maxindex = 0;
+			}
+			if(!temp.isEmpty() && min==0){
+				minindex = temp.size()-1;
+			}
+			
 			if(!temp.isEmpty() && maxindex>=0 && minindex>=0){
 				for(int i=0;i<2;i++){
 					int index = 0;
@@ -303,13 +309,13 @@ public class MainController {
 			List<Welcome> temp = new ArrayList<Welcome>();
 			for(int i=0;i<ilist.size();i++){
 				Welcome w = new Welcome();
-				double num = 100;
+				double num = 0;
 				w.setInsname(ilist.get(i).getName());
 				w.setElectricity((double)Math.round(ilist.get(i).getHour()*100)/100);
 				for(int o=0;o<olist.size();o++){
 					if(ilist.get(i).getId().equals(olist.get(o).getId())){
 						w.setAirflow((double)Math.round((ilist.get(i).getHour()-olist.get(o).getHour())*100)/100);
-						num = (double)Math.round(((ilist.get(i).getHour()-olist.get(o).getHour())/ilist.get(i).getHour())*100*100)/100;
+						num = (double)Math.round(((ilist.get(i).getHour()-olist.get(o).getHour())/ilist.get(i).getHour())*100)/100;
 					}
 				}
 				w.setHour(num);
@@ -321,14 +327,20 @@ public class MainController {
 				double tempmax = temp.get(i).getHour();
 				double tempmin = temp.get(i).getHour();
 				min = tempmin;
-				if(tempmax >= max){
+				if(tempmax > max){
 					max = tempmax;
 					maxindex = i;
 				}
-				if(tempmin <= min){
+				if(tempmin < min){
 					min = tempmin;
 					minindex = i;
 				}
+			}
+			if(!temp.isEmpty() && max==0){
+				maxindex = 0;
+			}
+			if(!temp.isEmpty() && min==0){
+				minindex = temp.size()-1;
 			}
 			if(!temp.isEmpty() && maxindex>=0 && minindex>=0){
 				for(int i=0;i<2;i++){
@@ -341,7 +353,7 @@ public class MainController {
 					json.put("itemname", temp.get(index).getInsname());//班组
 					json.put("loadtime", temp.get(index).getElectricity());//焊接时长
 					json.put("normaltime", temp.get(index).getAirflow());//正常焊接时长
-					json.put("weldtime", temp.get(index).getHour());//符合率
+					json.put("weldtime", temp.get(index).getHour()*100);//符合率
 					ary.add(json);
 				}
 			}

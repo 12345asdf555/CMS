@@ -433,7 +433,7 @@ public interface LiveDataManager {
 	 * @param mid 焊机id
 	 * @return
 	 */
-	BigInteger getCountByTime(BigInteger parent,String time1,String time2,BigInteger mid, int type);
+	double getCountByTime(BigInteger parent,String time1,String time2,BigInteger mid, int type);
 	
 	/**
 	 * 根据焊工获取焊口

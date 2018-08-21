@@ -751,17 +751,17 @@ public class ItemChartController {
 							if(ma.getWeldTime().equals(m.getWeldTime()) && ma.getFid().equals(m.getFid())){
 								if(time.get(i).getWeldTime().equals(m.getWeldTime())){
 									if(Integer.parseInt(type)!=4){
-										livecount[i] = lm.getCountByTime(m.getFid(), m.getWeldTime(),null,null,Integer.parseInt(type)).doubleValue();
+										livecount[i] = lm.getCountByTime(m.getFid(), m.getWeldTime(),null,null,Integer.parseInt(type));
 									}else{
 										String[] str = m.getWeldTime().split("-");
 										String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
 										String[] weektime = weekdate.split("/");
 										if(i==0){
-											livecount[i] = lm.getCountByTime(m.getFid(), time1,weektime[1],null,Integer.parseInt(type)).doubleValue();
+											livecount[i] = lm.getCountByTime(m.getFid(), time1,weektime[1],null,Integer.parseInt(type));
 										}else if(i==time.size()-1){
-											livecount[i] = lm.getCountByTime(m.getFid(), weektime[0],time2,null,Integer.parseInt(type)).doubleValue();
+											livecount[i] = lm.getCountByTime(m.getFid(), weektime[0],time2,null,Integer.parseInt(type));
 										}else{
-											livecount[i] = lm.getCountByTime(m.getFid(), weektime[0],weektime[1],null,Integer.parseInt(type)).doubleValue();
+											livecount[i] = lm.getCountByTime(m.getFid(), weektime[0],weektime[1],null,Integer.parseInt(type));
 										}
 										
 									}

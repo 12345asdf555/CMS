@@ -20,7 +20,7 @@ function removeWps(){
 			$.ajax({
 				type : "post",
 				async : false,
-				url : "wps/destroyWpsAll?id="+$("#fid").val()+"&wpsnum=" + $("#wpsnum").val() +"&insfid=" + $("#itemid").val(),
+				url : "wps/destroyWpsAll?id="+$("#fid").val()+"&wpsnum=" + $("#wpsnum").val() +"&insfid=" + $("#itemid").val() +"&imager=" + $("#imgurl").val(),
 				data : {},
 				dataType : "json", //返回数据形式为json  
 				success : function(result) {
@@ -34,12 +34,14 @@ function removeWps(){
 						if(result.msg!=null){
 							$.messager.show( {title : '提示',msg : result.msg});
 						}
-						var url = "wps/goWps";
-						var img = new Image();
-					    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-					    url = img.src;  // 此时相对路径已经变成绝对路径
-					    img.src = null; // 取消请求
-						window.location.href = encodeURI(url);
+						window.setTimeout(function() {
+							var url = "wps/goWps";
+							var img = new Image();
+						    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
+						    url = img.src;  // 此时相对路径已经变成绝对路径
+						    img.src = null; // 取消请求
+							window.location.href = encodeURI(url);
+						}, 1000);
 					}
 				},
 				error : function(errorMsg) {

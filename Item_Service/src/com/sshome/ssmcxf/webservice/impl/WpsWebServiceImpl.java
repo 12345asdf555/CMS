@@ -18,16 +18,6 @@ public class WpsWebServiceImpl implements WpsWebService {
 	}
 
 	@Override
-	public boolean save(String object) {
-		return ws.save(object);
-	}
-
-	@Override
-	public boolean update(String object) {
-		return ws.update(object);
-	}
-
-	@Override
 	public int getUsernameCount(String object) {
 		return ws.getUsernameCount(object);
 	}
@@ -40,6 +30,31 @@ public class WpsWebServiceImpl implements WpsWebService {
 	@Override
 	public boolean delete(String object) {
 		return ws.delete(object);
+	}
+
+	@Override
+	public Object findWpsByid(String object) {
+		return ws.findWpsByid(object);
+	}
+
+	@Override
+	public boolean addWps(String object) {
+		return ws.addWps(object);
+	}
+
+	@Override
+	public boolean updateWps(String object) {
+		return ws.updateWps(object);
+	}
+
+	@Override
+	public boolean deleteWps(String object) {
+		return ws.deleteWps(object);
+	}
+
+	@Override
+	public Object findWpsAll(String object) {
+		return ws.findWpsAll(object);
 	}
 
 }

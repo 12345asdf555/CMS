@@ -11,20 +11,10 @@ import com.sshome.ssmcxf.webservice.WpsWebService;
 public class WpsWebServiceImpl implements WpsWebService {
 	@Autowired
 	private WpsService ws;
-	
+
 	@Override
 	public Object findAll(String object) {
 		return ws.findAll(object);
-	}
-
-	@Override
-	public Object save(String obj1, String obj2) {
-		return ws.save(obj1, obj2);
-	}
-
-	@Override
-	public Object update(String obj1, String obj2) {
-		return ws.update(obj1, obj2);
 	}
 
 	@Override
@@ -42,4 +32,28 @@ public class WpsWebServiceImpl implements WpsWebService {
 		return ws.delete(obj1, obj2);
 	}
 
+	@Override
+	public Object findWpsAll(String object) {
+		return ws.findWpsAll(object);
+	}
+
+	@Override
+	public Object findWpsByid(String object) {
+		return ws.findWpsByid(object);
+	}
+
+	@Override
+	public Object addWps(String obj1, String obj2) {
+		return ws.addWps(obj1, obj2);
+	}
+
+	@Override
+	public Object updateWps(String obj1, String obj2) {
+		return ws.updateWps(obj1, obj2);
+	}
+
+	@Override
+	public Object deleteWps(String obj1, String obj2) {
+		return ws.deleteWps(obj1, obj2);
+	}
 }
