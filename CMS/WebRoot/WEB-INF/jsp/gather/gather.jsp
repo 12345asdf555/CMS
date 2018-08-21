@@ -31,17 +31,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/gather/addeditgather.js"></script>
 	<script type="text/javascript" src="resources/js/gather/removegather.js"></script>
   </head>
-  
   <body class="easyui-layout">
-  	<jsp:include  page="../insframeworktree.jsp"/>
-  	<div id="body" region="center"  hide="true"  split="true" title="采集模块管理" style="background: witch; height: 335px;">
+  <jsp:include  page="../insframeworktree.jsp"/>
+  	<div id="body" region="center"  hide="true"  split="true" title="采集模块管理" style="background: witch; height: 325px;">
   		<div id="gather_btn">
   			<div>
 				<a href="javascript:addGather()" class="easyui-linkbutton" iconCls="icon-add">新增</a>
 				<a href="javascript:insertSearchGather();" class="easyui-linkbutton" iconCls="icon-search" >查找</a>
 	    	</div>
 	    </div>	
-	    <table id="gatherTable" style="table-layout: fixed; width:100%;"></table>
+	    <table id="gatherTable" style="table-layout: fixed; overflow:hidden; width:100%;"></table>
 	    
 	    <!-- 自定义多条件查询 -->
 	    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">

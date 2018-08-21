@@ -117,8 +117,8 @@ function CompanynoloadsDatagrid(){
     }); 
 	 $("#companyNoLoadsTable").datagrid( {
 			fitColumns : true,
-			height : $("#body").height() - $("#companyNoLoadsChart").height()-$("#companyNoLoads_btn").height()-45,
-			width : $("#body").width(),
+			height : $("#body").height() - $("#companyNoLoadsChart").height()-$("#companyNoLoads_btn").height()-75,
+			width : $("#body").width()-30,
 			idField : 'id',
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
@@ -151,8 +151,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#companyNoLoadsTable").datagrid('resize', {
-		height : $("#body").height() - $("#companyNoLoadsChart").height()-$("#companyNoLoads_btn").height()-45,
-		width : $("#body").width()
+		height : $("#body").height() - $("#companyNoLoadsChart").height()-$("#companyNoLoads_btn").height()-75,
+		width : $("#body").width()-30
 	});
 	echarts.init(document.getElementById('companyNoLoadsChart')).resize();
 }

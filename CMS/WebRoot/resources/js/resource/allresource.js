@@ -12,8 +12,8 @@
     	$("#fm").form("disableValidation");
 	    $("#dg").datagrid( {
 		fitColumns : true,
-		height : ($("#body").height()),
-		width : $("#body").width(),
+		height : ($("#body").height())-40,
+		width : $("#body").width()-30,
 		idField : 'id',
 		toolbar : "#toolbar",
 		pageSize : 10,

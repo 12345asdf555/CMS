@@ -65,47 +65,47 @@ function getUserInsframework() {
 			//			hierarchyLoding();
 			if (type == 20) {
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    设备分析',
+					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;设备分析</div>',
 					content : $("#bloc1").html()
 				});
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    焊工分析',
+					title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;焊工分析</div>',
 					content : $("#bloc2").html(),
 					selected : false
 				});
 			} else if (type == 21) {
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    设备分析',
+					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;设备分析</div>',
 					content : $("#company1").html()
 				});
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    焊工分析',
+					title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;焊工分析</div>',
 					content : $("#company2").html(),
 					selected : false
 				});
 			} else if (type == 22) {
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    设备分析',
+					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;设备分析</div>',
 					content : $("#caust1").html()
 				});
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    焊工分析',
+					title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;焊工分析</div>',
 					content : $("#caust2").html(),
 					selected : false
 				});
 			} else if (type == 23) {
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    设备分析',
+					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;设备分析</div>',
 					content : $("#item1").html()
 				});
 				$('#accordiondiv').accordion('add', {
-					title : '<i class="iconfont icon-ren"></i>    焊工分析',
+					title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;焊工分析</div>',
 					content : $("#item2").html(),
 					selected : false
 				});
 			}
 			$('#accordiondiv').accordion('add', {
-				title : '<i class="iconfont icon-ren"></i>    管理员',
+				title : '<div><img src="resources/images/user.png"/>&nbsp;&nbsp;管理员</div>',
 				content : $("#admin").html(),
 				selected : false
 			});

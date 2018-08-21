@@ -12,8 +12,8 @@ $(function(){
 function weldedJunctionDatagrid(){
 	$("#weldedJunctionTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height(),
-		width : $("#body").width(),
+		height : $("#body").height()-40,
+		width : $("#body").width()-30,
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],

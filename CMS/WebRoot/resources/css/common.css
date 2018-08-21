@@ -60,6 +60,19 @@ body{background: #ccc;}
 .content1-wrap ul li div.list3{width: 60px;background-color: #fff;font-size: 12px;border-radius: 5px;line-height: 24px;color: blue;text-align: center;margin-top: 10px;margin-left: 10px;display: inline-block;}
 .content1-wrap .boxls1{width: 30%;margin-bottom: 32px;margin-right: 0px;}
 
+.tenghan-bottom{
+	height:15px;
+	text-align:right;
+	padding-top: 10px; 
+	position:fixed;
+    bottom:0;
+    width:100%;
+    background: -webkit-linear-gradient(left, ##4CA5E7 , #a0cad6);
+	background: -o-linear-gradient(right, #4CA5E7 , #a0cad6); 
+	background: -moz-linear-gradient(right, #4CA5E7 , #a0cad6); /* Firefox 3.6 - 15 */
+	background: linear-gradient(to right, #4CA5E7 , #a0cad6); 
+	FILTER:progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#4CA5E7,endColorStr=#a0cad6); /*IE 6 7 8*/
+}
 
 #weak,#middle,#strength{
 	padding-left:18px;

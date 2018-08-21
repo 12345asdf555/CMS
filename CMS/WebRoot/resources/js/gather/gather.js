@@ -6,8 +6,8 @@ $(function(){
 function GatherDatagrid(){
 	$("#gatherTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height(),
-		width : $("#body").width(),
+		height : $("#body").height()-45,
+		width : $("#body").width()-30,
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
@@ -25,7 +25,7 @@ function GatherDatagrid(){
 		}, {
 			field : 'gatherNo',
 			title : '采集模块编号',
-			width : 100,
+			width : 120,
 			halign : "center",
 			align : "left"
 		}, {
@@ -38,43 +38,43 @@ function GatherDatagrid(){
 		}, {
 			field : 'itemname',
 			title : '所属项目',
-			width : 150,
+			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'status',
 			title : '采集模块状态',
-			width : 100,
+			width : 130,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'protocol',
 			title : '采集模块通讯协议',
-			width : 150,
+			width : 130,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'ipurl',
 			title : '采集模块IP地址',
-			width : 150,
+			width : 130,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'macurl',
 			title : '采集模块MAC地址',
-			width : 150,
+			width : 130,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'leavetime',
 			title : '采集模块出厂时间',
-			width : 150,
+			width : 130,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'edit',
 			title : '编辑',
-			width : 150,
+			width : 130,
 			halign : "center",
 			align : "left",
 			formatter:function(value,row,index){
@@ -86,6 +86,15 @@ function GatherDatagrid(){
 		}] ],
 		toolbar : '#gather_btn',
 		pagination : true,
+		nowrap : false,
+		rowStyler: function(index,row){
+            if ((index % 2)!=0){
+            	//处理行代背景色后无法选中
+            	var color=new Object();
+                color.class="rowColor";
+                return color;
+            }
+        },
 		onLoadSuccess:function(data){
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-edit'});
 	        $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});
