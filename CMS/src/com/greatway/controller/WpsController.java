@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.WpsService;
@@ -147,65 +148,6 @@ public class WpsController {
 	public String addWps(HttpServletRequest request,Wps wps) {
 		JSONObject obj = new JSONObject();
 		try{
-			//获取当前用户
-			Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			MyUser myuser = (MyUser)object;
-			String imageurl = request.getParameter("imageurl");
-			wps.setFimages_url(imageurl);
-			wps.setFcreator(new BigInteger(myuser.getId()+""));
-			String weldwps = request.getParameter("weldwps");
-			if(iutil.isNull(weldwps)){
-				String[] str = weldwps.split(",");
-				for(int i=0;i<str.length;i++){
-					Wps w = new Wps();
-					String[] s = str[i].split(";");
-					w.setFwpsnum(wps.getFwpsnum());
-					w.setFweld_prechannel(Integer.parseInt(s[0]));
-					w.setFwelding_method(s[1]);
-					w.setFtype(s[2]);
-					w.setFchildren_specification(s[3]);
-					w.setFpolarity(s[4]);
-					String[] weld_i = s[5].split("~");
-					String[] weld_v = s[6].split("~");
-					w.setFweld_i_min(Integer.parseInt(weld_i[0]));
-					w.setFweld_i_max(Integer.parseInt(weld_i[1]));
-					w.setFweld_v_min(Integer.parseInt(weld_v[0]));
-					w.setFweld_v_max(Integer.parseInt(weld_v[1]));
-					w.setFweld_i((Integer.parseInt(weld_i[0])+Integer.parseInt(weld_i[1]))/2);
-					w.setFweld_v((Integer.parseInt(weld_v[0])+Integer.parseInt(weld_v[1]))/2);
-					w.setFweld_alter_i(0);
-					w.setFweld_alter_v(0);
-					w.setFwelding_speed(s[7]);
-					w.setFcreater((Long)myuser.getId());
-					w.setInsid(wps.getFitemid());
-					w.setFname(wps.getFwpsnum());
-					boolean flag = wpsService.save(w);
-					if(!flag){
-						obj.put("success", false);
-						obj.put("errorMsg", "操作失败！");
-						return obj.toString();
-					}
-				}
-			}
-			boolean result = wpsService.addWps(wps);
-			if(result){
-				obj.put("success", true);
-			}else{
-				obj.put("success", false);
-				obj.put("errorMsg", "操作失败！");
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			obj.put("errorMsg", e.getMessage());
-		}
-		return obj.toString();
-	}
-
-	@RequestMapping("/addWpsXXX")
-	@ResponseBody
-	public String addUser(HttpServletRequest request,Wps wps) {
-		JSONObject obj = new JSONObject();
-		try{
 			//当前层级
 			String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
 			//获取当前用户
@@ -214,20 +156,55 @@ public class WpsController {
 			//获取项目层url
 			String itemurl = request.getSession().getServletContext().getInitParameter("itemurl");
 			//获取公司发布地址
-			String companyurl = im.webserviceDto(request, wps.getInsid());
+			int type = im.getTypeById(wps.getFitemid());
+			String webserviceurl = "",method = "enterTheIDU";
+			if(type==20){
+				webserviceurl = request.getSession().getServletContext().getInitParameter("blocurl");
+				method="enterTheWS";
+			}else if(type==21){
+				webserviceurl = request.getSession().getServletContext().getInitParameter("companyurl");
+			}else if(type==22){
+				Insframework ins = im.getParent(wps.getFitemid());
+				webserviceurl = request.getSession().getServletContext().getInitParameter(ins.getId().toString());
+			}else{
+				Insframework ins = im.getParent(wps.getFitemid());
+				Insframework companyid = im.getParent(ins.getId());
+				webserviceurl = request.getSession().getServletContext().getInitParameter(companyid.getId().toString());
+			}
 			//客户端执行操作
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient(companyurl);
+			Client client = dcf.createClient(webserviceurl);
 			iutil.Authority(client);
-			String obj1 = "{\"CLASSNAME\":\"wpsWebServiceImpl\",\"METHOD\":\"save\"}";
-			String obj2 = "{\"WPSNO\":\""+wps.getFwpsnum()+"\",\"PRECHANNEL\":\""+wps.getFweld_prechannel()+"\",\"ALERTELECTRICITY\":\""+wps.getFweld_alter_i()+"\",\"ALERTVALTAGE\":\""+wps.getFweld_alter_v()+"\",\"ELECTRICITY\":\""+wps.getFweld_i()+"\",\"VALTAGE\":\""+
-					wps.getFweld_v()+"\",\"MAXELECTRICITY\":\""+wps.getFweld_i_max()+"\",\"MINELECTRICITY\":\""+wps.getFweld_i_min()+"\",\"MAXVALTAGE\":\""+wps.getFweld_v_max()+"\",\"MINVALTAGE\":\""+wps.getFweld_v_min()+"\",\"NAME\":\""
-					+wps.getFname()+"\",\"DIAMETER\":\""+wps.getFdiameter()+"\",\"INSFID\":\""+wps.getInsid()+"\",\"BACK\":\""+wps.getFback()+"\",\"CREATOR\":\""+myuser.getId()+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\"}";
-			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
+			String childrenstr = addUserChildren(request, wps.getFwpsnum(), myuser.getId(), wps.getFitemid());
+			if(childrenstr==null || "".equals(childrenstr)){
+				childrenstr = "[]";
+			}
+			String obj1 = "{\"CLASSNAME\":\"wpsWebServiceImpl\",\"METHOD\":\"addWps\"}";
+			String obj2 = "{\"WPSNUM\":\""+wps.getFwpsnum()+"\",\"VERSIONS\":\""+wps.getFversions()+"\",\"INSFID\":\""+wps.getFitemid()+"\",\"PROJECT_CODE\":\""+wps.getFproject_code()+"\",\"REPORT_NUMBER\":\""+wps.getFreport_number()+"\",\"DEGREE\":\""+
+					wps.getFdegree()+"\",\"EVALUATION_STANDARD\":\""+wps.getFevaluation_standard()+"\",\"VALIDITY\":\""+wps.getFvalidity()+"\",\"AUTOMATIC\":\""+wps.getFautomatic()+"\",\"GROOVE_TYPE\":\""+wps.getFgroove_type()+"\""+
+					",\"STABILIVOLT_SYSTEM\":\""+wps.getFstabilivolt_system()+"\",\"MATERIALS\":\""+wps.getFmaterials()+"\",\"THICKNESS1\":\""+wps.getFthickness1()+"\",\"THICKNESS2\":\""+wps.getFthickness2()+"\""+
+					",\"DIAMETER\":\""+wps.getFdiameter()+"\",\"ELES1\":\""+wps.getFeles1()+"\",\"IMAGES_URL\":\""+request.getParameter("imageurl")+"\",\"IMAGES_DESC\":\""+wps.getFimages_desc()+"\",\"CATEGORY\":\""+wps.getFcategory()+"\""+
+					",\"SHOP_SIGN\":\""+wps.getFshop_sign()+"\",\"SPECIFICATION\":\""+wps.getFspecification()+"\",\"materials_type\":\""+wps.getFmaterials_type()+"\",\"MATERIALS_NUMBER1\":\""+wps.getFmaterials_number1()+"\""+
+					",\"MATERIALS_SPECIFICATION1\":\""+wps.getFmaterials_specification1()+"\",\"MATERIALS_NUMBER2\":\""+wps.getFmaterials_number2()+"\",\"MATERIALS_SPECIFICATION2\":\""+wps.getFmaterials_specification2()+"\",\"SOLDERING_NUMBER\":\""+wps.getFsoldering_number()+"\""+
+					",\"POSITION\":\""+wps.getFposition()+"\",\"DIRECTION\":\""+wps.getFdirection()+"\",\"ELSE2\":\""+wps.getFelse2()+"\",\"FRONT1\":\""+wps.getFfront1()+"\",\"FRONT2\":\""+wps.getFfront2()+"\""+
+					",\"REVERSE1\":\""+wps.getFreverse1()+"\",\"REVERSE2\":\""+wps.getFreverse2()+"\",\"REVERSE3\":\""+wps.getFreverse3()+"\",\"TAIL\":\""+wps.getFtail()+"\",\"PREHEATING_TEMPERATURE\":\""+wps.getFpreheating_temperature()+"\""+
+					",\"TEMPERATURE\":\""+wps.getFtemperature()+"\",\"PREHEAT_WAY\":\""+wps.getfPreheat_way()+"\",\"TEMPERATURE_RANGE\":\""+wps.getFtemperature_range()+"\",\"SOAKING_TIME\":\""+wps.getFsoaking_time()+"\",\"ELES3\":\""+wps.getFeles3()+"\""+
+					",\"SCOPE\":\""+wps.getFscope()+"\",\"NOZZLE\":\""+wps.getFnozzle()+"\",\"DISTANCE\":\""+wps.getFdistance()+"\",\"BACK_CHIPPING\":\""+wps.getFback_chipping()+"\",\"LAYER_SCOPE1\":\""+wps.getFlayer_scope1()+"\""+
+					",\"LAYER_SCOPE2\":\""+wps.getFlayer_scope2()+"\",\"TUNGSTEN_ELECTRODE\":\""+wps.getFtungsten_electrode()+"\",\"TRANSIENT_MODE\":\""+wps.getFtransient_mode()+"\",\"METHOD1\":\""+wps.getFmethod1()+"\",\"METHOD2\":\""+wps.getFmethod2()+"\""+
+					",\"CREATOR\":\""+myuser.getId()+"\",\"WELDWPS\":"+childrenstr+",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\",\"INSFTYPE\":\""+type+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", method), new Object[]{obj1,obj2});  
 			if(objects[0].toString().equals("true")){
-				obj.put("success", true);
+				if(method.equals("enterTheWS")){
+					obj.put("success", addBlocChildren(client,childrenstr,obj2));
+				}else{
+					obj.put("success", true);
+				}
 			}else if(!objects[0].toString().equals("false")){
-				obj.put("success", true);
+				if(method.equals("enterTheWS")){
+					obj.put("success", addBlocChildren(client,childrenstr,obj2));
+				}else{
+					obj.put("success", true);
+				}
 				obj.put("msg", objects[0].toString());
 			}else{
 				obj.put("success", false);
@@ -240,106 +217,102 @@ public class WpsController {
 		}
 		return obj.toString();
 	}
+	
+	public boolean addBlocChildren(Client client,String childrenstr,String obj2){
+		boolean flag = true;
+		try{
+			if(!childrenstr.equals("[]")){
+				String obj1 = "{\"CLASSNAME\":\"wpsWebServiceImpl\",\"METHOD\":\"save\"}";
+				Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+				if(objects[0].toString()!=null && !"".equals(objects[0].toString())){
+					flag = true;
+				}else{
+					flag = false;
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			flag = false;
+		}
+		return flag;
+	}
+	
+	public String addUserChildren(HttpServletRequest request,String wpsnum,Long userid,BigInteger insfid){
+		String flag = "";
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		try{
+			String weldwps = request.getParameter("weldwps");
+			if(iutil.isNull(weldwps)){
+				String[] str = weldwps.split(",");
+				for(int i=0;i<str.length;i++){
+					String[] s = str[i].split(";");
+					String[] weld_i = s[5].split("~");
+					String[] weld_v = s[6].split("~");
+					json.put("WPSNUM", wpsnum);
+					json.put("WELDPRECHANNEL", s[0]);
+					json.put("INSFID", insfid);
+					json.put("WELDINGMETHOD", s[1]);
+					json.put("TYPE", s[2]);
+					json.put("SPECIFICATION", s[3]);
+					json.put("POLARITY", s[4]);
+					json.put("MINELECTRICITY", weld_i[0]);
+					json.put("MAXELECTRICITY", weld_i[1]);
+					json.put("MINVALTAGE", weld_v[0]);
+					json.put("MAXVALTAGE", weld_v[1]);
+					json.put("WELDINGSPEED", s[7]);
+					json.put("CREATOR", userid);
+					ary.add(json);
+				}
+				flag = JSON.toJSONString(ary);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		return flag;
+	}
+	
+	public String updateUserChildren(HttpServletRequest request,String wpsnum,Long userid,BigInteger insfid){
+		String flag = "";
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		try{
+			String weldwps = request.getParameter("oldweldwps");
+			if(iutil.isNull(weldwps)){
+				String[] str = weldwps.split(",");
+				for(int i=0;i<str.length;i++){
+					String[] s = str[i].split(";");
+					String[] weld_i = s[5].split("~");
+					String[] weld_v = s[6].split("~");
+					json.put("WPSNUM", wpsnum);
+					json.put("WELDPRECHANNEL", s[0]);
+					json.put("INSFID", insfid);
+					json.put("WELDINGMETHOD", s[1]);
+					json.put("TYPE", s[2]);
+					json.put("SPECIFICATION", s[3]);
+					json.put("POLARITY", s[4]);
+					json.put("MINELECTRICITY", weld_i[0]);
+					json.put("MAXELECTRICITY", weld_i[1]);
+					json.put("MINVALTAGE", weld_v[0]);
+					json.put("MAXVALTAGE", weld_v[1]);
+					json.put("WELDINGSPEED", s[7]);
+					json.put("ID", s[8]);
+					json.put("MODIFIER", userid);
+					ary.add(json);
+				}
+				flag = JSON.toJSONString(ary);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		return flag;
+	}
 
 	@RequestMapping("/updateWps")
 	@ResponseBody
 	public String updateWps(Wps wps, HttpServletRequest request) {
-
-		JSONObject obj = new JSONObject();
-		try{
-			//获取当前用户
-			Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			MyUser myuser = (MyUser)object;
-			String imageurl = request.getParameter("imageurl");
-			wps.setFimages_url(imageurl);
-			wps.setFmodifier(new BigInteger(myuser.getId()+""));
-			String weldwps = request.getParameter("weldwps");
-			String oldweldwps = request.getParameter("oldweldwps");
-			String[] editstr = oldweldwps.split(",");
-			if(iutil.isNull(oldweldwps)){
-				for(int i=0;i<editstr.length;i++){
-					Wps w = new Wps();
-					String[] s = editstr[i].split(";");
-					w.setFwpsnum(wps.getFwpsnum());
-					w.setFweld_prechannel(Integer.parseInt(s[0]));
-					w.setFwelding_method(s[1]);
-					w.setFtype(s[2]);
-					w.setFchildren_specification(s[3]);
-					w.setFpolarity(s[4]);
-					String[] weld_i = s[5].split("~");
-					String[] weld_v = s[6].split("~");
-					w.setFweld_i_min(Integer.parseInt(weld_i[0]));
-					w.setFweld_i_max(Integer.parseInt(weld_i[1]));
-					w.setFweld_v_min(Integer.parseInt(weld_v[0]));
-					w.setFweld_v_max(Integer.parseInt(weld_v[1]));
-					w.setFweld_i((Integer.parseInt(weld_i[0])+Integer.parseInt(weld_i[1]))/2);
-					w.setFweld_v((Integer.parseInt(weld_v[0])+Integer.parseInt(weld_v[1]))/2);
-					w.setFweld_alter_i(0);
-					w.setFweld_alter_v(0);
-					w.setFwelding_speed(s[7]);
-					w.setChildrenid(new BigInteger(s[8]));
-					w.setFupdater((Long)myuser.getId());
-					w.setInsid(wps.getFitemid());
-					w.setFname(wps.getFwpsnum());
-					boolean flag = wpsService.update(w);
-					if(!flag){
-						obj.put("success", false);
-						obj.put("errorMsg", "操作失败！");
-						return obj.toString();
-					}
-				}
-			}
-
-			if(iutil.isNull(weldwps)){
-				String[] str = weldwps.split(",");
-				for(int i=0;i<str.length;i++){
-					Wps w = new Wps();
-					String[] s = str[i].split(";");
-					w.setFwpsnum(wps.getFwpsnum());
-					w.setFweld_prechannel(Integer.parseInt(s[0]));
-					w.setFwelding_method(s[1]);
-					w.setFtype(s[2]);
-					w.setFchildren_specification(s[3]);
-					w.setFpolarity(s[4]);
-					String[] weld_i = s[5].split("~");
-					String[] weld_v = s[6].split("~");
-					w.setFweld_i_min(Integer.parseInt(weld_i[0]));
-					w.setFweld_i_max(Integer.parseInt(weld_i[1]));
-					w.setFweld_v_min(Integer.parseInt(weld_v[0]));
-					w.setFweld_v_max(Integer.parseInt(weld_v[1]));
-					w.setFweld_i((Integer.parseInt(weld_i[0])+Integer.parseInt(weld_i[1]))/2);
-					w.setFweld_v((Integer.parseInt(weld_v[0])+Integer.parseInt(weld_v[1]))/2);
-					w.setFweld_alter_i(0);
-					w.setFweld_alter_v(0);
-					w.setFwelding_speed(s[7]);
-					w.setFcreater((Long)myuser.getId());
-					w.setInsid(wps.getFitemid());
-					w.setFname(wps.getFwpsnum());
-					boolean flag = wpsService.save(w);
-					if(!flag){
-						obj.put("success", false);
-						obj.put("errorMsg", "操作失败！");
-						return obj.toString();
-					}
-				}
-			}
-			boolean result = wpsService.updateWps(wps);
-			if(result){
-				obj.put("success", true);
-			}else{
-				obj.put("success", false);
-				obj.put("errorMsg", "操作失败！");
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			obj.put("errorMsg", e.getMessage());
-		}
-		return obj.toString();
-	}
-	
-	@RequestMapping("/updateWpsXX")
-	@ResponseBody
-	public String updateWpsXX(Wps wps, HttpServletRequest request) {
 		JSONObject obj = new JSONObject();
 		try{
 			//当前层级
@@ -349,28 +322,66 @@ public class WpsController {
 			MyUser myuser = (MyUser)object;
 			//获取项目层url
 			String itemurl = request.getSession().getServletContext().getInitParameter("itemurl");
-			//获取公司发布地址
-			String companyurl = im.webserviceDto(request, wps.getInsid());
+			//获取发布地址
+			int type = im.getTypeById(wps.getFitemid());
+			String webserviceurl = "",method = "enterTheIDU";
+			if(type==20){
+				webserviceurl = request.getSession().getServletContext().getInitParameter("blocurl");
+				method="enterTheWS";
+			}else if(type==21){
+				webserviceurl = request.getSession().getServletContext().getInitParameter("companyurl");
+			}else if(type==22){
+				Insframework ins = im.getParent(wps.getFitemid());
+				webserviceurl = request.getSession().getServletContext().getInitParameter(ins.getId().toString());
+			}else{
+				Insframework ins = im.getParent(wps.getFitemid());
+				Insframework companyid = im.getParent(ins.getId());
+				webserviceurl = request.getSession().getServletContext().getInitParameter(companyid.getId().toString());
+			}
 			//客户端执行操作
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient(companyurl);
+			Client client = dcf.createClient(webserviceurl);
 			iutil.Authority(client);
-			String obj1 = "{\"CLASSNAME\":\"wpsWebServiceImpl\",\"METHOD\":\"update\"}";
-			String obj2 = "{\"ID\":\""+wps.getFid()+"\",\"WPSNO\":\""+wps.getFwpsnum()+"\",\"PRECHANNEL\":\""+wps.getFweld_prechannel()+"\",\"ALERTELECTRICITY\":\""+wps.getFweld_alter_i()+"\",\"ALERTVALTAGE\":\""+wps.getFweld_alter_v()+"\",\"ELECTRICITY\":\""+wps.getFweld_i()+"\",\"VALTAGE\":\""+
-					wps.getFweld_v()+"\",\"MAXELECTRICITY\":\""+wps.getFweld_i_max()+"\",\"MINELECTRICITY\":\""+wps.getFweld_i_min()+"\",\"MAXVALTAGE\":\""+wps.getFweld_v_max()+"\",\"MINVALTAGE\":\""+wps.getFweld_v_min()+"\",\"NAME\":\""
-					+wps.getFname()+"\",\"DIAMETER\":\""+wps.getFdiameter()+"\",\"INSFID\":\""+wps.getInsid()+"\",\"BACK\":\""+wps.getFback()+"\",\"MODIFIER\":\""+myuser.getId()+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\"}";
-			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
+			String childrenstr1 = addUserChildren(request, wps.getFwpsnum(), myuser.getId(), wps.getFitemid());
+			String childrenstr2 = updateUserChildren(request, wps.getFwpsnum(), myuser.getId(), wps.getFitemid());
+			if(childrenstr1==null || "".equals(childrenstr1)){
+				childrenstr1 = "[]";
+			}
+			if(childrenstr2==null || "".equals(childrenstr2)){
+				childrenstr2 = "[]";
+			}
+			String obj1 = "{\"CLASSNAME\":\"wpsWebServiceImpl\",\"METHOD\":\"updateWps\"}";
+			String obj2 = "{\"ID\":\""+wps.getFid()+"\",\"WPSNUM\":\""+wps.getFwpsnum()+"\",\"VERSIONS\":\""+wps.getFversions()+"\",\"INSFID\":\""+wps.getFitemid()+"\",\"PROJECT_CODE\":\""+wps.getFproject_code()+"\",\"REPORT_NUMBER\":\""+wps.getFreport_number()+"\",\"DEGREE\":\""+
+					wps.getFdegree()+"\",\"EVALUATION_STANDARD\":\""+wps.getFevaluation_standard()+"\",\"VALIDITY\":\""+wps.getFvalidity()+"\",\"AUTOMATIC\":\""+wps.getFautomatic()+"\",\"GROOVE_TYPE\":\""+wps.getFgroove_type()+"\""+
+					",\"STABILIVOLT_SYSTEM\":\""+wps.getFstabilivolt_system()+"\",\"MATERIALS\":\""+wps.getFmaterials()+"\",\"THICKNESS1\":\""+wps.getFthickness1()+"\",\"THICKNESS2\":\""+wps.getFthickness2()+"\""+
+					",\"DIAMETER\":\""+wps.getFdiameter()+"\",\"ELES1\":\""+wps.getFeles1()+"\",\"IMAGES_URL\":\""+request.getParameter("imageurl")+"\",\"IMAGES_DESC\":\""+wps.getFimages_desc()+"\",\"CATEGORY\":\""+wps.getFcategory()+"\""+
+					",\"SHOP_SIGN\":\""+wps.getFshop_sign()+"\",\"SPECIFICATION\":\""+wps.getFspecification()+"\",\"materials_type\":\""+wps.getFmaterials_type()+"\",\"MATERIALS_NUMBER1\":\""+wps.getFmaterials_number1()+"\""+
+					",\"MATERIALS_SPECIFICATION1\":\""+wps.getFmaterials_specification1()+"\",\"MATERIALS_NUMBER2\":\""+wps.getFmaterials_number2()+"\",\"MATERIALS_SPECIFICATION2\":\""+wps.getFmaterials_specification2()+"\",\"SOLDERING_NUMBER\":\""+wps.getFsoldering_number()+"\""+
+					",\"POSITION\":\""+wps.getFposition()+"\",\"DIRECTION\":\""+wps.getFdirection()+"\",\"ELSE2\":\""+wps.getFelse2()+"\",\"FRONT1\":\""+wps.getFfront1()+"\",\"FRONT2\":\""+wps.getFfront2()+"\""+
+					",\"REVERSE1\":\""+wps.getFreverse1()+"\",\"REVERSE2\":\""+wps.getFreverse2()+"\",\"REVERSE3\":\""+wps.getFreverse3()+"\",\"TAIL\":\""+wps.getFtail()+"\",\"PREHEATING_TEMPERATURE\":\""+wps.getFpreheating_temperature()+"\""+
+					",\"TEMPERATURE\":\""+wps.getFtemperature()+"\",\"PREHEAT_WAY\":\""+wps.getfPreheat_way()+"\",\"TEMPERATURE_RANGE\":\""+wps.getFtemperature_range()+"\",\"SOAKING_TIME\":\""+wps.getFsoaking_time()+"\",\"ELES3\":\""+wps.getFeles3()+"\""+
+					",\"SCOPE\":\""+wps.getFscope()+"\",\"NOZZLE\":\""+wps.getFnozzle()+"\",\"DISTANCE\":\""+wps.getFdistance()+"\",\"BACK_CHIPPING\":\""+wps.getFback_chipping()+"\",\"LAYER_SCOPE1\":\""+wps.getFlayer_scope1()+"\""+
+					",\"LAYER_SCOPE2\":\""+wps.getFlayer_scope2()+"\",\"TUNGSTEN_ELECTRODE\":\""+wps.getFtungsten_electrode()+"\",\"TRANSIENT_MODE\":\""+wps.getFtransient_mode()+"\",\"METHOD1\":\""+wps.getFmethod1()+"\",\"METHOD2\":\""+wps.getFmethod2()+"\""+
+					",\"MODIFIER\":\""+myuser.getId()+"\",\"WELDWPS\":"+childrenstr1+",\"OLDWELDWPS\":"+childrenstr2+",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\",\"INSFTYPE\":\""+type+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", method), new Object[]{obj1,obj2});  
 			if(objects[0].toString().equals("true")){
-				obj.put("success", true);
+				if(method.equals("enterTheWS")){
+					obj.put("success", addBlocChildren(client,childrenstr1,obj2));
+				}else{
+					obj.put("success", true);
+				}
 			}else if(!objects[0].toString().equals("false")){
-				obj.put("success", true);
+				if(method.equals("enterTheWS")){
+					obj.put("success", addBlocChildren(client,childrenstr1,obj2));
+				}else{
+					obj.put("success", true);
+				}
 				obj.put("msg", objects[0].toString());
 			}else{
 				obj.put("success", false);
 				obj.put("errorMsg", "操作失败！");
 			}
 		}catch(Exception e){
-			e.printStackTrace();
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
 		}
@@ -382,49 +393,33 @@ public class WpsController {
 	public String destroyWps(HttpServletRequest request, @RequestParam BigInteger fid, @RequestParam BigInteger insfid) {
 		JSONObject obj = new JSONObject();
 		try{
-			boolean flag = wpsService.delete(fid);
-			obj.put("success", flag);
-		}catch(Exception e){
-			e.printStackTrace();
-			obj.put("success", false);
-			obj.put("errorMsg", e.getMessage());
-		}
-		return obj.toString();
-	}
-	
-	@RequestMapping("/destroyWpsAll")
-	@ResponseBody
-	public String destroyWpsAll(HttpServletRequest request, @RequestParam BigInteger id, @RequestParam String wpsnum, @RequestParam BigInteger insfid) {
-		JSONObject obj = new JSONObject();
-		try{
-			boolean flags = wpsService.deleteWps(wpsnum, id);
-			obj.put("success", flags);
-		}catch(Exception e){
-			e.printStackTrace();
-			obj.put("success", false);
-			obj.put("errorMsg", e.getMessage());
-		}
-		return obj.toString();
-	}
-
-	@RequestMapping("/destroyWpsXXX")
-	@ResponseBody
-	public String destroyWpsXXX(HttpServletRequest request, @RequestParam BigInteger fid, @RequestParam BigInteger insfid) {
-		JSONObject obj = new JSONObject();
-		try{
 			//当前层级
 			String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
 			//获取项目层url
 			String itemurl = request.getSession().getServletContext().getInitParameter("itemurl");
-			//获取公司发布地址
-			String companyurl = im.webserviceDto(request, fid);
+			//获取发布地址
+			int type = im.getTypeById(insfid);
+			String webserviceurl = "",method = "enterTheIDU";
+			if(type==20){
+				webserviceurl = request.getSession().getServletContext().getInitParameter("blocurl");
+				method="enterTheWS";
+			}else if(type==21){
+				webserviceurl = request.getSession().getServletContext().getInitParameter("companyurl");
+			}else if(type==22){
+				Insframework ins = im.getParent(insfid);
+				webserviceurl = request.getSession().getServletContext().getInitParameter(ins.getId().toString());
+			}else{
+				Insframework ins = im.getParent(insfid);
+				Insframework companyid = im.getParent(ins.getId());
+				webserviceurl = request.getSession().getServletContext().getInitParameter(companyid.getId().toString());
+			}
 			//客户端执行操作
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient(companyurl);
+			Client client = dcf.createClient(webserviceurl);
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"wpsWebServiceImpl\",\"METHOD\":\"delete\"}";
-			String obj2 = "{\"ID\":\""+fid+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\",\"INSFID\":\""+insfid+"\"}";
-			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
+			String obj2 = "{\"ID\":\""+fid+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\",\"INSFID\":\""+insfid+"\",\"INSFTYPE\":\""+type+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", method), new Object[]{obj1,obj2});  
 			if(objects[0].toString().equals("true")){
 				obj.put("success", true);
 				obj.put("msg", null);
@@ -441,6 +436,70 @@ public class WpsController {
 			obj.put("errorMsg", e.getMessage());
 		}
 		return obj.toString();
+	}
+	
+	@RequestMapping("/destroyWpsAll")
+	@ResponseBody
+	public String destroyWpsAll(HttpServletRequest request, @RequestParam BigInteger id, @RequestParam String wpsnum, @RequestParam BigInteger insfid) {
+		JSONObject obj = new JSONObject();
+		try{
+			//当前层级
+			String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
+			//获取项目层url
+			String itemurl = request.getSession().getServletContext().getInitParameter("itemurl");
+			//获取发布地址
+			int type = im.getTypeById(insfid);
+			String webserviceurl = "",method = "enterTheIDU";
+			if(type==20){
+				webserviceurl = request.getSession().getServletContext().getInitParameter("blocurl");
+				method="enterTheWS";
+			}else if(type==21){
+				webserviceurl = request.getSession().getServletContext().getInitParameter("companyurl");
+			}else if(type==22){
+				Insframework ins = im.getParent(insfid);
+				webserviceurl = request.getSession().getServletContext().getInitParameter(ins.getId().toString());
+			}else{
+				Insframework ins = im.getParent(insfid);
+				Insframework companyid = im.getParent(ins.getId());
+				webserviceurl = request.getSession().getServletContext().getInitParameter(companyid.getId().toString());
+			}
+			//客户端执行操作
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+			Client client = dcf.createClient(webserviceurl);
+			iutil.Authority(client);
+			String obj1 = "{\"CLASSNAME\":\"wpsWebServiceImpl\",\"METHOD\":\"deleteWps\"}";
+			String obj2 = "{\"ID\":\""+id+"\",\"WPSNUM\":\""+wpsnum+"\",\"ITEMURL\":\""+itemurl+"\",\"HIERARCHY\":\""+hierarchy+"\",\"INSFID\":\""+insfid+"\",\"INSFTYPE\":\""+type+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", method), new Object[]{obj1,obj2});  
+			if(objects[0].toString().equals("true")){
+				obj.put("success", true);
+				obj.put("msg", null);
+				removeImager(request,request.getParameter("imager"));
+			}else if(!objects[0].toString().equals("false")){
+				obj.put("success", true);
+				obj.put("msg", objects[0].toString());
+				removeImager(request,request.getParameter("imager"));
+			}else{
+				obj.put("success", false);
+				obj.put("errorMsg", "操作失败！");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
+
+	//删除上传图片
+	public void removeImager(HttpServletRequest request,String imageurl){
+		if(iutil.isNull(imageurl)){
+			//文件存储位置
+			ServletContext scontext = request.getSession().getServletContext();
+			// 获取绝对路径
+			String path = scontext.getRealPath("") + imageurl;
+			File file = new File(path);
+			file.delete();
+		}
 	}
 
 	@RequestMapping("/wpsvalidate")

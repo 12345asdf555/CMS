@@ -340,7 +340,7 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public BigInteger getCountByTime(BigInteger parent, String time1,String time2, BigInteger mid, int type) {
+	public double getCountByTime(BigInteger parent, String time1,String time2, BigInteger mid, int type) {
 		return live.getCountByTime(parent, time1, time2, mid, type);
 	}
 

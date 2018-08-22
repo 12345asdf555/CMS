@@ -443,7 +443,9 @@ function iview() {
 	            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
 				ele.push(liveele);
 				vol.push(livevol);
-				time.push(Date.parse(redata.substring(40 + i, 59 + i)));
+				var ttme = redata.substring(40+i, 59+i);
+	            ttme=ttme.replace(/-/g, '/');
+	            time.push(Date.parse(new Date(ttme))); 
 				machstatus.push(redata.substring(0 + i, 2 + i));
 				maxele = parseInt(redata.substring(61 + i, 64 + i));
 				minele = parseInt(redata.substring(64 + i, 67 + i));

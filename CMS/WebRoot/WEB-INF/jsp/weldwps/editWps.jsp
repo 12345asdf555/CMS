@@ -154,7 +154,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="hidden" id="oldimgurl" value="${wps.fimages_url }">
 						<img id="image" src="${wps.fimages_url }" style="width:358px; height:130px;"/>
 				        <span><input type="file" name="file" id="file" onchange="selectImage(this);"></span>
-				        <input type="button" value="上传" onclick="importWeldingMachine()" class="upButton"/>
+<!-- 				        <input type="button" value="上传" onclick="importWeldingMachine()" class="upButton"/> -->
 					</td>
 				</tr>
 				<tr>
@@ -982,8 +982,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</td>
 					<td width=434 colspan=18 class="border_right">
 						<span>
-							<input type="hidden" id="itemidText" value="${wps.fitemid }"/>
-							<select style="width:200px;" class="easyui-combobox" id="fitemid" name="fitemid" style="width:120px;" data-options="required:true,editable:false"></select>
+							<input type="hidden" id="fitemid" name="fitemid" value="${wps.fitemid }"/>
+<!-- 							<select style="width:200px;" class="easyui-combobox" id="fitemid" name="fitemid" style="width:120px;" data-options="required:true,editable:false"></select> -->
+							${wps.fitemname }
 						</span>
 					</td>
 				</tr>

@@ -15,8 +15,10 @@ import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.LiveDataManager;
+import com.greatway.manager.WelderManager;
 import com.greatway.manager.WeldingMachineManager;
 import com.greatway.model.Insframework;
+import com.greatway.model.Welder;
 import com.spring.model.MyUser;
 import com.spring.model.Td;
 import com.spring.service.TdService;
@@ -40,6 +42,9 @@ public class TdController {
 	
 	@Autowired
 	private LiveDataManager lm;
+	
+	@Autowired
+	private WelderManager wm;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -543,7 +548,6 @@ public class TdController {
 	@RequestMapping("/allWeldname")
 	@ResponseBody
 	public String allWeldname(HttpServletRequest request){
-		
 		List<Td> fwn = tdService.allWeldname();	
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
@@ -552,6 +556,29 @@ public class TdController {
 			for(Td td:fwn){
 				json.put("fname",td.getFname());
 				json.put("fwelder_no", td.getFwelder_no());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getLiveWelder")
+	@ResponseBody
+	public String getLiveWelder(HttpServletRequest request){
+		BigInteger uid = lm.getUserId(request);
+		BigInteger parent = im.getUserInsfId(uid);
+		List<Welder> list = wm.getWelderAll(null, parent);
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			for(int i=0;i<list.size();i++){
+				json.put("fname",list.get(i).getName());
+				json.put("fwelder_no", list.get(i).getWelderno());
+				json.put("fitemid", list.get(i).getIid());
 				ary.add(json);
 			}
 		}catch(Exception e){

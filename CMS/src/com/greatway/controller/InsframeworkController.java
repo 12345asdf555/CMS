@@ -543,6 +543,9 @@ public class InsframeworkController {
 	            str = json.toString();  
 	            str = str.substring(0, str.length()-1);  
 	            str+="]}]";
+	        }else{
+	            str = json.toString();
+	            str+="}]";
 	        }
               
         }  

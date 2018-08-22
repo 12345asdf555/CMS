@@ -149,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td width=358 colspan=14 rowspan=5 class="border_right">
 						  <img id="image" src="resources/images/default.png" style="width:358px; height:130px;"/>
 				          <span><input type="file" name="file" id="file" onchange="selectImage(this);"></span>
-				          <input type="button" value="上传" onclick="importWeldingMachine()" class="upButton"/>
+<!-- 				          <input type="button" value="上传" onclick="importWeldingMachine()" class="upButton"/> -->
 					</td>
 				</tr>
 				<tr>

@@ -124,6 +124,7 @@
 					<span class="fontstyle">${wps.fgroove_type }</span>
 				</td>
 				<td width=358 colspan=14 rowspan=5 class="border_right">
+					<input type="hidden" id="imgurl" value="${wps.fimages_url }"/>
 					<span><img width=307 height=153 id="image" src="${wps.fimages_url }"></span>
 				</td>
 			</tr>

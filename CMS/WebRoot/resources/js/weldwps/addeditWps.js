@@ -1,14 +1,14 @@
 $(function(){
-	insframeworkCombobox();
 	setEditDefault();
 	$("#fm").form("disableValidation");
 	$.messager.defaults = { ok: "是",cancel:"否",width:'250px',height:'150px',top:250};  
 })
 
 var flag;
-var resultary = new Array(),editResultary = new Array();
 function commitWps(){
+	importImager();
 	var url = "";
+	var resultary = new Array(),editResultary = new Array();
 	flag = $("#flag").val();
 	for(var i=0;i<ary.length;i++){
 		var fweld_prechannel = $("#fweld_prechannel" + ary[i]).combobox('getValue');
@@ -61,12 +61,14 @@ function commitWps(){
 					if(result.msg!=null){
 						$.messager.show( {title : '提示',msg : result.msg});
 					}
-					var url = "wps/goWps";
-					var img = new Image();
-				    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-				    url = img.src;  // 此时相对路径已经变成绝对路径
-				    img.src = null; // 取消请求
-					window.location.href = encodeURI(url);
+					window.setTimeout(function() {
+						var url = "wps/goWps";
+						var img = new Image();
+					    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
+					    url = img.src;  // 此时相对路径已经变成绝对路径
+					    img.src = null; // 取消请求
+						window.location.href = encodeURI(url);
+					}, 1000);
 				}
 			}
 
@@ -128,10 +130,10 @@ function selectImage(obj){
 	reader.readAsDataURL(file.files[0]);
 }
 var imageurl = "";
-function importWeldingMachine() {
+function importImager() {
 	var file = $("#file").val();
 	if (file == null || file == "") {
-		$.messager.alert("提示", "请选择要上传的文件！");
+//		$.messager.alert("提示", "请选择要上传的文件！");
 		return false;
 	} else {
 		$.ajax({
@@ -153,7 +155,7 @@ function importWeldingMachine() {
 						});
 					} else {
 						imageurl = result.imgurl;
-						$.messager.alert("提示", "图片上传成功！");
+//						$.messager.alert("提示", "图片上传成功！");
 					}
 				}
 			},
@@ -251,7 +253,7 @@ function removeOldTd(obj,oldflagindex,id){
 			$.ajax({
 				type : "post",
 				async : false,
-				url : "wps/destroyWps?fid=" + id +"&insfid=" + $("#itemidText").val(),
+				url : "wps/destroyWps?fid=" + id +"&insfid=" + $("#fitemid").val(),
 				data : {},
 				dataType : "json", //返回数据形式为json  
 				success : function(result) {
@@ -321,7 +323,7 @@ function setEditDefault(){
 		$("#flayer_scope1").combobox('select',$("#scope1Text").val());
 		$("#flayer_scope2").combobox('select',$("#scope2Text").val());
 		$("#ftungsten_electrode").combobox('select',$("#tungstenText").val());
-		$("#fitemid").combobox('select',$("#itemidText").val());
+//		$("#fitemid").combobox('select',$("#itemidText").val());
 		var listcount = $("#listcount").val();
 		for(var i=0;i<listcount;i++){
 			listcountary.push(i);//将所有插入时的index存入listcountary
@@ -334,5 +336,7 @@ function setEditDefault(){
 			$("#oldfwelding_speed"+i).combobox('select',$("#weldingspeedText"+i).val());
 			$("#oldfpolarity"+i).combobox('select',$("#polarityText"+i).val());
 		}
+	}else{
+		insframeworkCombobox();
 	}
 }

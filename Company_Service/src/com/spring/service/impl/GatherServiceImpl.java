@@ -14,7 +14,6 @@ import com.spring.dao.WeldingMachineMapper;
 import com.spring.model.Gather;
 import com.spring.service.GatherService;
 
-import net.sf.json.JSONObject;
 @WebService
 @Service
 @Transactional

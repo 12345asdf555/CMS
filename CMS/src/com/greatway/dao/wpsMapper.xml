@@ -43,7 +43,7 @@
 	
 	<select id="findAll" resultType="Wps">
 		select tb_mainwps.FID 
-		childrenid,FWPSNum,Fweld_I,Fweld_V,Fweld_I_MAX,Fweld_I_MIN,Fweld_V_MAX,Fweld_V_MIN,Fweld_Alter_I,Fweld_Alter_V,Fweld_PreChannel,FCReateDate,FUpdateDate fupdatedate,Fowner,Fback fback,Fname,Fdiameter fchildren_diameter,Fwelding_method,Ftype,Fpolarity,Fwelding_speed,Fspecification fchildren_specification from tb_mainwps 
+		childrenid,FWPSNum,Fweld_I,Fweld_V,Fweld_I_MAX,Fweld_I_MIN,Fweld_V_MAX,Fweld_V_MIN,Fweld_Alter_I,Fweld_Alter_V,Fweld_PreChannel,FCReateDate,FUpdateDate fupdatedate,Fowner insid,Fback fback,Fname,Fdiameter fchildren_diameter,Fwelding_method,Ftype,Fpolarity,Fwelding_speed,Fspecification fchildren_specification from tb_mainwps 
 		where 1=1
 		<if test="wpsnum!=null and wpsnum!=''">
 			and fwpsnum = #{wpsnum}
@@ -53,7 +53,7 @@
 
 	<select id="findById" parameterType="BigInteger" resultType="Wps">
 		select tb_mainwps.FID 
-		childrenid,FWPSNum,Fweld_I,Fweld_V,Fweld_I_MAX,Fweld_I_MIN,Fweld_V_MAX,Fweld_V_MIN,Fweld_Alter_I,Fweld_Alter_V,Fweld_PreChannel,FCReateDate,FUpdateDate fupdatedate,Fowner,Fback fback,Fname,Fdiameter fchildren_diameter,Fwelding_method,Ftype,Fpolarity,Fwelding_speed,Fspecification fchildren_specification	from tb_mainwps 
+		childrenid,FWPSNum,Fweld_I,Fweld_V,Fweld_I_MAX,Fweld_I_MIN,Fweld_V_MAX,Fweld_V_MIN,Fweld_Alter_I,Fweld_Alter_V,Fweld_PreChannel,FCReateDate,FUpdateDate fupdatedate,Fowner insid,Fback fback,Fname,Fdiameter fchildren_diameter,Fwelding_method,Ftype,Fpolarity,Fwelding_speed,Fspecification fchildren_specification	from tb_mainwps 
 		where tb_mainwps.FID=#{childrenid}
 	</select>
 

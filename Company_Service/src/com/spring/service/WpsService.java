@@ -1,31 +1,13 @@
 package com.spring.service;
 
-import java.math.BigInteger;
-import java.util.List;
-import com.spring.model.Wps;
-
 public interface WpsService {
+	
 	/**
-	 * 查找所有工艺
-	 * @param parent
-	 * @param str
+	 * 查找所有焊接参数
+	 * @param wpsnum wps编号
 	 * @return
 	 */
 	Object findAll(String object);
-	
-	/**
-	 * 新增工艺
-	 * @param wps
-	 * @return
-	 */
-	Object save(String obj1,String obj2);
-	
-	/**
-	 * 修改
-	 * @param wps
-	 * @return
-	 */
-	Object update(String obj1,String obj2);
 	
 	/**
 	 * 判断工艺名称是否存在
@@ -35,7 +17,7 @@ public interface WpsService {
 	int getUsernameCount(String object);
 	
 	/**
-	 * 根据id查询
+	 * 根据id查找焊接参数
 	 * @param fid
 	 * @return
 	 */
@@ -46,5 +28,40 @@ public interface WpsService {
 	 * @param fid
 	 * @return
 	 */
-	Object delete(String obj1,String obj2);
+	Object delete(String obj1, String obj2);
+	
+	/**
+	 * 查找所有wps
+	 * @param str
+	 * @return
+	 */
+	Object findWpsAll(String object);
+	
+	/**
+	 * 根据id查找wps
+	 * @param fwpsnum
+	 * @return
+	 */
+	Object findWpsByid(String object);
+	
+	/**
+	 * 新增wps
+	 * @param wps
+	 * @return
+	 */
+	Object addWps(String obj1,String obj2);
+	
+	/**
+	 * 修改wps
+	 * @param wps
+	 * @return
+	 */
+	Object updateWps(String obj1,String obj2);
+	
+	/**
+	 * 删除wps
+	 * @param fid
+	 * @return
+	 */
+	Object deleteWps(String obj1,String obj2);
 }

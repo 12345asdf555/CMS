@@ -577,14 +577,14 @@ public class JunctionChartController {
 		JSONObject obj = new JSONObject();
 		try{
 			for(ModelDto l:list){
-				BigInteger livecount = new BigInteger("0");
+				double livecount = 0;
 				if(weektime != null){
 					livecount = lm.getCountByTime(l.getFid(), dto.getTime(),weektime[1],l.getJid(),Integer.parseInt(type));
 				}else{
 					livecount = lm.getCountByTime(l.getFid(), dto.getTime(),null,l.getJid(),Integer.parseInt(type));
 				}
-				double loads = (double)Math.round(l.getLoads()/livecount.doubleValue()*100*100)/100;
-				json.put("loads",  ((double)Math.round(l.getLoads()*1000)/1000)+"/"+((double)Math.round(livecount.doubleValue()*1000)/1000)+"/1="+loads+"%");
+				double loads = (double)Math.round(l.getLoads()/livecount*100*100)/100;
+				json.put("loads",  ((double)Math.round(l.getLoads()*1000)/1000)+"/"+((double)Math.round(livecount*1000)/1000)+"/1="+loads+"%");
 				json.put("weldtime", weldtime);
 				json.put("name",l.getFname());
 				json.put("itemid",l.getFid());
