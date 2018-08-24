@@ -464,7 +464,7 @@ public class ItemChartController {
 				if(list.size()>0){
 					for(ModelDto m:list){
 						if(time.get(i).getWeldTime().equals(m.getWeldTime())){
-							num[i] = m.getOverproof();
+							num[i] = m.getOverproof().multiply(new BigInteger("60"));
 						}
 					}
 					json.put("weldTime",time.get(i).getWeldTime());

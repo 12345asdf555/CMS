@@ -106,7 +106,7 @@ function ItemoverproofDatagrid() {
 				for (var m = 0; m < result.arys.length; m++) {
 					column.push({
 						field : "overproof",
-						title : result.arys[m].name + "(h)",
+						title : result.arys[m].name + "(min)",
 						width : width,
 						halign : "center",
 						align : "left"

@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>设备空载率</title>
+    <title>设备平均空载率</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -59,10 +59,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="parentMsg"><h2>${str }</h2></div>
 		<div id="maxexplain">
 			<div id="explain">
-				<span>设备空载率</span><hr>
+				<span>设备平均空载率</span><hr>
 				<ul>
-					<li>展现某一时间段内，各部门的设备空载率及趋势</li>
-					<li>空载率=待机时长/工作时长/焊机待机数量</li>
+					<li>展现某一时间段内，各部门的设备平均空载率及趋势</li>
+					<li>平均空载率=待机时长/工作时长/焊机待机数量</li>
 				</ul>
 			</div>
 		</div>
