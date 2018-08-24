@@ -121,7 +121,7 @@ function openWps(){
 }
 
 function openChildrenUseratio(){
-	addTab("班组设备利用率", "hierarchy/goUseratio");
+	addTab("设备利用率", "hierarchy/goUseratio");
 }
 
 function openChildrenLoadrate(){
@@ -176,7 +176,7 @@ function openData() {
 }
 
 function openTd() {
-	addTab("实时监测", "td/AllTdp");
+	addTab("焊机实时状态监测", "td/AllTdp");
 //	window.open("td/AllTdp");
 }
 
@@ -249,7 +249,7 @@ function openCaustUse() {
 }
 
 function openCaustTd() {
-	addTab("实时监测", "td/AllTddi");
+	addTab("焊机实时状态监测", "td/AllTddi");
 }
 
 function openCompanytEfficiency() {
@@ -285,7 +285,7 @@ function openCompanyIdle() {
 }
 
 function openCompanyTd() {
-//	addTab("实时监测", "td/newAllTd");
+//	addTab("焊机实时状态监测", "td/newAllTd");
 	window.open("td/newAllTd");
 }
 
@@ -314,7 +314,7 @@ function openItemIdle() {
 }
 
 function openItemTd() {
-	addTab("实时监测", "td/AllTdp");
+	addTab("焊机实时状态监测", "td/AllTdp");
 }
 
 function openItemoverproofs() {

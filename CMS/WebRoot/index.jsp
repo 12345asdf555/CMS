@@ -85,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 公司 -->
     <div id="company1" >
     	<ul>
-    		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;实时监测</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机实时状态监测</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyLoads()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCompanyNoLoads()"><div><img src="resources/images/s-8.png" />&nbsp;&nbsp;设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率</div></a></li>
@@ -109,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 事业部 -->
     <div id="caust1" >
     	<ul>
-    		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;实时监测</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机实时状态监测</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustLoads()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openCaustNoLoads()"><div><img src="resources/images/s-8.png" />&nbsp;&nbsp;设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率</div></a></li>
@@ -133,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 项目部 -->
     <div  id="item1" >
     	<ul>
-    		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;实时监测</div></a></li>
+    		<li onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机实时状态监测</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemLoads()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备负荷率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openItemNoLoads()"><div><img src="resources/images/s-8.png" />&nbsp;&nbsp;设备空载率</div></a></li>
     		<li onclick="changeColor(this)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率</div></a></li>

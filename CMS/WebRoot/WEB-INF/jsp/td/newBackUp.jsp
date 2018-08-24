@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>实时界面</title>
+    <title>焊机实时状态监测</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 <body class="easyui-layout">
 	<jsp:include  page="../insframeworktree.jsp"/>
-	<div id="body" region="center"  hide="true"  split="true" title="实时界面" style="background: #fff; width:600px;height: 335px;">
+	<div id="body" region="center"  hide="true"  split="true" title="焊机实时状态监测" style="background: #fff; width:600px;height: 335px;">
 		<!-- 饼图 -->
 		<div id="piecharts" style="float:left; height:250px; width:49.5%;border:1px solid #C4C4C4;"></div>
 		<!-- 实时信息 -->
@@ -90,7 +90,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- 实时焊机 -->
 		<div id="curve" style="float:left;height:70%; width:99%;padding-left:10px;">
 		</div>
+		<div id="load" style="width:100%;height:100%;"></div>
 	</div>
+	<style type="text/css">
+	    #load{ display: none; position: absolute; left:0; top:0;width: 100%; height: 40%; background-color: #555753; z-index:10001; -moz-opacity: 0.4; opacity:0.5; filter: alpha(opacity=70);}
+		#show{display: none; position: absolute; top: 45%; left: 45%; width: 180px; height: 5%; padding: 8px; border: 8px solid #E8E9F7; background-color: white; z-index:10002; overflow: auto;}
+	</style>
 </body>
 </html>
  

@@ -9,6 +9,7 @@ var vol = new Array();
 var machstatus = new Array();
 var work = new Array();
 var wait = new Array();
+var cbpd = new Array();
 var dglength;
 var websocketURL;
 var welderName;
@@ -32,7 +33,7 @@ var series;
 var chart;
 var series1;
 var chart1;
-var dic,starows,flag=0;
+var dic,starows,flag=0,noflag=0;
 var led = [ "0,1,2,4,5,6", "2,5", "0,2,3,4,6", "0,2,3,5,6", "1,2,3,5", "0,1,3,5,6", "0,1,3,4,5,6", "0,2,5", "0,1,2,3,4,5,6", "0,1,2,3,5,6" ];
 $(function() {
 	var width = $("#treeDiv").width();
@@ -451,6 +452,24 @@ function iview() {
 				minele = parseInt(redata.substring(64 + i, 67 + i));
 				maxvol = parseInt(redata.substring(67 + i, 70 + i));
 				minvol = parseInt(redata.substring(70 + i, 73 + i));
+				if(noflag<5){
+					cbpd.push(liveele);
+					noflag++;
+				}else{
+					for(var cb=0;cb<cbpd.length;cb++){
+						if(cbpd[cb]>maxele){
+							if(cb==cbpd.length-1){
+								document.getElementById("new6").value = "已超标";
+								document.getElementById("new6").style.backgroundColor = "#c4370c";
+							}
+						}else{
+							document.getElementById("new6").value = "正常";
+							break;
+						}
+					}
+					cbpd.length=0;
+					noflag=0;
+				}
 				if (symbol == 0) {
 					elecurve();
 					volcurve();
@@ -496,26 +515,14 @@ function iview() {
 						}
 						break;
 					case "05":
-						if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
-							document.getElementById("in4").value = "超标";
-							document.getElementById("in4").style.backgroundColor = "#c4370c";
-							document.getElementById("mrjpg").src = "resources/images/welder_01.png";
-						}else{
 							document.getElementById("in4").value = "收弧";
 							document.getElementById("in4").style.backgroundColor = "#7cbc16";
 							document.getElementById("mrjpg").src = "resources/images/welder_03.png";
-						}
 						break;
 					case "07":
-						if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
-							document.getElementById("in4").value = "超标";
-							document.getElementById("in4").style.backgroundColor = "#c4370c";
-							document.getElementById("mrjpg").src = "resources/images/welder_01.png";
-						}else{
 							document.getElementById("in4").value = "起弧";
 							document.getElementById("in4").style.backgroundColor = "#7cbc16";
 							document.getElementById("mrjpg").src = "resources/images/welder_03.png";
-						}
 						break;
 					}
 					var x = time[z],

@@ -75,6 +75,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input id="new5" type="text" readonly="readonly" disabled="true">
 					<label>焊接热输入</label>
 					<input id="new3" type="text" readonly="readonly" disabled="true">
+					<label>超标判定</label>
+					<input id="new6" value="关机中" type="text" readonly="readonly" disabled="true">
 				</div>
 				<!-- <table  width="100%">
 				<tbody>
