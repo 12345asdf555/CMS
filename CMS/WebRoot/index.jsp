@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="box clearfix">
 				<div class="box-lef fl"></div>
 				<div class="box-rig fl" id="boxrig">
-					<div style="float:left"><a href="javascript:void(0)" style="">首页</a></div>
+					<div style="float:left"><a href="">首页</a></div>
 					<div style="float:right">
 						<a href="javascript:history.go(-1)" id="pageUp">返回</a>
 						<a href="javascript:void(0)" id="userInsframework"></a>
