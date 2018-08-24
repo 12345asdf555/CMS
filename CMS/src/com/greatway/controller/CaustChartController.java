@@ -344,7 +344,7 @@ public class CaustChartController {
 					num[j] = new BigInteger("0");
 					for(ModelDto l:list){
 						if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
-							num[j] = l.getOverproof();
+							num[j] = l.getOverproof().multiply(new BigInteger("60"));
 						}
 					}
 				}

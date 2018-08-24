@@ -108,7 +108,15 @@ function webclient(){
 		var xxx = msg.data;
 		if(xxx.substring(0,2)!="7E"){
 		redata=msg.data;
-		
+		if(symbol==0){
+			window.setTimeout(function() {
+				var data1 = [{value:weld.length, name:'在线'},{value:namex.length-weld.length, name:'离线'}];
+				refreshPersonData(data1);
+				var data2 = [{value:work.length, name:'工作'},{value:wait.length, name:'待机'},{value:machine.length-work.length-wait.length, name:'关机'}];
+				refreshWelderData(data2);
+			}, 3000)
+			symbol=1;
+		}
 		for(var i = 0;i < redata.length;i+=89){
 			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var x=0;x<namex.length;x++){
