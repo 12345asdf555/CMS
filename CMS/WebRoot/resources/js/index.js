@@ -217,7 +217,7 @@ function openGather() {
 }
 
 function openCaustEfficiency() {
-	addTab("工效", "caustChart/goCaustEfficiency");
+	addTab("工时分布", "caustChart/goCaustEfficiency");
 }
 
 function openCaustHour() {
@@ -253,7 +253,7 @@ function openCaustTd() {
 }
 
 function openCompanytEfficiency() {
-	addTab("工效", "companyChart/goCompanyEfficiency");
+	addTab("工时分布", "companyChart/goCompanyEfficiency");
 }
 
 function openCompanyUse() {
@@ -290,7 +290,7 @@ function openCompanyTd() {
 }
 
 function openItemEfficiency() {
-	addTab("工效", "itemChart/goItemEfficiency");
+	addTab("工时分布", "itemChart/goItemEfficiency");
 }
 
 function openItemHour() {
@@ -326,7 +326,7 @@ function openItemUse() {
 }
 
 function openBlocEfficiency() {
-	addTab("工效", "blocChart/goBlocEfficiency");
+	addTab("工时分布", "blocChart/goBlocEfficiency");
 }
 
 function openBlocUse() {
@@ -447,9 +447,11 @@ function tabsIncident() {
 }
 
 //选中时改变背景颜色
-function changeColor(obj) {
-	$("ul li").css("backgroundColor", "#1d294d");
-	obj.style.background = "#ffe48d";
+function changeColor(id) {
+	for(var i=1;i<=74;i++){
+		$("#clickid"+i).hide();
+	}
+	$("#clickid"+id).show();
 }
 
 function updatePwd() {

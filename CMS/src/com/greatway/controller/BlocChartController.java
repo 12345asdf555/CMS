@@ -328,7 +328,7 @@ public class BlocChartController {
 					num[j] = new BigInteger("0");
 					for(ModelDto l:list){
 						if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
-							num[j] = l.getOverproof();
+							num[j] = l.getOverproof().multiply(new BigInteger("60"));
 						}
 					}
 				}
@@ -1395,7 +1395,7 @@ public class BlocChartController {
 						json.put("rmoney", 0);
 						json.put("mmoney", mmoney);
 						json.put("sumnum", 0);
-						json.put("proportion", (double)Math.round(1/(double)insf.size()*100)/100);
+						json.put("proportion", 0);
 						json.put("faultratio", 0);
 						json.put("faultmaintenanceratio", 100);
 						ary.add(json);
@@ -1445,7 +1445,7 @@ public class BlocChartController {
 						json.put("rmoney", 0);
 						json.put("mmoney", mmoney);
 						json.put("sumnum", 0);
-						json.put("proportion", (double)Math.round(1/(double)insf.size()*100)/100);
+						json.put("proportion", 0);
 						json.put("faultratio", 0);
 						json.put("faultmaintenanceratio", 100);
 						ary.add(json);
@@ -1495,7 +1495,7 @@ public class BlocChartController {
 						json.put("rmoney", 0);
 						json.put("mmoney", mmoney);
 						json.put("sumnum", 0);
-						json.put("proportion", (double)Math.round(1/(double)insf.size()*100)/100);
+						json.put("proportion", 0);
 						json.put("faultratio", 0);
 						json.put("faultmaintenanceratio", 100);
 						ary.add(json);
