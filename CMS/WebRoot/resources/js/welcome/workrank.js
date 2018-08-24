@@ -5,12 +5,23 @@ $(function(){
 function workRankDatagrid(id){
 	$("#dg").datagrid( {
 		fitColumns : true,
-		scrollbarSize:0,//舍去表格右侧多余留白
+		remoteSort : false,
 		height : $("#body").height(),
 		width : $("#body").width(),
 		url : "hierarchy/getWorkRank?time1="+$("#dtoTime1").datetimebox("getValue")+"&time2="+$("#dtoTime2").datetimebox("getValue"),
 		singleSelect : true,
+		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50 ],
+		pagination : true,
+		showPageList : false,
 		columns : [ [ {
+			field : 'id',
+			title : '序号',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden:true
+		}, {
 			field : 'rownum',
 			title : '排名',
 			width : 100,

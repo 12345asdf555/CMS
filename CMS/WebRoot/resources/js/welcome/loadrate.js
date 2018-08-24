@@ -57,14 +57,11 @@ function loadchart(){
 		yAxis:[{
 			type: 'value',
 			name: '时长(h)',
-            interval: 40
 		},{
 			type: 'value',
 			name: '符合率(%)',
             splitLine:{show: false},//去除网格线
-            min: 0,
-            max: 100,
-            interval: 20
+            min: 0
 		}],
 		series:[{
      		name :'正常焊接时长(h)',
@@ -92,6 +89,7 @@ function loadchart(){
      		name :'符合率',
      		type :'line',//折线图
        		symbol: 'circle',//实心折点
+            yAxisIndex: 1,
      		data :array4,
 	        label: {
 	            normal: {

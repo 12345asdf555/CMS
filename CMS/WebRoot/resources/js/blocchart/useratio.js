@@ -148,7 +148,7 @@ function chart(){
 		xAxis:{
 			type:'category',
 			data: array1,
-			name: '组织机构',
+			name: '单位',
 			axisLabel : {
 				rotate: rotatenum, //x轴文字倾斜
 			    interval:interval //0:允许x轴文字全部显示并重叠

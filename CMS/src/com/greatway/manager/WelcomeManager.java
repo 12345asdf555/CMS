@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.greatway.dto.WeldDto;
 import com.greatway.model.Welcome;
+import com.greatway.page.Page;
 public interface WelcomeManager {
 
 	/**
@@ -20,7 +21,7 @@ public interface WelcomeManager {
 	 * @param dto dto.parent 组织机构id dtoTime1 开始时间 dtoTime2 结束时间
 	 * @return
 	 */
-	List<Welcome> getWorkRank(WeldDto dto);
+	List<Welcome> getWorkRank(Page page,WeldDto dto);
 	
 	/**
 	 * 获取工作的焊机数

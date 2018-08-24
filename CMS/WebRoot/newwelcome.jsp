@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="wcchart" >
 			<a href="javascript:openParentMethod(1)"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/charts_02.png" width="28%"></div></a>
-			项目部设备利用率
+			设备利用率
 		</div>
 		<div class="wcchart">
 			<a href="javascript:openParentMethod(2)"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/charts_03.png" width="28%"></div></a>
