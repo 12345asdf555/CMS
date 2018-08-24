@@ -1390,6 +1390,7 @@ public class BlocChartController {
 					}
 					if(list.isEmpty()){
 						flagnum = false;
+						json.put("id",insf.get(j).getId());
 						json.put("name",insf.get(j).getName());
 						json.put("total", 0);
 						json.put("rmoney", 0);
@@ -1401,6 +1402,7 @@ public class BlocChartController {
 						ary.add(json);
 					}
 					if(flagnum){
+						json.put("id",insf.get(j).getId());
 						json.put("name",insf.get(j).getName());
 						json.put("total", num);
 						json.put("rmoney", rmoney);
@@ -1440,6 +1442,7 @@ public class BlocChartController {
 					}
 					if(list.isEmpty()){
 						flagnum = false;
+						json.put("id",insf.get(j).getId());
 						json.put("name",insf.get(j).getName());
 						json.put("total", 0);
 						json.put("rmoney", 0);
@@ -1451,6 +1454,7 @@ public class BlocChartController {
 						ary.add(json);
 					}
 					if(flagnum){
+						json.put("id",insf.get(j).getId());
 						json.put("name",insf.get(j).getName());
 						json.put("total", num);
 						json.put("rmoney", rmoney);
@@ -1490,6 +1494,7 @@ public class BlocChartController {
 					}
 					if(list.isEmpty()){
 						flagnum = false;
+						json.put("id",insf.get(j).getId());
 						json.put("name",insf.get(j).getName());
 						json.put("total", 0);
 						json.put("rmoney", 0);
@@ -1501,6 +1506,7 @@ public class BlocChartController {
 						ary.add(json);
 					}
 					if(flagnum){
+						json.put("id",insf.get(j).getId());
 						json.put("name",insf.get(j).getName());
 						json.put("total", num);
 						json.put("rmoney", rmoney);

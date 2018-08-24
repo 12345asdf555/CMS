@@ -6,11 +6,11 @@ var chartStr = "";
 $(document).ready(function(){
 	showcompanyUseChart();
 })
-
+var dtoTime1,dtoTime2;
 function setParam(){
 	var type = $('#type').combobox('getValue');
-	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
-	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
+	dtoTime1 = $("#dtoTime1").datetimebox('getValue');
+	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	chartStr = "?type="+type+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2;
 }
 
@@ -112,11 +112,21 @@ function CaustUseDatagrid(){
 		showPageList : false,
 		pagination : true,
 		columns : [ [ {
+			field : 'fid',
+			title : '型号',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
 			field : 'fname',
 			title : '厂家',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "left",
+			formatter : function(value,row,index){
+				return '<a href="junctionChart/goUse?manuid='+row.fid+'&manutype='+row.type+'&time1='+dtoTime1+'&time2='+dtoTime2+'">'+value+'</a>';
+			}
 		}, {
 			field : 'type',
 			title : '型号',

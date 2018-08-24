@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +21,10 @@ import com.greatway.dto.WeldDto;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.LiveDataManager;
 import com.greatway.model.WeldedJunction;
+import com.greatway.model.Welder;
 import com.greatway.page.Page;
 import com.greatway.util.IsnullUtil;
+import com.spring.model.MyUser;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -56,6 +59,21 @@ public class JunctionChartController {
 		request.setAttribute("time1", request.getParameter("time1"));
 		request.setAttribute("time2", request.getParameter("time2"));
 		return "junctionchart/faultdetail";
+	}
+	
+	/**
+	 * 跳转单台设备运行数据统计明细
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/goUse")
+	public String goUse(HttpServletRequest request){
+		lm.getUserId(request);
+		request.setAttribute("id", request.getParameter("manuid"));
+		request.setAttribute("type", request.getParameter("manutype"));
+		request.setAttribute("time1", request.getParameter("time1"));
+		request.setAttribute("time2", request.getParameter("time2"));
+		return "junctionchart/useDetail";
 	}
 	
 	/**
@@ -647,6 +665,44 @@ public class JunctionChartController {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getUseDetail")
+	@ResponseBody
+	public String getWelderList(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String id = request.getParameter("id");
+		String type = request.getParameter("type");
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		page = new Page(pageIndex,pageSize,total);
+		BigInteger parent = null;
+		List<Welder> list =null;
+		long total = 0;
+		
+		if(list != null){
+			PageInfo<Welder> pageinfo = new PageInfo<Welder>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(Welder we:list){
+				json.put("id", we.getId());
+				json.put("name", we.getName());
+		        json.put("welderno", we.getWelderno());
+		        json.put("itemname", we.getIname());
+		        json.put("iid", we.getIid());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
 		}
 		obj.put("total", total);
 		obj.put("rows", ary);

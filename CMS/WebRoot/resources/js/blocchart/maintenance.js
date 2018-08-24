@@ -382,11 +382,25 @@ function dgDatagrid(){
 		showPageList : false,
 		pagination : true,
 		columns :[[{
+			field : "id",
+			title : "部门id",
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		},{
 			field : "name",
 			title : "部门",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "left",
+			formatter : function(value,row,index){
+				if(value==null || value==""){
+					return "";
+				}else{
+					return '<a href="maintain/goMaintain?&str=(i.fid='+row.id+' or ins.fid='+row.id+' or insf.fid='+row.id+' or insf.fparent='+row.id+') and fstart_time >= \''+dtoTime1+'\' and fend_time <= \''+dtoTime2+'\'">'+value+'</a>';
+				}
+			}
 		},{
 			field : "total",
 			title : "维修次数",
