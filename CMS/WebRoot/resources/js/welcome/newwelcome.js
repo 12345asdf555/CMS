@@ -121,7 +121,7 @@ function webclient(){
 			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var x=0;x<namex.length;x++){
 					//组织机构与焊工编号都与数据库中一直则录入
-					if(namex.fitemid == redata.substring(2+i, 4+i) && namex.fwelder_no == redata.substring(8+i, 12+i)){
+					if(namex[x].fitemid == redata.substring(2+i, 4+i) && namex[x].fwelder_no == redata.substring(8+i, 12+i)){
 						if(weld.length==0){
 							weld.push(redata.substring(8+i, 12+i));
 						}else{

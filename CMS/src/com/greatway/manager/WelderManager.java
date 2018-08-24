@@ -47,4 +47,11 @@ public interface WelderManager {
 	 * @return
 	 */
 	Welder getWelderById(BigInteger id);
+	
+	/**
+	 * 根据超标焊工
+	 * @param id
+	 * @return
+	 */
+	List<Welder> getOverWelder(Page page, String str, BigInteger parent);
 }

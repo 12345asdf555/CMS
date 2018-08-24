@@ -53,5 +53,11 @@ public class WelderManagerImpl implements WelderManager {
 	public Welder getWelderById(BigInteger id) {
 		return wm.getWelderById(id);
 	}
+	@Override
+	public List<Welder> getOverWelder(Page page, String str, BigInteger parent) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return wm.getOverWelder(str, parent);
+	}
 
 }

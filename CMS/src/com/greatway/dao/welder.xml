@@ -25,6 +25,20 @@
 		</if>
 	</select>
 	
+	<select id="getOverWelder" resultMap="dMap" parameterType="java.lang.String">
+		SELECT w.fid,w.fwelder_no,w.fname,a.fitemid iid,i.fname iname FROM tb_welder w INNER JOIN tb_alarm a ON a.fwelder_id=w.fwelder_no INNER JOIN tb_insframework i on i.fid = a.fitemid
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
+		 where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="str!=null and str!=''">
+			and a.fstarttime LIKE ${str}
+		</if>
+		group by w.fid
+	</select>
+	
 	<select id="getWeldernoCount" resultType="java.lang.Integer">
 		SELECT count(*) FROM tb_welder WHERE fwelder_no = #{wno} and fitemid = #{parent}
 	</select>

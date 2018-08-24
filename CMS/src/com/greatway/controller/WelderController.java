@@ -113,6 +113,51 @@ public class WelderController {
 		obj.put("rows", ary);
 		return obj.toString();
 	}
+	
+	@RequestMapping("/getOverWelder")
+	@ResponseBody
+	public String getOverWelder(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String search = "'%"+request.getParameter("dtoTime")+"%'";
+		String parentid = request.getParameter("parent");
+		page = new Page(pageIndex,pageSize,total);
+		BigInteger parent = null;
+		if(iutil.isNull(parentid)){
+			parent = new BigInteger(parentid);
+		}else{
+			MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
+				    .getAuthentication()  
+				    .getPrincipal();
+			long uid = myuser.getId();
+			parent = im.getUserInsfId(BigInteger.valueOf(uid));
+		}
+		List<Welder> list =wm.getOverWelder(page, search, parent);
+		long total = 0;
+		
+		if(list != null){
+			PageInfo<Welder> pageinfo = new PageInfo<Welder>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(Welder we:list){
+				json.put("id", we.getId());
+				json.put("name", we.getName());
+		        json.put("welderno", we.getWelderno());
+		        json.put("itemname", we.getIname());
+		        json.put("iid", we.getIid());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
 
 	@RequestMapping("/addWelder")
 	@ResponseBody

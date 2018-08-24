@@ -750,21 +750,30 @@ public class BlocChartController {
 			List<ModelDto> list = lm.getBlocIdle(dto);
 			List<LiveData> ins = lm.getBlocChildren();
 			double[] num = null;
+			double[] bilv = null;
 			for(ModelDto live :time){
 				json.put("weldTime",live.getWeldTime());
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
 				num = new double[time.size()];
+				bilv = new double[time.size()];
 				int count = lm.getMachineCount(ins.get(i).getFid());
 				for(int j=0;j<time.size();j++){
 					num[j] = count;
+					if(count==0){
+						bilv[j] = 0;
+					}else{
+						bilv[j] = (double)Math.round(num[j]*10000/count)/100;
+					}
 					for(ModelDto l:list){
 						if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
 							num[j] = count - l.getNum().doubleValue();
+							bilv[j] = (double)Math.round(num[j]*10000/count)/100;
 						}
 					}
 				}
+				json.put("bilv", bilv);
 				json.put("idle",num);
 				json.put("name",ins.get(i).getFname());
 				json.put("id",ins.get(i).getFid());
