@@ -62,7 +62,7 @@ public class BlocChartController {
 	public String goBlocHour(){
 		return "blocchart/blocHour";
 	}
-	
+
 	/**
 	 * 跳转集团超标页面
 	 * @param request
