@@ -677,28 +677,29 @@ public class JunctionChartController {
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String id = request.getParameter("id");
-		String type = request.getParameter("type");
+		int type = Integer.parseInt(request.getParameter("type"));
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
+		WeldDto dto = new WeldDto();
+		dto.setDtoTime1(time1);
+		dto.setDtoTime2(time2);
 		page = new Page(pageIndex,pageSize,total);
-		BigInteger parent = null;
-		List<Welder> list =null;
+		List<ModelDto> list = lm.getUseDetail(page, new BigInteger(id), type, dto);
 		long total = 0;
 		
 		if(list != null){
-			PageInfo<Welder> pageinfo = new PageInfo<Welder>(list);
+			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
 			total = pageinfo.getTotal();
 		}
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
 		try{
-			for(Welder we:list){
-				json.put("id", we.getId());
-				json.put("name", we.getName());
-		        json.put("welderno", we.getWelderno());
-		        json.put("itemname", we.getIname());
-		        json.put("iid", we.getIid());
+			for(ModelDto i:list){
+				json.put("machineno", i.getWname());
+				json.put("name", i.getFname());
+		        json.put("type", i.getType());
+		        json.put("time", (double)Math.round(i.getTime()*100)/100);
 				ary.add(json);
 			}
 		}catch(Exception e){

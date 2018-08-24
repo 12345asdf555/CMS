@@ -10,7 +10,7 @@ function weldDatagrid(){
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-//		url : "companyChart/getTimequantum?time="+$("#weldtime").val()+"&welder="+$("#welder").val()+"&junction="+$("#junction").val(),
+		url : "companyChart/getTimequantum?time="+$("#weldtime").val()+"&welder="+$("#welder").val()+"&junction="+$("#junction").val(),
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,
@@ -19,6 +19,12 @@ function weldDatagrid(){
 		columns : [ [ {
 			field : 'welder',
 			title : '焊工编号',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'name',
+			title : '焊工姓名',
 			width : 100,
 			halign : "center",
 			align : "left"

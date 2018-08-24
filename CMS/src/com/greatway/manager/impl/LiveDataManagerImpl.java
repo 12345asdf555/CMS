@@ -647,4 +647,10 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return str;
 	}
 
+	@Override
+	public List<ModelDto> getUseDetail(Page page, BigInteger fid, int type, WeldDto dto) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getUseDetail(fid, type, dto);
+	}
+
 }

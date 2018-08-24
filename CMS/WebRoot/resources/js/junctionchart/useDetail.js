@@ -3,17 +3,16 @@ $(function(){
 })
 
 function detailloadsDatagrid(){
-	var parent = $("#parent").val();
-	var weldtime = $("#weldtime").val();
+	var id = $("#id").val();
+	var type = $("#type").val();
 	var time1 = $("#time1").val();
 	var time2 = $("#time2").val();
-	var otype = $("#otype").val();
-	$("#detailLoadsTable").datagrid( {
+	$("#dg").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#detailLoad_btn").height()-30,
+		height : $("#body").height()-30,
 		width : $("#body").width(),
 		idField : 'id',
-		url : "junctionChart/getDetailLoads?parent="+parent+"&weldtime="+weldtime+"&time1="+time1+"&time2="+time2+"&otype="+otype,
+		url : "junctionChart/getUseDetail?id="+id+"&type="+type+"&time1="+time1+"&time2="+time2,
 		singleSelect : true,
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50],
@@ -22,7 +21,7 @@ function detailloadsDatagrid(){
 		pagination : true,
 		columns : [ [ {
 			field : 'name',
-			title : '项目部',
+			title : '厂商名称',
 			width : 100,
 			halign : "center",
 			align : "left"
@@ -33,19 +32,18 @@ function detailloadsDatagrid(){
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'loads',
-			title : '负荷率',
+			field : 'type',
+			title : '类型',
 			width : 100,
 			halign : "center",
 			align : "left",
 		}, {
-			field : 'weldtime',
-			title : '日期',
+			field : 'time',
+			title : '时长(h)',
 			width : 100,
 			halign : "center",
 			align : "left",
-		}] ],
-		toolbar : '#detailLoad_btn',
+		}] ]
 	});
 }
 

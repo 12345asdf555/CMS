@@ -156,5 +156,8 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	List<ModelDto> getInsfandMachinenum(@Param("parent")BigInteger parent);
 	
+	List<ModelDto> getUseDetail(@Param("fid")BigInteger fid,@Param("type")int type,@Param("dto")WeldDto dto);
+	
 	List<ModelDto> getDurationTime(@Param("sql")String sql);
+	
 }

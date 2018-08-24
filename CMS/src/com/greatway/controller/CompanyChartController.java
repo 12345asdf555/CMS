@@ -952,6 +952,7 @@ public class CompanyChartController {
 				json.put("type", l.getType());
 				json.put("fid",l.getFid());
 				json.put("num", num);
+				json.put("typeid", l.getTypeid());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -1238,6 +1239,7 @@ public class CompanyChartController {
 						json.put("maxelectricity", list.get(i).getFmax_electricity());
 						json.put("minelectricity", list.get(i).getFmin_electricity());
 						json.put("welder", list.get(i).getFwelder_id());
+						json.put("name",list.get(i).getFname());
 						json.put("junction", list.get(i).getFjunction_id());
 						json.put("weldtime", list.get(i).getWeldTime());
 						json.put("electricity", list.get(i).getFelectricity());

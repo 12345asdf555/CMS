@@ -954,6 +954,7 @@ public class CaustChartController {
 				json.put("type", l.getType());
 				json.put("fid",l.getFid());
 				json.put("num", num);
+				json.put("typeid", l.getTypeid());
 				ary.add(json);
 			}
 		}catch(Exception e){

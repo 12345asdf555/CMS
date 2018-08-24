@@ -593,4 +593,6 @@ public interface LiveDataManager {
 	 */
 	List<ModelDto> getDurationTime(String time1,String time2,int timetype);
 	List<ModelDto> getDurationTime(Page page,String time1,String time2,int timetype);
+	
+	List<ModelDto> getUseDetail(Page page,BigInteger fid,int type,WeldDto dto);
 }

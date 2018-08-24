@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
 	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
-	<script type="text/javascript" src="resources/js/junctionchart/detailloads.js"></script>
+	<script type="text/javascript" src="resources/js/junctionchart/useDetail.js"></script>
   </head>
   
   <body class="easyui-layout">
@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div><h2>${str }</h2></div>
-	    <table id="detailLoadsTable" style="table-layout: fixed; width:100%;"></table>
+	    <table id="dg" style="table-layout: fixed; width:100%;"></table>
 	</div>
   </body>
 </html>

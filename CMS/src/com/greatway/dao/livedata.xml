@@ -1563,10 +1563,27 @@
 		</if>
 	</select>
 	
+	<!-- 单台明细 -->
+	<select id="getUseDetail" resultMap="dtoMap">
+    	select m.fequipment_no wname,e.fname,d.fvaluename type,sum(fworktime)/60/60 time from tb_work w INNER JOIN tb_welding_machine m on m.fid = w.fmachine_id
+        inner join tb_equipment_manufacturer e on m.fmanufacturer_id = e.fid 
+        INNER JOIN tb_dictionary d on d.fvalue = e.ftype
+        where e.fid = #{fid} and  e.ftype=#{type}
+        <if test="dto!=null and dto!=''">
+	        <if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+	      	and fstarttime &gt;= #{dto.dtoTime1}
+	    	</if>
+	    	<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+	     	and fendtime &lt;= #{dto.dtoTime2}
+	    	</if>
+    	</if>
+        group by m.fid
+  	</select>
+	
 	<!-- 集团单台设备运行数据统计 -->
 	<select id="getBlocUse" resultMap="dtoMap">
 		select * from(
-		select sum(fworktime)/60/60 time,e.fname fname,d.fvaluename type,e.fid fid from tb_work l 
+		select sum(fworktime)/60/60 time,e.fname fname,d.fvaluename type,e.fid fid, e.ftype typeid from tb_work l 
 		inner join tb_welding_machine w on w.fid = l.fmachine_id
 		inner join tb_equipment_manufacturer e on w.fmanufacturer_id = e.fid 
 		INNER JOIN tb_dictionary d on d.fvalue = e.ftype
@@ -1582,7 +1599,7 @@
 		</if>
 		group by  e.fid,e.ftype
 		union
-		select 0 time,fname ,d.fvaluename type,e.fid from tb_equipment_manufacturer e INNER JOIN tb_dictionary d on d.fvalue = e.ftype
+		select 0 time,fname ,d.fvaluename type,e.fid, e.ftype typeid from tb_equipment_manufacturer e INNER JOIN tb_dictionary d on d.fvalue = e.ftype
 		where e.fid not in
 		(
 		select e.fid from tb_work l 
@@ -1606,7 +1623,7 @@
 	<!-- 公司单台设备运行数据统计 -->
 	<select id="getCompanyUse" resultMap="dtoMap">
 		select * from(
-		select sum(fworktime)/60/60 time,e.fname fname,d.fvaluename type,e.fid fid from tb_work l 
+		select sum(fworktime)/60/60 time,e.fname fname,d.fvaluename type,e.fid fid, e.ftype typeid from tb_work l 
 		inner join tb_welding_machine w on w.fid = l.fmachine_id
 		inner join tb_equipment_manufacturer e on w.fmanufacturer_id = e.fid 
 		INNER JOIN tb_dictionary d on d.fvalue = e.ftype
@@ -1621,7 +1638,7 @@
 		</if>
 		group by e.fid,e.ftype
 		union
-		select 0 time,fname ,d.fvaluename type,e.fid from tb_equipment_manufacturer e INNER JOIN tb_dictionary d on d.fvalue = e.ftype
+		select 0 time,fname ,d.fvaluename type,e.fid, e.ftype typeid from tb_equipment_manufacturer e INNER JOIN tb_dictionary d on d.fvalue = e.ftype
 		where e.fid not in
 		(
 		select e.fid from tb_work l 
@@ -1644,7 +1661,7 @@
 	<!-- 事业部单台设备运行数据统计 -->
 	<select id="getCaustUse" resultMap="dtoMap">
 		select * from(
-		select sum(fworktime)/60/60 time,e.fname fname,d.fvaluename type,e.fid fid from tb_work l 
+		select sum(fworktime)/60/60 time,e.fname fname,d.fvaluename type,e.fid fid, e.ftype typeid from tb_work l 
 		inner join tb_welding_machine w on w.fid = l.fmachine_id
 		inner join tb_equipment_manufacturer e on w.fmanufacturer_id = e.fid 
 		INNER JOIN tb_dictionary d on d.fvalue = e.ftype
@@ -1659,7 +1676,7 @@
 		</if>
 		group by e.fid,e.ftype
 		union
-		select 0 time,fname ,d.fvaluename type,e.fid from tb_equipment_manufacturer e INNER JOIN tb_dictionary d on d.fvalue = e.ftype
+		select 0 time,fname ,d.fvaluename type,e.fid, e.ftype typeid from tb_equipment_manufacturer e INNER JOIN tb_dictionary d on d.fvalue = e.ftype
 		where e.fid not in
 		(
 		select e.fid from tb_work l 
@@ -1681,7 +1698,7 @@
 	
 	<select id="getItemUse" resultMap="dtoMap">
 		select * from(
-		select sum(fworktime)/60/60 time,e.fname fname,d.fvaluename type,e.fid fid from tb_work l 
+		select sum(fworktime)/60/60 time,e.fname fname,d.fvaluename type,e.fid fid, e.ftype typeid from tb_work l 
 		inner join tb_welding_machine w on w.fid = l.fmachine_id
 		inner join tb_equipment_manufacturer e on w.fmanufacturer_id = e.fid  
 		INNER JOIN tb_dictionary d on d.fvalue = e.ftype
@@ -1699,7 +1716,7 @@
 		</if>
 		group by e.fid,e.ftype
 		union
-		select 0 time,fname ,d.fvaluename type,e.fid from tb_equipment_manufacturer e INNER JOIN tb_dictionary d on d.fvalue = e.ftype
+		select 0 time,fname ,d.fvaluename type,e.fid, e.ftype typeid from tb_equipment_manufacturer e INNER JOIN tb_dictionary d on d.fvalue = e.ftype
 		where e.fid not in
 		(
 		select e.fid from tb_work l 
@@ -2057,10 +2074,10 @@
 	</select>
 	
 	<select id="getExcessiveBack" resultMap="dtoMap">
-		select rownum num,fwelder_id,fjunction_id,timestampdiff(SECOND,weldtime,weldtimes) sum1,weldtime,felectricity,fmax_electricity,fmin_electricity from (
+		select rownum num,fwelder_id,fjunction_id,timestampdiff(SECOND,weldtime,weldtimes) sum1,weldtime,felectricity,fmax_electricity,fmin_electricity,fname from (
    		select * from (select *,rownum+1 nums from ( 
    		select @rownum:=@rownum+1 as rownum,A.* from ( 
-   		SELECT case when felectricity &gt; fmax_electricity then 1 when felectricity &lt; fmin_electricity then 1 else 0 end as overproof,felectricity,fmax_electricity,fmin_electricity,
+   		SELECT case when felectricity &gt; fmax_electricity then 1 when felectricity &lt; fmin_electricity then 1 else 0 end as overproof,felectricity,fmax_electricity,fmin_electricity,w.fname ,
    		DATE_FORMAT( fweldtime, '%Y-%m-%d %h:%i:%s' ) weldtime,fwelder_id,fjunction_id,(select @rownum:=0) r1 FROM ( 
    		select felectricity,fjunction_id,fweldtime,fwelder_id from tb_live_data where fstatus = 3 and  fweldtime &gt;= #{time} and fweldtime &lt;= date_sub(date_sub(#{time},interval -1 day),interval 0 minute)) as k0 inner join tb_welded_junction j on j.fwelded_junction_no=k0.fjunction_id 
    		inner join tb_welder w on w.fwelder_no = k0.fwelder_id where fwelder_id=#{welder} and fjunction_id=#{junction} group by weldtime) A where overproof=1 order by weldtime) E)F

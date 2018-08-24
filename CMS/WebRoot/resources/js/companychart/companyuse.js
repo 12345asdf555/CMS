@@ -113,7 +113,14 @@ function CaustUseDatagrid(){
 		pagination : true,
 		columns : [ [ {
 			field : 'fid',
-			title : '型号',
+			title : 'id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'typeid',
+			title : '类型id',
 			width : 100,
 			halign : "center",
 			align : "left",
@@ -125,7 +132,7 @@ function CaustUseDatagrid(){
 			halign : "center",
 			align : "left",
 			formatter : function(value,row,index){
-				return '<a href="junctionChart/goUse?manuid='+row.fid+'&manutype='+row.type+'&time1='+dtoTime1+'&time2='+dtoTime2+'">'+value+'</a>';
+				return '<a href="junctionChart/goUse?manuid='+row.fid+'&manutype='+row.typeid+'&time1='+dtoTime1+'&time2='+dtoTime2+'">'+value+'</a>';
 			}
 		}, {
 			field : 'type',

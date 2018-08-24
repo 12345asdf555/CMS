@@ -112,11 +112,28 @@ function CaustUseDatagrid(){
 		showPageList : false,
 		pagination : true,
 		columns : [ [ {
+			field : 'fid',
+			title : 'id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'typeid',
+			title : '类型id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
 			field : 'fname',
 			title : '厂家',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "left",
+			formatter : function(value,row,index){
+				return '<a href="junctionChart/goUse?manuid='+row.fid+'&manutype='+row.typeid+'&time1='+dtoTime1+'&time2='+dtoTime2+'">'+value+'</a>';
+			}
 		}, {
 			field : 'type',
 			title : '型号',
