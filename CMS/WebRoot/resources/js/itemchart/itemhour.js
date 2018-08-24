@@ -67,7 +67,7 @@ function showItemHourChart(){
 		xAxis:{
 			type:'category',
 			data: array1,
-			name:'组织\n机构'
+			name:'单位'
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴

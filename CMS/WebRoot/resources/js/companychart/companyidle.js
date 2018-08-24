@@ -58,7 +58,7 @@ function showCompanyIdleChart(){
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name: '闲置数量'
+			name: '闲置率'
 		},
 		series:[
 		]
@@ -95,7 +95,7 @@ function CaustIdleDatagrid(){
                   		name : result.arys1[m].name,
                   		type :'bar',//折线图
                         barMaxWidth:20,//柱状图最大宽度
-                  		data : result.arys1[m].idle,
+                  		data : result.arys1[m].bilv,
 						label : {
 							normal : {
 								position : 'top',

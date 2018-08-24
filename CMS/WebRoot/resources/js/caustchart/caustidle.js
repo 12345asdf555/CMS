@@ -58,7 +58,7 @@ function showcaustIdleTable(){
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name: '闲置数量'
+			name: '闲置率'
 		},
 		series:[]
 	}

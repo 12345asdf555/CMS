@@ -84,10 +84,9 @@
 	
 	<!-- 查询组织机构正常焊接时长 -->
 	<select id="getItemWeldTime"  resultMap="welcomeMap">
-		select * from (
-		select insf.fid insfid,ins.fid insid,i.fid,i.fname,SUM(w.falarmtime)/60/60 hour from tb_insframework i 
+		select * from (select insf.fid insfid,ins.fid insid,i.fid,i.fname,SUM(fworktime)/60/60 hour from tb_insframework i 
 		inner join tb_insframework ins on ins.fid = i.fparent inner join tb_insframework insf on insf.fid = ins.fparent 
-		inner join tb_alarm w on w.fitemid=i.fid
+		inner join tb_work w on w.fitemid=i.fid
 		where 1=1
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
