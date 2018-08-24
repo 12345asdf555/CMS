@@ -147,7 +147,7 @@ function ItemidleDatagrid() {
 					name : result.arys[0].name,
 					type : 'bar', //折线图
 					barMaxWidth : 20, //柱状图最大宽度
-					data : result.arys[0].num,
+					data : result.arys[0].bilv,
 					label : {
 						normal : {
 							position : 'top',

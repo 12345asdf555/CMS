@@ -860,15 +860,23 @@ public class ItemChartController {
 			List<ModelDto> list = lm.getItemIdle(dto, parent);
 			List<LiveData> ins = lm.getAllInsf(parent,23);
 			double[] num = new double[time.size()];
+			double[] bilv = new double[time.size()];
 			if(list.size()>0){
 				for(int i=0;i<time.size();i++){
 					int count = lm.getMachineCount(ins.get(0).getFid());
 					num[i] = count;
+					if(count==0){
+						bilv[i] = 0;
+					}else{
+						bilv[i] = (double)Math.round(num[i]*10000/count)/100;
+					}
 					for(ModelDto m:list){
 						if(time.get(i).getWeldTime().equals(m.getWeldTime())){
 							num[i] = count - m.getNum().doubleValue();
+							bilv[i] = (double)Math.round(num[i]*10000/count)/100;
 						}
 					}
+					json.put("bilv", bilv);
 					json.put("weldTime",time.get(i).getWeldTime());
 					json.put("num",num[i]);
 					ary.add(json);

@@ -95,7 +95,7 @@ function BlocIdleDatagrid(){
                  		name : result.arys1[m].name,
                  		type :'bar',//折线图
                         barMaxWidth:20,//柱状图最大宽度
-                 		data : result.arys1[m].idle,
+                 		data : result.arys1[m].bilv,
 						label : {
 							normal : {
 								position : 'top',

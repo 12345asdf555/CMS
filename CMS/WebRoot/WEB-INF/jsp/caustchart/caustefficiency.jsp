@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>工效</title>
+    <title>工时分布</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="工效" style="background: witch; height: 335px;">
+    <div id="body" region="center"  hide="true"  split="true" title="工时分布" style="background: witch; height: 335px;">
 	  	<div id="caustEfficiency_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="nextparent" id="nextparent" type="hidden" value="${nextparent }"/>
@@ -55,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="parentMsg"><h2>${str }</h2></div>
 		<div id="maxexplain">
 			<div id="explain">
-				<span>工效</span><hr>
+				<span>工时分布</span><hr>
 				<ul>
 					<li>展现某一时间段内，各部门的员工工时分布情况</li>
 				</ul>

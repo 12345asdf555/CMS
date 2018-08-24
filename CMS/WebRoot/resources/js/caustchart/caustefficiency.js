@@ -34,7 +34,7 @@ function showcaustEfficiencyChart(){
             		 for(var i=0;i<result.ary.length;i++){
                        	array1 = result.ary[i].num1;
                        	Series.push({
-            				name:'工效(1:1)',
+            				name:'工时分布(1:1)',
             				type:'bar',
             	            barMaxWidth:20,//最大宽度
             				data:result.ary[i].num2,
@@ -49,7 +49,7 @@ function showcaustEfficiencyChart(){
                       }
                   }else{
                 	  Series.push({
-                     		name : '工效(1:1)',
+                     		name : '工时分布(1:1)',
                      		type :'line',//折线图
                      		data : ''
                       });
@@ -75,7 +75,7 @@ function showcaustEfficiencyChart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['工效(1:1)']
+			data:['工时分布(1:1)']
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
@@ -99,7 +99,7 @@ function showcaustEfficiencyChart(){
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name : '工效(%)',
+			name : '工时分布(%)',
 			axisLabel: {  
                   show: true,  
                   interval: 'auto',  

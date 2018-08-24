@@ -23,7 +23,7 @@ function weldDatagrid(){
 		idField : 'id',
 		pageSize : 5,
 		pageList : [ 5,10, 15, 20],
-		url : "welder/getWelderList",
+		url : "welder/getOverWelder?dtoTime="+"2018-01-16",
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,
