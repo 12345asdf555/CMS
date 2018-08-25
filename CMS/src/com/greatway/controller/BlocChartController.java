@@ -1228,12 +1228,13 @@ public class BlocChartController {
 			}else if(flag==1){//公司层
 				for(int i=0;i<insf.size();i++){
 					double max = 0,worktime = 0;
-					int machinenum = 0, maxnum = 0;
+					int machinenum = lm.getMachineCount(insf.get(i).getId());
+					int maxnum = 0;
 					for(int j=0;j<list.size();j++){
 						if(insf.get(i).getId().equals(list.get(j).getCaustid())){
 							worktime = list.get(j).getWorktime();
 							maxnum = list.get(j).getTotal();
-							machinenum = lm.getMachineCount(insf.get(i).getId());
+							
 							max = (double)Math.round(((double)list.get(j).getTotal()/machinenum)*10000)/100;
 						}
 					}
