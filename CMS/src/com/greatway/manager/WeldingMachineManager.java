@@ -89,4 +89,11 @@ public interface WeldingMachineManager {
 	 * @return
 	 */
 	BigInteger getMachineCountByManu(BigInteger mid,BigInteger id);
+	
+	/**
+	 * 根据组织机构查询焊机数量
+	 * @param id
+	 * @return
+	 */
+	int getCountByInsframework(BigInteger id);
 }

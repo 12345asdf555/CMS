@@ -18,10 +18,12 @@ import com.greatway.dto.WeldDto;
 import com.greatway.manager.DictionaryManager;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.LiveDataManager;
+import com.greatway.manager.WelderManager;
 import com.greatway.manager.WeldingMachineManager;
 import com.greatway.model.Dictionarys;
 import com.greatway.model.Insframework;
 import com.greatway.model.LiveData;
+import com.greatway.model.Welder;
 import com.greatway.page.Page;
 import com.greatway.util.IsnullUtil;
 
@@ -1680,6 +1682,7 @@ public class BlocChartController {
 			int days = (int)((t2-t1)/(1000*60*60*24))+1;
 			if(flag==0){//集团层
 				for(int j=0;j<insf.size();j++){
+					int count = wm.getCountByInsframework(insf.get(j).getId());
 					double worktime = 0,boottime = 0,weldtime = 0,standbytime = 0;
 					//上班时长
 					for(int x=0;x<list.size();x++){
@@ -1699,7 +1702,7 @@ public class BlocChartController {
 						json.put("name",insf.get(j).getName());
 						json.put("worktime", 0);//上班时长
 						json.put("boottime", 0);//开机时长
-						json.put("shutdowntime", days*24);//关机时长
+						json.put("shutdowntime", days*24*count);//关机时长
 						json.put("weldtime", 0);//焊接时长
 						json.put("standbytime", 0);//待机时长
 						json.put("sjratio", 0);//上机率
@@ -1710,7 +1713,7 @@ public class BlocChartController {
 						json.put("name",insf.get(j).getName());
 						json.put("worktime", (double)Math.round(worktime*100)/100);
 						json.put("boottime", (double)Math.round(boottime*100)/100);
-						json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);
+						json.put("shutdowntime", (double)Math.round((days*24*count-boottime)*100)/100);
 						json.put("weldtime", (double)Math.round(weldtime*100)/100);
 						json.put("standbytime", (double)Math.round(standbytime*100)/100);
 						json.put("sjratio", (double)Math.round(boottime/worktime*10000)/100);
@@ -1721,6 +1724,7 @@ public class BlocChartController {
 				}
 			}else if(flag==1){//公司层
 				for(int j=0;j<insf.size();j++){
+					int count = wm.getCountByInsframework(insf.get(j).getId());
 					double worktime = 0,boottime = 0,weldtime = 0,standbytime = 0;
 					//上班时长
 					for(int x=0;x<list.size();x++){
@@ -1740,7 +1744,7 @@ public class BlocChartController {
 						json.put("name",insf.get(j).getName());
 						json.put("worktime", 0);//上班时长
 						json.put("boottime", 0);//开机时长
-						json.put("shutdowntime", days*24);//关机时长
+						json.put("shutdowntime", days*24*count);//关机时长
 						json.put("weldtime", 0);//焊接时长
 						json.put("standbytime", 0);//待机时长
 						json.put("sjratio", 0);//上机率
@@ -1751,7 +1755,7 @@ public class BlocChartController {
 						json.put("name",insf.get(j).getName());
 						json.put("worktime", (double)Math.round(worktime*100)/100);
 						json.put("boottime", (double)Math.round(boottime*100)/100);
-						json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);
+						json.put("shutdowntime", (double)Math.round((days*24*count-boottime)*100)/100);
 						json.put("weldtime", (double)Math.round(weldtime*100)/100);
 						json.put("standbytime", (double)Math.round(standbytime*100)/100);
 						json.put("sjratio", (double)Math.round(boottime/worktime*10000)/100);
@@ -1762,6 +1766,7 @@ public class BlocChartController {
 				}
 			}else if(flag==2){
 				for(int j=0;j<insf.size();j++){
+					int count = wm.getCountByInsframework(insf.get(j).getId());
 					double worktime = 0,boottime = 0,weldtime = 0,standbytime = 0;
 					//上班时长
 					for(int x=0;x<list.size();x++){
@@ -1781,7 +1786,7 @@ public class BlocChartController {
 						json.put("name",insf.get(j).getName());
 						json.put("worktime", 0);//上班时长
 						json.put("boottime", 0);//开机时长
-						json.put("shutdowntime", days*24);//关机时长
+						json.put("shutdowntime", days*24*count);//关机时长
 						json.put("weldtime", 0);//焊接时长
 						json.put("standbytime", 0);//待机时长
 						json.put("sjratio", 0);//上机率
@@ -1792,12 +1797,12 @@ public class BlocChartController {
 						json.put("name",insf.get(j).getName());
 						json.put("worktime", (double)Math.round(worktime*100)/100);
 						json.put("boottime", (double)Math.round(boottime*100)/100);
-						json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);
+						json.put("shutdowntime", (double)Math.round((days*24*count-boottime)*100)/100);
 						json.put("weldtime", (double)Math.round(weldtime*100)/100);
 						json.put("standbytime", (double)Math.round(standbytime*100)/100);
 						json.put("sjratio", (double)Math.round(boottime/worktime*10000)/100);
 						json.put("effectiveratio", (double)Math.round(weldtime/boottime*10000)/100);
-						json.put("workratio", (double)Math.round(weldtime/worktime*100)/10000);
+						json.put("workratio", (double)Math.round(weldtime/worktime*10000)/100);
 						ary.add(json);
 					}
 				}

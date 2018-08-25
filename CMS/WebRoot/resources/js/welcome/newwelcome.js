@@ -1,5 +1,6 @@
 var work = new Array();
 var wait = new Array();
+var mall = new Array();
 var weld = new Array();
 var websocketURL;
 var socket;
@@ -110,6 +111,13 @@ function webclient(){
 		redata=msg.data;
 		if(symbol==0){
 			window.setTimeout(function() {
+				for(var m=0;m<mall.length;m++){
+					if(mall[m].fstatus=="00"){
+						wait.push(mall[m]);
+					}else{
+						work.push(mall[m]);
+					}
+				}
 				var data1 = [{value:weld.length, name:'在线'},{value:namex.length-weld.length, name:'离线'}];
 				refreshPersonData(data1);
 				var data2 = [{value:work.length, name:'工作'},{value:wait.length, name:'待机'},{value:machine.length-work.length-wait.length, name:'关机'}];
@@ -137,14 +145,24 @@ function webclient(){
 						}
 					}
 				}
-				if(redata.substring(0+i,2+i)=="03"||redata.substring(0+i,2+i)=="05"||redata.substring(0+i,2+i)=="07"){
-					if(work.length==0){
-						work.push(redata.substring(4+i, 8+i));
+				if(redata.substring(0+i,2+i)=="03"||redata.substring(0+i,2+i)=="05"||redata.substring(0+i,2+i)=="07"||redata.substring(0+i,2+i)=="00"){
+					if(mall.length==0){
+						var arr  =
+					     {
+					         "fid" : redata.substring(4+i, 8+i),
+					         "fstatus" : redata.substring(0+i,2+i)
+					     }
+						mall.push(arr);
 					}else{
-						for(var j=0;j<work.length;j++){
-							if(work[j]!=redata.substring(4+i, 8+i)){
-								if(j==work.length-1){
-									work.push(redata.substring(4+i, 8+i));
+						for(var j=0;j<mall.length;j++){
+							if(mall[j].fid!=redata.substring(4+i, 8+i)){
+								if(j==mall.length-1){
+									var arr  =
+								     {
+								         "fid" : redata.substring(4+i, 8+i),
+								         "fstatus" : redata.substring(0+i,2+i)
+								     }
+									mall.push(arr);
 								}
 							}else{
 								break;
@@ -152,7 +170,7 @@ function webclient(){
 						}
 					}
 			  }
-			if(redata.substring(0+i,2+i)=="00"){
+/*			if(redata.substring(0+i,2+i)=="00"){
 				for(var w=0;w<work.length;w++){
 					if(work[w]!=redata.substring(4+i, 8+i)&&w==work.length-1){
 						if(wait.length==0){
@@ -170,7 +188,7 @@ function webclient(){
 						}
 					}
 				}
-			}
+			}*/
 		};
 		//新增定时器
 //		if(symbol==0){
@@ -310,6 +328,13 @@ function refreshPersonData(data){
     personcharts.setOption(option);    
 }
 window.setInterval(function () {
+	for(var m=0;m<mall.length;m++){
+		if(mall[m].fstatus=="00"){
+			wait.push(mall[m]);
+		}else{
+			work.push(mall[m]);
+		}
+	}
 	var data1 = [{value:weld.length, name:'在线'},{value:namex.length-weld.length, name:'离线'}];
 	refreshPersonData(data1);
 	var data2 = [{value:work.length, name:'工作'},{value:wait.length, name:'待机'},{value:machine.length-work.length-wait.length, name:'关机'}];
@@ -317,6 +342,7 @@ window.setInterval(function () {
 	work.length=0;
 	weld.length=0;
 	wait.length=0;
+	mall.length=0;
 },30000);
 
 var weldercharts;

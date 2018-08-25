@@ -94,4 +94,9 @@ public class WeldingMachineManagerImpl implements WeldingMachineManager {
 		return wmm.getMachineCountByManu(mid,id);
 	}
 
+	@Override
+	public int getCountByInsframework(BigInteger id) {
+		return wmm.getCountByInsframework(id);
+	}
+
 }
