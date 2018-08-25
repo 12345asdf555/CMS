@@ -202,6 +202,13 @@ function formatterDate(){
     var year = now.getFullYear();//年  
     var month = now.getMonth() + 1;//月  
     var day = now.getDate();//日
+    if(month < 10){
+    	month = "0"+month;
+    }
+      
+    if(day < 10){
+    	day = "0"+day;
+    } 
     return year+"-"+month+"-"+day;
 }
 

@@ -2127,7 +2127,7 @@
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
 		where  1=1 and fstarttime &gt;= #{time1} and fstarttime &lt;= #{time2} group by i.fid,fmachine_id,weldTime
 		)t group by itemid,fmachine_id,weldTime
-		)temp group by fid,weldTime)A group by itemid
+		)temp group by ${insftype},weldTime)A group by itemid
 	</select>
 	
 	<select id="getMaintenanceratio" resultMap="dtoMap">
@@ -2164,8 +2164,7 @@
 
 	<!-- 焊机一小时内待机时间和总时间 -->
 	<select id="getStandbytimeout" resultMap="dtoMap">
-		SELECT m.fid fname,COUNT(l.fid) AS hous FROM tb_live_data l 
-		INNER join tb_welding_machine m on l.fmachine_id=m.fid WHERE 1=1 
+		SELECT l.fmachine_id fname,COUNT(l.fid) AS hous FROM tb_live_data l WHERE 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				AND l.FWeldTime &gt;= #{dto.dtoTime1}
@@ -2175,31 +2174,10 @@
 			</if>
 		</if>
 		AND l.fstatus='0' 
-		GROUP BY m.fid having COUNT(l.fid)/60>=55
-		UNION ALL
-		SELECT m.fid fname,COUNT(l.fid) AS hous FROM tb_live_data l 
-		INNER join tb_welding_machine m on l.fmachine_id=m.fid WHERE 1=1 
-		<if test="dto!=null and dto!=''">
-			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				AND l.FWeldTime &gt;= #{dto.dtoTime1}
-			</if>
-			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				AND l.FWeldTime &lt;= #{dto.dtoTime2}
-			</if>
+		GROUP BY l.fmachine_id 
+		<if test="str!=null and str!=''">
+			having COUNT(l.fid)>=#{str}
 		</if>
-		AND m.fid IN (
-		SELECT l.fmachine_id FROM tb_live_data l WHERE 1=1 
-		<if test="dto!=null and dto!=''">
-			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				AND l.FWeldTime &gt;= #{dto.dtoTime1}
-			</if>
-			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				AND l.FWeldTime &lt;= #{dto.dtoTime2}
-			</if>
-		</if>
-		AND l.fstatus='0' 
-		GROUP BY m.fid having COUNT(l.fid)/60>=55) 
-		GROUP BY m.fid
 	</select>
 
 	<select id="getItemTypeMaintain" resultMap="dtoMap">

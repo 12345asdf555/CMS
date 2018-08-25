@@ -492,7 +492,7 @@ public interface LiveDataManager {
 	 * @param dto 截止当前时间为止的一个小时内
 	 * @return
 	 */
-	List<ModelDto> getStandbytimeout(WeldDto dto);
+	List<ModelDto> getStandbytimeout(WeldDto dto,int str);
 	
 	/**
 	 * 不同厂商不同类型的焊机的维修费用

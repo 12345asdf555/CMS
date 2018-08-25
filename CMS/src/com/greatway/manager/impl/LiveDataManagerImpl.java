@@ -377,8 +377,8 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getStandbytimeout(WeldDto dto) {
-		return live.getStandbytimeout(dto);
+	public List<ModelDto> getStandbytimeout(WeldDto dto,int str) {
+		return live.getStandbytimeout(dto,str);
 	}
 
 	@Override
