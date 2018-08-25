@@ -216,7 +216,7 @@ function insframeworkTree(){
 	$("#myTree").tree({  
 		onClick : function(node){
 			$("#welderTable").datagrid('load',{
-				"searchStr" : "i.fid="+node.id
+				"parent" : node.id
 			})
 		 }
 	})

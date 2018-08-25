@@ -611,7 +611,7 @@ function showChart(){
 			type:'pie',
 			radius : ['15%', '30%'],
 //            center: ['50%', '50%'],
-            color:['#818181','#000000'],
+            color:['#55a7f3','#55a7f3'],
 			data:[
                 {value:(($("#machinenum").html()-$("#overtime").html())/$("#machinenum").html()*100).toFixed(2), name:'其它'},
                 {value:($("#overtime").html()/$("#machinenum").html()*100).toFixed(2), name:'超时待机'}
