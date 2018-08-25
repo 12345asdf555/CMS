@@ -876,13 +876,13 @@ public class ItemChartController {
 							bilv[i] = (double)Math.round(num[i]*10000/count)/100;
 						}
 					}
-					json.put("bilv", bilv);
 					json.put("weldTime",time.get(i).getWeldTime());
 					json.put("num",num[i]);
 					ary.add(json);
 				}
 				object.put("name", list.get(0).getFname());
 				object.put("num", num);
+				object.put("bilv", bilv);
 				arys.add(object);
 			}else{
 				int count = lm.getMachineCount(ins.get(0).getFid());

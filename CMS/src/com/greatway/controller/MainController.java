@@ -240,31 +240,51 @@ public class MainController {private Page page;
 			int type = im.getTypeById(parent);
 			List<Welcome> list = wm.getItemMachineCount(dto);
 			List<Insframework> insf = im.getCause(parent, null);
-			for(int i=0;i<insf.size();i++){
-				int total = 0;
+			Insframework item = null;
+			if(type==23){
+				item = im.getInsById(parent);
 				for(int j=0;j<list.size();j++){
-					BigInteger insfid = null;
-					if(type==20){
-						insfid = list.get(j).getInsfid();
-					}else if(type==21){
-						insfid = list.get(j).getInsid();
-					}else if(type==22 || type==23){
-						insfid = list.get(j).getId();
-					}
-					if(insf.get(i).getId().equals(insfid)){
+					if(list.get(j).getId().equals(parent)){
 						total += list.get(j).getTotal();
 					}
 				}
 				double useratio = 0;
-				Welcome machine = wm.getWorkMachineCount(insf.get(i).getId(), dto);
+				Welcome machine = wm.getWorkMachineCount(item.getId(), dto);
 				if(total!=0){
 					useratio = (double)Math.round((double)machine.getMachinenum()/(double)total*100*100)/100;
 				}
-				json.put("itemname", insf.get(i).getName());//班组
+				json.put("itemname", item.getName());//班组
 				json.put("machinenum", total);//设备总数
 				json.put("worknum", machine.getMachinenum());//工作设备数
 				json.put("useratio", useratio);//设备利用率
 				ary.add(json);
+			}else{
+				for(int i=0;i<insf.size();i++){
+					int total = 0;
+					for(int j=0;j<list.size();j++){
+						BigInteger insfid = null;
+						if(type==20){
+							insfid = list.get(j).getInsfid();
+						}else if(type==21){
+							insfid = list.get(j).getInsid();
+						}else if(type==22){
+							insfid = list.get(j).getId();
+						}
+						if(insf.get(i).getId().equals(insfid)){
+							total += list.get(j).getTotal();
+						}
+					}
+					double useratio = 0;
+					Welcome machine = wm.getWorkMachineCount(insf.get(i).getId(), dto);
+					if(total!=0){
+						useratio = (double)Math.round((double)machine.getMachinenum()/(double)total*100*100)/100;
+					}
+					json.put("itemname", insf.get(i).getName());//班组
+					json.put("machinenum", total);//设备总数
+					json.put("worknum", machine.getMachinenum());//工作设备数
+					json.put("useratio", useratio);//设备利用率
+					ary.add(json);
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -297,35 +317,21 @@ public class MainController {private Page page;
 			List<Insframework> insf = im.getCause(parent, null);
 			List<Welcome> ilist = wm.getItemWeldTime(dto);
 			List<Welcome> olist = wm.getItemOverProofTime(dto);
-			for(int i=0;i<insf.size();i++){
+			Insframework item = null;
+			if(type==23){
+				item = im.getInsById(parent);
 				double itotal = 0,ototal = 0;
 				for(int j=0;j<ilist.size();j++){
-					BigInteger insfid = null;
-					if(type==20){
-						insfid = ilist.get(j).getInsfid();
-					}else if(type==21){
-						insfid = ilist.get(j).getInsid();
-					}else if(type==22 || type==23){
-						insfid = ilist.get(j).getId();
-					}
-					if(insf.get(i).getId().equals(insfid)){
+					if(ilist.get(j).getId().equals(parent)){
 						itotal += ilist.get(j).getHour();
 					}
 				}
 				for(int o=0;o<olist.size();o++){
-					BigInteger oinsfid = null;
-					if(type==20){
-						oinsfid = olist.get(o).getInsfid();
-					}else if(type==21){
-						oinsfid = olist.get(o).getInsid();
-					}else if(type==22 || type==23){
-						oinsfid = olist.get(o).getId();
-					}
-					if(insf.get(i).getId().equals(oinsfid)){
+					if(olist.get(o).getId().equals(parent)){
 						ototal += olist.get(o).getHour();
 					}
 				}
-				json.put("itemname", insf.get(i).getName());//班组
+				json.put("itemname", item.getName());//班组
 				json.put("loadtime", (double)Math.round(itotal*100)/100);//焊接时长
 				json.put("normaltime", (double)Math.round((itotal - ototal)*100)/100);//正常焊接时长
 				double ratio = 0;
@@ -334,6 +340,45 @@ public class MainController {private Page page;
 				}
 				json.put("weldtime", ratio);//符合率
 				ary.add(json);
+			}else{
+				for(int i=0;i<insf.size();i++){
+					double itotal = 0,ototal = 0;
+					for(int j=0;j<ilist.size();j++){
+						BigInteger insfid = null;
+						if(type==20){
+							insfid = ilist.get(j).getInsfid();
+						}else if(type==21){
+							insfid = ilist.get(j).getInsid();
+						}else if(type==22 || type==23){
+							insfid = ilist.get(j).getId();
+						}
+						if(insf.get(i).getId().equals(insfid)){
+							itotal += ilist.get(j).getHour();
+						}
+					}
+					for(int o=0;o<olist.size();o++){
+						BigInteger oinsfid = null;
+						if(type==20){
+							oinsfid = olist.get(o).getInsfid();
+						}else if(type==21){
+							oinsfid = olist.get(o).getInsid();
+						}else if(type==22 || type==23){
+							oinsfid = olist.get(o).getId();
+						}
+						if(insf.get(i).getId().equals(oinsfid)){
+							ototal += olist.get(o).getHour();
+						}
+					}
+					json.put("itemname", insf.get(i).getName());//班组
+					json.put("loadtime", (double)Math.round(itotal*100)/100);//焊接时长
+					json.put("normaltime", (double)Math.round((itotal - ototal)*100)/100);//正常焊接时长
+					double ratio = 0;
+					if(itotal != 0){
+						ratio = (double)Math.round((itotal - ototal)/itotal*10000)/100;
+					}
+					json.put("weldtime", ratio);//符合率
+					ary.add(json);
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();

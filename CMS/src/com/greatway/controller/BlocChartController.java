@@ -1208,12 +1208,12 @@ public class BlocChartController {
 			if(flag==0){//集团层
 				for(int i=0;i<insf.size();i++){
 					double max = 0,worktime = 0;
-					int machinenum = 0, maxnum = 0;
+					int machinenum = lm.getMachineCount(insf.get(i).getId());
+					int maxnum = 0;
 					for(int j=0;j<list.size();j++){
 						if(insf.get(i).getId().equals(list.get(j).getFid())){
 							worktime = list.get(j).getWorktime();
 							maxnum = list.get(j).getTotal();
-							machinenum = lm.getMachineCount(insf.get(i).getId());
 							max = (double)Math.round(((double)list.get(j).getTotal()/(double)machinenum)*10000)/100;
 						}
 					}
@@ -1228,12 +1228,12 @@ public class BlocChartController {
 			}else if(flag==1){//公司层
 				for(int i=0;i<insf.size();i++){
 					double max = 0,worktime = 0;
-					int machinenum = 0, maxnum = 0;
+					int machinenum = lm.getMachineCount(insf.get(i).getId());
+					int maxnum = 0;
 					for(int j=0;j<list.size();j++){
 						if(insf.get(i).getId().equals(list.get(j).getCaustid())){
 							worktime = list.get(j).getWorktime();
 							maxnum = list.get(j).getTotal();
-							machinenum = lm.getMachineCount(insf.get(i).getId());
 							max = (double)Math.round(((double)list.get(j).getTotal()/machinenum)*10000)/100;
 						}
 					}
@@ -1248,12 +1248,12 @@ public class BlocChartController {
 			}else if(flag==2){
 				for(int i=0;i<insf.size();i++){
 					double max = 0,worktime = 0;
-					int machinenum = 0, maxnum = 0;
+					int machinenum = lm.getMachineCount(insf.get(i).getId());
+					int maxnum = 0;
 					for(int j=0;j<list.size();j++){
 						if(insf.get(i).getId().equals(list.get(j).getItemid())){
 							worktime = list.get(j).getWorktime();
 							maxnum = list.get(j).getTotal();
-							machinenum = lm.getMachineCount(insf.get(i).getId());
 							max = (double)Math.round(((double)list.get(j).getTotal()/machinenum)*10000)/100;
 						}
 					}
@@ -1713,9 +1713,9 @@ public class BlocChartController {
 						json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);
 						json.put("weldtime", (double)Math.round(weldtime*100)/100);
 						json.put("standbytime", (double)Math.round(standbytime*100)/100);
-						json.put("sjratio", (double)Math.round(boottime/worktime*100)/100);
-						json.put("effectiveratio", (double)Math.round(weldtime/boottime*100)/100);
-						json.put("workratio", (double)Math.round(weldtime/worktime*100)/100);
+						json.put("sjratio", (double)Math.round(boottime/worktime*10000)/100);
+						json.put("effectiveratio", (double)Math.round(weldtime/boottime*10000)/100);
+						json.put("workratio", (double)Math.round(weldtime/worktime*10000)/100);
 						ary.add(json);
 					}
 				}
@@ -1754,9 +1754,9 @@ public class BlocChartController {
 						json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);
 						json.put("weldtime", (double)Math.round(weldtime*100)/100);
 						json.put("standbytime", (double)Math.round(standbytime*100)/100);
-						json.put("sjratio", (double)Math.round(boottime/worktime*100)/100);
-						json.put("effectiveratio", (double)Math.round(weldtime/boottime*100)/100);
-						json.put("workratio", (double)Math.round(weldtime/worktime*100)/100);
+						json.put("sjratio", (double)Math.round(boottime/worktime*10000)/100);
+						json.put("effectiveratio", (double)Math.round(weldtime/boottime*10000)/100);
+						json.put("workratio", (double)Math.round(weldtime/worktime*10000)/100);
 						ary.add(json);
 					}
 				}
@@ -1795,9 +1795,9 @@ public class BlocChartController {
 						json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);
 						json.put("weldtime", (double)Math.round(weldtime*100)/100);
 						json.put("standbytime", (double)Math.round(standbytime*100)/100);
-						json.put("sjratio", (double)Math.round(boottime/worktime*100)/100);
-						json.put("effectiveratio", (double)Math.round(weldtime/boottime*100)/100);
-						json.put("workratio", (double)Math.round(weldtime/worktime*100)/100);
+						json.put("sjratio", (double)Math.round(boottime/worktime*10000)/100);
+						json.put("effectiveratio", (double)Math.round(weldtime/boottime*10000)/100);
+						json.put("workratio", (double)Math.round(weldtime/worktime*100)/10000);
 						ary.add(json);
 					}
 				}
