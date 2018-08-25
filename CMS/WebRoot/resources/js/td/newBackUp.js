@@ -11,12 +11,13 @@ $(function() {
 	//状态发生改变
 	$("#status").combobox({
 		onChange : function(newValue, oldValue){
-			for(var i=0;i<machine.length;i++){
+			statusClick(newValue);
+			/*for(var i=0;i<machine.length;i++){
 				var img;
 				var status = $("#status"+machine[i].fid).val();
-				if(status == 0){
+				if(status == 0 || status == 3){
 					img = "resources/images/welder_03.png";
-				}else if(status == 1||status == 4||status == 3){
+				}else if(status == 1 || status == 4){
 					img = "resources/images/welder_02.png";
 				}else if(status == 2){
 					img = "resources/images/welder_04.png";
@@ -26,7 +27,7 @@ $(function() {
 				for(var j=0;j<starows.length;j++){
 					if(machine[i].fid==parseInt(starows[j].fname)){
 						if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
-							overtimenum+=1;
+//							overtimenum+=1;
 							$("#status"+starows[j].fname).val(4);
 							$("#img"+starows[j].fname).attr("src","resources/images/welder_05.png");
 						}
@@ -44,7 +45,7 @@ $(function() {
 						$("#img"+machine[i].fid).attr("src",img);
 					}
 				}
-			}
+			}*/
 		}
 	});
 })
