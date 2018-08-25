@@ -153,16 +153,20 @@ function webclient(){
 					}
 			  }
 			if(redata.substring(0+i,2+i)=="00"){
-				if(wait.length==0){
-					wait.push(redata.substring(4+i, 8+i));
-				}else{
-					for(var j=0;j<wait.length;j++){
-						if(wait[j]!=redata.substring(4+i, 8+i)){
-							if(j==wait.length-1){
-								wait.push(redata.substring(4+i, 8+i));
-							}
+				for(var w=0;w<work.length;w++){
+					if(work[w]!=redata.substring(4+i, 8+i)&&w==work.length-1){
+						if(wait.length==0){
+							wait.push(redata.substring(4+i, 8+i));
 						}else{
-							break;
+							for(var j=0;j<wait.length;j++){
+								if(wait[j]!=redata.substring(4+i, 8+i)){
+									if(j==wait.length-1){
+										wait.push(redata.substring(4+i, 8+i));
+									}
+								}else{
+									break;
+								}
+							}
 						}
 					}
 				}

@@ -594,6 +594,7 @@ public class TdController {
 		
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
+		String str = request.getParameter("dictionry");
 		WeldDto dto = new WeldDto();
 		String s = (String)request.getSession().getAttribute("s");
 		if(iutil.isNull(s)){
@@ -605,7 +606,7 @@ public class TdController {
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
-		List<ModelDto> md = lm.getStandbytimeout(dto);
+		List<ModelDto> md = lm.getStandbytimeout(dto,Integer.valueOf(str)*36);
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
