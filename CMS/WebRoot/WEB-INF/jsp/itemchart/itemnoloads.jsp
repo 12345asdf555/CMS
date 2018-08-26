@@ -62,7 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<span>设备平均空载率</span><hr>
 				<ul>
 					<li>展现某一时间段内，各部门的设备平均空载率及趋势</li>
-					<li>平均空载率=待机时长/工作时长/焊机待机数量</li>
+					<li>平均空载率=待机时长/工作时长</li>
 				</ul>
 			</div>
 		</div>

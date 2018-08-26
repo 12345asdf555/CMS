@@ -740,16 +740,16 @@ public class ItemChartController {
 		try{
 			Insframework ins = insm.getInsById(parent);
 			List<ModelDto> list = lm.getItemNOLoads(dto, parent,null);
-			List<ModelDto> machine = lm.getCaustMachineCount(dto, parent);
+//			List<ModelDto> machine = lm.getCaustMachineCount(dto, parent);
 			double[] num = new double[time.size()];
 			for(int i=0;i<time.size();i++){
 				if(list.size()>0){
-					double[] noload=new double[time.size()],summachine=new double[time.size()],livecount=new double[time.size()];
+					double[] noload=new double[time.size()],livecount=new double[time.size()];
 					num[i] = 0;
 					for(ModelDto m:list){
-						for(ModelDto ma:machine){
-							if(ma.getWeldTime().equals(m.getWeldTime()) && ma.getFid().equals(m.getFid())){
-								if(time.get(i).getWeldTime().equals(m.getWeldTime())){
+//						for(ModelDto ma:machine){
+//							if(ma.getWeldTime().equals(m.getWeldTime()) && ma.getFid().equals(m.getFid())){
+								if(ins.getId().equals(m.getFid()) && time.get(i).getWeldTime().equals(m.getWeldTime())){
 									if(Integer.parseInt(type)!=4){
 										livecount[i] = lm.getCountByTime(m.getFid(), m.getWeldTime(),null,null,Integer.parseInt(type));
 									}else{
@@ -766,14 +766,13 @@ public class ItemChartController {
 										
 									}
 									noload[i] = m.getLoads();
-									summachine[i] = ma.getLoads();
-									num[i] = (double)Math.round(noload[i]/livecount[i]/summachine[i]*100*100)/100;
+									num[i] = (double)Math.round(noload[i]/livecount[i]*100*100)/100;
 								}
-							}
-						}
+//							}
+//						}
 					}
 					json.put("weldTime",time.get(i).getWeldTime());
-					json.put("loads",(double) Math.round(Double.valueOf(noload[i])*1000)/1000+"/"+(double) Math.round(Double.valueOf(livecount[i])*1000)/1000+"/"+summachine[i]+"="+num[i]);
+					json.put("loads",(double) Math.round(Double.valueOf(noload[i])*1000)/1000+"/"+(double) Math.round(Double.valueOf(livecount[i])*1000)/1000+"="+num[i]);
 					json.put("itemid", list.get(0).getFid());
 					ary.add(json);
 				}else{

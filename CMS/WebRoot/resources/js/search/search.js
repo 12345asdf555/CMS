@@ -419,7 +419,7 @@ function newSearchResource(){
 //焊工信息下拉框
 function searchWelderCombobox(){
 	var optionFields = 
-  		"<option value='fname'>名称</option>" +
+  		"<option value='w.fname'>名称</option>" +
   		"<option value='fwelder_no'>编号</option>" +
   		"<option value='i.fname'>所属项目</option>";
 	$(".fields").html(optionFields);
@@ -593,7 +593,7 @@ function searchWJCombobox(){
 		"<option value='fstart_time'>开始时间</option>" +
 		"<option value='fend_time'>完成时间</option>" +
 		"<option value='fcreatetime'>创建时间</option>" +
-		"<option value='	fupdatetime'>修改时间</option>" +
+		"<option value='fupdatetime'>修改时间</option>" +
 		"<option value='fupdatecount'>修改次数</option>";
 	$(".fields").html(optionFields);
 	createSearchCombobox();

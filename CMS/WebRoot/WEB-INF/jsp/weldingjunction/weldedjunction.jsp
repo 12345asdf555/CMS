@@ -127,7 +127,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-numberbox"  min="0.001" precision="3"  id="maxElectricity" name="maxElectricity" data-options="required:true"/>
 					<lable><span class="required">*</span>电流下限</lable>
 					<input class="easyui-numberbox"  min="0.001" precision="3"  id="minElectricity" name="minElectricity" data-options="required:true"/>
-					<a href="javascript:wpdDatagrid();" class="easyui-linkbutton">选择</a>
+<!-- 					<a href="javascript:wpdDatagrid();" class="easyui-linkbutton">选择</a> -->
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>电压上限</lable>

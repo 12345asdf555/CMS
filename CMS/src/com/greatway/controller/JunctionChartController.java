@@ -602,7 +602,7 @@ public class JunctionChartController {
 					livecount = lm.getCountByTime(l.getFid(), dto.getTime(),null,l.getJid(),Integer.parseInt(type));
 				}
 				double loads = (double)Math.round(l.getLoads()/livecount*100*100)/100;
-				json.put("loads",  ((double)Math.round(l.getLoads()*1000)/1000)+"/"+((double)Math.round(livecount*1000)/1000)+"/1="+loads+"%");
+				json.put("loads",  ((double)Math.round(l.getLoads()*1000)/1000)+"/"+((double)Math.round(livecount*1000)/1000)+"="+loads+"%");
 				json.put("weldtime", weldtime);
 				json.put("name",l.getFname());
 				json.put("itemid",l.getFid());
