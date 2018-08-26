@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body  class="easyui-layout">
   	<jsp:include  page="../insframeworktree.jsp"/>
-  	<div id="body" region="center"  hide="true"  split="true" title="维修记录管理" style="background: witch; height: 335px;">
+  	<div id="body" region="center"  hide="true"  split="true">
 	  	<input type="hidden" id="treeid"/>
 	  	<div id="maintainTable_btn">
 			<div style="margin-bottom: 5px;">

@@ -108,8 +108,8 @@ function BlocHourDatagrid() {
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	$("#blocHourTable").datagrid({
 		fitColumns : true,
-		height : $("#body").height() - $("#blocHourChart").height() - $("#blocHour_btn").height() - 15,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#blocHourChart").height() - $("#blocHour_btn").height() - 15,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		url : "blocChart/getBlocHour?dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2 + chartStr,
 		singleSelect : true,
@@ -167,7 +167,7 @@ function classifyDatagrid() {
 	$("#classify").datagrid({
 		fitColumns : true,
 		height : $("#classifydiv").height(),
-		width : $("#body").width() / 2,
+		width : $("#bodydiv").width() / 2,
 		idField : 'fid',
 		url : "blocChart/getBlocHousClassify",
 		singleSelect : true,
@@ -253,12 +253,12 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#blocHourTable").datagrid('resize', {
-		height : $("#body").height() - $("#blocHourChart").height() - $("#blocHour_btn").height() - 15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#blocHourChart").height() - $("#blocHour_btn").height() - 15,
+		width : $("#bodydiv").width()
 	});
 	$("#classify").datagrid('resize', {
 		height : $("#classifydiv").height(),
-		width : $("#body").width() / 2
+		width : $("#bodydiv").width() / 2
 	});
 	echarts.init(document.getElementById('blocHourChart')).resize();
 }

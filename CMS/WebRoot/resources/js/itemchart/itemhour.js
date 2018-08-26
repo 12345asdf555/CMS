@@ -102,8 +102,8 @@ function itemHourDatagrid(){
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	$("#itemHourTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#itemHourChart").height()-$("#itemHour_btn").height()-45,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#itemHourChart").height()-$("#itemHour_btn").height()-45,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		url : "itemChart/getitemHour?item="+item+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+chartStr,
 		singleSelect : true,
@@ -206,7 +206,7 @@ function classifyDatagrid(){
 	$("#classify").datagrid( {
 		fitColumns : true,
 		height : $("#classifydiv").height(),
-		width : $("#body").width()/2,
+		width : $("#bodydiv").width()/2,
 		idField : 'fid',
 		url : "itemChart/getItemHousClassify?item="+item,
 		pageSize : 5,
@@ -305,12 +305,12 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#itemHourTable").datagrid('resize', {
-		height : $("#body").height() - $("#itemHourChart").height()-$("#itemHour_btn").height()-45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#itemHourChart").height()-$("#itemHour_btn").height()-45,
+		width : $("#bodydiv").width()
 	});
 	$("#classify").datagrid('resize', {
 		height : $("#classifydiv").height(),
-		width : $("#body").width()/2
+		width : $("#bodydiv").width()/2
 	});
 	echarts.init(document.getElementById('itemHourChart')).resize();
 }

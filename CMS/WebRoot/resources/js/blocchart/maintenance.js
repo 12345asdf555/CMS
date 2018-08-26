@@ -372,8 +372,8 @@ function dgDatagrid(){
 	$("#dg2").hide();
 	$("#dg").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-45,
-		width : $("#body").width()-30,
+		height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+		width : $("#bodydiv").width(),
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50],
 		url : activeurl+chartStr,
@@ -463,8 +463,8 @@ function itemDgDatagrid(){
 	$("#dg2").show();
 	$("#itemdg").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#itemcharts2").height()-$("#search_btn").height()-45,
-		width : $("#body").width()-30,
+		height : $("#bodydiv").height() - $("#itemcharts2").height()-$("#search_btn").height()-15,
+		width : $("#bodydiv").width(),
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50],
 		url : "itemChart/getItemTypeMaintainList?flag=3"+chartStr,
@@ -539,15 +539,15 @@ window.onresize = function() {
 function domresize() {
 	if(!$("#dg1").is(":hidden")){
 		$("#dg").datagrid('resize', {
-			height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-45,
-			width : $("#body").width()-30
+			height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+			width : $("#bodydiv").width()
 		});
 		echarts.init(document.getElementById('charts')).resize();
 	}else{
 
 		$("#itemdg").datagrid('resize', {
-			height : $("#body").height() - $("#itemcharts2").height()-$("#search_btn").height()-45,
-			width : $("#body").width()-30
+			height : $("#bodydiv").height() - $("#itemcharts2").height()-$("#search_btn").height()-15,
+			width : $("#bodydiv").width()
 		});
 //		echarts.init(document.getElementById('itemcharts1')).resize();
 		echarts.init(document.getElementById('itemcharts2')).resize();

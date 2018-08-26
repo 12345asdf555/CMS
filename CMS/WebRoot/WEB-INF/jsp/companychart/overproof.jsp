@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="超标回溯" style="background: witch; height: 335px;">
+    <div id="bodydiv" region="center"  hide="true"  split="true">
     	<input type="hidden" id="welder" value="${welder }"/>
     	<input type="hidden" id="junction" value="${junction }"/>
     	<input type="hidden" id="weldtime" value="${weldtime }"/>

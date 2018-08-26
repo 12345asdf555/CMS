@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="焊口焊接工时" style="background: witch; height: 335px;">
+    <div id="bodydiv" region="center"  hide="true"  split="true">
 	  	<div id="itemHour_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="item" id="item" type="hidden" value="${item }"/>

@@ -5,8 +5,8 @@ $(function(){
 
 function weldDatagrid(){
 	$("#timequantumTable").datagrid( {
-		height : $("#body").height(),
-		width : $("#body").width(),
+		height : $("#bodydiv").height(),
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
@@ -136,8 +136,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#timequantumTable").datagrid('resize', {
-		height : $("#body").height(),
-		width : $("#body").width()
+		height : $("#bodydiv").height(),
+		width : $("#bodydiv").width()
 	});
 }
 

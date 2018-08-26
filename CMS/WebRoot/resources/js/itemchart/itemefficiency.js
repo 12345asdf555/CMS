@@ -128,8 +128,8 @@ function ItemEfficiencyDatagrid(){
 	setParam();
 	$("#itemEfficiencyTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#itemEfficiencyChart").height()-$("#itemEfficiency_btn").height()-45,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#itemEfficiencyChart").height()-$("#itemEfficiency_btn").height()-45,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
@@ -198,8 +198,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#itemEfficiencyTable").datagrid('resize', {
-		height : $("#body").height() - $("#itemEfficiencyChart").height()-$("#itemEfficiency_btn").height()-45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#itemEfficiencyChart").height()-$("#itemEfficiency_btn").height()-45,
+		width : $("#bodydiv").width()
 	});
 	echarts.init(document.getElementById('itemEfficiencyChart')).resize();
 }

@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body  class="easyui-layout">
-    <div id="body" region="center"  hide="true"  split="true" title="故障代码管理" style="background: witch; height: 335px;">
+    <div id="body" region="center"  hide="true"  split="true">
       
       <div id="dg_btn" style="margin-bottom: 5px;">
         <a href="javascript:addFault();" class="easyui-linkbutton" iconCls="icon-add" >新增</a>

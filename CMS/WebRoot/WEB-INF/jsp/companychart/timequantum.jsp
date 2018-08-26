@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body  class="easyui-layout" style="background:#ffffff;">
-  	<div id="body" region="center"  hide="true"  split="true" title="超标回溯" style="background: witch;">
+  	<div id="bodydiv" region="center"  hide="true"  split="true">
   		<input type="hidden"  id="weldtime" value="${weldtime }"/>
   		<input type="hidden"  id="welder" value="${welder }"/>
   		<input type="hidden"  id="junction" value="${junction }"/>

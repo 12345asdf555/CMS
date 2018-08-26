@@ -18,8 +18,8 @@ function dgDatagrid(){
 	var otype = $("#otype").val();
 	$("#dg").datagrid( {
 		fitColumns : true,
-		height : $("#body").height(),
-		width : $("#body").width(),
+		height : $("#body").height()-50,
+		width : $("#body").width()-40,
 		idField : 'id',
 		url : "junctionChart/getFaultDetail?parent="+parent+"&typeid="+typeid+"&time1="+time1+"&time2="+time2,
 		singleSelect : true,
@@ -101,7 +101,7 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#dg").datagrid('resize', {
-		height : $("#body").height() - $("#detailLoad_btn").height()-30,
-		width : $("#body").width()
+		height : $("#body").height() -50,
+		width : $("#body").width()-40
 	});
 }

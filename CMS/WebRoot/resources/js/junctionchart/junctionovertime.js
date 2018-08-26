@@ -11,8 +11,8 @@ function junctionOvertimeDatagrid(){
 	var otype = $("#otype").val();
 	$("#junctionOvertimeTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#junctionOvertime_btn").height()-30,
-		width : $("#body").width(),
+		height : $("#body").height() - $("#junctionOvertime_btn").height()-70,
+		width : $("#body").width()-40,
 		idField : 'id',
 		url : "junctionChart/getjunctionovertime?parent="+parent+"&otype="+otype+"&weldtime="+weldtime+"&time1="+time1+"&time2="+time2+"&number="+number,
 		singleSelect : true,
@@ -70,7 +70,7 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#junctionOvertimeTable").datagrid('resize', {
-		height : $("#body").height() - $("#junctionOvertime_btn").height()-30,
-		width : $("#body").width()
+		height : $("#body").height() - $("#junctionOvertime_btn").height()-70,
+		width : $("#body").width()-40
 	});
 }

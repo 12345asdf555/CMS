@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
   	<jsp:include  page="../insframeworktree.jsp"/>
   	<div region="center"  hide="true"  split="true" title="焊工/焊口列表" style="background: witch; height: 50%">
-	  	<div id="northbody" region="north"  hide="true"  split="true" title="焊工列表" style="background: witch; height: 50%">
+	  	<div id="northbody" region="north"  hide="true"  split="true" style="height: 50%">
 	  		<div id="commit_btn">
 				<div style="margin-bottom: 5px;">
 					时间：

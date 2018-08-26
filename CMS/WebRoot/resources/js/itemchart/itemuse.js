@@ -5,10 +5,10 @@ var chartStr = "";
 $(document).ready(function(){
 	showitemUseChart();
 })
-
+var dtoTime1,dtoTime2;
 function setParam(){
-	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
-	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
+	dtoTime1 = $("#dtoTime1").datetimebox('getValue');
+	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	chartStr = "?dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2;
 }
 
@@ -100,8 +100,8 @@ function ItemUseDatagrid(){
 	setParam();
 	$("#itemUseTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#itemUseChart").height()-$("#itemUse_btn").height()-15,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#itemUseChart").height()-$("#itemUse_btn").height()-15,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		url : "itemChart/getItemUse"+chartStr,
 		singleSelect : true,
@@ -174,8 +174,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#itemUseTable").datagrid('resize', {
-		height : $("#body").height() - $("#itemUseChart").height()-$("#itemUse_btn").height()-15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#itemUseChart").height()-$("#itemUse_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
 	echarts.init(document.getElementById('itemUseChart')).resize();
 }

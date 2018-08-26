@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body  class="easyui-layout">
   	<jsp:include  page="../insframeworktree.jsp"/>
-  	<div id="body" region="center"  hide="true"  split="true" title="焊机设备迁移" style="background: #eee;height: 335px;">
+  	<div id="body" region="center"  hide="true"  split="true">
 	  	<input type="hidden" id="treeid"/>
 	  	<div id="weldingmachineTable_btn">
 			<div style="margin-bottom: 5px;">	

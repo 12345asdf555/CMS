@@ -81,10 +81,10 @@ function BlocHourDatagrid(){
          dataType : "json", //返回数据形式为json  
          success : function(result) {  
              if (result) {
-            	 var width=$("#body").width()/result.rows.length;
+            	 var width=$("#bodydiv").width()/result.rows.length;
                  column.push({field:"w",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "left"});
                  for(var m=0;m<result.arys1.length;m++){
-                	 column.push({field:"a"+m,title:"<a href='companyChart/goCompanyOverproof?parent="+result.arys1[min].itemid+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+result.arys1[m].name+"(m)</a>",width:width,halign : "center",align : "left"});
+                	 column.push({field:"a"+m,title:"<a href='companyChart/goCompanyOverproof?parent="+result.arys1[m].itemid+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+result.arys1[m].name+"(min)</a>",width:width,halign : "center",align : "left"});
                 	 array2.push(result.arys1[m].name);
                   	 Series.push({
                   		name : result.arys1[m].name,
@@ -110,8 +110,8 @@ function BlocHourDatagrid(){
     }); 
 	 $("#blocOverproofTable").datagrid( {
 			fitColumns : true,
-			height : $("#body").height() - $("#blocOverproofChart").height()-$("#blocOverproof_btn").height()-15,
-			width : $("#body").width(),
+			height : $("#bodydiv").height() - $("#blocOverproofChart").height()-$("#blocOverproof_btn").height()-15,
+			width : $("#bodydiv").width(),
 			idField : 'id',
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
@@ -144,8 +144,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#blocOverproofTable").datagrid('resize', {
-		height : $("#body").height() - $("#blocOverproofChart").height()-$("#blocOverproof_btn").height()-15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#blocOverproofChart").height()-$("#blocOverproof_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
 	echarts.init(document.getElementById('blocOverproofChart')).resize();
 }

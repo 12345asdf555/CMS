@@ -100,7 +100,7 @@ function ItemloadsDatagrid() {
 		dataType : "json", //返回数据形式为json  
 		success : function(result) {
 			if (result) {
-				var width = $("#body").width() / result.rows.length;
+				var width = $("#bodydiv").width() / result.rows.length;
 				column.push({
 					field : "weldTime",
 					title : "时间跨度(年/月/日/周)",
@@ -153,8 +153,8 @@ function ItemloadsDatagrid() {
 	});
 	$("#itemLoadsTable").datagrid({
 		fitColumns : true,
-		height : $("#body").height() - $("#itemLoadsChart").height() - $("#itemLoads_btn").height() - 45,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#itemLoadsChart").height() - $("#itemLoads_btn").height() - 45,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
@@ -219,8 +219,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#itemLoadsTable").datagrid('resize', {
-		height : $("#body").height() - $("#itemLoadsChart").height() - $("#itemLoads_btn").height() - 45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#itemLoadsChart").height() - $("#itemLoads_btn").height() - 45,
+		width : $("#bodydiv").width()
 	});
 	echarts.init(document.getElementById('itemLoadsChart')).resize();
 }

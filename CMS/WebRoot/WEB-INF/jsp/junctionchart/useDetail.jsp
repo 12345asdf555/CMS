@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body class="easyui-layout">
-    <div id="body" region="center"  hide="true"  split="true" title="单台设备运行数据统计明细" style="background: witch; height: 335px;">
+    <div id="body" region="center"  hide="true"  split="true">
 	  	<div id="detailLoad_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="id" id="id" type="hidden" value="${id }"/>

@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 <body class="easyui-layout">
   	<jsp:include  page="../insframeworktree.jsp"/>
-   <div id="body" region="center"  hide="true"  split="true" title="用户管理" style="background: #eee; height: 335px;">
+   <div id="body" region="center"  hide="true"  split="true">
 	  	
         <table id="dg" style="table-layout:fixed;width:100%"></table>
         

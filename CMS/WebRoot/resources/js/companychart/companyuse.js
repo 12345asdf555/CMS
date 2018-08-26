@@ -101,8 +101,8 @@ function CaustUseDatagrid(){
 	setParam();
 	$("#companyUseTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#companyUseChart").height()-$("#companyUse_btn").height()-45,
-		width : $("#body").width()-30,
+		height : $("#bodydiv").height() - $("#companyUseChart").height()-$("#companyUse_btn").height()-15,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		url : "companyChart/getCompanyUse"+chartStr,
 		singleSelect : true,
@@ -201,8 +201,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#companyUseTable").datagrid('resize', {
-		height : $("#body").height() - $("#companyUseChart").height()-$("#companyUse_btn").height()-45,
-		width : $("#body").width()-30
+		height : $("#bodydiv").height() - $("#companyUseChart").height()-$("#companyUse_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
 	echarts.init(document.getElementById('companyUseChart')).resize();
 }

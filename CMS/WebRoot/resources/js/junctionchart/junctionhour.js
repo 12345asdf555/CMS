@@ -22,8 +22,8 @@ function itemjunctionDatagrid(){
 	var item = $("#item").val();
 	$("#junctionHourTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height(),
-		width : $("#body").width(),
+		height : $("#body").height()-50,
+		width : $("#body").width()-40,
 		idField : 'id',
 		url : "junctionChart/getJunctionHour"+chartStr,
 		singleSelect : true,
@@ -104,7 +104,7 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#junctionHourTable").datagrid('resize', {
-		height : $("#body").height(),
-		width : $("#body").width()
+		height : $("#body").height()-50,
+		width : $("#body").width()-40
 	});
 }

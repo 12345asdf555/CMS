@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
 
 <body class="easyui-layout">
-	<div id="body" region="center"  hide="true"  split="true" title="权限管理" style="background: #eee;">
+	<div id="body" region="center"  hide="true"  split="true">
         <div data-options="region:'center',title:'信息',iconCls:'icon-ok'">
         	<table id="dg" style="table-layout:fixed;width:100%"></table>
         </div>

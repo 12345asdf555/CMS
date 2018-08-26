@@ -156,8 +156,8 @@ function BlocEfficiencyDatagrid(){
 	setParam();
 	$("#blocEfficiencyTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#blocEfficiencyChart").height()-$("#blocEfficiency_btn").height()-15,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#blocEfficiencyChart").height()-$("#blocEfficiency_btn").height()-15,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
@@ -234,8 +234,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#blocEfficiencyTable").datagrid('resize', {
-		height : $("#body").height() - $("#blocEfficiencyChart").height()-$("#blocEfficiency_btn").height()-15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#blocEfficiencyChart").height()-$("#blocEfficiency_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
 	echarts.init(document.getElementById('blocEfficiencyChart')).resize();
 }

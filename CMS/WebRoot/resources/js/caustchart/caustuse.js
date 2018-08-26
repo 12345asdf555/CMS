@@ -6,11 +6,11 @@ var chartStr = "";
 $(document).ready(function(){
 	showcaustUseChart();
 })
-
+var dtoTime1,dtoTime2;
 function setParam(){
 	var type = $("#type").combobox('getValue');
-	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
-	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
+	dtoTime1 = $("#dtoTime1").datetimebox('getValue');
+	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	chartStr = "?type="+type+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2;
 }
 
@@ -102,8 +102,8 @@ function CaustUseDatagrid(){
 	setParam();
 	$("#caustUseTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#caustUseChart").height()-$("#caustUse_btn").height()-15,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#caustUseChart").height()-$("#caustUse_btn").height()-15,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		url : "caustChart/getCaustUse"+chartStr,
 		singleSelect : true,
@@ -202,8 +202,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#caustUseTable").datagrid('resize', {
-		height : $("#body").height() - $("#caustUseChart").height()-$("#caustUse_btn").height()-15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#caustUseChart").height()-$("#caustUse_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
 	echarts.init(document.getElementById('caustUseChart')).resize();
 }

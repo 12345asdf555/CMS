@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body class="easyui-layout">
-    <div id="body" region="center"  hide="true"  split="true" title="焊口焊接工时" style="background: witch; height: 335px;">
+    <div id="body" region="center"  hide="true"  split="true">
 	  	<div id="junctionHour_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>

@@ -103,8 +103,8 @@ function CompanyHourDatagrid(){
 	var parent = $("#parent").val();
 	$("#companyHourTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#companyHourChart").height()-$("#caustHour_btn").height()-45,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#companyHourChart").height()-$("#caustHour_btn").height()-45,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		url : "companyChart/getCompanyHour?parent="+parent+chartStr,
 		singleSelect : true,
@@ -167,7 +167,7 @@ function classifyDatagrid(){
 	$("#classify").datagrid( {
 		fitColumns : true,
 		height : $("#classifydiv").height(),
-		width : $("#body").width()/2,
+		width : $("#bodydiv").width()/2,
 		idField : 'fid',
 		url : "itemChart/getItemHousClassify?item="+parent,
 		singleSelect : true,
@@ -249,12 +249,12 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#companyHourTable").datagrid('resize', {
-		height : $("#body").height() - $("#companyHourChart").height()-$("#caustHour_btn").height()-45,
-		width : $("#body").width()
+		height : $("#bodydiv").height()/2-$("#caustHour_btn").height()-45,
+		width : $("#bodydiv").width()
 	});
 	$("#classify").datagrid('resize', {
 		height : $("#classifydiv").height(),
-		width : $("#body").width()/2
+		width : $("#bodydiv").width()/2
 	});
 	echarts.init(document.getElementById('companyHourChart')).resize();
 }

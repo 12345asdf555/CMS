@@ -126,8 +126,8 @@ function dgDatagrid(){
 	setParam();
 	 $("#dg").datagrid( {
 			fitColumns : true,
-			height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-45,
-			width : $("#body").width()-30,
+			height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+			width : $("#bodydiv").width(),
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
 			url : "blocChart/gerBlocRunTime"+chartStr,
@@ -220,8 +220,8 @@ window.onresize = function() {
 //改变表格，图表高宽
 function domresize() {
 	$("#dg").datagrid('resize', {
-		height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-45,
-		width : $("#body").width()-30
+		height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
 	echarts.init(document.getElementById('charts')).resize();
 }

@@ -9,8 +9,8 @@ function detailOverproofDatagrid(){
 	var time2 = $("#time2").val();
 	$("#DetailOverproofTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#DetailOverproof_btn").height()-20,
-		width : $("#body").width(),
+		height : $().height() - $("#DetailOverproof_btn").height()-20,
+		width : $().width(),
 		idField : 'id',
 		url : "itemChart/getDatailOverproof?parent="+parent+"&weldtime="+weldtime+"&time1="+time1+"&time2="+time2,
 		singleSelect : true,
@@ -145,7 +145,7 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#DetailOverproofTable").datagrid('resize', {
-		height : $("#body").height() - $("#DetailOverproof_btn").height(),
-		width : $("#body").width()
+		height : $().height() - $("#DetailOverproof_btn").height(),
+		width : $().width()
 	});
 }

@@ -87,7 +87,7 @@ function BlocnoloadsDatagrid(){
          dataType : "json", //返回数据形式为json  
          success : function(result) {  
              if (result) {
-            	 var width=$("#body").width()/result.rows.length;
+            	 var width=$("#bodydiv").width()/result.rows.length;
                  column.push({field:"w",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "left"});
                  for(var i=0;i<result.arys.length;i++){
                     	array1.push(result.arys[i].weldTime);
@@ -117,8 +117,8 @@ function BlocnoloadsDatagrid(){
     }); 
 	 $("#blocNoLoadsTable").datagrid( {
 			fitColumns : true,
-			height : $("#body").height() - $("#blocNoLoadsChart").height()-$("#blocNoLoads_btn").height()-15,
-			width : $("#body").width(),
+			height : $("#bodydiv").height() - $("#blocNoLoadsChart").height()-$("#blocNoLoads_btn").height()-15,
+			width : $("#bodydiv").width(),
 			idField : 'id',
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
@@ -151,8 +151,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#blocNoLoadsTable").datagrid('resize', {
-		height : $("#body").height() - $("#blocNoLoadsChart").height()-$("#blocNoLoads_btn").height()-15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#blocNoLoadsChart").height()-$("#blocNoLoads_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
 	echarts.init(document.getElementById('blocNoLoadsChart')).resize();
 }

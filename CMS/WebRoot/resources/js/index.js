@@ -237,7 +237,7 @@ function openCaustLoads() {
 }
 
 function openCaustNoLoads() {
-	addTab("设备空载率", "caustChart/goCaustNoLoads");
+	addTab("设备平均空载率", "caustChart/goCaustNoLoads");
 }
 
 function openCaustIdle() {
@@ -277,7 +277,7 @@ function openCompanyLoads() {
 }
 
 function openCompanyNoLoads() {
-	addTab("设备空载率", "companyChart/goCompanyNoLoads");
+	addTab("设备平均空载率", "companyChart/goCompanyNoLoads");
 }
 
 function openCompanyIdle() {
@@ -306,7 +306,7 @@ function openItemLoads() {
 }
 
 function openItemNoLoads() {
-	addTab("设备空载率", "itemChart/goItemNoLoads");
+	addTab("设备平均空载率", "itemChart/goItemNoLoads");
 }
 
 function openItemIdle() {
@@ -350,7 +350,7 @@ function openBlocLoads() {
 }
 
 function openBlocNoLoads() {
-	addTab("设备空载率", "blocChart/goBlocNoLoads");
+	addTab("设备平均空载率", "blocChart/goBlocNoLoads");
 }
 
 function openBlocIdle() {

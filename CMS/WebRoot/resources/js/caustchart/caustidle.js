@@ -82,7 +82,7 @@ function CaustIdleDatagrid(){
          dataType : "json", //返回数据形式为json  
          success : function(result) {  
              if (result) {
-            	 var width=$("#body").width()/result.rows.length;
+            	 var width=$("#bodydiv").width()/result.rows.length;
                  column.push({field:"w",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "left"});
 
                  for(var x=0;x<result.arys.length;x++){
@@ -113,8 +113,8 @@ function CaustIdleDatagrid(){
     }); 
 	 $("#caustIdleTable").datagrid( {
 			fitColumns : true,
-			height : $("#body").height() - $("#caustIdleChart").height()-$("#caustIdle_btn").height()-45,
-			width : $("#body").width(),
+			height : $("#bodydiv").height() - $("#caustIdleChart").height()-$("#caustIdle_btn").height()-45,
+			width : $("#bodydiv").width(),
 			idField : 'id',
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
@@ -158,8 +158,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#caustIdleTable").datagrid('resize', {
-		height : $("#body").height() - $("#caustIdleChart").height()-$("#caustIdle_btn").height()-45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#caustIdleChart").height()-$("#caustIdle_btn").height()-45,
+		width : $("#bodydiv").width()
 	});
 	echarts.init(document.getElementById('caustIdleChart')).resize();
 }

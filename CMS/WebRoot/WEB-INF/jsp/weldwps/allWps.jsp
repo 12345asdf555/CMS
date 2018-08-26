@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body class="easyui-layout">
-    <div id="body" region="center"  hide="true"  split="true" title="工艺管理" style="background: #eee;height: 335px;">
+    <div id="body" region="center"  hide="true"  split="true">
    		<div id="dg_btn">
 	        <div style="margin-bottom: 5px;">
 	        	<a href="wps/goAddWps" class="easyui-linkbutton" iconCls="icon-add">新增</a>
