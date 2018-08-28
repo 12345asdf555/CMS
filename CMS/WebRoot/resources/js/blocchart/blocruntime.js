@@ -1,7 +1,20 @@
 $(function(){
 	parentCombobox();
-	rankingCombobox();
 	dgDatagrid();
+	$("#rank1").numberbox({
+		"onChange" : function() {
+			if($("#rank1").val()==null || $("#rank1").val()==""){
+				$("#rank1").numberbox('setValue',1);
+			}
+		}
+	});
+	$("#rank2").numberbox({
+		"onChange" : function() {
+			if($("#rank2").val()==null || $("#rank2").val()==""){
+				$("#rank2").numberbox('setValue',20);
+			}
+		}
+	});
 })
 
 var chartStr = "";
@@ -11,10 +24,11 @@ $(document).ready(function(){
 var dtoTime1,dtoTime2;
 function setParam(){
 	var parent = $("#parent").combobox('getValue');
-	var ranking = $("#ranking").combobox('getValue');
+	var rank1 = $("#rank1").val();
+	var rank2 = $("#rank2").val();
 	dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-	chartStr = "?parent="+parent+"&ranking="+ranking+"&time1="+dtoTime1+"&time2="+dtoTime2;
+	chartStr = "?parent="+parent+"&rank1="+rank1+"&rank2="+rank2+"&time1="+dtoTime1+"&time2="+dtoTime2;
 }
 
 var array1 = new Array();
@@ -194,23 +208,6 @@ function parentCombobox(){
 	$("#parent").combobox('select',data[0].value);
 }
 
-function rankingCombobox(){
-	var str = "<option value='0-20'>1-20</option>" +
-		"<option value='20-40'>21-40</option>" +
-		"<option value='40-60'>41-60</option>" +
-		"<option value='60-80'>61-80</option>" +
-		"<option value='80-100'>81-100</option>" +
-		"<option value='100-120'>101-120</option>" +
-		"<option value='120-140'>121-140</option>" +
-		"<option value='140-160'>141-160</option>" +
-		"<option value='160-180'>161-180</option>" +
-		"<option value='180-200'>181-200</option>" ;
-	$("#ranking").html(str);
-	$("#ranking").combobox();
-	//默认选中第一行
-	var data = $("#ranking").combobox('getData');
-	$("#ranking").combobox('select',data[0].value);
-}
 
 //监听窗口大小变化
 window.onresize = function() {

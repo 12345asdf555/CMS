@@ -129,7 +129,8 @@ function showChart(){
             		if(result.rows[i].proportion!=0){
     	        		array2.push({
     	        			value : result.rows[i].proportion*100,
-    	        			name : result.rows[i].name
+    	        			name : result.rows[i].name,
+    	        			id : result.rows[i].id
     	        		});
             		}
             		
@@ -200,6 +201,14 @@ function showChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	charts.on('click', function (param) {
+		var url = 'maintain/goMaintain?&str=(i.fid='+param.data.id+' or ins.fid='+param.data.id+' or insf.fid='+param.data.id+' or insf.fparent='+param.data.id+') and fstart_time >= \''+dtoTime1+'\' and fend_time <= \''+dtoTime2+'\'';
+		var img = new Image();
+	    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
+	    url = img.src;  // 此时相对路径已经变成绝对路径
+	    img.src = null; // 取消请求
+		window.location.href = encodeURI(url);
+	});
 	domresize();
 }
 
@@ -393,14 +402,7 @@ function dgDatagrid(){
 			title : "部门",
 			width : 100,
 			halign : "center",
-			align : "left",
-			formatter : function(value,row,index){
-				if(value==null || value==""){
-					return "";
-				}else{
-					return '<a href="maintain/goMaintain?&str=(i.fid='+row.id+' or ins.fid='+row.id+' or insf.fid='+row.id+' or insf.fparent='+row.id+') and fstart_time >= \''+dtoTime1+'\' and fend_time <= \''+dtoTime2+'\'">'+value+'</a>';
-				}
-			}
+			align : "left"
 		},{
 			field : "total",
 			title : "维修次数",

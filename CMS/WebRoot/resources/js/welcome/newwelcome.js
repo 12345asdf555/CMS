@@ -122,6 +122,9 @@ function webclient(){
 				refreshPersonData(data1);
 				var data2 = [{value:work.length, name:'工作'},{value:wait.length, name:'待机'},{value:machine.length-work.length-wait.length, name:'关机'}];
 				refreshWelderData(data2);
+				work.length=0;
+				wait.length=0;
+				mall.length=0;
 			}, 3000)
 			symbol=1;
 		}

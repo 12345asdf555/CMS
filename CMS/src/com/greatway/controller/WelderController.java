@@ -119,7 +119,7 @@ public class WelderController {
 	public String getOverWelder(HttpServletRequest request){
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
-		String search = "'%"+request.getParameter("dtoTime")+"%'";
+		String search = "'"+request.getParameter("dtoTime")+"%'";
 		String parentid = request.getParameter("parent");
 		page = new Page(pageIndex,pageSize,total);
 		BigInteger parent = null;

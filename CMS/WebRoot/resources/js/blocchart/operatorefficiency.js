@@ -75,6 +75,8 @@ function serach(){
 	array1 = new Array();
 	array2 = new Array();
 	array3 = new Array();
+	array4 = new Array();
+	array5 = new Array();
 	setTimeout(function() {
 		dgDatagrid();
 		showChart();
@@ -94,6 +96,8 @@ var array0 = new Array();
 var array1 = new Array();
 var array2 = new Array();
 var array3 = new Array();
+var array4 = new Array();
+var array5 = new Array();
 function showChart(){
 	setParam();
 	 $.ajax({  
@@ -109,6 +113,8 @@ function showChart(){
             		array1.push(result.rows[i].worktime);
             		array2.push(result.rows[i].weldtime);
             		array3.push(result.rows[i].workratio);
+            		array4.push(result.rows[i].effectiveratio);
+            		array5.push(result.rows[i].boottime);
 
             	}
             }  
@@ -139,7 +145,7 @@ function chart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['上班时长(h)','焊接时长(h)','工作效率']
+			data:['焊接时长(h)','开机时长(h)','上班时长(h)','工作效率','有效焊接率']
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
@@ -179,10 +185,10 @@ function chart(){
             }
 		}],
 		series:[{
-			name:'上班时长(h)',
+			name:'焊接时长(h)',
 			type:'bar',
             barMaxWidth:20,//最大宽度
-			data:array1,
+			data:array2,
 			label : {
 				normal : {
 					position : 'top',
@@ -190,10 +196,24 @@ function chart(){
 				}
 			}
 		},{
-			name:'焊接时长(h)',
+			name:'开机时长(h)',
 			type:'bar',
             barMaxWidth:20,//最大宽度
-			data:array2,
+			data:array5,
+			label : {
+				normal : {
+					position : 'top',
+					show : true //显示每个折点的值
+				}
+			}
+		},{
+			name:'上班时长(h)',
+            min: 0,
+            max: 100,//最大最小值
+            interval: 20,//间隔
+			type:'line',
+            barMaxWidth:20,//最大宽度
+			data:array1,
 			label : {
 				normal : {
 					position : 'top',
@@ -209,6 +229,22 @@ function chart(){
             yAxisIndex: 1,
             barMaxWidth:20,//最大宽度
 			data:array3,
+			label : {
+				normal : {
+					position : 'top',
+					show : true, //显示每个折点的值
+					formatter : '{c}%'
+				}
+			}
+		},{
+			name:'有效焊接率',
+            min: 0,
+            max: 100,//最大最小值
+            interval: 20,//间隔
+			type:'line',
+            yAxisIndex: 1,
+            barMaxWidth:20,//最大宽度
+			data:array4,
 			label : {
 				normal : {
 					position : 'top',

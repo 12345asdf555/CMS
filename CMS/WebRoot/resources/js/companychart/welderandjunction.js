@@ -1,13 +1,27 @@
 $(function(){
 	weldDatagrid();
 	insframeworkTree();
-	$("#dtoTime1").datebox({
-		onChange: function (newvalue,oldvalue) {
-			if(newvalue==null || newvalue==""){
-				$("#dtoTime1").datebox('setValue',formatterDate());
-			}
+	$("input",$("#dtoTime1").next("span")).blur(function(){
+		var newvalue = $("#dtoTime1").datebox('getValue');
+		if(newvalue==null || newvalue==""){
+			$("#dtoTime1").datebox('setValue',formatterDate());
 		}
-	})
+		$("#welderTable").datagrid('load',{
+			"parent" : parent,
+			"dtoTime" : newvalue
+		})
+	});
+//	$("#dtoTime1").datebox({
+//		onBlur: function (newvalue,oldvalue) {
+//			if(newvalue==null || newvalue==""){
+//				$("#dtoTime1").datebox('setValue',formatterDate());
+//			}
+//			$("#welderTable").datagrid('load',{
+//				"parent" : parent,
+//				"dtoTime" : $("#dtoTime1").datebox('getValue')
+//			})
+//		}
+//	})
 	$("#dtoTime1").datebox('setValue',formatterDate());
 });
 var chartStr = "";
@@ -23,7 +37,7 @@ function weldDatagrid(){
 		idField : 'id',
 		pageSize : 5,
 		pageList : [ 5,10, 15, 20],
-		url : "welder/getOverWelder?dtoTime="+formatterDate(),
+		url : "welder/getOverWelder",
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,
@@ -171,14 +185,19 @@ function weldedJunctionDatagrid(){
 }
 
 function serachjunction(){
-	var row = $("#welderTable").datagrid('getSelected');
-	if(row==null){
-		alert("请先选择焊工！");
+	var total = $("#welderTable").datagrid("getData").total;
+	if(total == 0){
+		alert("该时间内无超标焊工！");
 	}else{
-		chartStr = "";
-		setParam();
-		chartStr += "&welder="+row.welderno;
-		weldedJunctionDatagrid();
+		var row = $("#welderTable").datagrid('getSelected');
+		if(row==null){
+			alert("请先选择焊工！");
+		}else{
+			chartStr = "";
+			setParam();
+			chartStr += "&welder="+row.welderno;
+			weldedJunctionDatagrid();
+		}
 	}
 }
 
@@ -212,12 +231,16 @@ function formatterDate(){
     return year+"-"+month+"-"+day;
 }
 
+var parent = "";
 function insframeworkTree(){
 	$("#myTree").tree({  
 		onClick : function(node){
+			parent = node.id;
 			$("#welderTable").datagrid('load',{
-				"parent" : node.id
-			})
+				"parent" : parent,
+				"dtoTime" : $("#dtoTime1").datebox('getValue')
+			});
+			$('#weldedJunctionTable').datagrid('loadData',{total:0,rows:[]})
 		 }
 	})
 }

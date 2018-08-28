@@ -331,7 +331,7 @@
 		SELECT SUM(fworktime)/60/60 AS hous, fmaterial, fexternal_diameter, fwall_thickness, fnextExternal_diameter,fnext_material nextmaterial , fnextwall_thickness,group_concat(distinct(j.fid)) jidgather,j.fitemid itemid
 		FROM tb_work l
 		INNER JOIN tb_welded_junction j ON l.fjunction_id = j.fwelded_junction_no
-		INNER JOIN tb_insframework i ON i.fid = l.fitemid
+		INNER JOIN tb_insframework i ON i.fid = l.fitemid and j.fitemId = i.fid
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
 		WHERE j.fend_time is not null AND i.ftype =23
 		<if test="dto!=null and dto!=''">
@@ -356,7 +356,7 @@
 				and (${dto.search})
 			</if>
 		</if>
-		GROUP BY fmaterial, fexternal_diameter, fwall_thickness, fnextExternal_diameter,fnext_material,fnextwall_thickness,l.fitemid
+		GROUP BY fmaterial, fexternal_diameter, fwall_thickness, fnextExternal_diameter,fnext_material,fnextwall_thickness,i.fid
 		 )temp
 	</select>
 	
@@ -382,8 +382,8 @@
 		SELECT SUM(fworktime)/60/60 AS hous,  fdyne dyne, fjunction_id fname, j.fid fid,j.fstart_time starttime,j.fend_time endtime,i.fname iname,GROUP_CONCAT(DISTINCT(w.fname)) fwelder_id
 		FROM tb_work l
 		INNER JOIN tb_welded_junction j ON l.fjunction_id = j.fwelded_junction_no
-		INNER JOIN tb_insframework i ON l.fitemid = i.fid
-		Left JOIN tb_welder w ON w.fwelder_no = l.fwelder_id
+		INNER JOIN tb_insframework i ON l.fitemid = i.fid and j.fitemId = i.fid
+		Left JOIN tb_welder w ON w.fwelder_no = l.fwelder_id and w.fItemID = l.fitemid
 		WHERE i.ftype =23
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
