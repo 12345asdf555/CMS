@@ -14,7 +14,7 @@ function setParam(){
 	var item = $("#item").combobox("getValue");
 	otype = $("input[name='otype']:checked").val();
 	var number = $("#number").val();
-	chartStr += "&item="+item+"&otype="+otype+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number;
+	chartStr += "?item="+item+"&otype="+otype+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number;
 }
 
 var array1 = new Array();
@@ -78,12 +78,11 @@ function ItemtimeDatagrid(){
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	var number = $("#number").val();
-	var parent = $("#parent").val();
 	var column = new Array();
 	 $.ajax({  
          type : "post",  
          async : false,
-         url : "itemChart/getItemOvertime?parent="+parent+chartStr,
+         url : "itemChart/getItemOvertime"+chartStr,
          data : {},  
          dataType : "json", //返回数据形式为json  
          success : function(result) {  
@@ -126,7 +125,7 @@ function ItemtimeDatagrid(){
 			idField : 'id',
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
-			url : "itemChart/getItemOvertime?parent="+parent+chartStr,
+			url : "itemChart/getItemOvertime"+chartStr,
 			singleSelect : true,
 			rownumbers : true,
 			showPageList : false,
@@ -160,6 +159,9 @@ function ItemtimeCombobox(){
 	$("#item").combobox();
 	var data = $("#item").combobox('getData');
 	$("#item").combobox('select',data[0].value);
+	if($("#parent").val()){
+		$("#item").combobox('select',$("#parent").val());
+	}
 }
 
 

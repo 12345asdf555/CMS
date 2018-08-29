@@ -592,7 +592,6 @@ public class ItemChartController {
 	public String getItemOvertime(HttpServletRequest request){
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
-		String parentId = request.getParameter("parent");
 		String item = request.getParameter("item");
 		String type = request.getParameter("otype");
 		String number = request.getParameter("number");
@@ -603,9 +602,7 @@ public class ItemChartController {
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
-		if(iutil.isNull(parentId)){
-			dto.setParent(new BigInteger(parentId));
-		}else{
+		if(iutil.isNull(item)){
 			dto.setParent(new BigInteger(item));
 		}
 		if(iutil.isNull(type)){
