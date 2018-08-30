@@ -765,7 +765,7 @@ window.setInterval(function(){
 	showChart();
 	//清空数组
 	liveary.length = 0;
-},10000);
+},30000);
 
 //状态按钮点击事件
 function statusClick(statusnum){
