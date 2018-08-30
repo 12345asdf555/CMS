@@ -2,7 +2,7 @@ var insfid;
 var charts;
 var websocketURL, dic, starows, redata, symbol=0, machine, welderName;
 var worknum=0, standbynum=0, overproofnum=0, offnum=0, overtimenum=0, flag = 0;
-
+var liveary = new Array();
 $(function() {
 	loadtree();
 	websocketUrl();
@@ -12,40 +12,6 @@ $(function() {
 	$("#status").combobox({
 		onChange : function(newValue, oldValue){
 			statusClick(newValue);
-			/*for(var i=0;i<machine.length;i++){
-				var img;
-				var status = $("#status"+machine[i].fid).val();
-				if(status == 0 || status == 3){
-					img = "resources/images/welder_03.png";
-				}else if(status == 1 || status == 4){
-					img = "resources/images/welder_02.png";
-				}else if(status == 2){
-					img = "resources/images/welder_04.png";
-				}else if(status == 3){
-					img = "resources/images/welder_01.png";
-				}
-				for(var j=0;j<starows.length;j++){
-					if(machine[i].fid==parseInt(starows[j].fname)){
-						if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
-//							overtimenum+=1;
-							$("#status"+starows[j].fname).val(4);
-							$("#img"+starows[j].fname).attr("src","resources/images/welder_05.png");
-						}
-					}
-				}
-				if(status == newValue){
-					$("#machine"+machine[i].fid).show();
-					if(status!=4){
-						$("#img"+machine[i].fid).attr("src",img);
-					}
-					
-				}else{
-					$("#machine"+machine[i].fid).hide();
-					if(status!=4){
-						$("#img"+machine[i].fid).attr("src",img);
-					}
-				}
-			}*/
 		}
 	});
 })
@@ -87,6 +53,8 @@ function loadtree() {
 				$('#myTree').tree('select', defaultnode.target);
 				$('#itemname').html(defaultnode.text);
 				getMachine(insfid);
+				//初始化
+				showChart();
 			}
 
 		},
@@ -94,7 +62,7 @@ function loadtree() {
 		onClick : function(node) {
 			document.getElementById("load").style.display="block";
 			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
-			$("#body").append(sh);
+			$("#bodydiv").append(sh);
 			document.getElementById("show").style.display="block";
 			var dtoTime1 = getNowFormatDate(new Date().getTime() - 7200 * 1000);
 			var dtoTime2 = getNowFormatDate(new Date().getTime());
@@ -150,7 +118,6 @@ function loadtree() {
 					
 				}
 			}, 10000);
-//			getOvertime();
 		}
 	});
 }
@@ -254,6 +221,7 @@ function getNowFormatDate(millsTime) {
 	return CurrentDate;
 }
 
+//获取焊机及焊工信息
 function getMachine(insfid) {
 	if (insfid == "" || insfid == null) {
 		var url = "td/getAllPosition";
@@ -271,7 +239,8 @@ function getMachine(insfid) {
 				machine = eval(result.rows);
 				$("#machinenum").html(machine.length);
 				$("#off").html(machine.length);
-				showChart();
+//				showChart();
+				$("#curve").html();
 				for(var i=0;i<machine.length;i++){
 					var str = '<div id="machine'+machine[i].fid+'" style="width:200px;height:120px;float:left;display:none">'+
 						'<div style="float:left;width:40%;height:100%;"><a href="td/goNextcurve?value='+machine[i].fid+'&valuename='+machine[i].fequipment_no+'"><img id="img'+machine[i].fid+'" src="resources/images/welder_04.png" style="height:100px;width:100%;padding-top:10px;"></a></div>'+
@@ -378,63 +347,48 @@ function webclient() {
 //获取实时数据
 function iview() {
 	if(flag==0){
-		if(starows.length!=0){
-			if(machine!=null && machine!=""){
-		        for(var i=0;i<machine.length;i++){
-		        	var stalen = starows.length;
-		        	for(var j=0;j<stalen;j++){
-		        		if(machine[i].fid==parseInt(starows[j].fname)){
-		        			if(machine[i].finsid==insfid){
-//							$("#m6"+machine[i].fid).html("超时待机");
-//							$("#status"+machine[i].fid).val(4);
-//							$("#img"+machine[i].fid).attr("src","resources/images/welder_05.png");
-//		        			starows[j].ftime=0;
-//		        			starows[starows.length/2+j].ftime=0;
-		        			}
-		        		}    
-		        	}
-		        }
-			}
-//			starows.length=0;
-		};
+		if(machine!=null){
+			document.getElementById("load").style.display="block";
+			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+			$("#bodydiv").append(sh);
+			document.getElementById("show").style.display="block";
+		}
 		window.setTimeout(function() {
-			worknum=0, standbynum=0, overproofnum=0, offnum=0, overtimenum=0;
+			tempary = liveary;
+			worknum=0, standbynum=0, overproofnum=0, offnum=machine.length-tempary.length, overtimenum=0;
 			for(var i=0;i<machine.length;i++){
-				var img;
-				var status = $("#status"+machine[i].fid).val();
-				if(status == 0){
-					worknum += 1;
-					img = "resources/images/welder_03.png";
-				}else if(status == 1||status == 4||status == 3){
-					standbynum += 1;
-					img = "resources/images/welder_02.png";
-				}else if(status == 2){
-					offnum += 1;
-					img = "resources/images/welder_04.png";
-				}else if(status == 3){
-					overproofnum += 1;
-					img = "resources/images/welder_01.png";
-				}else if(status == 4){
-			          overtimenum += 1;
-			          img = "resources/images/welder_05.png";
-		        }
 				$("#machine"+machine[i].fid).hide();
-				if(status!=4){
-					$("#img"+machine[i].fid).attr("src",img);
+				for(var j=0;j<starows.length;j++){
+					if(parseInt(starows[j].fname)==machine[i].fid){
+						if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
+							overtimenum+=1;
+							$("#status"+starows[j].fname).val(4);
+							$("#img"+starows[j].fname).attr("src","resources/images/welder_05.png");
+						}
+					}
 				}
-				if($("#status").combobox('getValue') == 1){
-					if(status == 1||status == 4||status == 3){
-						$("#machine"+machine[i].fid).show();
-						$("#img"+machine[i].fid).attr("src",img);
+			}
+			for(var j=0;j<tempary.length;j++){
+				var status = $("#status"+tempary[j]).val();
+				if(status == 0||status == 3){
+					worknum += 1;
+				}else if(status == 1||status == 4){
+					standbynum += 1;
+				}
+				if(status == 3){
+					overproofnum += 1;
+				}
+				var statusnum = $("#status").combobox('getValue');
+				if(statusnum == 0){
+					if(status == 0||status == 3){
+						$("#machine"+tempary[j]).show();
 					}
-				}else if(status == $("#status").combobox('getValue')){
-					$("#machine"+machine[i].fid).show();
-					if(status!=4){
-						$("#img"+machine[i].fid).attr("src",img);
-					}else{
-						$("#img"+machine[i].fid).attr("src","resources/images/welder_05.png");
+				}else if(statusnum == 1){
+					if(status == 1||status == 4){
+						$("#machine"+tempary[j]).show();
 					}
-					
+				}else if(status == statusnum){
+					$("#machine"+tempary[j]).show();
 				}
 			}
 			$("#standby").html(standbynum);
@@ -445,24 +399,33 @@ function iview() {
 			showChart();
     		document.getElementById("load").style.display ='none';
     		document.getElementById("show").style.display ='none';
-    		flag=2;
-    		var len = starows.length;
-    		starows.splice(len/2, len/2);
 		},5000);
-//		flag = 1;
+		flag=2;
 	}
 	for (var i = 0; i < redata.length; i += 89) {
 //		if (redata.substring(8 + i, 12 + i) != "0000") {
 		if(machine!=null && machine!=""){
 			for(var f=0;f<machine.length;f++){
+				var machineflag = false;
+				for(var x=0;x<liveary.length;x++){
+					if(liveary[x]==machine[f].fid){
+						machineflag = true;
+					}
+				}
+				if(!machineflag){
+					$("#m3"+machine[f].fid).html("--");
+					$("#m4"+machine[f].fid).html("--A");
+					$("#m5"+machine[f].fid).html("--V");
+					$("#m6"+machine[f].fid).html("关机");
+					$("#status"+machine[f].fid).val(2);
+					$("#img"+machine[f].fid).attr("src","resources/images/welder_04.png");
+				}
 				if(machine[f].fid==(parseInt(redata.substring(4+i, 8+i)))){
 					for(var k=0;k<welderName.length;k++){
 						if(welderName[k].fwelder_no==redata.substring(8+i, 12+i)){
 							$("#m3"+machine[f].fid).html(welderName[k].fname);
 						}
 					}
-					$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
-					$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
 					var liveele = parseInt(redata.substring(12+i, 16+i));
 		            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
 		            var maxele = parseInt(redata.substring(61+i, 64+i));
@@ -476,28 +439,122 @@ function iview() {
 						if(status == 4){
 							break;
 						}
-						$("#m6"+machine[f].fid).html("待机");
-						$("#status"+machine[f].fid).val(1);
-//						$("#img"+machine[f].fid).attr("src","resources/images/welder_02.png");
+						if(liveary.length==0){
+							liveary.push(machine[f].fid);
+							$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+							$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+							$("#m6"+machine[f].fid).html("待机");
+							$("#status"+machine[f].fid).val(1);
+							$("#img"+machine[f].fid).attr("src","resources/images/welder_02.png");
+						}else{
+							var tempflag = false;
+							for(var x=0;x<liveary.length;x++){
+								if(liveary[x] == machine[f].fid){
+									tempflag = true;
+								}
+							}
+							if(!tempflag){
+								liveary.push(machine[f].fid);
+								$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+								$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+								$("#m6"+machine[f].fid).html("待机");
+								$("#status"+machine[f].fid).val(1);
+								$("#img"+machine[f].fid).attr("src","resources/images/welder_02.png");
+							}
+						}
 						break;
 					case "03":
-						if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
-							$("#m6"+machine[f].fid).html("超标");
-							$("#status"+machine[f].fid).val(3);
-//							$("#img"+machine[f].fid).attr("src","resources/images/welder_01.png");
+						if(liveary.length==0){
+							liveary.push(machine[f].fid);
+							$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+							$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+							if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
+								$("#m6"+machine[f].fid).html("超标");
+								$("#status"+machine[f].fid).val(3);
+								$("#img"+machine[f].fid).attr("src","resources/images/welder_01.png");
+							}else{
+								$("#m6"+machine[f].fid).html("工作");
+								$("#status"+machine[f].fid).val(0);
+								$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+							}
 						}else{
-							$("#m6"+machine[f].fid).html("工作");
-							$("#status"+machine[f].fid).val(0);
-//							$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+							var tempflag = false;
+							for(var x=0;x<liveary.length;x++){
+								if(liveary[x] == machine[f].fid){
+									tempflag = true;
+								}
+							}
+							if(!tempflag){
+								if(liveary[x] != machine[f].fid){
+									liveary.push(machine[f].fid);
+									$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+									$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+									if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
+										$("#m6"+machine[f].fid).html("超标");
+										$("#status"+machine[f].fid).val(3);
+										$("#img"+machine[f].fid).attr("src","resources/images/welder_01.png");
+									}else{
+										$("#m6"+machine[f].fid).html("工作");
+										$("#status"+machine[f].fid).val(0);
+										$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+									}
+								}
+							}
 						}
 						break;
 					case "05":
-						$("#m6"+machine[f].fid).html("工作");
-						$("#status"+machine[f].fid).val(0);
+						if(liveary.length==0){
+							liveary.push(machine[f].fid);
+							$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+							$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+							$("#m6"+machine[f].fid).html("工作");
+							$("#status"+machine[f].fid).val(0);
+							$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+						}else{
+							var tempflag = false;
+							for(var x=0;x<liveary.length;x++){
+								if(liveary[x] == machine[f].fid){
+									tempflag = true;
+								}
+							}
+							if(!tempflag){
+								if(liveary[x] != machine[f].fid){
+									liveary.push(machine[f].fid);
+									$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+									$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+									$("#m6"+machine[f].fid).html("工作");
+									$("#status"+machine[f].fid).val(0);
+									$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+								}
+							}
+						}
 						break;
 					case "07":
-						$("#m6"+machine[f].fid).html("工作");
-						$("#status"+machine[f].fid).val(0);
+						if(liveary.length==0){
+							liveary.push(machine[f].fid);
+							$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+							$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+							$("#m6"+machine[f].fid).html("工作");
+							$("#status"+machine[f].fid).val(0);
+							$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+						}else{
+							var tempflag = false;
+							for(var x=0;x<liveary.length;x++){
+								if(liveary[x] == machine[f].fid){
+									tempflag = true;
+								}
+							}
+							if(!tempflag){
+								if(liveary[x] != machine[f].fid){
+									liveary.push(machine[f].fid);
+									$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+									$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+									$("#m6"+machine[f].fid).html("工作");
+									$("#status"+machine[f].fid).val(0);
+									$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+								}
+							}
+						}
 						break;
 					}
 				}
@@ -543,7 +600,7 @@ function iview() {
 //饼图统计
 function showChart(){
    	//初始化echart实例
-	charts = echarts.init(document.getElementById("piecharts"));
+	var charts = echarts.init(document.getElementById("piecharts"));
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -551,7 +608,14 @@ function showChart(){
 	});
 	option = {
 		tooltip:{
-			trigger: 'item'
+			trigger: 'item',
+			formatter: function(param){
+				if(param.name=="其它"){
+					return "";
+				}else{
+					return '<div>实时统计<div>'+'<div style="float:left;margin-top:5px;border-radius:50px;border:solid rgb(100,100,100) 1px;width:10px;height:10px;background-color:'+param.color+'"></div><div style="float:left;">&nbsp;'+param.name+'：'+param.value+'%<div>';
+				}
+			}
 		},
 		toolbox:{
 			feature:{
@@ -563,14 +627,11 @@ function showChart(){
 			name:'实时统计',
 			type:'pie',
 			radius : ['55%', '70%'],
-//            center: ['50%', '50%'],
             color:['#FFB90F','#7cbc16','#818181'],
 			data:[
-                {value:($("#standby").html()/$("#machinenum").html()*100).toFixed(2), name:'待机'},
-                {value:($("#work").html()/$("#machinenum").html()*100).toFixed(2), name:'工作'},
-                {value:($("#off").html()/$("#machinenum").html()*100).toFixed(2), name:'关机'}/*,
-                {value:($("#overproof").html()/$("#machinenum").html()*100).toFixed(2), name:'超标'},
-                {value:($("#overtime").html()/$("#machinenum").html()*100).toFixed(2), name:'超时'}*/
+                {value:($("#standby").html()/$("#machinenum").html()*100).toFixed(2), name:'待机', id :1},
+                {value:($("#work").html()/$("#machinenum").html()*100).toFixed(2), name:'工作', id :0},
+                {value:($("#off").html()/$("#machinenum").html()*100).toFixed(2), name:'关机', id :2}
             ],
       		itemStyle : {
       			normal: {
@@ -584,17 +645,21 @@ function showChart(){
 		},{
 			name:'超标统计',
 			type:'pie',
-			radius : ['35%', '50%'],
-//            center: ['50%', '50%'],
-            color:['#818181','#c4370c'],
+			radius : ['40%', '50%'],
+            color:['#c4370c','#ffffff'],
 			data:[
-                {value:(($("#machinenum").html()-$("#overproof").html())/$("#machinenum").html()*100).toFixed(2), name:'其它'},
-                {value:($("#overproof").html()/$("#machinenum").html()*100).toFixed(2), name:'超标'}
+                {value:($("#overproof").html()/$("#machinenum").html()*100).toFixed(2), name:'超标', id :3},
+                {value:(($("#machinenum").html()-$("#overproof").html())/$("#machinenum").html()*100).toFixed(2), name:'其它'}
             ],
+            hoverAnimation:false,//鼠标悬停区域不放大
+            label: {
+                normal: {
+                    show: false
+                }
+            },
             labelLine: {
                 normal: {
-                    length: 30,
-                    length2: 50
+                    show: false
                 }
             },
       		itemStyle : {
@@ -609,17 +674,21 @@ function showChart(){
 		},{
 			name:'超时待机统计',
 			type:'pie',
-			radius : ['15%', '30%'],
-//            center: ['50%', '50%'],
-            color:['#55a7f3','#55a7f3'],
+			radius : ['25%', '35%'],
+            color:['#55a7f3','#ffffff'],
 			data:[
-                {value:(($("#machinenum").html()-$("#overtime").html())/$("#machinenum").html()*100).toFixed(2), name:'其它'},
-                {value:($("#overtime").html()/$("#machinenum").html()*100).toFixed(2), name:'超时待机'}
+                {value:($("#overtime").html()/$("#machinenum").html()*100).toFixed(2), name:'超时待机', id :4},
+                {value:(($("#machinenum").html()-$("#overtime").html())/$("#machinenum").html()*100).toFixed(2), name:'其它'}
             ],
+            hoverAnimation:false,//鼠标悬停区域不放大
+            label: {
+                normal: {
+                    show: false
+                }
+            },
             labelLine: {
                 normal: {
-                    length: 30,
-                    length2: 60
+                    show: false
                 }
             },
       		itemStyle : {
@@ -633,50 +702,28 @@ function showChart(){
       		}
 		}]
 	}
-	//为echarts对象加载数据
+	// 1、清除画布
+	charts.clear();
+	// 2、为echarts对象加载数据
 	charts.setOption(option);
+    ///3、在渲染点击事件之前先清除点击事件
+    charts.off('click');
 	//隐藏动画加载效果
 	charts.hideLoading();
-	//echarts 点击事件
+	// 4、echarts 点击事件
 	charts.on('click', function (param) {
-		var status;
-		if(param.name=="工作"){
-			status = 0;
-		}else if(param.name=="待机"){
-			status = 1;
-		}else if(param.name=="关机"){
-			status = 2;
-		}else if(param.name=="超标"){
-			status = 3;
-		}else if(param.name=="超时"){
-			status = 4;
-		}
-		statusClick(status);
+		statusClick(param.data.id);
 	});
 	$("#chartLoading").hide();
 }
 
-//每分钟刷新一次
-var timer = window.setInterval(fun,60000);
-
-var fun = function() {
-	getMachine(insfid);
-	worknum=0, standbynum=0, overproofnum=0, offnum=0, overtimenum=0;
+//每30'刷新一次
+var tempary = new Array();
+window.setInterval(function(){
+	tempary = liveary;
+	worknum=0, standbynum=0, overproofnum=0, offnum=machine.length-tempary.length, overtimenum=0;
 	for(var i=0;i<machine.length;i++){
-		var status = $("#status"+machine[i].fid).val();
-		if(status == 0){
-			worknum += 1;
-			img = "resources/images/welder_03.png";
-		}else if(status == 1||status == 4||status == 3){
-			standbynum += 1;
-			img = "resources/images/welder_02.png";
-		}else if(status == 2){
-			offnum += 1;
-			img = "resources/images/welder_04.png";
-		}else if(status == 3){
-			overproofnum += 1;
-			img = "resources/images/welder_01.png";
-		}
+		$("#machine"+machine[i].fid).hide();
 		for(var j=0;j<starows.length;j++){
 			if(parseInt(starows[j].fname)==machine[i].fid){
 				if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
@@ -686,22 +733,28 @@ var fun = function() {
 				}
 			}
 		}
-		$("#machine"+machine[i].fid).hide();
-		if(status!=4){
-			$("#img"+machine[i].fid).attr("src",img);
+	}
+	for(var j=0;j<tempary.length;j++){
+		var status = $("#status"+tempary[j]).val();
+		if(status == 0||status == 3){
+			worknum += 1;
+		}else if(status == 1||status == 4){
+			standbynum += 1;
 		}
-		if($("#status").combobox('getValue') == 1){
-			if(status == 1||status == 4||status == 3){
-				$("#machine"+machine[i].fid).show();
-				$("#img"+machine[i].fid).attr("src",img);
+		if(status == 3){
+			overproofnum += 1;
+		}
+		var statusnum = $("#status").combobox('getValue')
+		if(statusnum == 0){
+			if(status == 0||status == 3){
+				$("#machine"+tempary[j]).show();
 			}
-		}else if(status == $("#status").combobox('getValue')){
-			$("#machine"+machine[i].fid).show();
-			if(status!=4){
-				$("#img"+machine[i].fid).attr("src",img);
-			}else{
-				$("#img"+machine[i].fid).attr("src","resources/images/welder_05.png");
+		}else if(statusnum == 1){
+			if(status == 1||status == 4){
+				$("#machine"+tempary[j]).show();
 			}
+		}else if(status == statusnum){
+			$("#machine"+tempary[j]).show();
 		}
 	}
 	$("#standby").html(standbynum);
@@ -710,58 +763,18 @@ var fun = function() {
 	$("#overproof").html(overproofnum);
 	$("#overtime").html(overtimenum);
 	showChart();
-}
-
-//统计超时
-function getOvertime(){
-	getMsg();
-	if(starows.length!=0){
-        for(var i=0;i<machine.length;i++){
-        	for(var j=0;j<starows.length/2;j++){
-        		if(machine[i].fid==parseInt(starows[j].fname)){
-        			var count = (parseInt(starows[j].ftime)/parseInt(starows[starows.length/2+j].ftime)).toFixed(2);
-        			if(count>(parseInt(dic[0].name)/100).toFixed(2)){
-						$("#m6"+machine[i].fid).html("超时待机");
-						$("#status"+machine[i].fid).val(4);
-        			}
-        			starows[j].ftime=0;
-        			starows[starows.length/2+j].ftime=0;
-        		}    
-        	}
-        }
-	};
-}
+	//清空数组
+	liveary.length = 0;
+},10000);
 
 //状态按钮点击事件
 function statusClick(statusnum){
-	window.clearInterval(timer);
-	getMachine(insfid);
-	var img;
-	worknum=0, standbynum=0, overproofnum=0, offnum=0, overtimenum=0;
+	$("#status").combobox('setValue',statusnum);
+	worknum=0, standbynum=0, overproofnum=0, offnum=machine.length-tempary.length, overtimenum=0;
 	for(var i=0;i<machine.length;i++){
-		var status = $("#status"+machine[i].fid).val();
-//		if(statusnum==0){
-			if(status == 0||status == 3){
-				worknum += 1;
-				img = "resources/images/welder_03.png";
-				
-//			}
-		}
-//			else if(statusnum==1){
-			if(status == 1||status == 4){
-				standbynum += 1;
-				img = "resources/images/welder_02.png";
-			}
-//		}
-		if(status == 2){
-			offnum += 1;
-			img = "resources/images/welder_04.png";
-		}else if(status == 3){
-			overproofnum += 1;
-			img = "resources/images/welder_01.png";
-		}
+		$("#machine"+machine[i].fid).hide();
 		for(var j=0;j<starows.length;j++){
-			if(machine[i].fid==parseInt(starows[j].fname)){
+			if(parseInt(starows[j].fname)==machine[i].fid){
 				if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
 					overtimenum+=1;
 					$("#status"+starows[j].fname).val(4);
@@ -769,28 +782,27 @@ function statusClick(statusnum){
 				}
 			}
 		}
-		$("#machine"+machine[i].fid).hide();
-		if(status!=4){
-			$("#img"+machine[i].fid).attr("src",img);
+	}
+	for(var j=0;j<tempary.length;j++){
+		var status = $("#status"+tempary[j]).val();
+		if(status == 0||status == 3){
+			worknum += 1;
+		}else if(status == 1||status == 4){
+			standbynum += 1;
+		}
+		if(status == 3){
+			overproofnum += 1;
 		}
 		if(statusnum == 0){
 			if(status == 0||status == 3){
-				$("#machine"+machine[i].fid).show();
-				$("#img"+machine[i].fid).attr("src",img);
+				$("#machine"+tempary[j]).show();
 			}
 		}else if(statusnum == 1){
 			if(status == 1||status == 4){
-				$("#machine"+machine[i].fid).show();
-				$("#img"+machine[i].fid).attr("src",img);
+				$("#machine"+tempary[j]).show();
 			}
 		}else if(status == statusnum){
-			$("#machine"+machine[i].fid).show();
-			if(status!=4){
-				$("#img"+machine[i].fid).attr("src",img);
-			}else{
-				$("#img"+machine[i].fid).attr("src","resources/images/welder_05.png");
-			}
-			
+			$("#machine"+tempary[j]).show();
 		}
 	}
 	$("#standby").html(standbynum);
@@ -798,21 +810,12 @@ function statusClick(statusnum){
 	$("#off").html(offnum);
 	$("#overproof").html(overproofnum);
 	$("#overtime").html(overtimenum);
-	showChart();
-	
-	timer = window.setInterval(fun,60000);
 }
-
-//每小时统计超时
-/*window.setInterval(function() {
-	getOvertime();
-}, 3600*1000)*/
 
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);
 }
-
 
 //改变图表高宽
 function domresize() {

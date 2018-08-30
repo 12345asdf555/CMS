@@ -463,6 +463,7 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getBlocRunTime(Page page, BigInteger parent, WeldDto dto, int startindex, int endindex);
+	List<ModelDto> getBlocRunTime(BigInteger parent, WeldDto dto, int startindex, int endindex);
 	
 	/**
 	 * 设备利用率

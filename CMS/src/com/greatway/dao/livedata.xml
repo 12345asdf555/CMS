@@ -2107,7 +2107,7 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
-		GROUP BY fmachine_id order by time limit #{endindex} OFFSET #{startindex}
+		GROUP BY fmachine_id limit #{endindex} OFFSET #{startindex}
 		)TEMP order by time desc
 	</select>
 	

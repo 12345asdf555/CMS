@@ -999,12 +999,6 @@ public class BlocChartController {
 	@RequestMapping("/gerBlocRunTime")
 	@ResponseBody
 	public String getBlocRunTime(HttpServletRequest request){
-		if(iutil.isNull(request.getParameter("page"))){
-			pageIndex = Integer.parseInt(request.getParameter("page"));
-		}
-		if(iutil.isNull(request.getParameter("rows"))){
-			pageSize = Integer.parseInt(request.getParameter("rows"));
-		}
 		String parentid = request.getParameter("parent");
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
@@ -1025,8 +1019,15 @@ public class BlocChartController {
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
-		Page page = new Page(pageIndex, pageSize, total);
-		List<ModelDto> list = lm.getBlocRunTime(page, parent, dto, rank1, rank2);
+		List<ModelDto> list = null;
+		if(iutil.isNull(request.getParameter("page")) && iutil.isNull(request.getParameter("rows"))){
+			pageIndex = Integer.parseInt(request.getParameter("page"));
+			pageSize = Integer.parseInt(request.getParameter("rows"));
+			page = new Page(pageIndex,pageSize,total);
+			list = lm.getBlocRunTime(page, parent, dto, rank1, rank2);
+		}else{
+			list = lm.getBlocRunTime(parent, dto, rank1, rank2);
+		}
 		long total = 0;
 		if(list!=null){
 			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);

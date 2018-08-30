@@ -108,7 +108,7 @@ public class MaintainController {
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String weldingmachineId = request.getParameter("wid");
 		String parent = request.getParameter("parent");
-		String str = request.getParameter("str");
+		String str = "";
 		String searchStr = request.getParameter("searchStr");
 		BigInteger parentid = null;
 		if(iutil.isNull(parent)){
@@ -119,6 +119,7 @@ public class MaintainController {
 				    .getPrincipal();
 			long uid = myuser.getId();
 			parentid = im.getUserInsfId(BigInteger.valueOf(uid));
+			str = request.getParameter("str");
 		}
 		if(iutil.isNull(searchStr)){
 			if(iutil.isNull(str)){

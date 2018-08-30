@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 <body class="easyui-layout">
 	<jsp:include  page="../insframeworktree.jsp"/>
-	<div id="body" region="center"  hide="true"  split="true" title="焊机实时状态监测" style="background: #fff; width:600px;height: 335px;">
+	<div id="bodydiv" region="center"  hide="true"  split="true" title="焊机实时状态监测" style="background: #fff; width:600px;height: 335px;">
 		<!-- 饼图 -->
 		<div id="piecharts" style="float:left; height:250px; width:49.5%;border:1px solid #C4C4C4;"></div>
 		<!-- 实时信息 -->

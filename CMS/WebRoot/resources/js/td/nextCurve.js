@@ -543,26 +543,50 @@ function iview() {
 						}
 					}
 				}
+				if(starows.length==0){
+					var arr  =
+				     {
+				         "fname" : redata.substring(4+i, 8+i),
+				         "ftime" : 1
+				     }
+					starows.push(arr);
+				}else{
+					for(var sta=0;sta<starows.length;sta++){
+						if(redata.substring(4+i, 8+i)==starows[sta].fname){
+							if(redata.substring(0+i, 2+i)=="00"){
+								starows[sta].ftime++;
+							}else{
+								starows[sta].ftime=0;
+							}
+							break;
+						}else{
+							if(sta==starows.length-1){
+								var arr  =
+							     {
+							         "fname" : redata.substring(4+i, 8+i),
+							         "ftime" : 1
+							     }
+								starows.push(arr);
+							}
+						}
+					}
+				}
 			}
 //		}
 		z++;
 		if(flag==0){
 			if(starows.length!=0){
-	        	for(var j=0;j<starows.length/2;j++){
-	        		if(document.getElementById("inn2").value==starows[j].fname){
-	        			var count = (parseInt(starows[j].ftime)/parseInt(starows[starows.length/2+j].ftime)).toFixed(2);
-	        			if(count>(parseInt(dic[0].name)/100).toFixed(2)){
+	        	for(var j=0;j<starows.length;j++){
+	        		if(document.getElementById("in2").value==starows[j].fname){
 							document.getElementById("in4").value = "超时待机";
 							document.getElementById("in4").style.backgroundColor = "#55a7f3";
 							document.getElementById("mrjpg").src = "resources/images/welder_05.png";
-	        			}
-	        			starows[j].ftime=0;
-	        			starows[starows.length/2+j].ftime=0;
 	        		}    
 	        	}
 			};
 			flag == 1;
 		}
+		
 	}
 	if ((time.length) % 3 == 1) {
 		ele[time.length] = ele[time.length - 1];
@@ -599,9 +623,9 @@ function getOvertime(){
 }
 
 //每小时统计超时
-window.setInterval(function() {
+/*window.setInterval(function() {
 	getOvertime();
-}, 3600*1000)
+}, 3600*1000)*/
 
 
 //监听窗口大小变化

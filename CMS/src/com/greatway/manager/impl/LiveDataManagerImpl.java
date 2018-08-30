@@ -653,4 +653,9 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getUseDetail(fid, type, dto);
 	}
 
+	@Override
+	public List<ModelDto> getBlocRunTime(BigInteger parent, WeldDto dto, int startindex, int endindex) {
+		return live.getBlocRunTime(parent, dto, startindex, endindex);
+	}
+
 }
