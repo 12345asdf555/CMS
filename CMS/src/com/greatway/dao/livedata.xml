@@ -2107,8 +2107,8 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
-		GROUP BY fmachine_id limit #{endindex} OFFSET #{startindex}
-		)TEMP order by time desc
+		GROUP BY fmachine_id order by time desc limit #{endindex} OFFSET #{startindex} 
+		)TEMP
 	</select>
 	
 	<select id="getUseratio" resultMap="dtoMap">

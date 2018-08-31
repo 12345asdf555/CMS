@@ -1,8 +1,8 @@
 var insfid;
 var charts;
-var websocketURL, dic, starows, redata, symbol=0, machine, welderName;
+var websocketURL, dic, starows, redata, symbol=0, welderName;
 var worknum=0, standbynum=0, overproofnum=0, offnum=0, overtimenum=0, flag = 0;
-var liveary = new Array();
+var liveary = new Array(), machine = new Array;
 $(function() {
 	loadtree();
 	websocketUrl();
@@ -721,6 +721,7 @@ function showChart(){
 var tempary = new Array();
 window.setInterval(function(){
 	tempary = liveary;
+	var statusnum = $("#status").combobox('getValue')
 	worknum=0, standbynum=0, overproofnum=0, offnum=machine.length-tempary.length, overtimenum=0;
 	for(var i=0;i<machine.length;i++){
 		$("#machine"+machine[i].fid).hide();
@@ -731,6 +732,17 @@ window.setInterval(function(){
 					$("#status"+starows[j].fname).val(4);
 					$("#img"+starows[j].fname).attr("src","resources/images/welder_05.png");
 				}
+			}
+		}
+		if(statusnum==2){
+			var offflag = true;
+			for(var j=0;j<tempary.length;j++){
+				if(machine[i].fid==tempary[j]){
+					offflag = false;
+				}
+			}
+			if(offflag){
+				$("#machine"+machine[i].fid).show();
 			}
 		}
 	}
@@ -744,7 +756,6 @@ window.setInterval(function(){
 		if(status == 3){
 			overproofnum += 1;
 		}
-		var statusnum = $("#status").combobox('getValue')
 		if(statusnum == 0){
 			if(status == 0||status == 3){
 				$("#machine"+tempary[j]).show();
@@ -782,7 +793,19 @@ function statusClick(statusnum){
 				}
 			}
 		}
+		if(statusnum==2){
+			var offflag = true;
+			for(var j=0;j<tempary.length;j++){
+				if(machine[i].fid==tempary[j]){
+					offflag = false;
+				}
+			}
+			if(offflag){
+				$("#machine"+machine[i].fid).show();
+			}
+		}
 	}
+	
 	for(var j=0;j<tempary.length;j++){
 		var status = $("#status"+tempary[j]).val();
 		if(status == 0||status == 3){
