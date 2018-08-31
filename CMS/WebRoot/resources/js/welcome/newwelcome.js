@@ -292,7 +292,7 @@ function showPersonChart(){
 //		            roseType: 'radius',
 		            label: {
 		                normal: {
-		                	formatter: '{b}:{c}({d}%)',
+		                	formatter: '{b}:\n{c}({d}%)',
 		                    textStyle: {
 		                        color: '#fff'
 		                    }
@@ -303,8 +303,8 @@ function showPersonChart(){
 		                    lineStyle: {
 		                        color: '#fff'
 		                    },
-		                    length: 20,
-		                    length2: 50
+		                    length: 10,
+		                    length2: 40
 		                }
 		            },
 		            animationType: 'scale',
@@ -405,7 +405,7 @@ function showWelderChart(){
 //		            roseType: 'radius',
 		            label: {
 		                normal: {
-			            	formatter: '{b}:{c}({d}%)',
+			            	formatter: '{b}:\n{c}({d}%)',
 		                    textStyle: {
 		                        color: '#fff'
 		                    }
@@ -416,8 +416,8 @@ function showWelderChart(){
 		                    lineStyle: {
 		                        color: '#fff'
 		                    },
-		                    length: 20,
-		                    length2: 50
+		                    length: 10,
+		                    length2: 40
 		                }
 		            },
 		            animationType: 'scale',

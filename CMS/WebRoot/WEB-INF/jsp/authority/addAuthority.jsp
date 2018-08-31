@@ -79,14 +79,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			title : 'id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		},{
 			field : 'resources_name',
 			title : '资源名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}]]
 		
 	});

@@ -21,63 +21,63 @@ function weldDatagrid(){
 			title : '焊工编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'name',
 			title : '焊工姓名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'junction',
 			title : '焊口编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'weldtime',
 			title : '时间段',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'electricity',
 			title : '焊接电流',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'maxelectricity',
 			title : '最大电流',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'minelectricity',
 			title : '最小电流',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'weldtimes',
 			title : '时间数组',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'electricitys',
 			title : '电流数组',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value,row,index){
 				return  '<a id="getoverproof" class="easyui-linkbutton" href="companyChart/searchoverproof?welder='+row.welder+'&junction='+row.junction+'&maxelectricity='+row.maxelectricity+'&minelectricity='+row.minelectricity+'&weldtime='+row.weldtimes+'&electricitys='+row.electricitys+'"/>';
 			}

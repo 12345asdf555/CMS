@@ -26,208 +26,208 @@ function weldedJunctionDatagrid(){
 			title : '序号',
 			width : 30,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'weldedJunctionno',
 			title : '编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'serialNo',
 			title : '序列号',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'pipelineNo',
 			title : '管线号',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'roomNo',
 			title : '房间号',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'roomNo',
 			title : '房间号',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'itemid',
 			title : '组织机构id',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'area',
 			title : '区域',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'systems',
 			title : '系统',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'children',
 			title : '子项',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'externalDiameter',
 			title : '上游外径',
 			width : 60,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextexternaldiameter',
 			title : '下游外径',
 			width : 60,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wallThickness',
 			title : '上游壁厚',
 			width : 60,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextwall_thickness',
 			title : '下游璧厚',
 			width : 60,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'material',
 			title : '上游材质',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'next_material',
 			title : '下游材质',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'dyne',
 			title : '达因',
 			width : 50,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'specification',
 			title : '规格',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'maxElectricity',
 			title : '电流上限',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'minElectricity',
 			title : '电流下限',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'maxValtage',
 			title : '电压上限',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'minValtage',
 			title : '电压下限',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'itemname',
 			title : '所属项目',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'startTime',
 			title : '开始时间',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'endTime',
 			title : '完成时间',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'creatTime',
 			title : '创建时间',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'updateTime',
 			title : '修改时间',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'updatecount',
 			title : '修改次数',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'valtage_unit',
 			title : '电压单位',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'electricity_unit',
 			title : '电流单位',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 250,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter: function(value,row,index){
 				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
 				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
@@ -271,92 +271,92 @@ function wpdDatagrid(){
 			title : 'FID',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'fwpsnum',
 			title : '工艺编号',
 			width : 120,
 			halign : "center",
-			align : "left"
+			align : "center"
 		/*}, {
 			field : 'fname',
 			title : '工艺参数名称',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fweld_i',
 			title : '标准焊接电流',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fweld_v',
 			title : '标准焊接电压',
 			width : 80,
 			halign : "center",
-			align : "left"*/
+			align : "center"*/
 		}, {
 			field : 'fweld_i_max',
 			title : '最大焊接电流',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fweld_i_min',
 			title : '最小焊接电流',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fweld_v_max',
 			title : '最大焊接电压',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fweld_v_min',
 			title : '最小焊接电压',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			/*field : 'fweld_alter_i',
 			title : '报警电流',
 			width : 60,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fweld_alter_v',
 			title : '报警电压',
 			width : 60,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fdiameter',
 			title : '焊丝直径',
 			width : 60,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fweld_prechannel',
 			title : '预置通道',
 			width : 60,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {*/
 			field : 'insname',
 			title : '部门',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'insid',
 			title : '部门id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}] ],
 		toolbar : '#fdlgSearch',

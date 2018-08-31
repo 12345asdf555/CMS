@@ -35,58 +35,58 @@ function insframeworkDatagrid(){
 			title : '序号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'name',
 			title : '名称',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'logogram',
 			title : '简写',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'code',
 			title : '编码',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'parent',
 			title : '上级项目',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'type',
 			title : '类型',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'typeid',
 			title : '类型',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'parentid',
 			title : '父类id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 130,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				var str = "";
 				str += '<a id="edit" class="easyui-linkbutton" href="javascript:editInsframework();"/>';

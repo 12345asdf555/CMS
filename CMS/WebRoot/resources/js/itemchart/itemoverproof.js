@@ -100,7 +100,7 @@ function ItemoverproofDatagrid() {
 					title : "时间跨度(年/月/日/周)",
 					width : width,
 					halign : "center",
-					align : "left"
+					align : "center"
 				});
 
 				for (var m = 0; m < result.arys.length; m++) {
@@ -109,13 +109,13 @@ function ItemoverproofDatagrid() {
 						title : result.arys[m].name + "(min)",
 						width : width,
 						halign : "center",
-						align : "left"
+						align : "center"
 					}, {
 						field : "itemid",
 						title : "项目id",
 						width : width,
 						halign : "center",
-						align : "left",
+						align : "center",
 						hidden : true
 					});
 					array2.push(result.arys[m].name);

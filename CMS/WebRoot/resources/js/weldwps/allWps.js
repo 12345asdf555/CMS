@@ -15,14 +15,14 @@ $(function() {
 			title : 'FID',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'fwpsnum',
 			title : '工艺编号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value,row,index){
 				return "<a href='wps/goShowWps?id="+row.fid+"'>"+value+"</a>";
 			}
@@ -31,19 +31,19 @@ $(function() {
 			title : '版本',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fproject_code',
 			title : '焊工考试项目代号',
 			width : 600,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 130,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value, row, index) {
 				var str = "";
 				str += '<a id="edit" class="easyui-linkbutton" href="wps/goEditWps?id='+row.fid+'"/>';

@@ -130,14 +130,14 @@ function ItemidleDatagrid() {
 					title : "时间跨度(年/月/日/周)",
 					width : width,
 					halign : "center",
-					align : "left"
+					align : "center"
 				});
 				column.push({
 					field : "num",
 					title : "闲置数量(台)",
 					width : width,
 					halign : "center",
-					align : "left"
+					align : "center"
 				});
 				for (var i = 0; i < result.rows.length; i++) {
 					array1.push(result.rows[i].weldTime);

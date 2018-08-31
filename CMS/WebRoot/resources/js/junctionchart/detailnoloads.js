@@ -25,25 +25,25 @@ function detailnoloadsDatagrid(){
 			title : '项目部',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'machineno',
 			title : '设备编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'loads',
 			title : '空载率',
 			width : 200,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}, {
 			field : 'weldtime',
 			title : '日期',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}] ],
 		toolbar : '#detailNoLoad_btn',
 	});

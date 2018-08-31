@@ -20,44 +20,44 @@ function mainDatagrid(){
 			title : '序号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'equipmentNo',
 			title : '固定资产编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'typename',
 			title : '维修类型',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'viceman',
 			title : '维修人员',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'money',
 			title : '维修价格',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'startTime',
 			title : '维修起始时间',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'endTime',
 			title : '维修结束时间',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				if(value == null || value == ""){
 					var str = '<a id="ok" class="easyui-linkbutton" href="javascript:okMaintain('+row.insfid+');"/>';
@@ -70,41 +70,41 @@ function mainDatagrid(){
 			title : '维修说明',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		} , {
 			field : 'typeid',
 			title : '类型id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'wid',
 			title : '设备id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'mid',
 			title : '维修id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'insfid',
 			title : '焊机组织机构id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 130,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				var str = "";
 				str += '<a id="edit" class="easyui-linkbutton" href="javascript:editMaintain();"/>';

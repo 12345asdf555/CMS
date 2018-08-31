@@ -27,7 +27,7 @@
 			title : '资源名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}]]
 		
 	});*/
@@ -52,39 +52,39 @@
 			title : 'id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'authorityName',
 			title : '权限',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
         	field : 'authorityDesc',
 			title : '描述',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'status',
 			title : '状态',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		},{
 			field : 'statusid',
 			title : '状态id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		},{
 			field : 'resources',
 			title : 'URL',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 			var str = "";
 			str += '<a id="resource" class="easyui-linkbutton" href="javascript:resource('+row.id+')"/>';
@@ -95,7 +95,7 @@
 			title : '编辑',
 			width : 130,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row){
 			var str = "";
 			str += '<a id="edit" class="easyui-linkbutton" href="javascript:editAuthorith()"/>';
@@ -179,7 +179,7 @@
 					title : '角色名',
 					width : 100,
 					halign : "center",
-					align : "left"
+					align : "center"
 				}]],      
 			onLoadSuccess:function(data){  
 			if(data){
@@ -239,21 +239,21 @@
         			title : 'id',
         			width : 100,
         			halign : "center",
-        			align : "left",
+        			align : "center",
         			hidden:true
         		},{
         			field : 'symbol',
         			title : 'symbol',
         			width : 100,
         			halign : "center",
-        			align : "left",
+        			align : "center",
         			hidden:true
         		},{
         			field : 'resources_name',
         			title : '资源名',
         			width : 100,
         			halign : "center",
-        			align : "left"
+        			align : "center"
         		}]],
         		onBeforeLoad:function(data){
         			 $('#rtt').datagrid('clearChecked');
@@ -317,14 +317,14 @@
         			title : 'id',
         			width : 100,
         			halign : "center",
-        			align : "left",
+        			align : "center",
         			hidden: true
         		},{
         			field : 'resources_name',
         			title : 'URL',
         			width : 100,
         			halign : "center",
-        			align : "left"
+        			align : "center"
         		}]],
         		rowStyler: function(index,row){
                     if ((index % 2)!=0){
@@ -431,21 +431,21 @@
         			title : 'id',
         			width : 100,
         			halign : "center",
-        			align : "left",
+        			align : "center",
         			hidden:true
         		},{
         			field : 'symbol',
         			title : 'symbol',
         			width : 100,
         			halign : "center",
-        			align : "left",
+        			align : "center",
         			hidden:true
         		},{
         			field : 'resources_name',
         			title : '资源名',
         			width : 100,
         			halign : "center",
-        			align : "left"
+        			align : "center"
         		}]],
         		rowStyler: function(index,row){
                     if ((index % 2)!=0){

@@ -18,7 +18,7 @@ function DictionaryDataGrid(){
       title:'序号',
       width:100,
       halign : "center",
-      align : "left",
+      align : "center",
       hidden:true
     },
     {
@@ -26,20 +26,20 @@ function DictionaryDataGrid(){
       title:'名称',
       width:350,
       halign:"center",
-      align:"left"
+      align:"center"
     }
     ,{
       field:'back',
       title:'类型',
       width:350,
       halign:"center",
-      align:"left"
+      align:"center"
     },{
       field:'typeid',
       title:'类型id',
       width:350,
       halign:"center",
-      align:"left",
+      align:"center",
       hidden:true
     },
     {

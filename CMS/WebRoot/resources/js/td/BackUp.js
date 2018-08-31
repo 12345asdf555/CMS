@@ -298,65 +298,65 @@ $(function(){
 				title : '焊机id',
 				width : 100,
 				halign : "center",
-				align : "left",
+				align : "center",
 				hidden : true
 			}, {
 				field : 'fequipment_no',
 				title : '焊机编号',
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			}, {
 				field : 'fwelder_no',
 				title : '焊工编号',
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			}, {
 				field : 'fname',
 				title : '焊工姓名',
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			}, {
 				field : 'fposition',
 				title : '设备位置',
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : 'finsid',
 				title : '组织机构id',
 				width : 100,
 				halign : "center",
-				align : "left",
+				align : "center",
 				hidden : true
 			},{
 				field : 'finsname',
 				title : '组织机构名称',
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : 'fstatus_id',
 				title : '设备状态',
 				width : 100,
 				halign : "center",
-				align : "left",
+				align : "center",
 				hidden : true
 			},{
 				field : 'percentage',
 				title : '百分比',
 				width : 100,
 				halign : "center",
-				align : "left",
+				align : "center",
 				hidden : true
 			},{
 				field : 'view',
 				title : '实时监测',
 				width : 130,
 				halign : "center",
-				align : "left",
+				align : "center",
 				formatter:function(value,row,index){
 				var str = "";
 				str += '<a id="view" href="javascript:openss('+row.fid+')">查看</a>';

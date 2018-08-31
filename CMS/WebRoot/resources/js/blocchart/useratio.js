@@ -202,37 +202,37 @@ function dgDatagrid(){
 				title : "部门",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "day",
 				title : "天数",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "time",
 				title : "设备运行时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "maxnum",
 				title : "设备最大使用数(台)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "num",
 				title : "设备总数(台)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "useratio",
 				title : "设备利用率",
 				width : 100,
 				halign : "center",
-				align : "left",
+				align : "center",
 				formatter : function(value,row,index){
 					return value + "%";
 				}

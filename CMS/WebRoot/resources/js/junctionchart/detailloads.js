@@ -25,25 +25,25 @@ function detailloadsDatagrid(){
 			title : '项目部',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'machineno',
 			title : '设备编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'loads',
 			title : '负荷率',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}, {
 			field : 'weldtime',
 			title : '日期',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}] ],
 		toolbar : '#detailLoad_btn',
 	});

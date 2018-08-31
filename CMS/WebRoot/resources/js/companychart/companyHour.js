@@ -118,7 +118,7 @@ function CompanyHourDatagrid(){
 			title : '事业部',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				return  '<a href="caustChart/goCaustHour?parent='+row.itemid+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+'">'+value+'</a>';
 			}
@@ -127,13 +127,13 @@ function CompanyHourDatagrid(){
 			title : '焊口数量',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'manhour',
 			title : '焊接平均工时(h)',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				if(row.jidgather==0){
                  	return 0;
@@ -145,14 +145,14 @@ function CompanyHourDatagrid(){
 			title : '达因',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'itemid',
 			title : '事业id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}] ]
 	});
@@ -184,37 +184,37 @@ function classifyDatagrid(){
 			title : '上游材质',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextmaterial',
 			title : '下游材质',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wall_thickness',
 			title : '上游璧厚',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextwall_thickness',
 			title : '下游璧厚',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'external_diameter',
 			title : '上游外径',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextExternal_diameter',
 			title : '下游外径',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}] ],
 		toolbar : '#classify_btn',
 		onLoadSuccess: function(){

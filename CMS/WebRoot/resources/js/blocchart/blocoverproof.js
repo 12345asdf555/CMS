@@ -82,9 +82,9 @@ function BlocHourDatagrid(){
          success : function(result) {  
              if (result) {
             	 var width=$("#bodydiv").width()/result.rows.length;
-                 column.push({field:"w",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "left"});
+                 column.push({field:"w",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "center"});
                  for(var m=0;m<result.arys1.length;m++){
-                	 column.push({field:"a"+m,title:"<a href='companyChart/goCompanyOverproof?parent="+result.arys1[m].itemid+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+result.arys1[m].name+"(min)</a>",width:width,halign : "center",align : "left"});
+                	 column.push({field:"a"+m,title:"<a href='companyChart/goCompanyOverproof?parent="+result.arys1[m].itemid+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+result.arys1[m].name+"(min)</a>",width:width,halign : "center",align : "center"});
                 	 array2.push(result.arys1[m].name);
                   	 Series.push({
                   		name : result.arys1[m].name,

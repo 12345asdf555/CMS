@@ -107,7 +107,7 @@ function ItemnoloadsDatagrid() {
 					title : "时间跨度(年/月/日/周)",
 					width : width,
 					halign : "center",
-					align : "left"
+					align : "center"
 				});
 
 				for (var i = 0; i < result.rows.length; i++) {
@@ -119,7 +119,7 @@ function ItemnoloadsDatagrid() {
 						title : result.arys[m].name + "(空载率)",
 						width : width,
 						halign : "center",
-						align : "left",
+						align : "center",
 						formatter : function(value, row, index) {
 							return "<a href='junctionChart/goDetailNoLoads?itemid=" + row.itemid  + "&otype=" + otype + "&weldtime=" + row.weldTime + "&dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2 + "'>" + value + "%" + "</a>";
 						}
@@ -128,7 +128,7 @@ function ItemnoloadsDatagrid() {
 						title : "项目id",
 						width : width,
 						halign : "center",
-						align : "left",
+						align : "center",
 						hidden : true
 					});
 					array2.push(result.arys[m].name);

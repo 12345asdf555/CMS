@@ -117,7 +117,7 @@ function itemHourDatagrid(){
 			title : '焊口',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				var str = row.material+"+"+row.nextmaterial+"+"+row.externalDiameter+"+"+row.nextexternaldiameter+"+"+row.wallThickness+"+"+row.nextwall_thickness;
 				return '<a href="junctionChart/goJunctionHour?material='+encodeURI(row.material)+'&nextmaterial='+encodeURI(row.nextmaterial)+'&externalDiameter='+encodeURI(row.externalDiameter)+'&nextexternaldiameter='+encodeURI(row.nextexternaldiameter)+
@@ -128,13 +128,13 @@ function itemHourDatagrid(){
 			title : '焊口数量',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'manhour',
 			title : '焊接平均工时(h)',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				if(row.jidgather==0){
                  	return 0;
@@ -146,56 +146,56 @@ function itemHourDatagrid(){
 			title : '达因',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'material',
 			title : '上游材质',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'nextmaterial',
 			title : '下游材质',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'nextexternaldiameter',
 			title : '下游外径',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'externalDiameter',
 			title : '上游外径',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'wallThickness',
 			title : '上游璧厚',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'nextwall_thickness',
 			title : '下游璧厚',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'itemid',
 			title : '项目id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}] ]
 	});
@@ -225,37 +225,37 @@ function classifyDatagrid(){
 			title : '上游材质',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextmaterial',
 			title : '下游材质',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wall_thickness',
 			title : '上游璧厚',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextwall_thickness',
 			title : '下游璧厚',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'external_diameter',
 			title : '上游外径',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextExternal_diameter',
 			title : '下游外径',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}] ],
 		toolbar : '#classify_btn',
 		onLoadSuccess: function(){

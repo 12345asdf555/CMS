@@ -45,7 +45,7 @@
 			title : '角色名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}]]
 			});
 		})   
@@ -69,77 +69,77 @@
 			title : 'id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'insid',
 			title : '组织机构id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'userName',
 			title : '用户名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'userLoginName',
 			title : '登录名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'userPhone',
 			title : '电话',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'userEmail',
 			title : '邮箱',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'userPosition',
 			title : '岗位',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'userInsframework',
 			title : '部门',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'status',
 			title : '状态',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
         },{
 			field : 'statusid',
 			title : '状态id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'userPassword',
 			title : '密码',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'role',
 			title : '角色',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 			var str = "";
 			str += '<a id="role" class="easyui-linkbutton" href="javascript:role('+row.id+')"/>';
@@ -150,7 +150,7 @@
 			title : '编辑',
 			width : 130,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 			var str = "";
 			str += '<a id="edit" class="easyui-linkbutton" href="javascript:deleteUser('+row.insid+','+row.id+','+true+')"/>';
@@ -182,14 +182,14 @@
 			title : 'id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		},{
 			field : 'roles_name',
 			title : '角色名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}]]
 		
 			});
@@ -393,14 +393,14 @@
         			title : 'id',
         			width : 100,
         			halign : "center",
-        			align : "left",
+        			align : "center",
         			hidden:true
         		},{
         			field : 'roles_name',
         			title : '角色名',
         			width : 100,
         			halign : "center",
-        			align : "left"
+        			align : "center"
         		}]],
         		rowStyler: function(index,row){
                     if ((index % 2)!=0){
@@ -443,14 +443,14 @@
 					title : 'symbol',
 					width : 100,
 					halign : "center",
-					align : "left",
+					align : "center",
 					hidden:true
 				},{
 					field : 'roles_name',
 					title : '角色名',
 					width : 100,
 					halign : "center",
-					align : "left"
+					align : "center"
 				}]],      
 				rowStyler: function(index,row){
 		            if ((index % 2)!=0){

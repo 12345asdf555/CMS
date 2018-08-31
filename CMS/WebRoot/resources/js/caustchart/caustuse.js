@@ -117,21 +117,21 @@ function CaustUseDatagrid(){
 			title : 'id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'typeid',
 			title : '类型id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'fname',
 			title : '厂家',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value,row,index){
 				return '<a href="junctionChart/goUse?manuid='+row.fid+'&manutype='+row.typeid+'&time1='+dtoTime1+'&time2='+dtoTime2+'">'+value+'</a>';
 			}
@@ -140,19 +140,19 @@ function CaustUseDatagrid(){
 			title : '型号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'time',
 			title : '平均时长(h)',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'num',
 			title : '数量(台)',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}] ]
 	});
 }

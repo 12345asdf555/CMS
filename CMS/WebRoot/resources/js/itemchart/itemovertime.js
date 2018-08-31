@@ -88,16 +88,16 @@ function ItemtimeDatagrid(){
          success : function(result) {  
              if (result) {
             	 var width=$("#bodydiv").width()/result.rows.length;
-                 column.push({field:"weldTime",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "left"});
+                 column.push({field:"weldTime",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "center"});
                  for(var i=0;i<result.rows.length;i++){
                    	array1.push(result.rows[i].weldTime);
              	 }
                  for(var m=0;m<result.arys.length;m++){
-                	 column.push({field:"overtime",title:result.arys[m].name+"(台)",width:width,halign : "center",align : "left",
+                	 column.push({field:"overtime",title:result.arys[m].name+"(台)",width:width,halign : "center",align : "center",
                 		 formatter : function(value,row,index){
                 			 return "<a href='junctionChart/goJunctionOvertime?parent="+row.id+"&otype="+otype+"&weldtime="+row.weldTime+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number+"'>"+value+"</a>";
                 		 }
-                	 },{field:"id",title:"项目id",width:width,halign : "center",align : "left",hidden : true});
+                	 },{field:"id",title:"项目id",width:width,halign : "center",align : "center",hidden : true});
                    	array2.push(result.arys[m].name);
                    	Series.push({
                    		name : result.arys[m].name,

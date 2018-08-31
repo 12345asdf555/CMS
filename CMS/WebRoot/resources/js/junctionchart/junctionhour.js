@@ -37,13 +37,13 @@ function itemjunctionDatagrid(){
 			title : '项目部',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'name',
 			title : '焊口',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter: function(value,row,index){
 				return '<a href="junctionChart/goJunctionDetail?id='+row.itemid+'&item='+item+'">'+value+'</a>';
 			}
@@ -52,37 +52,37 @@ function itemjunctionDatagrid(){
 			title : '焊接工时(h)',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'dyne',
 			title : '达因',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'starttime',
 			title : '开始时间',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'endtime',
 			title : '完成时间',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'welder',
 			title : '焊工',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'itemid',
 			title : '焊口id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}] ],
 		toolbar : '#junctionHour_btn',

@@ -305,51 +305,51 @@ function GatherDatagrid() {
 			title : '序号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'gatherNo',
 			title : '采集模块编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'itemid',
 			title : '项目id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'itemname',
 			title : '所属项目',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'status',
 			title : '采集模块状态',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'protocol',
 			title : '采集模块通讯协议',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'ipurl',
 			title : '采集模块IP地址',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'macurl',
 			title : '采集模块MAC地址',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		} ] ],
 		toolbar : '#dlgSearch',
 		pagination : true,

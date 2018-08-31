@@ -77,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			title : '用户名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}]],
 				onLoadSuccess:function(data){          
 				 if(data){

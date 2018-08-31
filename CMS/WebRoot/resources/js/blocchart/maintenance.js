@@ -395,50 +395,50 @@ function dgDatagrid(){
 			title : "部门id",
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		},{
 			field : "name",
 			title : "部门",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		},{
 			field : "total",
 			title : "维修次数",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		},{
 			field : "proportion",
 			title : "维修次数占比",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		},{
 //			field : "faultratio",
 //			title : "故障次数",
 //			width : 100,
 //			halign : "center",
-//			align : "left"
+//			align : "center"
 //		},{
 //			field : "faultmaintenanceratio",
 //			title : "故障维修率(%)",
 //			width : 100,
 //			halign : "center",
-//			align : "left"
+//			align : "center"
 //		},{
 			field : "rmoney",
 			title : "维护费用(元)",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		},{
 			field : "mmoney",
 			title : "设备费用(元)",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}]],
 		onLoadSuccess : function(data){
 			$('#dg').datagrid('insertRow',{
@@ -479,7 +479,7 @@ function itemDgDatagrid(){
 			title : "厂商-类型",
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value,row,index){
 				return "<a href='"+encodeURI("maintain/goMaintain?str=i.fid %3D "+row.itemid+" and e.fid %3D "+row.manufacturerid+" and wm.ftype_id %3D "+row.machinetypeid)+"'>"+value+"</a>";
 			}
@@ -488,45 +488,45 @@ function itemDgDatagrid(){
 			title : "设备维修次数",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		},{
 //			field : "faultnum",
 //			title : "设备故障次数",
 //			width : 100,
 //			halign : "center",
-//			align : "left"
+//			align : "center"
 //		},{
 			field : "maintainmoney",
 			title : "设备维修费用",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		},{
 			field : "machinemoney",
 			title : "设备费用",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		},{
 			field : "manufacturerid",
 			title : "厂商id",
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		},{
 			field : "machinetypeid",
 			title : "设备类型id",
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		},{
 			field : "itemid",
 			title : "设备类型id",
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}]]
 	 })

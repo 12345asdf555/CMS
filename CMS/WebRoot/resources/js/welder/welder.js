@@ -33,39 +33,39 @@ function weldDatagrid(){
       title : '序号',
       width : 100,
       halign : "center",
-      align : "left",
+      align : "center",
       hidden:true
     }, {
       field : 'name',
       title : '姓名',
       width : 150,
       halign : "center",
-      align : "left"
+      align : "center"
     }, {
       field : 'welderno',
       title : '编号',
       width : 150,
       halign : "center",
-      align : "left"
+      align : "center"
     }, {
       field : 'itemname',
       title : '所属项目',
       width : 150,
       halign : "center",
-      align : "left"
+      align : "center"
     }, {
       field : 'iid',
       title : '项目id',
       width : 150,
       halign : "center",
-      align : "left",
+      align : "center",
       hidden : true
     }, {
       field : 'edit',
       title : '编辑',
       width : 150,
       halign : "center",
-      align : "left",
+      align : "center",
       formatter: function(value,row,index){
         var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWelder()"/>';
         str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWelder()"/>';

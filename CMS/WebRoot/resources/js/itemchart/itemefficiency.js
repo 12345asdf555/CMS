@@ -142,37 +142,37 @@ function ItemEfficiencyDatagrid(){
 			title : '项目部',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wname',
 			title : '焊工姓名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wid',
 			title : '焊工编号',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'weldtime',
 			title : '焊接时长(h)',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'num',
 			title : '完成焊口数',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'dyne',
 			title : '总达因值',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}] ],
 		pagination : true

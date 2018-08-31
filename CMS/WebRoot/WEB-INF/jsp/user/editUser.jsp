@@ -117,14 +117,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					title : 'symbol',
 					width : 100,
 					halign : "center",
-					align : "left",
+					align : "center",
 					hidden:true
 				},{
 					field : 'roles_name',
 					title : '角色名',
 					width : 100,
 					halign : "center",
-					align : "left"
+					align : "center"
 				}]],      
 				 onLoadSuccess:function(data){ 
 	   			 if(data){

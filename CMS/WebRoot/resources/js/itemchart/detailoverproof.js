@@ -24,31 +24,31 @@ function detailOverproofDatagrid(){
 			title : '项目部',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fmachine_id',
 			title : '设备编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wname',
 			title : '焊工',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fwelder_id',
 			title : '焊工编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fjunction_id',
 			title : '焊口编号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				return "<a href='junctionChart/gojunctionoverproof?welderno="+row.fwelder_id+"&machineno="+row.fmachine_id+"&junctionno="+row.fjunction_id+"&time="+row.weldtime+"&itemid="+row.iid+"'>"+value+"</a>"
 			}
@@ -57,32 +57,32 @@ function detailOverproofDatagrid(){
 			title : '日期',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'jidgather',
 			title : '采集编号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'fmax_electricity',
 			title : '最大电流',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'fmin_electricity',
 			title : '最小电流',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'overnum',
 			title : '超标次数',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				return row.overproof;
 			}
@@ -91,7 +91,7 @@ function detailOverproofDatagrid(){
 			title : '超标率',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				var count = "1";
 				$.ajax({  
@@ -124,14 +124,14 @@ function detailOverproofDatagrid(){
 			title : '焊口id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'iid',
 			title : '项目id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}] ]
 	});

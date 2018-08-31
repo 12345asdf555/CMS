@@ -180,7 +180,7 @@ function dgDatagrid(){
 			title : "故障类型",
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value,row,index){
 				return "<a href='junctionChart/goFaultDetail?typeid="+row.typeid+chartStr+"'>"+value+"</a>";
 			}
@@ -189,20 +189,20 @@ function dgDatagrid(){
 			title : "类型id",
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		},{
 			field : "faultratio",
 			title : "故障率(%)",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		},{
 			field : "faultnum",
 			title : "故障次数",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}]]
 	 })
 	

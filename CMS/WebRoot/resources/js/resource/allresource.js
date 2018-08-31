@@ -28,51 +28,51 @@
 			title : 'id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'resourceName',
 			title : '资源名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'resourceType',
 			title : '类型',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'resourceAddress',
 			title : '地址',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'resourceDesc',
 			title : '描述',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'status',
 			title : '状态',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'statusid',
 			title : '状态id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 130,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 			var str = "";
 			str += '<a id="edit" class="easyui-linkbutton" href="javascript:editResource()"/>';
@@ -242,7 +242,7 @@
 					title : '角色名',
 					width : 100,
 					halign : "center",
-					align : "left"
+					align : "center"
 				}]],      
 			onLoadSuccess:function(data){  
 			if(data){

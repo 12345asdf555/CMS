@@ -50,79 +50,79 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			title : '焊接电流',
 			width : 130,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'voltage',
 			title : '焊接电压',
 			width : 130,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'sensor_Num',
 			title : '传感器量',
 			width : 130,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'machine_id',
 			title : '焊机id',
 			width : 140,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'welder_id',
 			title : '焊工id',
 			width : 160,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}, {
 			field : 'code',
 			title : '编码',
 			width : 130,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'year',
 			title : '年',
 			width : 140,
 			halign : "center",
-			align : "left",
+			align : "center",
 					}, {
 			field : 'month',
 			title : '月',
 			width : 140,
 			halign : "center",
-			align : "left",
+			align : "center",
 			}, {
 			field : 'day',
 			title : '日',
 			width : 140,
 			halign : "center",
-			align : "left",
+			align : "center",
 			}, {
 			field : 'hour',
 			title : '时',
 			width : 140,
 			halign : "center",
-			align : "left",
+			align : "center",
 			}, {
 			field : 'minute',
 			title : '分',
 			width : 140,
 			halign : "center",
-			align : "left",
+			align : "center",
 			}, {
 			field : 'second',
 			title : '秒',
 			width : 140,
 			halign : "center",
-			align : "left",
+			align : "center",
 			}, {
 			field : 'status',
 			title : '状态',
 			width : 140,
 			halign : "center",
-			align : "left",
+			align : "center",
 
 		}]]
 		

@@ -51,26 +51,26 @@ function weldDatagrid(){
 			title : '序号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'name',
 			title : '焊工姓名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'welderno',
 			title : '编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'itemname',
 			title : '所属项目',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}] ],
 		onCheck : function(index,row){
     		chartStr = "";
@@ -111,68 +111,68 @@ function weldedJunctionDatagrid(){
 			field : 'weldedJunctionno',
 			title : '焊口编号',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'maxElectricity',
 			title : '电流上限',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'minElectricity',
 			title : '电流下限',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'maxValtage',
 			title : '电压上限',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'minValtage',
 			title : '电压下限',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'itemname',
 			title : '所属项目',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'externalDiameter',
 			title : '上游外径',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextexternaldiameter',
 			title : '下游外径',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wallThickness',
 			title : '上游壁厚',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextwall_thickness',
 			title : '下游璧厚',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'material',
 			title : '上游材质',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'next_material',
 			title : '下游材质',
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value,row,index){
 				return  '<a id="getoverproof" class="easyui-linkbutton" href="javascript:searchoverproof()"/>';
 			}

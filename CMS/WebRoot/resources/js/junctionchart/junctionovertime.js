@@ -27,7 +27,7 @@ function junctionOvertimeDatagrid(){
 			title : '日期',
 			width : 120,
 			halign : "center",
-			align : "left",
+			align : "center",
 			sortable : true,
 			sorter : function(a,b){
 				return (a>b?1:-1);
@@ -37,7 +37,7 @@ function junctionOvertimeDatagrid(){
 			title : '超时待机焊机数(台)',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "center",
 			sortable : true,
 			sorter : function(a,b){
 				return (a>b?1:-1);
@@ -47,7 +47,7 @@ function junctionOvertimeDatagrid(){
 			title : '待机时长(分钟)',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "center",
 			sortable : true,
 			sorter : function(a,b){
 				return (a>b?1:-1);
@@ -57,7 +57,7 @@ function junctionOvertimeDatagrid(){
 			title : '设备编号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			sortable : true,
 			sorter : function(a,b){
 				return (a>b?1:-1);
@@ -67,7 +67,7 @@ function junctionOvertimeDatagrid(){
 			title : '焊工编号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			sortable : true,
 			sorter : function(a,b){
 				return (a>b?1:-1);
@@ -77,7 +77,7 @@ function junctionOvertimeDatagrid(){
 			title : '焊工姓名',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			sortable : true,
 			sorter : function(a,b){
 				return (a>b?1:-1);

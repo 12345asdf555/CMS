@@ -23,32 +23,32 @@ function maintainDatagrid(){
 			title : '序号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'equipmentNo',
 			title : '固定资产编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'viceman',
 			title : '维修人员',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'starttime',
 			title : '维修起始时间',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'endtime',
 			title : '维修结束时间',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				if(value == null || value == ""){
 					var str = '<a id="ok" class="easyui-linkbutton" href="javascript:okMaintain();"/>';
@@ -61,13 +61,13 @@ function maintainDatagrid(){
 			title : '维修类型',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'desc',
 			title : '维修说明',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}]],
 		toolbar : '#maintainTable_btn',
 		pagination : true

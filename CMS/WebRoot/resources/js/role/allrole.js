@@ -27,7 +27,7 @@
 //      TITLE : '权限描述',
 //      WIDTH : 100,
 //      HALIGN : "CENTER",
-//      ALIGN : "LEFT"
+//      align : "center"
 //    }]]
 //    
 //  });
@@ -52,39 +52,39 @@
       title : 'id',
       width : 100,
       halign : "center",
-      align : "left",
+      align : "center",
       hidden: true
     }, {
       field : 'roleName',
       title : '角色名',
       width : 100,
       halign : "center",
-      align : "left"
+      align : "center"
     }, {
       field : 'roleDesc',
       title : '描述',
       width : 100,
       halign : "center",
-      align : "left"
+      align : "center"
     }, {
       field : 'roleStatus',
       title : '状态',
       width : 100,
       halign : "center",
-      align : "left"
+      align : "center"
         }, {
       field : 'statusid',
       title : '状态id',
       width :  100,
       halign: "center",
-      align : "left",
+      align : "center",
       hidden: true
         }, {
       field : 'authority',
       title : '权限列表',
       width : 100,
       halign : "center",
-      align : "left",
+      align : "center",
       formatter:function(value,row,index){
       var str = "";
       str += '<a id="authority" class="easyui-linkbutton" href="javascript:authority('+row.id+')"/>';
@@ -95,7 +95,7 @@
       title : '分配用户',
       width : 100,
       halign : "center",
-      align : "left",
+      align : "center",
       formatter:function(value,row,index){
       var str = "";
       str += '<a id="user" class="easyui-linkbutton" href="role/todtbUser?id='+row.id+'"/>';
@@ -106,7 +106,7 @@
       title : '编辑',
       width : 130,
       halign : "center",
-      align : "left",
+      align : "center",
       formatter:function(value,row,index){
       var str = "";
       str += '<a id="edit" class="easyui-linkbutton" href="javascript:editRole()"/>';
@@ -149,14 +149,14 @@ function RoleDatagrid(){
       title : 'id',
       width : 100,
       halign : "center",
-      align : "left",
+      align : "center",
       hidden: true
     },{
       field : 'authorities_desc',
       title : '权限描述',
       width : 100,
       halign : "center",
-      align : "left"
+      align : "center"
     }]],
     onBeforeLoad:function(data){
        $('#tt').datagrid('clearChecked');
@@ -199,14 +199,14 @@ function RoleDatagrid(){
         	      title : 'id',
         	      width : 100,
         	      halign : "center",
-        	      align : "left",
+        	      align : "center",
         	      hidden: true
         	    },{
         	      field : 'authorities_desc',
         	      title : '权限描述',
         	      width : 100,
         	      halign : "center",
-        	      align : "left"
+        	      align : "center"
         	    }]],
         	    onBeforeLoad:function(data){
         	       $('#rtt').datagrid('clearChecked');
@@ -378,7 +378,7 @@ function remove(){
           title : '权限名',
           width : 100,
           halign : "center",
-          align : "left"
+          align : "center"
         }]],      
       onLoadSuccess:function(data){  
       if(data){
@@ -460,14 +460,14 @@ function remove(){
                   title : 'symbol',
                   width : 100,
                   halign : "center",
-                  align : "left",
+                  align : "center",
                   hidden:true
                 },{
                   field : 'authorities_desc',
                   title : '权限描述',
                   width : 100,
                   halign : "center",
-                  align : "left"
+                  align : "center"
                 }]],
                 rowStyler: function(index,row){
                       if ((index % 2)!=0){
@@ -507,7 +507,7 @@ function remove(){
       title : '权限描述',
       width : 100,
       halign : "center",
-      align : "left"
+      align : "center"
     }]]
     
       });

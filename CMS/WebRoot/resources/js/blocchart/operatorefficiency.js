@@ -279,55 +279,55 @@ function dgDatagrid(){
 				title : dgname,
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "worktime",
 				title : "上班时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "boottime",
 				title : "开机时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "shutdowntime",
 				title : "关机时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "standbytime",
 				title : "待机时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "weldtime",
 				title : "焊接时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "sjratio",
 				title : "上机率(%)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "effectiveratio",
 				title : "有效焊接率(%)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "workratio",
 				title : "工作效率(%)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			}]]
 	 })
 }

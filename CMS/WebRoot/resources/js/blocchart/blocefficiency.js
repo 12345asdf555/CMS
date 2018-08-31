@@ -170,14 +170,14 @@ function BlocEfficiencyDatagrid(){
 			title : '公司id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'iname',
 			title : '公司',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value,row,index){
 				return "<a href='companyChart/goCompanyEfficiency?nextparent="+row.id+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+value+"</a>";
 			}
@@ -186,31 +186,31 @@ function BlocEfficiencyDatagrid(){
 			title : '焊工姓名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wid',
 			title : '焊工编号',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'weldtime',
 			title : '焊接时长(h)',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'num',
 			title : '完成焊口数',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'dyne',
 			title : '总达因值',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}] ],
 		pagination : true

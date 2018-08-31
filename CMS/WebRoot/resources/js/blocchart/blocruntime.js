@@ -154,19 +154,19 @@ function dgDatagrid(){
 				title : "所属部门",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "machineno",
 				title : "设备编号",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "time",
 				title : "运行时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			}]]
 	 })
 }

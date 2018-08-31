@@ -33,31 +33,31 @@ function dgDatagrid(){
 			title : '故障类型',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'machineno',
 			title : '故障机器',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'total',
 			title : '故障次数',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}, {
 			field : 'time',
 			title : '故障时间',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}, {
 			field : 'itemname',
 			title : '所属项目部',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}] ],
 		toolbar : '#dg_btn',
 	});

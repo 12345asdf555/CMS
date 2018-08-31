@@ -19,46 +19,46 @@ function dgDatagrid(){
 			title : '序号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'name',
 			title : '生产厂商 ',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'creator',
 			title : '创建者 ',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:	true
 		},{
 			field : 'manutype',
 			title : '厂商类型',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'type',
 			title : '厂商类型id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'typeValue',
 			title : '厂商类型值',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 130,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				var str = "";
 				str += '<a id="edit" class="easyui-linkbutton" href="javascript:editManufacturer();"/>';

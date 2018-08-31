@@ -24,25 +24,25 @@ function detailloadsDatagrid(){
 			title : '厂商名称',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'machineno',
 			title : '设备编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'type',
 			title : '类型',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}, {
 			field : 'time',
 			title : '时长(h)',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}] ]
 	});
 }
