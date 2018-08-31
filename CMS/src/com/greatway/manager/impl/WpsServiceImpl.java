@@ -32,8 +32,8 @@ public class WpsServiceImpl implements WpsService{
 	}
 
 	@Override
-	public List<Wps> findAll(String wpsnum) {
-		return mapper.findAll(wpsnum);
+	public List<Wps> findAll(BigInteger parent,String wpsnum) {
+		return mapper.findAll(parent,wpsnum,null);
 	}
 
 	@Override
@@ -76,6 +76,12 @@ public class WpsServiceImpl implements WpsService{
 	public boolean deleteWps(String wpsnum, BigInteger fid) {
 		mapper.deleteByWpsno(wpsnum);
 		return mapper.deleteWps(fid);
+	}
+
+	@Override
+	public List<Wps> findAll(Page page,BigInteger parent, String wpsnum,String search) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return mapper.findAll(parent,wpsnum,search);
 	}
 
 	

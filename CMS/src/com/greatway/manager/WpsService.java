@@ -12,7 +12,8 @@ public interface WpsService {
 	 * @param wpsnum wps编号
 	 * @return
 	 */
-	List<Wps> findAll(String wpsnum);
+	List<Wps> findAll(BigInteger parent,String wpsnum);
+	List<Wps> findAll(Page page,BigInteger parent,String wpsnum,String search);
 	
 	/**
 	 * 保存焊接参数

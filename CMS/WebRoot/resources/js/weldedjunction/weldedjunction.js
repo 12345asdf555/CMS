@@ -251,7 +251,7 @@ function wpdDatagrid(){
 		modal : true
 	});
 	$("#wpsdiv").window('open');
-	var url = "wps/getAllWps?parent=" + $("#itemid").combobox('getValue') + "&searchStr=" + encodeURI(searchStr);
+	var url = "wps/getAllWpsChildren?parent=" + $("#itemid").combobox('getValue') + "&searchStr=" + encodeURI(searchStr);
 	$("#wpsdg").datagrid({
 		height : $("#wpsdiv").height(),
 		width : $("#wpsdiv").width(),
@@ -276,16 +276,16 @@ function wpdDatagrid(){
 		}, {
 			field : 'fwpsnum',
 			title : '工艺编号',
-			width : 80,
+			width : 120,
 			halign : "center",
 			align : "left"
-		}, {
+		/*}, {
 			field : 'fname',
 			title : '工艺参数名称',
 			width : 100,
 			halign : "center",
 			align : "left"
-		/*}, {
+		}, {
 			field : 'fweld_i',
 			title : '标准焊接电流',
 			width : 80,
@@ -358,13 +358,7 @@ function wpdDatagrid(){
 			halign : "center",
 			align : "left",
 			hidden : true
-		}, {
-			field : 'fback',
-			title : '备注',
-			width : 120,
-			halign : "center",
-			align : "left"
-		} ] ],
+		}] ],
 		toolbar : '#fdlgSearch',
 		onLoadSuccess : function(data){
 			$("#wpsdg").datagrid('selectRow',0);

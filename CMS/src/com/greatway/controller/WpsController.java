@@ -58,7 +58,7 @@ public class WpsController {
 	@RequestMapping("/goShowWps")
 	public String goShowWps(HttpServletRequest request) {
 		Wps wps = wpsService.findWpsByid(new BigInteger(request.getParameter("id")));
-		List<Wps> list = wpsService.findAll(wps.getFwpsnum());
+		List<Wps> list = wpsService.findAll(null,wps.getFwpsnum());
 		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		request.setAttribute("username", myuser.getUsername());
 		request.setAttribute("wps", wps);
@@ -74,7 +74,7 @@ public class WpsController {
 	@RequestMapping("/goEditWps")
 	public String goEditWps(HttpServletRequest request) {
 		Wps wps = wpsService.findWpsByid(new BigInteger(request.getParameter("id")));
-		List<Wps> list = wpsService.findAll(wps.getFwpsnum());
+		List<Wps> list = wpsService.findAll(null,wps.getFwpsnum());
 		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		request.setAttribute("username", myuser.getUsername());
 		request.setAttribute("wps", wps);
@@ -87,7 +87,7 @@ public class WpsController {
 	@RequestMapping("/goRemoveWps")
 	public String goRemoveWps(HttpServletRequest request) {
 		Wps wps = wpsService.findWpsByid(new BigInteger(request.getParameter("id")));
-		List<Wps> list = wpsService.findAll(wps.getFwpsnum());
+		List<Wps> list = wpsService.findAll(null,wps.getFwpsnum());
 		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		request.setAttribute("username", myuser.getUsername());
 		request.setAttribute("wps", wps);
@@ -127,6 +127,52 @@ public class WpsController {
 				json.put("fwpsnum", wps.getFwpsnum());
 				json.put("fversions", wps.getFversions());
 				json.put("fproject_code", wps.getFproject_code());
+				ary.add(json);
+			}
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+
+	@RequestMapping("/getAllWpsChildren")
+	@ResponseBody
+	public String getAllWpsChildren(HttpServletRequest request) {
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String search = request.getParameter("searchStr");
+		String parentId = request.getParameter("parent");
+		BigInteger parent = null;
+		if(iutil.isNull(parentId)){
+			parent = new BigInteger(parentId);
+		}else{
+			MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			long uid = myuser.getId();
+			parent = im.getUserInsfId(BigInteger.valueOf(uid));
+		}
+		page = new Page(pageIndex, pageSize, total);
+		List<Wps> findAll = wpsService.findAll(page,parent, null,search);
+		long total = 0;
+
+		if (findAll != null) {
+			PageInfo<Wps> pageinfo = new PageInfo<Wps>(findAll);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try {
+			for (Wps wps : findAll) {
+				json.put("fid", wps.getFid());
+				json.put("fwpsnum", wps.getFwpsnum());
+				json.put("fweld_i_max", wps.getFweld_i_max());
+				json.put("fweld_i_min", wps.getFweld_i_min());
+				json.put("fweld_v_max", wps.getFweld_v_max());
+				json.put("fweld_v_min", wps.getFweld_v_min());
+				json.put("insname", wps.getFitemname());
+				json.put("insid", wps.getInsid());
 				ary.add(json);
 			}
 		} catch (Exception e) {

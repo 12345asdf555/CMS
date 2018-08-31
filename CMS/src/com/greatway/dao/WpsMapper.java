@@ -9,7 +9,7 @@ import com.greatway.model.Wps;
 
 public interface WpsMapper {
 	
-	List<Wps> findAll(@Param("wpsnum")String wpsnum);
+	List<Wps> findAll(@Param("parent")BigInteger parent,@Param("wpsnum")String wpsnum,@Param("str")String str);
 	
 	boolean save(Wps wps);
 	
