@@ -110,6 +110,8 @@ function loadtree() {
 			var defaultnode = $('#myTree').tree('find', insfid);
 			$('#itemname').html(defaultnode.text);
 			flag = 0;
+			//清空实时数组
+			liveary.length = 0;
 			setTimeout(function() {
 				if (symbol != 1) {
 					alert("未接收到数据!!!");
@@ -158,7 +160,7 @@ function getMsg(){
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
-	var dtoTime1 = getNowFormatDate(new Date().getTime() - 7200 * 1000);
+	var dtoTime1 = getNowFormatDate(new Date().getTime() - 3600 * 1000);
 	var dtoTime2 = getNowFormatDate(new Date().getTime());
 	$.ajax({
 		type : "post",
@@ -363,6 +365,7 @@ function iview() {
 						if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
 							overtimenum+=1;
 							$("#status"+starows[j].fname).val(4);
+							$("#m6"+machine[f].fid).html("超时");
 							$("#img"+starows[j].fname).attr("src","resources/images/welder_05.png");
 						}
 					}
@@ -412,7 +415,7 @@ function iview() {
 						machineflag = true;
 					}
 				}
-				if(!machineflag){
+				if(!machineflag && $("#status"+machine[f].fid).val()!=4){
 					$("#m3"+machine[f].fid).html("--");
 					$("#m4"+machine[f].fid).html("--A");
 					$("#m5"+machine[f].fid).html("--V");
@@ -437,6 +440,12 @@ function iview() {
 					case "00":
 						var status = $("#status"+machine[f].fid).val();
 						if(status == 4){
+							liveary.push(machine[f].fid);
+							$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+							$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+							$("#m6"+machine[f].fid).html("超时");
+							$("#status"+machine[f].fid).val(4);
+							$("#img"+machine[f].fid).attr("src","resources/images/welder_05.png");
 							break;
 						}
 						if(liveary.length==0){
@@ -730,6 +739,7 @@ window.setInterval(function(){
 				if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
 					overtimenum+=1;
 					$("#status"+starows[j].fname).val(4);
+					$("#m6"+machine[f].fid).html("超时");
 					$("#img"+starows[j].fname).attr("src","resources/images/welder_05.png");
 				}
 			}
@@ -789,6 +799,7 @@ function statusClick(statusnum){
 				if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
 					overtimenum+=1;
 					$("#status"+starows[j].fname).val(4);
+					$("#m6"+machine[f].fid).html("超时");
 					$("#img"+starows[j].fname).attr("src","resources/images/welder_05.png");
 				}
 			}

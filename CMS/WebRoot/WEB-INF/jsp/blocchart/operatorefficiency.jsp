@@ -56,7 +56,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<li>展现某一时间段内，各部门操作者上班时长、焊接时长以及工作效率</li>
 					<li>上机率=开机时长/上班时长</li>
 					<li>有效焊接率=焊接时长/开机时长</li>
-					<li>焊接时长=开机时长-待机时长</li>
 					<li>工作效率=焊接时长/上班时长</li>
 				</ul>
 			</div>

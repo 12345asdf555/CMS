@@ -149,26 +149,30 @@ function webclient(){
 					}
 				}
 				if(redata.substring(0+i,2+i)=="03"||redata.substring(0+i,2+i)=="05"||redata.substring(0+i,2+i)=="07"||redata.substring(0+i,2+i)=="00"){
-					if(mall.length==0){
-						var arr  =
-					     {
-					         "fid" : redata.substring(4+i, 8+i),
-					         "fstatus" : redata.substring(0+i,2+i)
-					     }
-						mall.push(arr);
-					}else{
-						for(var j=0;j<mall.length;j++){
-							if(mall[j].fid!=redata.substring(4+i, 8+i)){
-								if(j==mall.length-1){
-									var arr  =
-								     {
-								         "fid" : redata.substring(4+i, 8+i),
-								         "fstatus" : redata.substring(0+i,2+i)
-								     }
-									mall.push(arr);
-								}
+					for(var x=0;x<machine.length;x++){
+						if(machine[x].fid == parseInt(data.substring(4+i, 8+i))){
+							if(mall.length==0){
+								var arr  =
+							     {
+							         "fid" : redata.substring(4+i, 8+i),
+							         "fstatus" : redata.substring(0+i,2+i)
+							     }
+								mall.push(arr);
 							}else{
-								break;
+								for(var j=0;j<mall.length;j++){
+									if(mall[j].fid!=redata.substring(4+i, 8+i)){
+										if(j==mall.length-1){
+											var arr  =
+										     {
+										         "fid" : redata.substring(4+i, 8+i),
+										         "fstatus" : redata.substring(0+i,2+i)
+										     }
+											mall.push(arr);
+										}
+									}else{
+										break;
+									}
+								}
 							}
 						}
 					}

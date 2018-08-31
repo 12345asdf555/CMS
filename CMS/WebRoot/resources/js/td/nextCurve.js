@@ -125,12 +125,12 @@ function getMsg(){
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
-	var dtoTime1 = getNowFormatDate(new Date().getTime() - 7200 * 1000);
+	var dtoTime1 = getNowFormatDate(new Date().getTime() - 3600 * 1000);
 	var dtoTime2 = getNowFormatDate(new Date().getTime());
 	$.ajax({
 		type : "post",
 		async : false,
-		url : "td/standbytimeout?dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2,
+		url : "td/standbytimeout?dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2+ "&dictionry=" + dic[0].name,
 		data : {},
 		dataType : "json", //返回数据形式为json  
 		success : function(result) {
