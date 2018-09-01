@@ -150,7 +150,7 @@ function webclient(){
 				}
 				if(redata.substring(0+i,2+i)=="03"||redata.substring(0+i,2+i)=="05"||redata.substring(0+i,2+i)=="07"||redata.substring(0+i,2+i)=="00"){
 					for(var x=0;x<machine.length;x++){
-						if(machine[x].fid == parseInt(data.substring(4+i, 8+i))){
+						if(machine[x].fid == parseInt(redata.substring(4+i, 8+i))){
 							if(mall.length==0){
 								var arr  =
 							     {
