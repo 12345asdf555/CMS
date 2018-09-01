@@ -1076,12 +1076,15 @@ public class CompanyChartController {
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String welder = request.getParameter("welder");
+		String parent = request.getParameter("parent");
 		String time1 = request.getParameter("dtoTime1");
 		WeldDto dto = new WeldDto();
 		if(iutil.isNull(time1)){
 			dto.setDtoTime1(time1);
 		}
-		
+		if(iutil.isNull(parent)){
+			dto.setParent(new BigInteger(parent));
+		}
 		page = new Page(pageIndex,pageSize,total);
 		List<ModelDto> list = lm.getJunctionByWelder(page, dto, welder);
 		long total = 0;

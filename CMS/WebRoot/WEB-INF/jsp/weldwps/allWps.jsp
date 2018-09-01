@@ -27,8 +27,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
 	<script type="text/javascript" src="resources/js/weldwps/allWps.js"></script>
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
-	<script type="text/javascript" src="resources/js/weldwps/addWps.js"></script>
-	<script type="text/javascript" src="resources/js/weldwps/destroyWps.js"></script>
   </head>
   
   <body class="easyui-layout">

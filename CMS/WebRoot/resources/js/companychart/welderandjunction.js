@@ -66,6 +66,13 @@ function weldDatagrid(){
 			halign : "center",
 			align : "center"
 		}, {
+			field : 'iid',
+			title : '项目id',
+			width : 100,
+			halign : "center",
+			align : "center",
+			hidden: true
+		}, {
 			field : 'itemname',
 			title : '所属项目',
 			width : 100,
@@ -75,13 +82,13 @@ function weldDatagrid(){
 		onCheck : function(index,row){
     		chartStr = "";
         	setParam();
-        	chartStr+="&welder="+row.welderno;
+        	chartStr+="&welder="+row.welderno+"&parent="+row.iid;
     		weldedJunctionDatagrid();
         },
         onClickRow : function(index,row){
     		chartStr = "";
         	setParam();
-        	chartStr+="&welder="+row.welderno;
+        	chartStr+="&welder="+row.welderno+"&parent="+row.iid;
     		weldedJunctionDatagrid();
         },
         onLoadSuccess : function(index,row){
@@ -195,7 +202,7 @@ function serachjunction(){
 		}else{
 			chartStr = "";
 			setParam();
-			chartStr += "&welder="+row.welderno;
+			chartStr += "&welder="+row.welderno+"&parent="+row.iid;;
 			weldedJunctionDatagrid();
 		}
 	}

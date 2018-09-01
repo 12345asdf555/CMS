@@ -21,7 +21,7 @@ function showItemHourChart(){
          success : function(result) {  
              if (result) {  
                  for(var i=0;i<result.rows.length;i++){
-                 	array1.push(result.rows[i].material+"+"+result.rows[i].nextmaterial+"+"+result.rows[i].externalDiameter+"+"+result.rows[i].nextexternaldiameter+"+"+result.rows[i].wallThickness+"+"+result.rows[i].nextwall_thickness);
+                 	array1.push(result.rows[i].material+" "+result.rows[i].externalDiameter+"*"+result.rows[i].wallThickness+"\n"+result.rows[i].nextmaterial+" "+result.rows[i].nextexternaldiameter+"*"+result.rows[i].nextwall_thickness);
                  	if(result.rows[i].jidgather==0){
                      	array2.push(0);
                  	}else{
@@ -52,7 +52,7 @@ function showItemHourChart(){
 		grid:{
 			left:'60',//组件距离容器左边的距离
 			right:'100',
-			bottom:'20',
+			bottom:'40',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -113,16 +113,45 @@ function itemHourDatagrid(){
 		showPageList : false,
 		pagination : true,
 		columns : [ [ {
-			field : 'name',
-			title : '焊口',
+			field : 'material',
+			title : '上游材质',
 			width : 100,
 			halign : "center",
 			align : "center",
 			formatter:function(value,row,index){
-				var str = row.material+"+"+row.nextmaterial+"+"+row.externalDiameter+"+"+row.nextexternaldiameter+"+"+row.wallThickness+"+"+row.nextwall_thickness;
 				return '<a href="junctionChart/goJunctionHour?material='+encodeURI(row.material)+'&nextmaterial='+encodeURI(row.nextmaterial)+'&externalDiameter='+encodeURI(row.externalDiameter)+'&nextexternaldiameter='+encodeURI(row.nextexternaldiameter)+
-				'&wallThickness='+encodeURI(row.wallThickness)+'&nextwall_thickness='+encodeURI(row.nextwall_thickness)+'&itemid='+row.itemid+'&time1='+dtoTime1+'&time2='+dtoTime2+'">'+str+'</a>';
+				'&wallThickness='+encodeURI(row.wallThickness)+'&nextwall_thickness='+encodeURI(row.nextwall_thickness)+'&itemid='+row.itemid+'&time1='+dtoTime1+'&time2='+dtoTime2+'">'+value+'</a>';
 			}
+		}, {
+			field : 'externalDiameter',
+			title : '上游外径',
+			width : 100,
+			halign : "center",
+			align : "center"
+		}, {
+			field : 'wallThickness',
+			title : '上游璧厚',
+			width : 100,
+			halign : "center",
+			align : "center"
+		}, {
+			field : 'nextmaterial',
+			title : '下游材质',
+			width : 100,
+			halign : "center",
+			align : "center"
+		}, {
+			field : 'nextexternaldiameter',
+			title : '下游外径',
+			width : 100,
+			halign : "center",
+			align : "center"
+		}, {
+			field : 'nextwall_thickness',
+			title : '下游璧厚',
+			width : 100,
+			halign : "center",
+			align : "center"
 		}, {
 			field : 'jidgather',
 			title : '焊口数量',
@@ -148,48 +177,6 @@ function itemHourDatagrid(){
 			halign : "center",
 			align : "center",
 			hidden : true
-		}, {
-			field : 'material',
-			title : '上游材质',
-			width : 100,
-			halign : "center",
-			align : "center",
-			hidden: true
-		}, {
-			field : 'nextmaterial',
-			title : '下游材质',
-			width : 100,
-			halign : "center",
-			align : "center",
-			hidden: true
-		}, {
-			field : 'nextexternaldiameter',
-			title : '下游外径',
-			width : 100,
-			halign : "center",
-			align : "center",
-			hidden: true
-		}, {
-			field : 'externalDiameter',
-			title : '上游外径',
-			width : 100,
-			halign : "center",
-			align : "center",
-			hidden: true
-		}, {
-			field : 'wallThickness',
-			title : '上游璧厚',
-			width : 100,
-			halign : "center",
-			align : "center",
-			hidden: true
-		}, {
-			field : 'nextwall_thickness',
-			title : '下游璧厚',
-			width : 100,
-			halign : "center",
-			align : "center",
-			hidden: true
 		}, {
 			field : 'itemid',
 			title : '项目id',
@@ -260,6 +247,8 @@ function classifyDatagrid(){
 		toolbar : '#classify_btn',
 		onLoadSuccess: function(){
 			$("#classify").datagrid("selectRow",0);
+			array1 = new Array();
+			array2 = new Array();
 			itemHourDatagrid();
 			showItemHourChart();
 		}

@@ -895,7 +895,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr>
 			</table>
 		</form>
-		<div id="dlg-buttons" style="text-align:center;margin-bottom: 10px;margin-top: -30px;">
+		<div id="dlg-buttons" style="text-align:center;margin-bottom: 10px;margin-top: -30px;margin-bottom:200px;">
 			<a href="javascript:commitWps()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 			<a href="wps/goWps" style="margin-left:100px;" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>

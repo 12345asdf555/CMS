@@ -62,13 +62,13 @@ function itemjunctionDatagrid(){
 		}, {
 			field : 'starttime',
 			title : '开始时间',
-			width : 100,
+			width : 150,
 			halign : "center",
 			align : "center"
 		}, {
 			field : 'endtime',
 			title : '完成时间',
-			width : 100,
+			width : 150,
 			halign : "center",
 			align : "center"
 		}, {

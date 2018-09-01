@@ -365,7 +365,7 @@ function iview() {
 						if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
 							overtimenum+=1;
 							$("#status"+starows[j].fname).val(4);
-							$("#m6"+machine[f].fid).html("超时");
+							$("#m6"+starows[j].fname).html("超时");
 							$("#img"+starows[j].fname).attr("src","resources/images/welder_05.png");
 						}
 					}
@@ -440,12 +440,29 @@ function iview() {
 					case "00":
 						var status = $("#status"+machine[f].fid).val();
 						if(status == 4){
-							liveary.push(machine[f].fid);
-							$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
-							$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
-							$("#m6"+machine[f].fid).html("超时");
-							$("#status"+machine[f].fid).val(4);
-							$("#img"+machine[f].fid).attr("src","resources/images/welder_05.png");
+							if(liveary.length==0){
+								liveary.push(machine[f].fid);
+								$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+								$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+								$("#m6"+machine[f].fid).html("超时");
+								$("#status"+machine[f].fid).val(4);
+								$("#img"+machine[f].fid).attr("src","resources/images/welder_05.png");
+							}else{
+								var tempflag = false;
+								for(var x=0;x<liveary.length;x++){
+									if(liveary[x] == machine[f].fid){
+										tempflag = true;
+									}
+								}
+								if(!tempflag){
+									liveary.push(machine[f].fid);
+									$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+									$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+									$("#m6"+machine[f].fid).html("超时");
+									$("#status"+machine[f].fid).val(4);
+									$("#img"+machine[f].fid).attr("src","resources/images/welder_05.png");
+								}
+							}
 							break;
 						}
 						if(liveary.length==0){
@@ -739,7 +756,7 @@ window.setInterval(function(){
 				if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
 					overtimenum+=1;
 					$("#status"+starows[j].fname).val(4);
-					$("#m6"+machine[f].fid).html("超时");
+					$("#m6"+starows[j].fname).html("超时");
 					$("#img"+starows[j].fname).attr("src","resources/images/welder_05.png");
 				}
 			}
@@ -799,7 +816,7 @@ function statusClick(statusnum){
 				if(parseInt(starows[j].ftime)>(parseInt(dic[0].name)*36)){
 					overtimenum+=1;
 					$("#status"+starows[j].fname).val(4);
-					$("#m6"+machine[f].fid).html("超时");
+					$("#m6"+starows[j].fname).html("超时");
 					$("#img"+starows[j].fname).attr("src","resources/images/welder_05.png");
 				}
 			}

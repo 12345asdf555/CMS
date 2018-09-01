@@ -2068,7 +2068,7 @@
 		where l.fwelder_id=#{welder}
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				and fweldtime &gt;=#{dto.dtoTime1}  and fweldtime &lt;= date_sub(date_sub(#{dto.dtoTime1},interval -1 day),interval 0 minute)
+				and i.fid = #{dto.parent} and fweldtime &gt;=#{dto.dtoTime1}  and fweldtime &lt;= date_sub(date_sub(#{dto.dtoTime1},interval -1 day),interval 0 minute)
 			</if>
 		</if>group by fjunction_id,i.fid
 	</select>

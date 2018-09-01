@@ -83,7 +83,7 @@ function insframeworkCombobox(){
 	$.ajax({
 		type : "post",
 		async : false,
-		url : "wps/getInsAll",
+		url : "weldingMachine/getInsframeworkAll",
 		data : {},
 		dataType : "json", //返回数据形式为json  
 		success : function(result) {
