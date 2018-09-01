@@ -25,9 +25,9 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://121.196.222.216:3306/Weld?allowMultiQueries=true&amp;useUnicode=true&amp;characterEncoding=UTF-8" />
-		<property name="username" value="db_admin" />
-		<property name="password" value="PIJXmcLRa0QgOw2c" />
+		<property name="url" value="jdbc:mysql://10.1.1.108:3306/Company_weld?allowMultiQueries=true&amp;useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="username" value="root" />
+		<property name="password" value="123456Ab" />
 	</bean>
 
 	<!--

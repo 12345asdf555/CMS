@@ -46,7 +46,7 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	List<LiveData> getMachine(@Param("parent") BigInteger parent);
 	
-	List<ModelDto> getDetailovertime(@Param("dto") WeldDto dto,@Param("num") String num,@Param("parent") String parent);
+	List<ModelDto> getDetailovertime(@Param("dto") WeldDto dto,@Param("num") String num,@Param("parent") String parent,@Param("sort") String sort);
 	
 	List<ModelDto> getCompanyLoads(@Param("dto")WeldDto dto,@Param("parent") BigInteger parent);
 	

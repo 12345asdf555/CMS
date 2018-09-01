@@ -946,6 +946,7 @@ public class ItemChartController {
 					double time = (double)Math.round(l.getTime()/num*100)/100;
 					json.put("time", time);
 					json.put("fname", l.getFname()+" - "+l.getType());
+					json.put("name", l.getFname());
 					json.put("type", l.getType());
 					json.put("fid",l.getFid());
 					json.put("num", num);

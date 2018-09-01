@@ -325,6 +325,7 @@ public class JunctionChartController {
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
 		String type = request.getParameter("otype");
+		String sort = request.getParameter("sort");
 		WeldDto dto = new WeldDto();
 		dto.setTime(weldtime);
 		if(iutil.isNull(time1)){
@@ -336,7 +337,7 @@ public class JunctionChartController {
 		page = new Page(pageIndex,pageSize,total);
 		List<ModelDto> list = null;
 		if(Integer.parseInt(type)!=4){
-			list = lm.getDetailovertime(page,dto, number, parent);
+			list = lm.getDetailovertime(page,dto, number, parent,sort);
 		}else{
 			String[] str = dto.getTime().split("-");
 			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
@@ -360,7 +361,7 @@ public class JunctionChartController {
 			dto.setTime(weektime[0]);
 			dto.setTime2(weektime[1]);
 			dto.setWeek("week");
-			list = lm.getDetailovertime(page,dto, number, parent);
+			list = lm.getDetailovertime(page,dto, number, parent,sort);
 		}
 		long total = 0;
 		if(list != null){

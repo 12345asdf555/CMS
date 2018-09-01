@@ -118,9 +118,9 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getDetailovertime(Page page,WeldDto dto, String num, String junctionno) {
+	public List<ModelDto> getDetailovertime(Page page,WeldDto dto, String num, String junctionno,String sort) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.getDetailovertime(dto, num,junctionno);
+		return live.getDetailovertime(dto, num,junctionno,sort);
 	}
 
 	@Override

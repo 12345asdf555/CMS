@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body class="easyui-layout">
     <div id="body" region="center"  hide="true"  split="true">
 	  	<div id="junctionOvertime_btn">
-			<div style="margin-bottom: 5px;">
+			<div style="margin-bottom: 5px;margin-left:20px;">
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 				<input  name="parent" id="parent" type="hidden" value="${parent }"/>
 				<input  name="weldtime" id="weldtime" type="hidden" value="${weldtime }"/>
@@ -43,6 +43,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input  name="time2" id="time2" type="hidden" value="${time2 }"/>
 				<input  name="number" id="number" type="hidden" value="${number }"/>
 				<input  name="otype" id="otype" type="hidden" value="${otype }"/>
+				<input  name="otype" id="sort" name="sort" type="hidden" value="asc"/>
+				<a href="javascript:sort();" class="easyui-linkbutton" iconCls="icon-search">排序</a>
 			</div>
 		</div>
 		<div><h2>${str }</h2></div>

@@ -146,7 +146,7 @@ public interface LiveDataManager {
 	 * @param parent 项目id
 	 * @return
 	 */
-	List<ModelDto> getDetailovertime(Page page,WeldDto dto , String num,String parent);
+	List<ModelDto> getDetailovertime(Page page,WeldDto dto , String num,String parent,String sort);
 	
 	/**
 	 * 公司负荷率

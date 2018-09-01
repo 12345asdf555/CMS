@@ -87,6 +87,17 @@ function junctionOvertimeDatagrid(){
 	});
 }
 
+function sort(){
+	if($("#sort").val()=="asc"){
+		$("#sort").val("desc");
+	}else{
+		$("#sort").val("asc");
+	}
+	$('#junctionOvertimeTable').datagrid('load', {
+		"sort" : $("#sort").val()
+	});
+}
+
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);

@@ -26,7 +26,7 @@ function showitemUseChart(){
          success : function(result) {  
              if (result) {  
                  for(var i=0;i<result.rows.length;i++){
-                 	array1.push(result.rows[i].fname);
+                  	array1.push(result.rows[i].name +"\n"+ result.rows[i].type);
                  	array2.push(result.rows[i].time);
                  }
              }  
@@ -52,7 +52,7 @@ function showitemUseChart(){
 		grid:{
 			left:'50',//组件距离容器左边的距离
 			right:'120',
-			bottom:'20',
+			bottom:'40',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
