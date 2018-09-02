@@ -266,7 +266,7 @@ public class ItemChartController {
 				}else{
 					json.put("jidgather", str.length);
 				}
-				json.put("manhour", l.getHous());
+				json.put("manhour", (double)Math.round(l.getTime()*100)/100);
 				String strsql = "and (";
 				for(int i=0;i<str.length;i++){
 					strsql += " fid = "+str[i];
@@ -458,13 +458,13 @@ public class ItemChartController {
 		try{
 			Insframework ins = insm.getInsById(id);
 			List<ModelDto> list = lm.getItemOverproof(dto, id);
-			BigInteger[] num = new BigInteger[time.size()];
+			double[] num = new double[time.size()];
 			for(int i=0;i<time.size();i++){
-				num[i] = new BigInteger("0");
+				num[i] = 0;
 				if(list.size()>0){
 					for(ModelDto m:list){
 						if(time.get(i).getWeldTime().equals(m.getWeldTime())){
-							num[i] = m.getOverproof().multiply(new BigInteger("60"));
+							num[i] = (double)Math.round(m.getOverproof()*100)/100;
 						}
 					}
 					json.put("weldTime",time.get(i).getWeldTime());

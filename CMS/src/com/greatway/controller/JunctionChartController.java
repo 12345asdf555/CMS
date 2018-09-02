@@ -289,7 +289,7 @@ public class JunctionChartController {
 		JSONObject obj = new JSONObject();
 		try{
 			for(ModelDto l:list){
-				json.put("manhour", l.getHous());
+				json.put("manhour", (double)Math.round(l.getTime()*100)/100);
 				json.put("dyne", l.getDyne());
 				json.put("name",l.getFname());
 				json.put("itemid",l.getFid());
@@ -325,7 +325,6 @@ public class JunctionChartController {
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
 		String type = request.getParameter("otype");
-		String sort = request.getParameter("sort");
 		WeldDto dto = new WeldDto();
 		dto.setTime(weldtime);
 		if(iutil.isNull(time1)){
@@ -337,7 +336,7 @@ public class JunctionChartController {
 		page = new Page(pageIndex,pageSize,total);
 		List<ModelDto> list = null;
 		if(Integer.parseInt(type)!=4){
-			list = lm.getDetailovertime(page,dto, number, parent,sort);
+			list = lm.getDetailovertime(page,dto, number, parent);
 		}else{
 			String[] str = dto.getTime().split("-");
 			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
@@ -361,7 +360,7 @@ public class JunctionChartController {
 			dto.setTime(weektime[0]);
 			dto.setTime2(weektime[1]);
 			dto.setWeek("week");
-			list = lm.getDetailovertime(page,dto, number, parent,sort);
+			list = lm.getDetailovertime(page,dto, number, parent);
 		}
 		long total = 0;
 		if(list != null){
@@ -410,7 +409,7 @@ public class JunctionChartController {
 			List<ModelDto> causeoverproof = lm.getjunctionoverproof(welderno, machineno, junctionno, time, itemid);
 			int[] num = new int[causeoverproof.size()];
 			for(int i=0;i<causeoverproof.size();i++){
-				num[i] = Integer.parseInt(causeoverproof.get(i).getOverproof().toString());
+				num[i] = (int)causeoverproof.get(i).getOverproof();
 				json.put("weldtime", causeoverproof.get(i).getWeldTime());
 				ary1.add(json);
 			}

@@ -261,7 +261,7 @@ function showItemMoneyChart(){
 			},
 			grid:{
 				left:'60',//组件距离容器左边的距离
-				right:'4%',
+				right:'120',
 				bottom:'70',
 				containLaber:true//区域是否包含坐标轴刻度标签
 			},
@@ -277,26 +277,45 @@ function showItemMoneyChart(){
 			xAxis:{
 				type:'category',
 				data: array3,
+				name:'厂商-类型',
 				axisLabel : {
 					rotate: 30, //x轴文字倾斜
 				    interval:0 //允许x轴文字全部显示并重叠
 				}
 			},
-			yAxis:{
-				type: 'value'//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			},
+			yAxis:[{
+				type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
+				name: '维修费用'
+			},{
+				type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
+				name: '设备总费用',
+				splitLine:{show: false},//去除网格线
+			}],
 			series:[
 				{
 					name:'维修费用',
 					type:'bar',
 		            barMaxWidth:20,//最大宽度
-					data:array7
+					data:array7,
+					label : {
+						normal : {
+							position : 'top',
+							show : true //显示每个折点的值
+						}
+					}
 				},
 				{
 					name:'设备总费用',
 					type:'bar',
+		            yAxisIndex: 1,
 		            barMaxWidth:20,//最大宽度
-					data:array8
+					data:array8,
+					label : {
+						normal : {
+							position : 'top',
+							show : true //显示每个折点的值
+						}
+					}
 				}
 			]
 		}
@@ -497,13 +516,13 @@ function itemDgDatagrid(){
 //			align : "center"
 //		},{
 			field : "maintainmoney",
-			title : "设备维修费用",
+			title : "设备维修费用(元)",
 			width : 100,
 			halign : "center",
 			align : "center"
 		},{
 			field : "machinemoney",
-			title : "设备费用",
+			title : "设备费用(元)",
 			width : 100,
 			halign : "center",
 			align : "center"

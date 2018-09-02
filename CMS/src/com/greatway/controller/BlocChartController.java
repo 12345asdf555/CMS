@@ -255,7 +255,7 @@ public class BlocChartController {
 					BigInteger dyne = lm.getDyneByJunctionno(strsql);
 					json.put("dyne",dyne);
 				}
-				json.put("manhour", l.getHous());
+				json.put("manhour", (double)Math.round(l.getTime()*100)/100);
 				json.put("name",l.getFname());
 				json.put("companyid",l.getFid());
 				ary.add(json);
@@ -319,18 +319,18 @@ public class BlocChartController {
 		try{
 			List<ModelDto> list = lm.getBlocOverproof(dto);
 			List<LiveData> ins = lm.getBlocChildren();
-			BigInteger[] num = null;
+			double[] num = null;
 			for(ModelDto live :time){
 				json.put("weldTime",live.getWeldTime());
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
-				num = new BigInteger[time.size()];
+				num = new double[time.size()];
 				for(int j=0;j<time.size();j++){
-					num[j] = new BigInteger("0");
+					num[j] = 0;
 					for(ModelDto l:list){
 						if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
-							num[j] = l.getOverproof().multiply(new BigInteger("60"));
+							num[j] = (double)Math.round(l.getOverproof()*100)/100;
 						}
 					}
 				}

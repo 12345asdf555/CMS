@@ -39,6 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div style="margin-bottom: 5px;">
 					时间：
 					<input class="easyui-datebox" name="dtoTime1" id="dtoTime1">
+					<a href="javascript:serachWelder();" class="easyui-linkbutton" iconCls="icon-search" >搜索焊工</a>
 					<a href="javascript:serachjunction();" class="easyui-linkbutton" iconCls="icon-search" >搜索焊口</a>
 				</div>
 			</div>

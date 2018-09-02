@@ -67,7 +67,7 @@ function showItemHourChart(){
 		xAxis:{
 			type:'category',
 			data: array1,
-			name:'单位'
+			name:'规格型号'
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
@@ -246,6 +246,7 @@ function classifyDatagrid(){
 		}] ],
 		toolbar : '#classify_btn',
 		onLoadSuccess: function(){
+			$("#classify").datagrid("clearChecked");
 			$("#classify").datagrid("selectRow",0);
 			array1 = new Array();
 			array2 = new Array();

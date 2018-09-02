@@ -215,7 +215,10 @@ function classifyDatagrid(){
 		}] ],
 		toolbar : '#classify_btn',
 		onLoadSuccess: function(){
+			$("#classify").datagrid("clearChecked");
 			$("#classify").datagrid("selectRow",0);
+			array1 = new Array();
+			array2 = new Array();
 			CaustHourDatagrid();
 			showCaustHourChart();
 		}

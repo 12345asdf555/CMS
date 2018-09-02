@@ -21,80 +21,44 @@ function junctionOvertimeDatagrid(){
 		rownumbers : true,
 		showPageList : false,
 		pagination : true,
-		remoteSort : false,
 		columns : [ [ {
 			field : 'weldtime',
 			title : '日期',
 			width : 120,
 			halign : "center",
-			align : "center",
-			sortable : true,
-			sorter : function(a,b){
-				return (a>b?1:-1);
-			}
+			align : "center"
 		}, {
 			field : 'overtime',
 			title : '超时待机焊机数(台)',
 			width : 150,
 			halign : "center",
-			align : "center",
-			sortable : true,
-			sorter : function(a,b){
-				return (a>b?1:-1);
-			}
+			align : "center"
 		}, {
 			field : 'worktime',
 			title : '待机时长(分钟)',
 			width : 150,
 			halign : "center",
-			align : "center",
-			sortable : true,
-			sorter : function(a,b){
-				return (a>b?1:-1);
-			}
+			align : "center"
 		}, {
 			field : 'machineno',
 			title : '设备编号',
 			width : 100,
 			halign : "center",
-			align : "center",
-			sortable : true,
-			sorter : function(a,b){
-				return (a>b?1:-1);
-			}
+			align : "center"
 		}, {
 			field : 'welderno',
 			title : '焊工编号',
 			width : 100,
 			halign : "center",
-			align : "center",
-			sortable : true,
-			sorter : function(a,b){
-				return (a>b?1:-1);
-			}
+			align : "center"
 		}, {
 			field : 'wname',
 			title : '焊工姓名',
 			width : 100,
 			halign : "center",
-			align : "center",
-			sortable : true,
-			sorter : function(a,b){
-				return (a>b?1:-1);
-			}
+			align : "center"
 		}] ],
 		toolbar : '#junctionOvertime_btn',
-	});
-}
-
-function sort(){
-	if($("#sort").val()=="asc"){
-		$("#sort").val("desc");
-	}else{
-		$("#sort").val("asc");
-	}
-	$('#junctionOvertimeTable').datagrid('load', {
-		"sort" : $("#sort").val()
 	});
 }
 

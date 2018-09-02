@@ -6,8 +6,8 @@ function workRankDatagrid(id){
 	$("#dg").datagrid( {
 		fitColumns : true,
 		remoteSort : false,
-		height : $("#body").height(),
-		width : $("#body").width(),
+		height : $("#body").height()-40,
+		width : $("#body").width()-35,
 		url : "hierarchy/getWorkRank?time1="+$("#dtoTime1").datetimebox("getValue")+"&time2="+$("#dtoTime2").datetimebox("getValue"),
 		singleSelect : true,
 		pageSize : 10,

@@ -6,22 +6,7 @@ $(function(){
 		if(newvalue==null || newvalue==""){
 			$("#dtoTime1").datebox('setValue',formatterDate());
 		}
-		$("#welderTable").datagrid('load',{
-			"parent" : parent,
-			"dtoTime" : newvalue
-		})
 	});
-//	$("#dtoTime1").datebox({
-//		onBlur: function (newvalue,oldvalue) {
-//			if(newvalue==null || newvalue==""){
-//				$("#dtoTime1").datebox('setValue',formatterDate());
-//			}
-//			$("#welderTable").datagrid('load',{
-//				"parent" : parent,
-//				"dtoTime" : $("#dtoTime1").datebox('getValue')
-//			})
-//		}
-//	})
 	$("#dtoTime1").datebox('setValue',formatterDate());
 });
 var chartStr = "";
@@ -249,6 +234,14 @@ function insframeworkTree(){
 			});
 			$('#weldedJunctionTable').datagrid('loadData',{total:0,rows:[]})
 		 }
+	})
+}
+
+function serachWelder(){
+	var newvalue = $("#dtoTime1").datebox('getValue');
+	$("#welderTable").datagrid('load',{
+		"parent" : parent,
+		"dtoTime" : newvalue
 	})
 }
 
