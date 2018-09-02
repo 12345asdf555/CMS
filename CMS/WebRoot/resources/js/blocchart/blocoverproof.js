@@ -57,7 +57,7 @@ function showBlocOverproofChart(){
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name: '超标时长(h)'
+			name: '超标时长(min)'
 		},
 		series:[
 		]
