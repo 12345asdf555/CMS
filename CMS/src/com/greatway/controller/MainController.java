@@ -1,7 +1,6 @@
 package com.greatway.controller;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.LiveDataManager;
@@ -49,6 +47,34 @@ public class MainController {private Page page;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
+	/**
+	 * 区分pc端与Android
+	 * @return
+	 */
+	@RequestMapping("/goBranch")
+	public String goBranch(HttpServletRequest request){
+		String flag = request.getSession().getAttribute("AndroidFlag").toString();
+		if(flag.equals("PC")){
+			return "redirect:/index.jsp";
+		}else{
+			return "redirect:/indexs.jsp";
+		}
+	}
+	
+			
+	/**
+	 * 区分pc端与Android
+	 * @return
+	 */
+	@RequestMapping("/goError")
+	public String goError(HttpServletRequest request){
+		String flag = request.getSession().getAttribute("AndroidFlag").toString();
+		if(flag.equals("PC")){
+			return "redirect:/login.jsp?login_error=1";
+		}else{
+			return "redirect:/logins.jsp?login_error=1";
+		}
+	}
 	/**
 	 * 跳转index页面进行分层
 	 * @return
@@ -93,20 +119,24 @@ public class MainController {private Page page;
 	@RequestMapping("/getUserInsframework")
 	@ResponseBody
 	public String getUserInsframework(HttpServletRequest request){
-		JSONObject obj = new JSONObject();
-		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(object==null){
-			obj.put("uname", "请登录");
-			obj.put("insframework", "无");
-			return obj.toString();
+		JSONObject json = new JSONObject();
+		try{
+			//获取用户id
+			Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if(obj==null){
+				request.setAttribute("afreshLogin", "您的Session已过期，请重新登录！");
+				return null;
+			}
+			MyUser myuser = (MyUser)obj;
+			User list = user.getUserInsframework(new BigInteger(myuser.getId()+""));
+			json.put("id", myuser.getId());
+			json.put("uname", list.getUserName());
+			json.put("type", list.getType());
+			json.put("insframework", list.getInsname());
+		}catch(Exception e){
+			json.put("afreshLogin", "您的Session已过期，请重新登录！");
 		}
-		MyUser u = (MyUser)object;
-		User list = user.getUserInsframework(new BigInteger(u.getId()+""));
-		obj.put("id", u.getId());
-		obj.put("uname", list.getUserName());
-		obj.put("type", list.getType());
-		obj.put("insframework", list.getInsname());
-		return obj.toString();
+		return json.toString();
 	}
 	
 	@RequestMapping("/getHierarchy")

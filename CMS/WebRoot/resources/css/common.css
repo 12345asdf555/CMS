@@ -67,7 +67,7 @@ body{background: #ccc;}
 	position:fixed;
     bottom:0;
     width:100%;
-    background: -webkit-linear-gradient(left, ##4CA5E7 , #a0cad6);
+    background: -webkit-linear-gradient(left, #4CA5E7 , #a0cad6);
 	background: -o-linear-gradient(right, #4CA5E7 , #a0cad6); 
 	background: -moz-linear-gradient(right, #4CA5E7 , #a0cad6); /* Firefox 3.6 - 15 */
 	background: linear-gradient(to right, #4CA5E7 , #a0cad6); 
@@ -95,16 +95,6 @@ input{
 	border:1px solid #84b5ed;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+.ulli{
+	padding-top: 10px;
+}

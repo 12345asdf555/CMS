@@ -1,54 +1,9 @@
 $(function() {
+	//判断Session是否过期
 	getUserInsframework();
-	addTab("欢迎使用", "newwelcome.jsp");
-	tabsIncident();
 })
 
 var type;
-/*function hierarchyLoding() {
-	$.ajax({
-		type : "post",
-		async : false,
-		url : "hierarchy/goIndex",
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (result) {
-				if (result.hierarchy == 1) { //集团层
-					$('#accordiondiv').accordion('add', {
-						title : '<i class="iconfont icon-ren"></i>    报表分析',
-						content : $("#bloc").html(),
-						selected : false
-					});
-				} else if (result.hierarchy == 2 || result.hierarchy == 3) { //公司层/事业部层
-					if (type == 21) {
-						$('#accordiondiv').accordion('add', {
-							title : '<i class="iconfont icon-ren"></i>    报表分析',
-							content : $("#company").html(),
-							selected : false
-						});
-					} else if (type == 22) {
-						$('#accordiondiv').accordion('add', {
-							title : '<i class="iconfont icon-ren"></i>    报表分析',
-							content : $("#caust").html(),
-							selected : false
-						});
-					}
-				} else if (result.hierarchy == 4) { //项目部层
-					$('#accordiondiv').accordion('add', {
-						title : '<i class="iconfont icon-ren"></i>    报表分析',
-						content : $("#item").html(),
-						selected : false
-					});
-				}
-			}
-		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	});
-}*/
-
 function getUserInsframework() {
 	$.ajax({
 		type : "post",
@@ -57,81 +12,94 @@ function getUserInsframework() {
 		data : {},
 		dataType : "json",
 		success : function(result) {
-			type = result.type;
-			var str = "<span>" + result.insframework + ": </span><span>" + result.uname + "</span>";
-			$("#uname").val(result.uname);
-			$("#uid").val(result.id);
-			$("#userInsframework").append(str);
-			//			hierarchyLoding();
-			if (type == 20) {
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;报表分析</div>',
-					content : $("#bloc1").html()
-				});
-				
-			} else if (type == 21) {
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;报表分析</div>',
-					content : $("#company1").html()
-				});
-				
-			} else if (type == 22) {
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;报表分析</div>',
-					content : $("#caust1").html()
-				});
-				
-			} else if (type == 23) {
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;报表分析</div>',
-					content : $("#item1").html()
-				});
-				
+			var afresh = result.afreshLogin;
+			if(afresh!=null && afresh!=""){
+				var url = "logins.jsp";
+				var img = new Image();
+			    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
+			    url = img.src;  // 此时相对路径已经变成绝对路径
+			    img.src = null; // 取消请求
+				top.location.href = url;
+			}else{
+				type = result.type;
+				var str = "<span>" + result.insframework + ": </span><span>" + result.uname + "</span>";
+				$("#uname").val(result.uname);
+				$("#uid").val(result.id);
+				$("#userInsframework").append(str);
+				if (type == 20) {
+					$('#accordiondiv').accordion('add', {
+						title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;报表分析</div>',
+						content : $("#bloc1").html()
+					});
+					$('#accordiondiv').accordion('add', {
+						title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;实时监测</div>',
+						content : $("#bloc2").html(),
+						selected : false
+					});
+				} else if (type == 21) {
+					$('#accordiondiv').accordion('add', {
+						title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;报表分析</div>',
+						content : $("#company1").html()
+					});
+					$('#accordiondiv').accordion('add', {
+						title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;实时监测</div>',
+						content : $("#company2").html(),
+						selected : false
+					});
+				} else if (type == 22) {
+					$('#accordiondiv').accordion('add', {
+						title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;报表分析</div>',
+						content : $("#caust1").html()
+					});
+					$('#accordiondiv').accordion('add', {
+						title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;实时监测</div>',
+						content : $("#caust2").html(),
+						selected : false
+					});
+				} else if (type == 23) {
+					$('#accordiondiv').accordion('add', {
+						title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;报表分析</div>',
+						content : $("#item1").html()
+					});
+					$('#accordiondiv').accordion('add', {
+						title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;实时监测</div>',
+						content : $("#item2").html(),
+						selected : false
+					});
+				}
+				addTab("欢迎使用", "welcomephone.jsp");
+				tabsIncident();
 			}
-			
 		},
 		error : function(errorMsg) {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	})
 }
-function welderHeight() {
-	addTab("焊工最高排行", "blocChart/gowelderHeight");
-}
-function welderLess() {
-	addTab("焊工最低排行", "blocChart/gowelderLess");
-}
-function openUseratio() {
-	addTab("设备利用率", "blocChart/goUseratio");
+
+function openUseratio(){
+	addTab("设备利用率", "android/goUseratio");
 }
 
-function welding() {
-	addTab("焊机", "blocChart/gowelding");
+function openMachineTop(){
+	addTab("焊机最高排行", "android/goMachineMax");
+}
+
+function openMachineBottom(){
+	addTab("焊机最低排行", "android/goMachineMin");
+}
+
+function openWelderTop(){
+	addTab("焊工最高排行", "android/goWelderMax");
+}
+
+function openWelderBottom(){
+	addTab("焊工最低排行", "android/goWelderMin");
 }
 
 function openCompanyTd() {
-//	addTab("实时监测", "td/newAllTd");
-	window.open("td/newAllTd");
+	addTab("焊机实时状态监测", "td/newAllTd");
 }
-
-function openData() {
-	addTab("实时数据", "data/AllData");
-}
-
-function openTd() {
-	addTab("实时监测", "td/AllTdp");
-//	window.open("td/AllTdp");
-}
-function openItemTd() {
-	addTab("实时监测", "td/AllTdp");
-}
-function openWeldingMachine() {
-	addTab("焊机设备管理", "weldingMachine/goWeldingMachine");
-}
-function openCaustTd() {
-	addTab("实时监测", "td/AllTddi");
-}
-
 
 function addTab(title, url) {
 	//该面板是否已打开
@@ -221,12 +189,14 @@ function tabsIncident() {
 }
 
 //选中时改变背景颜色
-function changeColor(obj) {
-	$("ul li").css("backgroundColor", "#1d294d");
-	obj.style.background = "#ffe48d";
+function changeColor(id) {
+	for(var i=1;i<=74;i++){
+		$("#clickid"+i).hide();
+	}
+	$("#clickid"+id).show();
 }
 
-function updatePwd() {
+/*function updatePwd() {
 	$('#dlg').window({
 		modal : true
 	});
@@ -337,4 +307,4 @@ function updatePassword() {
 			}
 		});
 	}
-}
+}*/

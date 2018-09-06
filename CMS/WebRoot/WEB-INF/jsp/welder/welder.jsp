@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body  class="easyui-layout">
     <jsp:include  page="../insframeworktree.jsp"/>
-    <div id="body" region="center"  hide="true"  split="true" title="焊工管理">
+    <div id="body" region="center"  hide="true"  split="true">
       <div id="welderTable_btn">
       <div style="margin-bottom: 5px;">
         <a href="javascript:saveWelder();" class="easyui-linkbutton" iconCls="icon-add">新增</a>

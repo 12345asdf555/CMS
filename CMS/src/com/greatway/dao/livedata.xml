@@ -2455,5 +2455,54 @@
 		${sql}
 	</select>
 	
+	<!-- 获取焊机使用时间排行之最top10 -->
+	<select id="getWeldingmachineList" resultMap="dtoMap">
+		select sum(fworktime)/60/60 loads,fequipment_no fname from tb_work l LEFT JOIN tb_welding_machine m on m.fid = l.fmachine_id 
+		INNER join tb_insframework i on i.fid = l.fitemid and m.finsframework_id = i.fid INNER join tb_insframework ins on ins.fid = i.fparent WHERE 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+			<if test="dto.parent!=null and dto.parent!=''">
+				AND (ins.fparent = #{dto.parent} or ins.fid=#{dto.parent} or i.fid=#{dto.parent})
+			</if>
+		</if>
+		 group by fmachine_id ORDER by loads
+		 <if test="dto!=null and dto!=''">
+			<if test="dto.dtoStatus!=0">
+		 		DESC
+			</if>
+		</if>
+		LIMIT 10
+	</select>
+	
+	
+	<!-- 获取焊工工作时间排行之最top10 -->
+	<select id="getWelderList" resultMap="dtoMap">
+		select sum(fworktime) /60/60 loads,w.fname FROM  tb_work l  left JOIN  tb_welder w on w.fwelder_no = l.fwelder_id 
+		INNER join tb_insframework i on i.fid = l.fitemid and w.fitemid = i.fid INNER join tb_insframework ins on ins.fid = i.fparent WHERE 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+			<if test="dto.parent!=null and dto.parent!=''">
+				AND (ins.fparent = #{dto.parent} or ins.fid=#{dto.parent} or i.fid=#{dto.parent})
+			</if>
+		</if>
+		group by w.fid ORDER by loads 
+		 <if test="dto!=null and dto!=''">
+			<if test="dto.dtoStatus!=0">
+		 		DESC
+			</if>
+		</if>
+		LIMIT 10
+	</select>
+	
 
 </mapper>

@@ -658,4 +658,14 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getBlocRunTime(parent, dto, startindex, endindex);
 	}
 
+	@Override
+	public List<ModelDto> getWeldingmachineList(WeldDto dto) {
+		return live.getWeldingmachineList(dto);
+	}
+
+	@Override
+	public List<ModelDto> getWelderList(WeldDto dto) {
+		return live.getWelderList(dto);
+	}
+
 }

@@ -26,11 +26,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
-<!-- 	<script type="text/javascript" src="resources/js/getTime.js"></script> -->
 	<script type="text/javascript" src="resources/js/welcome/welcomePhone.js"></script>
   </head>
-  <body style="background:#24375b;color:#fff">
-	<div id="person" style="float:left;height:65%;width:48%;margin-top:10px;"></div>
-	<div id="welder" style="float:right;height:65%;width:48%;margin-top:10px;"></div>
+  <body style="background:#24375b;color:#fff;">
+  <div style="height:80%;width:100%;top:0;bottom:0;left:0;margin:auto;position:absolute;">
+	<div id="person" style="float:left;height:100%;width:48%;"></div>
+	<div id="welder" style="float:right;height:100%;width:48%;"></div>
+  </div>
   </body>
 </html>

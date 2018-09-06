@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.model.LiveData;
@@ -595,5 +597,28 @@ public interface LiveDataManager {
 	List<ModelDto> getDurationTime(String time1,String time2,int timetype);
 	List<ModelDto> getDurationTime(Page page,String time1,String time2,int timetype);
 	
+	/**
+	 * 获取利用率明细
+	 * @param page 分页
+	 * @param fid 厂商id
+	 * @param type 厂商类型
+	 * @param dto dto.dtoTime1起始时间dto.dtoTime2结束时间
+	 * @return
+	 */
 	List<ModelDto> getUseDetail(Page page,BigInteger fid,int type,WeldDto dto);
+	
+	/**
+	 * 焊机前十最高最低排行
+	 * @param dto
+	 * @return
+	 */
+	List<ModelDto> getWeldingmachineList(WeldDto dto);
+
+	/**
+	 * 焊工前十最高最低排行
+	 * @param dto
+	 * @return
+	 */
+	List<ModelDto> getWelderList(WeldDto dto);
+	
 }

@@ -160,4 +160,8 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	List<ModelDto> getDurationTime(@Param("sql")String sql);
 	
+	List<ModelDto> getWeldingmachineList(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getWelderList(@Param("dto")WeldDto dto);
+	
 }

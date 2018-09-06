@@ -18,12 +18,10 @@ import com.greatway.dto.WeldDto;
 import com.greatway.manager.DictionaryManager;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.LiveDataManager;
-import com.greatway.manager.WelderManager;
 import com.greatway.manager.WeldingMachineManager;
 import com.greatway.model.Dictionarys;
 import com.greatway.model.Insframework;
 import com.greatway.model.LiveData;
-import com.greatway.model.Welder;
 import com.greatway.page.Page;
 import com.greatway.util.IsnullUtil;
 

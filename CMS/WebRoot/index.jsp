@@ -62,6 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="bloc1" >
     	<ul>
     		<li onclick="changeColor(1)"><a href="javascript:openBlocLoads()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备负荷率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid1"/></div></a></li>
+    		<li onclick="changeColor(3)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid3"/></div></a></li>
 <!--     		<li onclick="changeColor(4)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid4"/></div></a></li> -->
     		<li onclick="changeColor(5)"><a href="javascript:openMaintenance()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;设备维修率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid5"/></div></a></li>
     		<li onclick="changeColor(6)"><a href="javascript:openBlocIdle()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;设备闲置率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid6"/></div></a></li>
