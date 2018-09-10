@@ -1,6 +1,8 @@
 package com.greatway.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -105,12 +107,13 @@ public class AndroidController {
 	
 	@RequestMapping("/goLivedata")
 	public String goLivedata(HttpServletRequest request){
-		lm.getUserId(request);
-		String[] s = request.getParameterValues("ary");
-		String sw = request.getParameter("ary");
-		System.out.println("*****"+s+sw);
-		request.setAttribute("ary", s);
-	    request.setAttribute("status", request.getParameter("status"));
+		try {
+			lm.getUserId(request);
+			request.setAttribute("ary", URLEncoder.encode(request.getParameter("ary"),"utf-8"));
+		    request.setAttribute("status", request.getParameter("status"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		return "android/livedata";
 	}
 	

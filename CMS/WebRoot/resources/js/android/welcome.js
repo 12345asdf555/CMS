@@ -133,7 +133,7 @@ function webclient(){
 			}, 3000)
 			symbol=1;
 		}
-		for(var i = 0;i < redata.length;i+=89){
+		for(var i = 0;i < redata.length;i+=97){
 			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var x=0;x<namex.length;x++){
 					//组织机构与焊工编号都与数据库中一致则录入
@@ -472,13 +472,12 @@ function refreshWelderData(data){
 
 //调用父类（index页面）方法
 function livedata(index){
-	var xxx = JSON.stringify(mall);
 	if(index==0){
-		parent.livedata("工作",mall,0);
+		parent.livedata("工作",encodeURI(JSON.stringify(mall)),0);
 	}else if(index==1){
-		parent.livedata("待机",encodeURI(xxx),1);
+		parent.livedata("待机",encodeURI(JSON.stringify(mall)),1);
 	}else{
-		parent.livedata("报警",warn,2);
+		parent.livedata("报警",encodeURI(JSON.stringify(warn)),2);
 	}
 }
 
