@@ -40,9 +40,12 @@
 	</select>
 	
 	<select id="getAllPosition" parameterType="String" resultType="Td">
-		select tb_welding_machine.fid id,fequipment_no fequipment_no,fposition fposition,finsframework_id fci,tb_insframework.fname fcn from tb_welding_machine LEFT JOIN tb_insframework ON tb_welding_machine.finsframework_id=tb_insframework.fid where 1=1
+		select tb_welding_machine.fid id,fequipment_no fequipment_no,fposition fposition,i.fid fci,i.fname fcn from tb_welding_machine 
+		LEFT JOIN tb_insframework i ON tb_welding_machine.finsframework_id=i.fid 
+		LEFT JOIN tb_insframework ins on ins.fid = i.fparent 
+		LEFT JOIN tb_insframework insf on insf.fid=ins.fparent where 1=1
 		<if test="parent!=null and parent!=''">
-			and finsframework_id=#{parent}
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if>
 	</select>
 	

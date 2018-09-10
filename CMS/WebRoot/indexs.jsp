@@ -70,9 +70,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <div id="bloc2" >
     	<ul>
-    		<li onclick="changeColor(25)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid25"/></div></a></li>
-    		<li onclick="changeColor(26)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid26"/></div></a></li>
-    		<li onclick="changeColor(27)" class="bootomdtyle"><a href="javascript:openCompanyTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid27"/></div></a></li>
+    		<li onclick="changeColor(25)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid25"/></div></a></li>
+    		<li onclick="changeColor(26)"><a href="javascript:openMachineTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid26"/></div></a></li>
+    		<li onclick="changeColor(27)" class="bootomdtyle"><a href="javascript:openAlarmTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid27"/></div></a></li>
     	</ul>
     </div>
 	<!-- 公司 -->
@@ -87,9 +87,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <div id="company2" >
     	<ul>
-    		<li class="ulli" onclick="changeColor(28)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid28"/></div></a></li>
-    		<li class="ulli" onclick="changeColor(29)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid29"/></div></a></li>
-    		<li onclick="changeColor(30)" class="bootomdtyle"><a href="javascript:openCompanyTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid30"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(28)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid28"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(29)"><a href="javascript:openMachineTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid29"/></div></a></li>
+    		<li onclick="changeColor(30)" class="bootomdtyle"><a href="javascript:openAlarmTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid30"/></div></a></li>
     	</ul>
     </div>
 	<!-- 事业部 -->
@@ -104,9 +104,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <div id="caust2" >
     	<ul>
-    		<li onclick="changeColor(31)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid31"/></div></a></li>
-    		<li onclick="changeColor(32)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid32"/></div></a></li>
-    		<li onclick="changeColor(33)" class="bootomdtyle"><a href="javascript:openCompanyTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid33"/></div></a></li>
+    		<li onclick="changeColor(31)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid31"/></div></a></li>
+    		<li onclick="changeColor(32)"><a href="javascript:openMachineTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid32"/></div></a></li>
+    		<li onclick="changeColor(33)" class="bootomdtyle"><a href="javascript:openAlarmTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid33"/></div></a></li>
     	</ul>
     </div>
 	<!-- 项目部 -->
@@ -121,9 +121,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <div  id="item2" >
     	<ul>
-    		<li onclick="changeColor(34)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid34"/></div></a></li>
-    		<li onclick="changeColor(35)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid35"/></div></a></li>
-    		<li onclick="changeColor(36)" class="bootomdtyle"><a href="javascript:openCompanyTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid36"/></div></a></li>
+    		<li onclick="changeColor(34)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid34"/></div></a></li>
+    		<li onclick="changeColor(35)"><a href="javascript:openMachineTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid35"/></div></a></li>
+    		<li onclick="changeColor(36)" class="bootomdtyle"><a href="javascript:openAlarmTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid36"/></div></a></li>
     	</ul>
     </div>
 	<div id="mainPanle" region="center" style="background: white; overflow-y: hidden">

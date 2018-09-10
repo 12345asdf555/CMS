@@ -124,8 +124,6 @@ function loadtree() {
 	});
 }
 
-
-//获取超时待机基数，超时待机信息
 function websocketUrl() {
 	$.ajax({
 		type : "post",
@@ -144,6 +142,7 @@ function websocketUrl() {
 	});
 }
 
+//获取超时待机基数，超时待机信息
 function getMsg(){
 	$.ajax({
 		type : "post",
@@ -225,10 +224,13 @@ function getNowFormatDate(millsTime) {
 
 //获取焊机及焊工信息
 function getMachine(insfid) {
+	var url,welderurl;
 	if (insfid == "" || insfid == null) {
-		var url = "td/getAllPosition";
+		url = "td/getAllPosition";
+		welderurl = "td/getLiveWelder";
 	} else {
-		var url = "td/getAllPosition?parent=" + insfid;
+		url = "td/getAllPosition?parent=" + insfid;
+		welderurl = "td/getLiveWelder?parent=" + insfid;
 	}
 	$.ajax({
 		type : "post",
@@ -266,7 +268,7 @@ function getMachine(insfid) {
 	$.ajax({  
 	      type : "post",  
 	      async : false,
-	      url : "td/allWeldname",  
+	      url : welderurl,  
 	      data : {},  
 	      dataType : "json", //返回数据形式为json  
 	      success : function(result) {

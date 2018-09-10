@@ -457,7 +457,9 @@ public class TdController {
 				    .getAuthentication()  
 				    .getPrincipal();
 			long uid = myuser.getId();
-			if(im.getInsByUserid(BigInteger.valueOf(uid)).get(0).getType()==20){
+			List<Insframework> insframework = im.getInsByUserid(BigInteger.valueOf(uid));
+			parent = insframework.get(0).getId();
+			if(insframework.get(0).getType()==20){
 				List<Td> getAP = tdService.getAllPosition(parent);
 				try{
 					for(Td td:getAP){
@@ -531,7 +533,7 @@ public class TdController {
 	public String geInsname(HttpServletRequest request){
 		
 		int iid =  Integer.parseInt(request.getParameter("iid"));
-		String insname = tdService.findInsname(iid);;
+		String insname = tdService.findInsname(iid);
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -569,16 +571,24 @@ public class TdController {
 	@ResponseBody
 	public String getLiveWelder(HttpServletRequest request){
 		BigInteger uid = lm.getUserId(request);
-		BigInteger parent = im.getUserInsfId(uid);
+		BigInteger parent = null;
 		List<Welder> list = wm.getWelderAll(null, parent);
+		String parentId = request.getParameter("parent");
+		if(iutil.isNull(parentId)){
+			parent = new BigInteger(parentId);
+		}else{
+			parent = im.getUserInsfId(uid);
+		}
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
 		try{
+			Insframework insname = im.getInsById(parent);
 			for(int i=0;i<list.size();i++){
 				json.put("fname",list.get(i).getName());
 				json.put("fwelder_no", list.get(i).getWelderno());
 				json.put("fitemid", list.get(i).getIid());
+				json.put("fitemname", insname.getName());
 				ary.add(json);
 			}
 		}catch(Exception e){

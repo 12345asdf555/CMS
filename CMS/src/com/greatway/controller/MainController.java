@@ -60,7 +60,6 @@ public class MainController {private Page page;
 			return "redirect:/indexs.jsp";
 		}
 	}
-	
 			
 	/**
 	 * 区分pc端与Android

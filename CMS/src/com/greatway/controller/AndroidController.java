@@ -88,6 +88,32 @@ public class AndroidController {
 		return "android/weldermin";
 	}
 	
+	@RequestMapping("/goMachinecurve")
+	public String goNextcurve(HttpServletRequest request){
+	    String value = request.getParameter("value");
+	    String valuename = request.getParameter("valuename");
+	    request.setAttribute("value", value);
+	    request.setAttribute("valuename", valuename);
+	    return "android/machineCurve";
+	}
+	
+	@RequestMapping("/gomachineAllTd")
+	public String newAllTd(HttpServletRequest request){
+		lm.getUserId(request);
+		return "android/machineBackUp";
+	}
+	
+	@RequestMapping("/goLivedata")
+	public String goLivedata(HttpServletRequest request){
+		lm.getUserId(request);
+		String[] s = request.getParameterValues("ary");
+		String sw = request.getParameter("ary");
+		System.out.println("*****"+s+sw);
+		request.setAttribute("ary", s);
+	    request.setAttribute("status", request.getParameter("status"));
+		return "android/livedata";
+	}
+	
 	/**
 	 * 获取焊机最高/低排行
 	 * @param request

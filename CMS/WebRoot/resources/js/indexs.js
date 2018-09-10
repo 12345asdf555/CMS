@@ -77,6 +77,10 @@ function getUserInsframework() {
 	})
 }
 
+function livedata(name,ary,status){
+	addTab("焊机实时"+name+"监测", "android/goLivedata?ary="+ary+"&status="+status);
+}
+
 function openUseratio(){
 	addTab("设备利用率", "android/goUseratio");
 }
@@ -97,8 +101,12 @@ function openWelderBottom(){
 	addTab("焊工最低排行", "android/goWelderMin");
 }
 
-function openCompanyTd() {
-	addTab("焊机实时状态监测", "td/newAllTd");
+function openMachineTd() {
+	addTab("焊机实时状态监测", "android/gomachineAllTd");
+}
+
+function openAlarmTd() {
+	addTab("焊机报警实时状态监测", "android/gomachineAllTd");
 }
 
 function addTab(title, url) {

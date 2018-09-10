@@ -2,6 +2,7 @@ var work = new Array();
 var wait = new Array();
 var mall = new Array();
 var weld = new Array();
+var warn = new Array();
 var websocketURL;
 var socket;
 var redata;
@@ -122,16 +123,20 @@ function webclient(){
 				refreshPersonData(data1);
 				var data2 = [{value:work.length, name:'工作'},{value:wait.length, name:'待机'},{value:machine.length-work.length-wait.length, name:'关机'}];
 				refreshWelderData(data2);
+				$("#work").html(work.length);
+				$("#standby").html(wait.length);
+				$("#warn").html(warn.length);
 				work.length=0;
 				wait.length=0;
 				mall.length=0;
+				warn.length=0;
 			}, 3000)
 			symbol=1;
 		}
 		for(var i = 0;i < redata.length;i+=89){
 			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var x=0;x<namex.length;x++){
-					//组织机构与焊工编号都与数据库中一直则录入
+					//组织机构与焊工编号都与数据库中一致则录入
 					if(namex[x].fitemid == redata.substring(2+i, 4+i) && namex[x].fwelder_no == redata.substring(8+i, 12+i)){
 						if(weld.length==0){
 							weld.push(redata.substring(8+i, 12+i));
@@ -150,12 +155,50 @@ function webclient(){
 				}
 				if(redata.substring(0+i,2+i)=="03"||redata.substring(0+i,2+i)=="05"||redata.substring(0+i,2+i)=="07"||redata.substring(0+i,2+i)=="00"){
 					for(var x=0;x<machine.length;x++){
+						if(redata.substring(0+i,2+i)=="03"){
+							if(machine[x].fid == parseInt(redata.substring(4+i, 8+i))){
+								var liveele = parseInt(redata.substring(12+i, 16+i));
+					            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
+					            var maxele = parseInt(redata.substring(61+i, 64+i));
+					            var minele = parseInt(redata.substring(64+i, 67+i));
+					            var maxvol = parseInt(redata.substring(67+i, 70+i));
+					            var minvol = parseInt(redata.substring(70+i, 73+i));
+								if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
+									if(warn.length==0){
+										warn.push({
+									         "fid" : redata.substring(4+i, 8+i),
+									         "fstatus" : "99",
+									         "fwelder" : redata.substring(8+i, 12+i),
+									         "liveele" : liveele,
+									         "livevol" : livevol
+									     });
+									}else{
+										for(var j=0;j<warn.length;j++){
+											if(warn[j].fid!=redata.substring(4+i, 8+i)){
+												warn.push({
+											         "fid" : redata.substring(4+i, 8+i),
+											         "fstatus" : "99",
+											         "fwelder" : redata.substring(8+i, 12+i),
+											         "liveele" : liveele,
+											         "livevol" : livevol
+											     });
+											}else{
+												break;
+											}
+										}
+									}
+								}	
+							}
+						}
 						if(machine[x].fid == parseInt(redata.substring(4+i, 8+i))){
 							if(mall.length==0){
 								var arr  =
 							     {
 							         "fid" : redata.substring(4+i, 8+i),
-							         "fstatus" : redata.substring(0+i,2+i)
+							         "fstatus" : redata.substring(0+i,2+i),
+							         "fwelder" : redata.substring(8+i, 12+i),
+							         "liveele" : liveele,
+							         "livevol" : livevol
 							     }
 								mall.push(arr);
 							}else{
@@ -165,7 +208,10 @@ function webclient(){
 											var arr  =
 										     {
 										         "fid" : redata.substring(4+i, 8+i),
-										         "fstatus" : redata.substring(0+i,2+i)
+										         "fstatus" : redata.substring(0+i,2+i),
+										         "fwelder" : redata.substring(8+i, 12+i),
+										         "liveele" : liveele,
+										         "livevol" : livevol
 										     }
 											mall.push(arr);
 										}
@@ -177,35 +223,7 @@ function webclient(){
 						}
 					}
 			  }
-/*			if(redata.substring(0+i,2+i)=="00"){
-				for(var w=0;w<work.length;w++){
-					if(work[w]!=redata.substring(4+i, 8+i)&&w==work.length-1){
-						if(wait.length==0){
-							wait.push(redata.substring(4+i, 8+i));
-						}else{
-							for(var j=0;j<wait.length;j++){
-								if(wait[j]!=redata.substring(4+i, 8+i)){
-									if(j==wait.length-1){
-										wait.push(redata.substring(4+i, 8+i));
-									}
-								}else{
-									break;
-								}
-							}
-						}
-					}
-				}
-			}*/
 		};
-		//新增定时器
-//		if(symbol==0){
-//			window.setInterval(function() {
-//				work.length=0;
-//				weld.length=0;
-//				wait.length=0;
-//			}, 30000)
-//		}
-//		symbol=1;
 		}
 	};
 	//关闭事件
@@ -346,10 +364,14 @@ window.setInterval(function () {
 	refreshPersonData(data1);
 	var data2 = [{value:work.length, name:'工作'},{value:wait.length, name:'待机'},{value:machine.length-work.length-wait.length, name:'关机'}];
 	refreshWelderData(data2);
+	$("#work").html(work.length);
+	$("#standby").html(wait.length);
+	$("#warn").html(warn.length);
 	work.length=0;
 	weld.length=0;
 	wait.length=0;
 	mall.length=0;
+	warn.length=0;
 },30000);
 
 var weldercharts;
@@ -448,6 +470,17 @@ function refreshWelderData(data){
 	weldercharts.setOption(option);
 }
 
+//调用父类（index页面）方法
+function livedata(index){
+	var xxx = JSON.stringify(mall);
+	if(index==0){
+		parent.livedata("工作",mall,0);
+	}else if(index==1){
+		parent.livedata("待机",encodeURI(xxx),1);
+	}else{
+		parent.livedata("报警",warn,2);
+	}
+}
 
 //监听窗口大小变化
 window.onresize = function() {

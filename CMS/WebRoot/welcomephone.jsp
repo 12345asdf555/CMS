@@ -26,12 +26,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
-	<script type="text/javascript" src="resources/js/welcome/welcomePhone.js"></script>
+	<script type="text/javascript" src="resources/js/android/welcome.js"></script>
   </head>
   <body style="background:#24375b;color:#fff;">
-  <div style="height:80%;width:100%;top:0;bottom:0;left:0;margin:auto;position:absolute;">
-	<div id="person" style="float:left;height:100%;width:48%;"></div>
-	<div id="welder" style="float:right;height:100%;width:48%;"></div>
-  </div>
+  	<div id="person" style="float:left;height:65%;width:48%;margin-top:10px;"></div>
+	<div id="welder" style="float:right;height:65%;width:48%;margin-top:10px;"></div>
+	<div style="width:96%;float:left;border:2px solid #5d99dd;border-radius: 30px;margin-left:20px;margin-right:20px;">
+		<div class="wcchart" style="width:10%"></div>
+		<div class="wcchart">
+			<a href="javascript:livedata(0);"><div id="div1" style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/welder_03.png" width="28%"></div></a>
+			工作：<span id="work">0</span>
+		</div>
+		<div class="wcchart" >
+			<a href="javascript:livedata(1)"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/welder_02.png" width="28%"></div></a>
+			待机：<span id="standby">0</span>
+		</div>
+		<div class="wcchart">
+			<a href="javascript:livedata(2)"><div style="margin-top:10px;margin-bottom:10px;"><img src="resources/images/welder_01.png" width="28%"></div></a>
+			报警：<span id="warn">0</span>
+		</div>
+		<div class="wcchart" style="width:10%"></div>
+	</div>
   </body>
 </html>
