@@ -44,4 +44,11 @@ public interface WeldedJunctionManager {
 	 * @param wj
 	 */
 	boolean deleteJunction(BigInteger id);
+	
+	/**
+	 * 查找焊口
+	 * @param parent 组织机构id
+	 * @return
+	 */
+	List<WeldedJunction> getLiveJunction(Page page,BigInteger parent);
 }

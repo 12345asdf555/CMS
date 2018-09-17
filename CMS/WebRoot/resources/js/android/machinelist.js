@@ -44,11 +44,11 @@ function showCompanyLoadsChart(){
 		},
 		toolbox:{
 			feature:{
-				dataView : {show: true, readOnly: false},
+				/*dataView : {show: true, readOnly: false},*/
 	            magicType : {show: true, type: ['line', 'bar']},
-	            restore : {show: true},
+	            restore : {show: true}/*,
 	            saveAsImage : {show: true}//保存为图片
-			},
+*/			},
 			right:'2%'
 		},
 		xAxis:{

@@ -49,7 +49,7 @@ public class WelderController {
 		return "welder/welder";
 	}
 	
-	@RequestMapping("/goAddWelder")
+	/*@RequestMapping("/goAddWelder")
 	public String goAddWeldedJunction(){
 		return "welder/addwelder";
 	}
@@ -66,7 +66,7 @@ public class WelderController {
 		Welder w = wm.getWelderById(new BigInteger(request.getParameter("id")));
 		request.setAttribute("w", w);
 		return "welder/removewelder";
-	}
+	}*/
 	
 	
 	@RequestMapping("/getWelderList")

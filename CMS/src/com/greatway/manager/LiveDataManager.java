@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.model.LiveData;

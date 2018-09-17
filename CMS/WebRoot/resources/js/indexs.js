@@ -105,8 +105,8 @@ function openMachineTd() {
 	addTab("焊机实时状态监测", "android/gomachineAllTd");
 }
 
-function openAlarmTd() {
-	addTab("焊机报警实时状态监测", "android/gomachineAllTd");
+function openJunctionTd() {
+	addTab("焊口实时状态监测", "android/goJunctionAllTd");
 }
 
 function addTab(title, url) {

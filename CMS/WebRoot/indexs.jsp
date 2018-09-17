@@ -31,30 +31,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
 
   <body class="easyui-layout">
-  	<!-- 头部 -->
-  	<!-- <div region="north" split="true" style="height: 128px;" id="north">
-		<div class="head-wrap">
-			<a href="" class="logo"></a>
-			<div class="search-wrap">
-				<div class="search">
-					<input type="" placeholder='公司内部' class=''>
-					<button><i class="iconfont icon-search ver-a-m"></i></button>
-				</div>
-			</div>
-			<div class="box clearfix">
-				<div class="box-lef fl"></div>
-				<div class="box-rig fl" id="boxrig">
-					<div style="float:left"><a href="">首页</a></div>
-					<div style="float:right">
-						<a href="javascript:history.go(-1)" id="pageUp">返回</a>
-						<a href="javascript:void(0)" id="userInsframework"></a>
-						<a href="user/logout">注销</a>
-						<a href="javascript:updatePwd()">修改密码</a>
-					</div>
-				</div>
-			</div>
-		</div>
-  	</div> -->
   	<div region="west" hide="true" split="true" title= "导航菜单" style="width: 200px;background: #1d294d" id="west" data-options="iconCls:'icon-navigation'">
 	  	<div class="easyui-accordion" border="false" id="accordiondiv"></div>
 	</div>
@@ -71,8 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="bloc2" >
     	<ul>
     		<li onclick="changeColor(25)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid25"/></div></a></li>
-    		<li onclick="changeColor(26)"><a href="javascript:openMachineTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid26"/></div></a></li>
-    		<li onclick="changeColor(27)" class="bootomdtyle"><a href="javascript:openAlarmTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid27"/></div></a></li>
+    		<li onclick="changeColor(26) class="bootomdtyle""><a href="javascript:openJunctionTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid26"/></div></a></li>
     	</ul>
     </div>
 	<!-- 公司 -->
@@ -88,8 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="company2" >
     	<ul>
     		<li class="ulli" onclick="changeColor(28)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid28"/></div></a></li>
-    		<li class="ulli" onclick="changeColor(29)"><a href="javascript:openMachineTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid29"/></div></a></li>
-    		<li onclick="changeColor(30)" class="bootomdtyle"><a href="javascript:openAlarmTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid30"/></div></a></li>
+    		<li onclick="changeColor(29)"  class="bootomdtyle"><a href="javascript:openJunctionTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid29"/></div></a></li>
     	</ul>
     </div>
 	<!-- 事业部 -->
@@ -105,8 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="caust2" >
     	<ul>
     		<li onclick="changeColor(31)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid31"/></div></a></li>
-    		<li onclick="changeColor(32)"><a href="javascript:openMachineTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid32"/></div></a></li>
-    		<li onclick="changeColor(33)" class="bootomdtyle"><a href="javascript:openAlarmTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid33"/></div></a></li>
+    		<li onclick="changeColor(32)"><a href="javascript:openJunctionTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid32"/></div></a></li>
     	</ul>
     </div>
 	<!-- 项目部 -->
@@ -122,8 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div  id="item2" >
     	<ul>
     		<li onclick="changeColor(34)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid34"/></div></a></li>
-    		<li onclick="changeColor(35)"><a href="javascript:openMachineTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid35"/></div></a></li>
-    		<li onclick="changeColor(36)" class="bootomdtyle"><a href="javascript:openAlarmTd()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;焊机报警实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid36"/></div></a></li>
+    		<li onclick="changeColor(35)"><a href="javascript:openJunctionTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid35"/></div></a></li>
     	</ul>
     </div>
 	<div id="mainPanle" region="center" style="background: white; overflow-y: hidden">
@@ -142,32 +114,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div style="margin-right:5px;"><a href="" class="logo"></a></div>
 		</div>
 	</div>
-	<!-- 修改密码 
-	<div id="dlg" class="easyui-dialog" style="width: 400px; height: 300px; padding:10px 20px" closed="true" title="修改密码" buttons="#dlg-buttons">
-		<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
-		<div class="fitem">
-			<lable>用户名</lable>
-			<input type="hidden" name="uid" id="uid" readonly="true"/>
-			<input type="text" name="uname" id="uname" readonly="true"/>
-		</div>
-		<div class="fitem">
-			<lable><span class="required">*</span>密码</lable>
-			<input type="password" name="pwd" id="pwd" onkeyup="pwdKeyUp(this)" /><br/>
-		</div>
-		<div class="fitem">
-			<lable>安全程度</lable>
-			<span id="weak">弱</span><span id="middle">中</span><span id="strength">强</span>
-		</div>
-		<div class="fitem">
-			<lable><span class="required">*</span>确认密码</lable>
-			<input type="password"  name="pwds" id="pwds" data-options="required:true"/>
-		</div>
-		<div id="pwdcheck" style="color:red;width:220px;height:20px;text-align: center;margin-left:45px;"></div>
-		</form>
-	</div>
-	<div id="dlg-buttons">
-		<a href="javascript:updatePassword();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-		<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
-	</div>-->
   </body>
 </html>

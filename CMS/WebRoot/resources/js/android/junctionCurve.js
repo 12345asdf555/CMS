@@ -5,11 +5,6 @@ var dglength,websocketURL,timerele,socket,redata,series, chart,series1,chart1,di
 var symbol = 0,maxele = 0,minele = 0,maxvol = 0,minvol = 0,flag=0,noflag=0;
 
 $(function() {
-	if($("#status").val()){
-		$("#historyurl").attr("href","android/goLivedata?status="+$("#status").val());
-	}else{
-		$("#historyurl").attr("href","android/gomachineAllTd");
-	}
 	var width = $("#treeDiv").width();
 	$.ajax({
 		type : "post",
@@ -20,6 +15,21 @@ $(function() {
 		success : function(result) {
 			if (result) {
 				websocketURL = eval(result.web_socket);
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "td/getAllPosition",
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				machine = eval(result.rows);
 			}
 		},
 		error : function(errorMsg) {
@@ -360,14 +370,14 @@ function iview() {
 	ele.length = 0;
 	for (var i = 0; i < redata.length; i += 97) {
 //		if (redata.substring(8 + i, 12 + i) != "0000") {
-			if (parseInt(redata.substring(4 + i, 8 + i)) == document.getElementById("in2").value) {
+			if (parseInt(redata.substring(89 + i, 97 + i)) == $("#no").val() && parseInt(redata.substring(2 + i, 4 + i)) == $("#itemid").val()) {
 				var liveele = parseInt(redata.substring(12+i, 16+i));
 	            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
 				ele.push(liveele);
 				vol.push(livevol);
 				var ttme = redata.substring(40+i, 59+i);
 	            ttme=ttme.replace(/-/g, '/');
-	            time.push(Date.parse(new Date(ttme))); 
+	            time.push(Date.parse(new Date(ttme)));
 				machstatus.push(redata.substring(0 + i, 2 + i));
 				maxele = parseInt(redata.substring(61 + i, 64 + i));
 				minele = parseInt(redata.substring(64 + i, 67 + i));
@@ -405,13 +415,12 @@ function iview() {
 				$("#new3").val(parseInt(redata.substring(28 + i, 32 + i)));
 				$("#new4").val(parseInt(redata.substring(32 + i, 36 + i)));
 				$("#new5").val(parseInt(redata.substring(36 + i, 40 + i)));
-				/*for (var k = 0; k < welderName.length; k++) {
-					if (welderName[k].fwelder_no == redata.substring(8 + i, 12 + i)) {
-						document.getElementById("in13").value = welderName[k].fname;
+				for (var k = 0; k < machine.length; k++) {
+					if (machine[k].fid == redata.substring(4 + i, 8 + i)) {
+						$("#inn2").val(machine[k].fequipment_no);
+						$("#in2").val(machine[k].fid);
 					}
 				}
-				document.getElementById("in11").value = redata.substring(73 + i, 81 + i);
-				document.getElementById("in12").value = redata.substring(81 + i, 89 + i);*/
 
 				if (time.length != 0 && z < time.length) {
 					var mstatus = redata.substring(0 + i, 2 + i);
@@ -542,12 +551,6 @@ function getOvertime(){
 	  	}
 	};
 }
-
-//每小时统计超时
-/*window.setInterval(function() {
-	getOvertime();
-}, 3600*1000)*/
-
 
 //监听窗口大小变化
 window.onresize = function() {

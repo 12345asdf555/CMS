@@ -95,23 +95,23 @@ public class WeldingMachineController {
 	 * 新增焊机设备
 	 * @return
 	 */
-	@RequestMapping("/goAddWeldingMachine")
+	/*@RequestMapping("/goAddWeldingMachine")
 	public String goAddWeldingMachine(){
 		return "weldingMachine/addweldingmachine";
-	}
+	}*/
 	
 	/**
 	 * 修改焊机设备
 	 * @param request
 	 * @param wid
 	 * @return
-	 */
+	 *//*
 	@RequestMapping("/goEditWeldingMachine")
 	public String goEditWeldingMachine(HttpServletRequest request, @RequestParam String wid){
 		WeldingMachine weld = wmm.getWeldingMachineById(new BigInteger(wid));
 		request.setAttribute("w", weld);
 		return "weldingMachine/editweldingmachine";
-	}
+	}*/
 	
 	/**
 	 * 删除焊机信息
@@ -119,7 +119,7 @@ public class WeldingMachineController {
 	 * @param wid
 	 * @return
 	 */
-	@RequestMapping("/goremoveWeldingMachine")
+	/*@RequestMapping("/goremoveWeldingMachine")
 	public String goremoveWeldingMahine(HttpServletRequest request, @RequestParam String wid,@RequestParam String insfid){
 		WeldingMachine weld = wmm.getWeldingMachineById(new BigInteger(wid));
 		if(weld.getIsnetworking()==0){
@@ -130,7 +130,7 @@ public class WeldingMachineController {
 		request.setAttribute("w", weld);
 		request.setAttribute("insfid", insfid);
 		return "weldingMachine/removeweldingmachine";
-	}
+	}*/
 	
 	/**
 	 * 显示焊机列表

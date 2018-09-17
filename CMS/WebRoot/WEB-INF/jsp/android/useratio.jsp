@@ -49,17 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		<!-- <div id="maxexplain">
-			<div id="explain">
-				<span>设备利用率</span><hr>
-				<ul>
-					<li>展现某一时间段内，各部门的设备利用率及趋势</li>
-					<li>利用率=每天的焊机开机台数/部门焊机设备总台数(取最大值)</li>
-				</ul>
-			</div>
-		</div> -->
 		<div id="charts" style="height:90%;width:90%;margin-right: 10px;margin-left: 10px;margin-bottom:10px;"></div>
-<!-- 	    <table id="dg" style="table-layout: fixed; width:100%;"></table> -->
 	</div>
   </body>
 </html>

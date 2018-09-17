@@ -9,16 +9,21 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.LiveDataManager;
 import com.greatway.model.Insframework;
+import com.greatway.model.WeldedJunction;
+import com.greatway.page.Page;
 import com.greatway.util.IsnullUtil;
+import com.spring.model.MyUser;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -94,8 +99,10 @@ public class AndroidController {
 	public String goNextcurve(HttpServletRequest request){
 	    String value = request.getParameter("value");
 	    String valuename = request.getParameter("valuename");
+	    String status = request.getParameter("status");
 	    request.setAttribute("value", value);
 	    request.setAttribute("valuename", valuename);
+	    request.setAttribute("status", status);
 	    return "android/machineCurve";
 	}
 	
@@ -109,12 +116,38 @@ public class AndroidController {
 	public String goLivedata(HttpServletRequest request){
 		try {
 			lm.getUserId(request);
-			request.setAttribute("ary", URLEncoder.encode(request.getParameter("ary"),"utf-8"));
+			String ary = request.getParameter("ary");
+			if(iutil.isNull(ary) && !("[]").equals(ary)){
+				request.setAttribute("ary", URLEncoder.encode(ary,"utf-8"));
+			}
 		    request.setAttribute("status", request.getParameter("status"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return "android/livedata";
+	}
+	
+	/**
+	 * 跳转焊口列表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/goJunctionAllTd")
+	public String goJunctionAllTd(HttpServletRequest request){
+		lm.getUserId(request);
+		return "android/junction";
+	}
+	
+	/**
+	 * 跳转焊口实时
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/goJunctioncurve")
+	public String goJunctioncurve(HttpServletRequest request){
+	    request.setAttribute("no", request.getParameter("no"));
+	    request.setAttribute("itemid", request.getParameter("itemid"));
+	    return "android/junctionCurve";
 	}
 	
 	/**

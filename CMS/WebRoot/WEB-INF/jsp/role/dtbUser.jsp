@@ -86,37 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		         $('#tt').datagrid('checkRow', index);
 		         }
 	             })
-	             }         
-	             
-			       /*  if(data){
-			        $.each(data.rows, function(index, item){
-			        	    var a = $("#id").val();
-			        	  
-			        	    var b;
-			        	    var c
-						    $.ajax( {
-							url : 'role/getUser?id='+a,
-							data : {
-							},
-							type : 'post',
-							async : false,
-							dataType : 'json',
-							success : function(result) {
-							b = result.rows;
-							},
-							error : function() {
-								alert("获取数据失败，请联系系统管理员！");
-							}
-						});
-						c = eval(b);
-					for(var i=0;i<c.length;i++)
-					{
-			        if(item.users_name==c[i].users_name){
-			        $('#tt').datagrid('checkRow', index);
-			        }
-			        }
-			        });
-			        } */
+	             }
 			        }                   
 	});
 }

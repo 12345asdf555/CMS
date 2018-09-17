@@ -147,14 +147,14 @@ public class UserController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/toAddUser")
+	/*@RequestMapping("/toAddUser")
 	public String toAddUser(HttpServletRequest request){
 		String insfname = request.getParameter("name");
 		String insid = request.getParameter("insid");
 		request.setAttribute("insfname", insfname);
 		request.setAttribute("insid", insid);
 		return "user/addUser";
-	}
+	}*/
 	/**
 	 * 添加用户并重定向
 	 * @param user
@@ -188,15 +188,12 @@ public class UserController {
             userService.saveRole(user);
         }
         }
-        
-/*		userService.save(user);*/
 		obj.put("success", true);
 		}catch(Exception e){
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
 		}
 		return obj.toString();
-/*		return "redirect:/user/AllUser";*/
 	}
 	
 	/**
@@ -260,7 +257,7 @@ public class UserController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/getUser")
+	/*@RequestMapping("/getUser")
 	public String getUser(@RequestParam int id,HttpServletRequest request){
 		request.setAttribute("user", userService.findById(new Integer(id)));
 		return "user/editUser";
@@ -270,7 +267,7 @@ public class UserController {
 	public String desUser(@RequestParam int id,HttpServletRequest request){
 		request.setAttribute("user", userService.findById(new Integer(id)));
 		return "user/destroyUser";
-	}
+	}*/
 	/**
 	 * 删除用户
 	 * @param id
@@ -406,7 +403,6 @@ public class UserController {
 		}
 		obj.put("rows", ary);
 		return obj.toString();
-/*		return "redirect:/user/AllUser";*/
 	}
 	
 	@RequestMapping("/getStatusAll")

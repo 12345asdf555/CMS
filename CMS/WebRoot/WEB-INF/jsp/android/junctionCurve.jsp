@@ -30,21 +30,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
 <script type="text/javascript" src="resources/js/highcharts.js"></script>
 <script type="text/javascript" src="resources/js/exporting.js"></script>
-<script type="text/javascript" src="resources/js/android/machineCurve.js"></script>
+<script type="text/javascript" src="resources/js/android/junctionCurve.js"></script>
 </head>
 
 <body class="easyui-layout">
 	<div id="bodys" region="center" hide="true" split="true">
-		<input id="status" type="hidden" value="${status}">
+		<input id="no" type="hidden" value="${no }">
+		<input id="itemid" type="hidden" value="${itemid }">
 		<div style="width:15%;height:150px;float:left;">
-			点击示意图返回<br/><a id="historyurl" href="android/goLivedata?status=${status}"><img id="mrjpg" src="resources/images/welder_04.png" width="80%" height="90%" style="margin-left:20px"></a>
+			点击示意图返回<br /><a href="android/goJunctionAllTd"><img id="mrjpg" src="resources/images/welder_04.png" width="80%" height="90%" style="margin-left:20px"></a>
 		</div>
 		<div style="float:right;width:83%;height:150px;">
 			基本参数
 			<div class="divtb">
 				<label id="la2">设备编号</label>
-				<input id="in2" value="${value}" readonly="readonly" type="text" disabled="true" style="display:none;text-align:center;color:#000000;width:200px;height:32px;font-size:18px;background-color:#EEEEEE;border:0px;">
-				<input id="inn2" value="${valuename}" readonly="readonly" type="text" disabled="true">
+				<input id="in2" type="hidden">
+				<input id="inn2" value="" readonly="readonly" type="text" disabled="true">
 				<label id="la5">预置电流</label>
 				<input id="in5" value="" type="text" readonly="readonly" disabled="true">
 				<label id="la6">预置电压</label>
@@ -76,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div style="float:left;width:98%;height:70%;border:2px solid #eee">
 			实时曲线
 			<div id="body31" style="width:100%;height:50%;"></div>
-			<div style="float:left; width:100%;height:5px;background-color: #C4C4C4;"></div>
+			<div style="float:left; width:100%;height:10px;background-color: #C4C4C4;"></div>
 			<div id="body32" style="width:100%;height:48%;"></div>
 		</div>
 	</div>

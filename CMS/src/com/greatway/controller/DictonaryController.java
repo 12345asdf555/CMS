@@ -42,25 +42,25 @@ public class DictonaryController {
 		return "Dictionary/DictionaryList";
 	}
 	
-	@RequestMapping("/goAddDictionary")
+	/*@RequestMapping("/goAddDictionary")
 	public String goAddDictionary(HttpServletRequest request){
 		return "Dictionary/addDictionary";
-	}
+	}*/
 	
-	@RequestMapping("/goEditDictionary")
+	/*@RequestMapping("/goEditDictionary")
 	public String goEditDictionary(HttpServletRequest request){
 		int id=Integer.parseInt(request.getParameter("id"));
 		Dictionarys dic=dictionaryManager.getDictionaryByFid(id);
 		request.setAttribute("Dictionary",dic);
 		return "Dictionary/editDictionary";
-	}
+	}*/
 	
-	@RequestMapping("/goRemoveDictionary")
+	/*@RequestMapping("/goRemoveDictionary")
 	public String goRemoveDictionary(@RequestParam int id,HttpServletRequest request){
 		Dictionarys dic=dictionaryManager.getDictionaryByFid(id);
 		request.setAttribute("Dictionary",dic);
 		return "Dictionary/RemoveDictionary";
-	}
+	}*/
 	
 	@RequestMapping("/getDictionaryAll")
 	@ResponseBody

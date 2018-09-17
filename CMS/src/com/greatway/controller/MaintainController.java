@@ -65,23 +65,23 @@ public class MaintainController {
 	 * @param tname
 	 * @return
 	 */
-	@RequestMapping("/goremoveMaintain")
+	/*@RequestMapping("/goremoveMaintain")
 	public String goremoveWeldingMahine(HttpServletRequest request, @RequestParam String wid,@RequestParam String tname,@RequestParam String insfid){
 		WeldingMaintenance maibtain = mm.getWeldingMaintenanceById(new BigInteger(wid));
 		request.setAttribute("m", maibtain);
 		request.setAttribute("tname", tname);
 		request.setAttribute("insfid", insfid);
 		return "maintain/removemaintain";
-	}
+	}*/
 	
 	/**
 	 * 跳转新增维修记录页面
 	 * @return
 	 */
-	@RequestMapping("/goAddMaintain")
+	/*@RequestMapping("/goAddMaintain")
 	public String goAddMaintain(){
 		return "maintain/addmaintain";
-	}
+	}*/
 	
 	/**
 	 * 跳转修改维修记录页面
@@ -89,13 +89,13 @@ public class MaintainController {
 	 * @param wid
 	 * @return
 	 */
-	@RequestMapping("/goEditMaintain")
+	/*@RequestMapping("/goEditMaintain")
 	public String goEditMaintain(HttpServletRequest request, @RequestParam String wid,@RequestParam String insfid){
 		WeldingMaintenance wm = mm.getWeldingMaintenanceById(new BigInteger(wid));
 		request.setAttribute("wm", wm);
 		request.setAttribute("insfid", insfid);
 		return "maintain/editmaintain";
-	}
+	}*/
 	
 	/**
 	 * 显示维修列表

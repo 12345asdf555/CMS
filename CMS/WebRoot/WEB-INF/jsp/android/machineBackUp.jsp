@@ -62,23 +62,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<ul>
 						<li>
 							<a href="javascript:statusClick(0);" class="easyui-linkbutton"iconCls="icon-work" style="width:110px;text-align:left;">工作总数</a>
-							<a href="javascript:void(0);" class="easyui-linkbutton" id="work" style="width:50px;">0</a>
+							<a href="javascript:void(0);" class="easyui-linkbutton" id="work" style="width:50px;height:22px;">0</a>
 						</li>
 						<li>
 							<a href="javascript:statusClick(1);" class="easyui-linkbutton"iconCls="icon-standby" style="width:110px;text-align:left;">待机总数</a>
-							<a href="javascript:void(0);" class="easyui-linkbutton" id="standby" style="width:50px;">0</a>
+							<a href="javascript:void(0);" class="easyui-linkbutton" id="standby" style="width:50px;height:22px;">0</a>
 						</li>
 						<li>
 							<a href="javascript:statusClick(2);" class="easyui-linkbutton"iconCls="icon-off" style="width:110px;text-align:left;">关机总数</a>
-							<a href="javascript:void(0);" class="easyui-linkbutton" id="off" style="width:50px;">0</a>
+							<a href="javascript:void(0);" class="easyui-linkbutton" id="off" style="width:50px;height:22px;">0</a>
 						</li>
 						<li>
 							<a href="javascript:statusClick(3);" class="easyui-linkbutton"iconCls="icon-overproof" style="width:110px;text-align:left;">超标总数</a>
-							<a href="javascript:void(0);" class="easyui-linkbutton" id="overproof" style="width:50px;">0</a>
+							<a href="javascript:void(0);" class="easyui-linkbutton" id="overproof" style="width:50px;height:22px;">0</a>
 						</li>
 						<li>
 							<a href="javascript:statusClick(4);" class="easyui-linkbutton"iconCls="icon-overtimestandby" style="width:110px;text-align:left;">超时待机总数</a>
-							<a href="javascript:void(0);" class="easyui-linkbutton" id="overtime" style="width:50px;">0</a>
+							<a href="javascript:void(0);" class="easyui-linkbutton" id="overtime" style="width:50px;height:22px;">0</a>
 						</li>
 					</ul>
 				</div>

@@ -16,7 +16,6 @@ import com.greatway.dto.WeldDto;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.LiveDataManager;
 import com.greatway.manager.WelderManager;
-import com.greatway.manager.WeldingMachineManager;
 import com.greatway.model.Insframework;
 import com.greatway.model.Welder;
 import com.spring.model.MyUser;
@@ -35,7 +34,6 @@ public class TdController {
 	private TdService tdService;
 	@Autowired
 	private InsframeworkManager insfService;
-	private Td td;
 	
 	@Autowired
 	private InsframeworkManager im;

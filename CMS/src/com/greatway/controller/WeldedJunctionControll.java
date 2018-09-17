@@ -58,12 +58,12 @@ public class WeldedJunctionControll {
 		return "weldingjunction/showmore";
 	}
 
-	@RequestMapping("/goAddWeldedJunction")
+	/*@RequestMapping("/goAddWeldedJunction")
 	public String goAddWeldedJunction(){
 		return "weldingjunction/addweldedjunction";
-	}
+	}*/
 
-	@RequestMapping("/goEditWeldedJunction")
+	/*@RequestMapping("/goEditWeldedJunction")
 	public String goEditWeldedJunction(HttpServletRequest request){
 		WeldedJunction wj = wjm.getWeldedJunctionById(new BigInteger(request.getParameter("id")));
 		request.setAttribute("wj", wj);
@@ -75,7 +75,7 @@ public class WeldedJunctionControll {
 		WeldedJunction wj = wjm.getWeldedJunctionById(new BigInteger(request.getParameter("id")));
 		request.setAttribute("wj", wj);
 		return "weldingjunction/removeweldedjunction";
-	}
+	}*/
 	
 	@RequestMapping("/getWeldedJunctionList")
 	@ResponseBody
@@ -280,6 +280,54 @@ public class WeldedJunctionControll {
 			data = false;
 		}
 		return data + "";
+	}
+	
+	@RequestMapping("/getLiveJunctionList")
+	@ResponseBody
+	public String getLiveJunctionList(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		long uid = myuser.getId();
+		BigInteger parent = im.getUserInsfId(BigInteger.valueOf(uid));
+		page = new Page(pageIndex,pageSize,total);
+		List<WeldedJunction> list = wjm.getLiveJunction(page, parent);
+		long total = 0;
+		
+		if(list != null){
+			PageInfo<WeldedJunction> pageinfo = new PageInfo<WeldedJunction>(list);
+			total = pageinfo.getTotal();
+		}
+		
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(WeldedJunction w:list){
+				json.put("id", w.getId());
+				json.put("weldedJunctionno", w.getWeldedJunctionno());
+				json.put("externalDiameter", w.getExternalDiameter());
+				json.put("wallThickness", w.getWallThickness());
+				json.put("maxElectricity", w.getMaxElectricity());
+				json.put("minElectricity", w.getMinElectricity());
+				json.put("maxValtage", w.getMaxValtage());
+				json.put("minValtage", w.getMinValtage());
+				json.put("material", w.getMaterial());
+				json.put("nextexternaldiameter", w.getNextexternaldiameter());
+				json.put("itemname", w.getItemid().getName());
+				json.put("itemid", w.getItemid().getId());
+				json.put("nextwall_thickness", w.getNextwall_thickness());
+				json.put("next_material", w.getNext_material());
+				json.put("starttime", w.getStartTime());
+				json.put("endtime", w.getEndTime());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
 	}
 
 }

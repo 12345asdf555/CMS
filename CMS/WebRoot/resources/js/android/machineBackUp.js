@@ -2,7 +2,7 @@ var insfid;
 var charts;
 var websocketURL, dic, starows, redata, symbol=0, welderName;
 var worknum=0, standbynum=0, overproofnum=0, offnum=0, overtimenum=0, flag = 0;
-var liveary = new Array(), machine = new Array;
+var liveary = new Array(), machine = new Array();
 $(function() {
 //	loadtree();
 	getMachine(insfid);
@@ -228,18 +228,10 @@ function getNowFormatDate(millsTime) {
 
 //获取焊机及焊工信息
 function getMachine(insfid) {
-	var url,welderurl;
-	if (insfid == "" || insfid == null) {
-		url = "td/getAllPosition";
-		welderurl = "td/getLiveWelder";
-	} else {
-		url = "td/getAllPosition?parent=" + insfid;
-		welderurl = "td/getLiveWelder?parent=" + insfid;
-	}
 	$.ajax({
 		type : "post",
 		async : false,
-		url : url,
+		url : "td/getAllPosition",
 		data : {},
 		dataType : "json", //返回数据形式为json  
 		success : function(result) {
@@ -272,7 +264,7 @@ function getMachine(insfid) {
 	$.ajax({  
 	      type : "post",  
 	      async : false,
-	      url : welderurl,  
+	      url : "td/getLiveWelder",  
 	      data : {},  
 	      dataType : "json", //返回数据形式为json  
 	      success : function(result) {
@@ -412,7 +404,7 @@ function iview() {
 		},5000);
 		flag=2;
 	}
-	for (var i = 0; i < redata.length; i += 89) {
+	for (var i = 0; i < redata.length; i += 97) {
 //		if (redata.substring(8 + i, 12 + i) != "0000") {
 		if(machine!=null && machine!=""){
 			for(var f=0;f<machine.length;f++){
@@ -423,6 +415,7 @@ function iview() {
 					}
 				}
 				if(!machineflag && $("#status"+machine[f].fid).val()!=4){
+					$("#m2"+machine[f].fid).html("--");
 					$("#m3"+machine[f].fid).html("--");
 					$("#m4"+machine[f].fid).html("--A");
 					$("#m5"+machine[f].fid).html("--V");
@@ -436,6 +429,7 @@ function iview() {
 							$("#m3"+machine[f].fid).html(welderName[k].fname);
 						}
 					}
+					$("#m2"+machine[f].fid).html(redata.substring(89 + i, 97 + i));
 					var liveele = parseInt(redata.substring(12+i, 16+i));
 		            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
 		            var maxele = parseInt(redata.substring(61+i, 64+i));

@@ -12,16 +12,8 @@ $(function() {
 		onChange : function(newValue,oldValue){
 			if(editflag){
 				if(newValue==10 || newValue==8){
-//					var row = $("#dg").datagrid('getSelected');
-//					if(row){
-//						if(row.typeid != newValue){
-							$("#typeid").combobox("setValue",oldValue);
-							alert("该类型不支持新增/修改");
-//						}
-//					}else{
-//						$("#typeid").combobox("setValue",oldValue);
-//						alert("该类型不支持新增/修改");
-//					}
+					$("#typeid").combobox("setValue",oldValue);
+					alert("该类型不支持新增/修改");
 				}
 			}
 		}
