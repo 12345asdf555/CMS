@@ -81,16 +81,6 @@ public class AuthorityController {
 	}
 	
 	/**
-	 * 跳转到添加用户界面
-	 * @param request
-	 * @return
-	 
-	@RequestMapping("/toAddAuthority")
-	public String toAddUser(HttpServletRequest request){
-		
-		return "authority/addAuthority";
-	}*/
-	/**
 	 * 添加用户并重定向
 	 * @param user
 	 * @param request
@@ -168,29 +158,7 @@ public class AuthorityController {
 			}
 			return obj.toString();
 	}
-	/**
-	 * 根据id查询单个用户
-	 * @param id
-	 * @param request
-	 * @return
-	 
-	@RequestMapping("/getAuthority")
-	public String getAuthority(@RequestParam int id,HttpServletRequest request){
-		Authority a = authorityService.findById(new Integer(id));
-		String str = a.getAuthorityName().substring(5);
-		a.setAuthorityName(str);
-		request.setAttribute("authority", a);
-		return "authority/editAuthority";
-	}*/
 	
-	/*@RequestMapping("/desAuthority")
-	public String desAuthority(@RequestParam int id,HttpServletRequest request){
-		Authority a = authorityService.findById(new Integer(id));
-		String str = a.getAuthorityName().substring(5);
-		a.setAuthorityName(str);
-		request.setAttribute("authority", a);
-		return "authority/destroyAuthority";
-	}*/
 	/**
 	 * 删除用户
 	 * @param id

@@ -52,38 +52,6 @@ public class GatherController {
 		return "gather/gather";
 	}
 	
-	/**
-	 * 跳转新增页面
-	 * @return
-	 */
-	/*@RequestMapping("/goaddGather")
-	public String goaddGather(){
-		return "gather/addgather";
-	}*/
-	
-	/**
-	 * 跳转修改页面
-	 * @return
-	 */
-	/*@RequestMapping("/goeditGather")
-	public String goeditGather(HttpServletRequest request,@RequestParam String id){
-		Gather gather = gm.getGatherById(new BigInteger(id));
-		request.setAttribute("g", gather);
-		return "gather/editgather";
-	}*/
-	
-	/**
-	 * 跳转删除页面
-	 * @return
-	 */
-	/*@RequestMapping("/goremoveGather")
-	public String goremoveGather(HttpServletRequest request,@RequestParam String id,@RequestParam String itemid){
-		Gather gather = gm.getGatherById(new BigInteger(id));
-		request.setAttribute("g", gather);
-		request.setAttribute("itemid", itemid);
-		return "gather/removegather";
-	}*/
-	
 	@RequestMapping("/getGatherList")
 	@ResponseBody
 	public String getGatherList(HttpServletRequest request){

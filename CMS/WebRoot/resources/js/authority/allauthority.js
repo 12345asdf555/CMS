@@ -11,8 +11,8 @@ $(function() {
 $(function() {
 	$("#dg").datagrid({
 		fitColumns : true,
-		height : $("#body").height() - 40,
-		width : $("#body").width() - 30,
+		height : $("#body").height(),
+		width : $("#body").width(),
 		idField : 'id',
 		toolbar : "#toolbar",
 		pageSize : 10,
@@ -113,7 +113,7 @@ function saveAuthority() {
 	$('#fm').form('clear');
 	AutorityDatagrid();
 	var statusid = document.getElementsByName("statusid");
-	statusid[1].checked = 'checked';
+	statusid[0].checked = 'checked';
 	url = "authority/addAuthority";
 }
 var url = "";
@@ -141,7 +141,7 @@ function editAuthorith() {
 		$('#dlg').window('open');
 		AutorityDatagrid();
 		$('#fm').form('load', row);
-		$('#validName').val(row.authorityName);
+		$('#validName').val(row.authorityName.substring(5));
 		$("#authorityName").textbox("setValue", row.authorityName.substring(5));
 		url = "authority/updateAuthority?aid=" + row.id;
 	}
@@ -288,10 +288,14 @@ function remove() {
 }
 
 function resource(id) {
-	$('#div').dialog('open').dialog('center').dialog('setTitle', '资源列表');
+	$('#div').window({
+		title : "资源列表",
+		modal : true
+	});
+	$('#div').dialog('open').dialog('center');
 	$("#so").datagrid({
 		fitColumns : true,
-		height : '300px',
+		height : '420px',
 		width : $("#div").width(),
 		idField : 'id',
 		url : "authority/getResource?id=" + id,

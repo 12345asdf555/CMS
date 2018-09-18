@@ -140,7 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <a href="javascript:closeFdlog()" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
     </div>
   <!--   删除 -->
-  <div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
+  <div id="rdlg" class="easyui-dialog" style="width: 420px; height: 530px; padding:10px 20px" closed="true" buttons="#remove-buttons">
     <form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
     <div class="fitem">
         <lable>固定资产编号</lable>

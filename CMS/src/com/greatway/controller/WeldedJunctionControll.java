@@ -57,25 +57,6 @@ public class WeldedJunctionControll {
 		}
 		return "weldingjunction/showmore";
 	}
-
-	/*@RequestMapping("/goAddWeldedJunction")
-	public String goAddWeldedJunction(){
-		return "weldingjunction/addweldedjunction";
-	}*/
-
-	/*@RequestMapping("/goEditWeldedJunction")
-	public String goEditWeldedJunction(HttpServletRequest request){
-		WeldedJunction wj = wjm.getWeldedJunctionById(new BigInteger(request.getParameter("id")));
-		request.setAttribute("wj", wj);
-		return "weldingjunction/editweldedjunction";
-	}
-
-	@RequestMapping("/goRemoveWeldedJunction")
-	public String goRemoveWeldedJunction(HttpServletRequest request){
-		WeldedJunction wj = wjm.getWeldedJunctionById(new BigInteger(request.getParameter("id")));
-		request.setAttribute("wj", wj);
-		return "weldingjunction/removeweldedjunction";
-	}*/
 	
 	@RequestMapping("/getWeldedJunctionList")
 	@ResponseBody

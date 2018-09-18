@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div data-options="region:'center',title:'信息',iconCls:'icon-ok'">
         	<table id="dg" style="table-layout:fixed;width:100%"></table>
         </div>
-        <div id="div" class="easyui-dialog" style="width:15%;" closed="true" buttons="#dlg-buttons">
+        <div id="div" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
         	<table id="so" title="资源" style="table-layout:fixed;width:100%"></table>
         </div>
 	    <div id="toolbar">

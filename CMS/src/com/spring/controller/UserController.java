@@ -57,19 +57,6 @@ public class UserController {
 	@RequestMapping("/logout")
 
 	public String AllLouout(HttpServletRequest request,HttpServletResponse response){
-/*		JSONObject obj = new JSONObject();
-		try{
-		Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
-		    if (auth != null){    
-		        new SecurityContextLogoutHandler().logout(request,response,auth);
-		    }
-		    obj.put("success", true);
-		}catch(Exception e){
-			obj.put("success", false);
-			obj.put("errorMsg", e.getMessage());
-		}
-		return obj.toString();*/
-		
 		    Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
 		    if (auth != null){    
 		        new SecurityContextLogoutHandler().logout(request,response,auth);
@@ -142,19 +129,6 @@ public class UserController {
 		return obj.toString();
 	}
 	
-	/**
-	 * 跳转到添加用户界面
-	 * @param request
-	 * @return
-	 */
-	/*@RequestMapping("/toAddUser")
-	public String toAddUser(HttpServletRequest request){
-		String insfname = request.getParameter("name");
-		String insid = request.getParameter("insid");
-		request.setAttribute("insfname", insfname);
-		request.setAttribute("insid", insid);
-		return "user/addUser";
-	}*/
 	/**
 	 * 添加用户并重定向
 	 * @param user
@@ -236,7 +210,6 @@ public class UserController {
 	        String[] s = str.split(",");
 	        for (int i = 0; i < s.length; i++) {
 	            Integer id = Integer.parseInt(s[i]);
-	            /*userService.deleteRole(userService.updateUserRole(uid));*/
 	            user.setRoleName(userService.findByRoleId(id));
 	            user.setRoleId(id);
                 userService.saveRole(user);
@@ -251,23 +224,7 @@ public class UserController {
 			return obj.toString();
 
 	}
-	/**
-	 * 根据id查询单个用户
-	 * @param id
-	 * @param request
-	 * @return
-	 */
-	/*@RequestMapping("/getUser")
-	public String getUser(@RequestParam int id,HttpServletRequest request){
-		request.setAttribute("user", userService.findById(new Integer(id)));
-		return "user/editUser";
-	}
 	
-	@RequestMapping("/desUser")
-	public String desUser(@RequestParam int id,HttpServletRequest request){
-		request.setAttribute("user", userService.findById(new Integer(id)));
-		return "user/destroyUser";
-	}*/
 	/**
 	 * 删除用户
 	 * @param id

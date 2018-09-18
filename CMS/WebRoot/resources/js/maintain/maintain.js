@@ -6,8 +6,8 @@ $(function(){
 function mainDatagrid(){
 	$("#maintainTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height()-45,
-		width : $("#body").width()-30,
+		height : $("#body").height(),
+		width : $("#body").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],

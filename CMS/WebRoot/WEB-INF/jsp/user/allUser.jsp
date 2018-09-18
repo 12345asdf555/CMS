@@ -37,8 +37,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	
         <table id="dg" style="table-layout:fixed;width:100%"></table>
         
-        <div id="div1" class="easyui-dialog" style="width:15%;" closed="true" buttons="#dlg-buttons">
-        <table id="ro" title="角色" style="table-layout:fixed;width:auto"></table>
+        <div id="div1" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
+        	<table id="ro" title="角色" style="table-layout:fixed;width:auto"></table>
         </div>
 
         <div id="toolbar" style="margin-bottom: 5px;">

@@ -54,23 +54,6 @@ public class ManufacturerController {
 		return "manufacturer/manufacturer";
 	}
 	
-	/*@RequestMapping("/goaddManufacturer")
-	public String goaddManufacturer(){
-		return "manufacturer/addmanufacturer";
-	}*/
-	
-	/*@RequestMapping("/goeditManufacturer")
-	public String goeditManufacturer(HttpServletRequest request,@RequestParam String id){
-		request.setAttribute("m", mm.getManuById(new BigInteger(id)));
-		return "manufacturer/editmanufacturer";
-	}*/
-	
-	/*@RequestMapping("/goremoveManufacturer")
-	public String goremoveManufacturer(HttpServletRequest request,@RequestParam String id){
-		request.setAttribute("m", mm.getManuById(new BigInteger(id)));
-		return "manufacturer/removemanufacturer";
-	}*/
-	
 	@RequestMapping("/getManufacturerList")
 	@ResponseBody
 	public String getManufacturerList(HttpServletRequest request){

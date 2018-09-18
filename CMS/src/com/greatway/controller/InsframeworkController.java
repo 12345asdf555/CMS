@@ -60,40 +60,6 @@ public class InsframeworkController {
 		return "insframework/insframework";
 	}
 	
-	/**
-	 * 跳转新增页面
-	 * @return
-	 */
-	/*@RequestMapping("/goaddInsframework")
-	public String goaddInsframework(){
-		return "insframework/addinsframework";
-	}*/
-	
-	/**
-	 * 跳转修改页面
-	 * @return
-	 */
-	/*@RequestMapping("/goeditInsframework")
-	public String goeditInsframework(HttpServletRequest request,@RequestParam String id){
-		Insframework insf = im.getInsfAllById(new BigInteger(id));
-		request.setAttribute("parent", im.getInsframeworkById(insf.getParent()));
-		request.setAttribute("insf", insf);
-		return "insframework/editinsframework";
-	}*/
-	
-	/**
-	 * 跳转删除页面
-	 * @return
-	 */
-	/*@RequestMapping("/goremoveInsframework")
-	public String goremoveInsframework(HttpServletRequest request,@RequestParam String id){
-		Insframework insf = im.getInsfAllById(new BigInteger(id));
-		request.setAttribute("parent", im.getInsframeworkById(insf.getParent()));
-		request.setAttribute("insf", insf);
-		request.setAttribute("type", request.getParameter("type"));
-		return "insframework/removeinsframework";
-	}*/
-	
 	@RequestMapping("/getInsframeworkList")
 	@ResponseBody
 	public String getWeldingMachine(HttpServletRequest request){

@@ -49,26 +49,6 @@ public class WelderController {
 		return "welder/welder";
 	}
 	
-	/*@RequestMapping("/goAddWelder")
-	public String goAddWeldedJunction(){
-		return "welder/addwelder";
-	}
-
-	@RequestMapping("/goEditWelder")
-	public String goEditWeldedJunction(HttpServletRequest request){
-		Welder w = wm.getWelderById(new BigInteger(request.getParameter("id")));
-		request.setAttribute("w", w);
-		return "welder/editwelder";
-	}
-
-	@RequestMapping("/goRemoveWelder")
-	public String goRemoveWeldedJunction(HttpServletRequest request){
-		Welder w = wm.getWelderById(new BigInteger(request.getParameter("id")));
-		request.setAttribute("w", w);
-		return "welder/removewelder";
-	}*/
-	
-	
 	@RequestMapping("/getWelderList")
 	@ResponseBody
 	public String getWelderList(HttpServletRequest request){

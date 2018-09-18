@@ -15,7 +15,6 @@ import com.github.pagehelper.PageInfo;
 import com.greatway.manager.DictionaryManager;
 import com.greatway.model.Dictionarys;
 import com.greatway.page.Page;
-import com.spring.model.Authority;
 import com.spring.model.MyUser;
 import com.spring.model.Role;
 import com.spring.service.RoleService;
@@ -83,17 +82,6 @@ public class RoleController {
 		return obj.toString();
 	}
 	
-	/**
-	 * 跳转到添加用户界面
-	 * @param request
-	 * @return
-	 */
-	/*@RequestMapping("/toAddRole")
-	public String toAddRole(HttpServletRequest request){
-		
-		return "role/addRole";
-	}*/
-	
 	@RequestMapping("/todtbUser")
 	public String todtbUser(@RequestParam int id,HttpServletRequest request){
 		request.setAttribute("role", roleService.findById(new Integer(id)));
@@ -124,7 +112,6 @@ public class RoleController {
         String[] s = str.split(",");
         for (int i = 0; i < s.length; i++) {
             Integer id = Integer.parseInt(s[i]);
- /*           role.setAuthorityDesc(roleService.findByAuthorityId(id));*/
             role.setAuthorityId(id);
             roleService.saveAuthority(role);
         }
@@ -154,7 +141,6 @@ public class RoleController {
 		MyUser myuser = (MyUser)object;
 		role.setCreator(myuser.getId()+"");
 		role.setModifier(myuser.getId()+"");
-/*		role.setRoleId(Integer.parseInt(request.getParameter("id")));*/
 		role.setRoleName(request.getParameter("roleName"));
 		role.setRoleDesc(request.getParameter("roleDesc"));
 		role.setRoleStatus(Integer.parseInt(request.getParameter("status")));	
@@ -167,7 +153,6 @@ public class RoleController {
         String[] s = str.split(",");
         for (int i = 0; i < s.length; i++) {
             Integer id = Integer.parseInt(s[i]);
-            /*roleService.deleteAuthority(roleService.updateRoleAuthority(rid));*/
             role.setAuthorityId(id);
             roleService.saveAuthority(role);
         }
@@ -182,42 +167,35 @@ public class RoleController {
 	}
 	
 	@RequestMapping("/dtbUser")
-	public String dtbUser(Role role,HttpServletRequest request){
-   
-		String str = request.getParameter("uid");
-		Integer rid = Integer.parseInt(request.getParameter("rid"));
-		roleService.deleteUser(rid);
-		if(null!=str&&""!=str){
-		String[] s = str.split(",");
-        for (int i = 0; i < s.length; i++) {
-            Integer id = Integer.parseInt(s[i]);
-            /*roleService.deleteUser(roleService.updateRoleUser(rid));*/
-            role.setUserName(roleService.findByUserId(id));
-            role.setUserId(id);
-            roleService.saveUser(role);
-        }
+	@ResponseBody
+	public String dtbUser(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		try{
+			Role role = new Role();
+			String str = request.getParameter("uid");
+			Integer rid = Integer.parseInt(request.getParameter("rid"));
+			role.setId(rid);
+			roleService.deleteUser(rid);
+			if(null!=str&&""!=str){
+			String[] s = str.split(",");
+		        for (int i = 0; i < s.length; i++) {
+		            Integer id = Integer.parseInt(s[i]);
+		            /*roleService.deleteUser(roleService.updateRoleUser(rid));*/
+		            role.setUserName(roleService.findByUserId(id));
+		            role.setUserId(id);
+		            roleService.saveUser(role);
+		        }
+			}
+			obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+			e.printStackTrace();
+			
 		}
-			return "redirect:/role/getAllRole";
-	}
-	/**
-	 * 根据id查询单个用户
-	 * @param id
-	 * @param request
-	 * @return
-	 */
-	/*@RequestMapping("/getRole")
-	public String getRole(@RequestParam int id,HttpServletRequest request){
-		
-		request.setAttribute("role", roleService.findById(new Integer(id)));
-		return "role/editRole";
+		return obj.toString();
 	}
 	
-	@RequestMapping("/desRole")
-	public String desRole(@RequestParam int id,HttpServletRequest request){
-		
-		request.setAttribute("role", roleService.findById(new Integer(id)));
-		return "role/destroyRole";
-	}*/
 	/**
 	 * 删除用户
 	 * @param id
@@ -235,6 +213,7 @@ public class RoleController {
 			 roleService.delete(new Integer(role.getId()));
 			 obj.put("success", true);
 		}catch(Exception e){
+			e.printStackTrace();
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
 		}

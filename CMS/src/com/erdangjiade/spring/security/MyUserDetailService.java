@@ -57,6 +57,12 @@ public class MyUserDetailService implements UserDetailsService {
 	    	Collection<GrantedAuthority> auths = null;
 			try {
 		    	HttpServletRequest request =((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+				String AndroidFlag = request.getParameter("AndroidFlag");
+				if(AndroidFlag!=null && !"".equals(AndroidFlag)){
+					request.getSession().setAttribute("AndroidFlag", AndroidFlag);
+				}else{
+					request.getSession().setAttribute("AndroidFlag", "PC");
+				}
 				//当前层级
 				String hierarchy = request.getSession().getServletContext().getInitParameter("hierarchy");
 				String webserviceurl = "";
@@ -89,13 +95,7 @@ public class MyUserDetailService implements UserDetailsService {
 		        List<String> list = userService.getAuthoritiesByUsername(userName);
 		        for (int j = 0; j < list.size(); j++) {    
 		            auths.add(new GrantedAuthorityImpl(list.get(j)));
-		        } 
-				String AndroidFlag = request.getParameter("AndroidFlag");
-				if(AndroidFlag!=null && !"".equals(AndroidFlag)){
-					request.getSession().setAttribute("AndroidFlag", AndroidFlag);
-				}else{
-					request.getSession().setAttribute("AndroidFlag", "PC");
-				}
+		        }
 		        //验证验证码是否正确
 		        String code = (String) request.getSession().getAttribute("code");
 				String inputCode = request.getParameter("code");
