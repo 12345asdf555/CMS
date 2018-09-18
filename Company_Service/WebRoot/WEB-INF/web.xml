@@ -34,12 +34,12 @@
   <!-- 集团层url -->
   <context-param>
   	<param-name>blocurl</param-name>
-  	<param-value>http://localhost:8080/Bloc_Service/blocWebService?wsdl</param-value>
+  	<param-value>http://121.196.222.216:8080/Bloc_Service/blocWebService?wsdl</param-value>
   </context-param>
   <!-- 公司层下级所有项目部url -->
   <context-param>
   	<param-name>17</param-name>
-  	<param-value>http://localhost:8080/Item_Service/itemWebService?wsdl</param-value>
+  	<param-value>http://121.196.222.216:8080/Item_Service/itemWebService?wsdl</param-value>
   </context-param>
 <!--   <context-param> -->
 <!--   	<param-name>18</param-name> -->
