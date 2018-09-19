@@ -605,3 +605,10 @@ select::-ms-expand {
 	border-bottom:1px solid #000;
 	border-right:1px solid #000;
 }
+
+#androidtime1,#androidtime2{
+	border:1px solid #48A1E5;
+	background-image: url(../images/datetime.png); 
+	background-repeat: no-repeat;
+	text-indent: 18px;
+}

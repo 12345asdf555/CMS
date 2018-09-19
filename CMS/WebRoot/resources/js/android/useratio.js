@@ -1,6 +1,8 @@
 $(function(){
 	flagnum=1;
 	parentCombobox();
+	$.date('#androidtime1');
+	$.date('#androidtime2');
 })
 
 
@@ -76,8 +78,8 @@ var chartStr = "",dtoTime1,dtoTime2;
 
 function setParam(){
 	parentid = $("#parent").combobox('getValue');
-	dtoTime1 = $("#dtoTime1").datebox('getValue');  
-	dtoTime2 = $("#dtoTime2").datebox('getValue');
+	dtoTime1 = $("#androidtime1").val();  
+	dtoTime2 = $("#androidtime2").val();
 	chartStr = "&parent="+parentid+"&time1="+dtoTime1+"&time2="+dtoTime2;
 }
 

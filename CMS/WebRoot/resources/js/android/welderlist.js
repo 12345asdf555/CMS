@@ -1,4 +1,8 @@
 var chartStr = "";
+$(function(){
+	$.date('#androidtime1');
+	$.date('#androidtime2');
+})
 $(document).ready(function(){
 	showCompanyLoadsChart();
 })
@@ -6,8 +10,8 @@ $(document).ready(function(){
 function setParam(){
 	var parent = $("#parent").val();
 	var status = $("#status").val();
-	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
-	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
+	var dtoTime1 = $("#androidtime1").val();
+	var dtoTime2 = $("#androidtime2").val();
 	chartStr = "?parent="+parent+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&status="+status;
 }
 

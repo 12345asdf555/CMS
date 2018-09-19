@@ -37,17 +37,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 集团 -->
 	<div id="bloc1" >
     	<ul>
-    		<li onclick="changeColor(1)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid1"/></div></a></li>
-    		<li onclick="changeColor(2)"><a href="javascript:openMachineTop()"><div><img src="resources/images/s-11.png" />&nbsp;&nbsp;焊机最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid2"/></div></a></li>
-    		<li onclick="changeColor(3)"><a href="javascript:openMachineBottom()"><div><img src="resources/images/s-12.png" />&nbsp;&nbsp;焊机最低排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid3"/></div></a></li>
-    		<li onclick="changeColor(4)"><a href="javascript:openWelderTop()"><div><img src="resources/images/s-13.png" />&nbsp;&nbsp;焊工最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid4"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(1)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid1"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(2)"><a href="javascript:openMachineTop()"><div><img src="resources/images/s-11.png" />&nbsp;&nbsp;焊机最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid2"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(3)"><a href="javascript:openMachineBottom()"><div><img src="resources/images/s-12.png" />&nbsp;&nbsp;焊机最低排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid3"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(4)"><a href="javascript:openWelderTop()"><div><img src="resources/images/s-13.png" />&nbsp;&nbsp;焊工最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid4"/></div></a></li>
     		<li onclick="changeColor(5)" class="bootomdtyle"><a href="javascript:openWelderBottom()"><div><img src="resources/images/s-14.png" />&nbsp;&nbsp;焊工最低排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid5"/></div></a></li>
     	</ul>
     </div>
     <div id="bloc2" >
     	<ul>
-    		<li onclick="changeColor(25)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid25"/></div></a></li>
-    		<li onclick="changeColor(26) class="bootomdtyle""><a href="javascript:openJunctionTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid26"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(25)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid25"/></div></a></li>
+    		<li onclick="changeColor(26)" class="bootomdtyle"><a href="javascript:openJunctionTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid26"/></div></a></li>
     	</ul>
     </div>
 	<!-- 公司 -->
@@ -69,33 +69,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 事业部 -->
     <div id="caust1" >
     	<ul>
-    		<li onclick="changeColor(13)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid13"/></div></a></li>
-    		<li onclick="changeColor(14)"><a href="javascript:openMachineTop()"><div><<img src="resources/images/s-11.png" >&nbsp;&nbsp;焊机最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid14"/></div></a></li>
-    		<li onclick="changeColor(15)"><a href="javascript:openMachineBottom()"><div><img src="resources/images/s-12.png" />&nbsp;&nbsp;焊机最低排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid15"/></div></a></li>
-    		<li onclick="changeColor(16)"><a href="javascript:openWelderTop()"><div><img src="resources/images/s-13.png" />&nbsp;&nbsp;焊工最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid16"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(13)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid13"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(14)"><a href="javascript:openMachineTop()"><div><img src="resources/images/s-11.png" >&nbsp;&nbsp;焊机最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid14"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(15)"><a href="javascript:openMachineBottom()"><div><img src="resources/images/s-12.png" />&nbsp;&nbsp;焊机最低排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid15"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(16)"><a href="javascript:openWelderTop()"><div><img src="resources/images/s-13.png" />&nbsp;&nbsp;焊工最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid16"/></div></a></li>
     		<li onclick="changeColor(17)" class="bootomdtyle"><a href="javascript:openWelderBottom()"><div><img src="resources/images/s-14.png" />&nbsp;&nbsp;焊工最低排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid17"/></div></a></li>
     	</ul>
     </div>
     <div id="caust2" >
     	<ul>
-    		<li onclick="changeColor(31)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid31"/></div></a></li>
-    		<li onclick="changeColor(32)"><a href="javascript:openJunctionTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid32"/></div></a></li>
+    		<li class="ulli"  onclick="changeColor(31)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid31"/></div></a></li>
+    		<li onclick="changeColor(32)" class="bootomdtyle"><a href="javascript:openJunctionTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid32"/></div></a></li>
     	</ul>
     </div>
 	<!-- 项目部 -->
     <div  id="item1" >
     	<ul>
-    		<li onclick="changeColor(19)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid19"/></div></a></li>
-    		<li onclick="changeColor(20)"><a href="javascript:openMachineTop()"><div><<img src="resources/images/s-11.png"/>&nbsp;&nbsp;焊机最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid20"/></div></a></li>
-    		<li onclick="changeColor(21)"><a href="javascript:openMachineBottom()"><div><img src="resources/images/s-12.png" />&nbsp;&nbsp;焊机最低排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid21"/></div></a></li>
-    		<li onclick="changeColor(22)"><a href="javascript:openWelderTop()"><div><img src="resources/images/s-13.png" />&nbsp;&nbsp;焊工最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid22"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(19)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid19"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(20)"><a href="javascript:openMachineTop()"><div><img src="resources/images/s-11.png"/>&nbsp;&nbsp;焊机最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid20"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(21)"><a href="javascript:openMachineBottom()"><div><img src="resources/images/s-12.png" />&nbsp;&nbsp;焊机最低排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid21"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(22)"><a href="javascript:openWelderTop()"><div><img src="resources/images/s-13.png" />&nbsp;&nbsp;焊工最高排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid22"/></div></a></li>
     		<li onclick="changeColor(23)" class="bootomdtyle"><a href="javascript:openWelderBottom()"><div><img src="resources/images/s-14.png" />&nbsp;&nbsp;焊工最低排行&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid23"/></div></a></li>
     	</ul>
     </div>
     <div  id="item2" >
     	<ul>
-    		<li onclick="changeColor(34)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid34"/></div></a></li>
-    		<li onclick="changeColor(35)"><a href="javascript:openJunctionTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid35"/></div></a></li>
+    		<li class="ulli" onclick="changeColor(34)"><a href="javascript:openMachineTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid34"/></div></a></li>
+    		<li onclick="changeColor(35)" class="bootomdtyle"><a href="javascript:openJunctionTd()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊口实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid35"/></div></a></li>
     	</ul>
     </div>
 	<div id="mainPanle" region="center" style="background: white; overflow-y: hidden">

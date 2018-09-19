@@ -25,11 +25,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<script type="text/javascript" src="resources/js/load.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.min.js"></script>
+	<script type="text/javascript" src="resources/js/jquery.date.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
 	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
-	<script type="text/javascript" src="resources/js/getTime.js"></script>
+	<script type="text/javascript" src="resources/js/getAndroidTime.js"></script>
 	<script type="text/javascript" src="resources/js/android/welderlist.js"></script>
   </head>
   
@@ -44,8 +45,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input  name="status" id="status" type="hidden" value="1"/>
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 				时间：
-				<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">--
-				<input class="easyui-datetimebox" name="dtoTime2" id="dtoTime2">
+				<input type="text" id="androidtime1" data-options="{'type':'YYYY-MM-DD hh:mm:ss','beginYear':2017}">
+				<input type="text" id="androidtime2" data-options="{'type':'YYYY-MM-DD hh:mm:ss','beginYear':2017}">
 				<a href="javascript:serachlist();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>

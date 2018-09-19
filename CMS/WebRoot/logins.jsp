@@ -16,7 +16,16 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 	 	<link rel="stylesheet" type="text/css" href="resources/css/login.css">
-	 	
+	 	<style type="text/css">
+	 		body {
+			    background-image: url(resources/images/denglu.jpg);
+			    background-repeat: no-repeat;
+			    background-size: 150%;
+			    text-align: center;
+			    background-color: #D1DCEE;
+			    font-family: 'Microsoft YaHei UI';
+			}
+	 	</style>
 		<script type="text/javascript" src="resources/js/jquery.min.js"></script>
 	 	<script type="text/javascript">
 	 		$(function(){
