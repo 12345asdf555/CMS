@@ -109,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <!-- 删除 -->
 		<div id="rdlg" class="easyui-dialog" style="width: 750px; height: 550px; padding:10px 20px" closed="true" buttons="#remove-buttons">
-			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true">
 				<div class="fitem">
 	                <input name="id" id="id" type="hidden" >
 	            </div>
