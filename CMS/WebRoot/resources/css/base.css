@@ -570,6 +570,12 @@ select::-ms-expand {
 	margin-bottom:15px;
 	padding-top: 10px;
 }
+
+
+.bootomdstyle{
+	margin-bottom:15px;
+}
+
 #body{
 	padding: 20px;background-color: #fff;
 }

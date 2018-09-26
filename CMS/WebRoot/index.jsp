@@ -69,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(6)"><a href="javascript:openBlocIdle()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;设备闲置率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid6"/></div></a></li>
     		<li onclick="changeColor(7)"><a href="javascript:openRunTime()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备运行时长&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid7"/></div></a></li>
     		<li onclick="changeColor(2)"><a href="javascript:openBlocNoLoads()"><div><img src="resources/images/s-8.png" />&nbsp;&nbsp;设备平均空载率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid2"/></div></a></li>
-    		<li onclick="changeColor(8)" class="bootomdtyle"><a href="javascript:openBlocUse()"><div><img src="resources/images/c-10.png"/>&nbsp;&nbsp;单台设备运行数据统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid8"/></div></a></li>
+    		<li onclick="changeColor(8)" class="bootomdstyle"><a href="javascript:openBlocUse()"><div><img src="resources/images/c-10.png"/>&nbsp;&nbsp;单台设备运行数据统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid8"/></div></a></li>
     	</ul>
     </div>
 	<div id="bloc2" >
@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(11)"><a href="javascript:openBlocHour()"><div><img src="resources/images/s-14.png" />&nbsp;&nbsp;焊口焊接工时&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid11"/></div></a></li>
     		<li onclick="changeColor(12)"><a href="javascript:openBlocovertime()"><div><img src="resources/images/s-13.png" />&nbsp;&nbsp;超时待机统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid12"/></div></a></li>
     		<li onclick="changeColor(13)"><a href="javascript:openBlocoverproof()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;焊接工艺超标统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid13"/></div></a></li>
-    		<li onclick="changeColor(14)" class="bootomdtyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid14"/></div></a></li>
+    		<li onclick="changeColor(14)" class="bootomdstyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid14"/></div></a></li>
     	</ul>
     </div>
 	<!-- 公司 -->
@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(21)"><a href="javascript:openCompanyIdle()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;设备闲置率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid21"/></div></a></li>
     		<li onclick="changeColor(22)"><a href="javascript:openRunTime()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备运行时长&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid22"/></div></a></li>
     		<li onclick="changeColor(17)"><a href="javascript:openCompanyNoLoads()"><div><img src="resources/images/s-8.png" />&nbsp;&nbsp;设备平均空载率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid17"/></div></a></li>
-    		<li onclick="changeColor(23)" class="bootomdtyle"><a href="javascript:openCompanyUse()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;单台设备运行数据统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid23"/></div></a></li>
+    		<li onclick="changeColor(23)" class="bootomdstyle"><a href="javascript:openCompanyUse()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;单台设备运行数据统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid23"/></div></a></li>
     	</ul>
     </div>
     <div id="company2" >
@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(26)"><a href="javascript:openCompanyHour()"><div><img src="resources/images/s-14.png" />&nbsp;&nbsp;焊口焊接工时&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid26"/></div></a></li>
     		<li onclick="changeColor(27)"><a href="javascript:openCompanyovertime()"><div><img src="resources/images/s-13.png" />&nbsp;&nbsp;超时待机统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid27"/></div></a></li>
     		<li onclick="changeColor(28)"><a href="javascript:openCompanyoverproof()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;焊接工艺超标统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid28"/></div></a></li>
-    		<li onclick="changeColor(29)" class="bootomdtyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid29"/></div></a></li>
+    		<li onclick="changeColor(29)" class="bootomdstyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid29"/></div></a></li>
     	</ul>
     </div>
 	<!-- 事业部 -->
@@ -117,7 +117,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(36)"><a href="javascript:openCaustIdle()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;设备闲置率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid36"/></div></a></li>
     		<li onclick="changeColor(37)"><a href="javascript:openRunTime()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备运行时长&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid37"/></div></a></li>
     		<li onclick="changeColor(32)"><a href="javascript:openCaustNoLoads()"><div><img src="resources/images/s-8.png" />&nbsp;&nbsp;设备平均空载率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid32"/></div></a></li>
-    		<li onclick="changeColor(38)" class="bootomdtyle"><a href="javascript:openCaustUse()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;单台设备运行数据统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid38"/></div></a></li>
+    		<li onclick="changeColor(38)" class="bootomdstyle"><a href="javascript:openCaustUse()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;单台设备运行数据统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid38"/></div></a></li>
     	</ul>
     </div>
     <div id="caust2" >
@@ -127,7 +127,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(41)"><a href="javascript:openCaustHour()"><div><img src="resources/images/s-14.png" />&nbsp;&nbsp;焊口焊接工时&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid41"/></div></a></li>
     		<li onclick="changeColor(42)"><a href="javascript:openCaustovertime()"><div><img src="resources/images/s-13.png" />&nbsp;&nbsp;超时待机统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid42"/></div></a></li>
     		<li onclick="changeColor(43)"><a href="javascript:openCaustoverproof()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;焊接工艺超标统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid43"/></div></a></li>
-    		<li onclick="changeColor(44)" class="bootomdtyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid44"/></div></a></li>
+    		<li onclick="changeColor(44)" class="bootomdstyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid44"/></div></a></li>
     	</ul>
     </div>
 	<!-- 项目部 -->
@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(51)"><a href="javascript:openItemIdle()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;设备闲置率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid51"/></div></a></li>
     		<li onclick="changeColor(52)"><a href="javascript:openRunTime()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备运行时长&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid52"/></div></a></li>
     		<li onclick="changeColor(47)"><a href="javascript:openItemNoLoads()"><div><img src="resources/images/s-8.png" />&nbsp;&nbsp;设备平均空载率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid47"/></div></a></li>
-    		<li onclick="changeColor(53)" class="bootomdtyle"><a href="javascript:openItemUse()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;单台设备运行数据统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid53"/></div></a></li>
+    		<li onclick="changeColor(53)" class="bootomdstyle"><a href="javascript:openItemUse()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;单台设备运行数据统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid53"/></div></a></li>
     	</ul>
     </div>
     <div  id="item2" >
@@ -151,7 +151,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(56)"><a href="javascript:openItemHour()"><div><img src="resources/images/s-14.png" />&nbsp;&nbsp;焊口焊接工时&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid56"/></div></a></li>
     		<li onclick="changeColor(57)"><a href="javascript:openItemovertime()"><div><img src="resources/images/s-13.png" />&nbsp;&nbsp;超时待机统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid57"/></div></a></li>
     		<li onclick="changeColor(58)"><a href="javascript:openItemoverproofs()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;焊接工艺超标统计&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid58"/></div></a></li>
-    		<li onclick="changeColor(59)" class="bootomdtyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid59"/></div></a></li>
+    		<li onclick="changeColor(59)" class="bootomdstyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid59"/></div></a></li>
     	</ul>
     </div>
 	<!-- 管理员 -->
