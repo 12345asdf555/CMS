@@ -407,7 +407,7 @@ function iview() {
 		},5000);
 		flag=2;
 	}
-	for (var i = 0; i < redata.length; i += 89) {
+	for (var i = 0; i < redata.length; i += 97) {
 //		if (redata.substring(8 + i, 12 + i) != "0000") {
 		if(machine!=null && machine!=""){
 			for(var f=0;f<machine.length;f++){
@@ -431,6 +431,7 @@ function iview() {
 							$("#m3"+machine[f].fid).html(welderName[k].fname);
 						}
 					}
+					$("#m2"+machine[f].fid).html(redata.substring(89 + i, 97 + i));
 					var liveele = parseInt(redata.substring(12+i, 16+i));
 		            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
 		            var maxele = parseInt(redata.substring(61+i, 64+i));

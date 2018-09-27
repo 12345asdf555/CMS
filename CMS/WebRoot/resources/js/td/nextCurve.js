@@ -437,7 +437,7 @@ function iview() {
 
 	vol.length = 0;
 	ele.length = 0;
-	for (var i = 0; i < redata.length; i += 89) {
+	for (var i = 0; i < redata.length; i += 97) {
 //		if (redata.substring(8 + i, 12 + i) != "0000") {
 			if (parseInt(redata.substring(4 + i, 8 + i)) == document.getElementById("in2").value) {
 				var liveele = parseInt(redata.substring(12+i, 16+i));
