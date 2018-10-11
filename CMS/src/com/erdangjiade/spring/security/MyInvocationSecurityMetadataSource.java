@@ -101,6 +101,7 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
        if("/".equals(url)){    
            return null;    
        }    
+       url = url.replaceAll("(\r\n|\r|\n|\n\r)", "<br>");
         int firstQuestionMarkIndex = url.indexOf(".");    
         //判断请求是否带有参数 如果有参数就去掉后面的后缀和参数(/index.do  --> /index)    
         if(firstQuestionMarkIndex != -1){    
