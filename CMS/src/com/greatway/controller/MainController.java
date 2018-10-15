@@ -270,26 +270,26 @@ public class MainController {private Page page;
 			List<Welcome> list = wm.getItemMachineCount(dto);
 			List<Insframework> insf = im.getCause(parent, null);
 			Insframework item = null;
+			int machinetotal = 0;
 			if(type==23){
 				item = im.getInsById(parent);
 				for(int j=0;j<list.size();j++){
 					if(list.get(j).getId().equals(parent)){
-						total += list.get(j).getTotal();
+						machinetotal += list.get(j).getTotal();
 					}
 				}
 				double useratio = 0;
 				Welcome machine = wm.getWorkMachineCount(item.getId(), dto);
-				if(total!=0){
-					useratio = (double)Math.round((double)machine.getMachinenum()/(double)total*100*100)/100;
+				if(machinetotal!=0){
+					useratio = (double)Math.round((double)machine.getMachinenum()/(double)machinetotal*100*100)/100;
 				}
 				json.put("itemname", item.getName());//班组
-				json.put("machinenum", total);//设备总数
+				json.put("machinenum", machinetotal);//设备总数
 				json.put("worknum", machine.getMachinenum());//工作设备数
 				json.put("useratio", useratio);//设备利用率
 				ary.add(json);
 			}else{
 				for(int i=0;i<insf.size();i++){
-					int total = 0;
 					for(int j=0;j<list.size();j++){
 						BigInteger insfid = null;
 						if(type==20){
@@ -300,16 +300,16 @@ public class MainController {private Page page;
 							insfid = list.get(j).getId();
 						}
 						if(insf.get(i).getId().equals(insfid)){
-							total += list.get(j).getTotal();
+							machinetotal += list.get(j).getTotal();
 						}
 					}
 					double useratio = 0;
 					Welcome machine = wm.getWorkMachineCount(insf.get(i).getId(), dto);
-					if(total!=0){
-						useratio = (double)Math.round((double)machine.getMachinenum()/(double)total*100*100)/100;
+					if(machinetotal!=0){
+						useratio = (double)Math.round((double)machine.getMachinenum()/(double)machinetotal*100*100)/100;
 					}
 					json.put("itemname", insf.get(i).getName());//班组
-					json.put("machinenum", total);//设备总数
+					json.put("machinenum", machinetotal);//设备总数
 					json.put("worknum", machine.getMachinenum());//工作设备数
 					json.put("useratio", useratio);//设备利用率
 					ary.add(json);
