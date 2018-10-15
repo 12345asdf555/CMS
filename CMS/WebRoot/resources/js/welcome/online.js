@@ -24,7 +24,7 @@ function welder(){
 	$.ajax({  
 	      type : "post",  
 	      async : false,
-	      url : "td/allWeldname",  
+	      url : "td/getLiveWelder",  
 	      data : {},  
 	      dataType : "json", //返回数据形式为json  
 	      success : function(result) {

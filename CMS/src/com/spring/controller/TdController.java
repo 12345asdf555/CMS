@@ -570,7 +570,6 @@ public class TdController {
 	public String getLiveWelder(HttpServletRequest request){
 		BigInteger uid = lm.getUserId(request);
 		BigInteger parent = null;
-		List<Welder> list = wm.getWelderAll(null, parent);
 		String parentId = request.getParameter("parent");
 		if(iutil.isNull(parentId)){
 			parent = new BigInteger(parentId);
@@ -581,6 +580,7 @@ public class TdController {
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
 		try{
+			List<Welder> list = wm.getWelderAll(null, parent);
 			Insframework insname = im.getInsById(parent);
 			for(int i=0;i<list.size();i++){
 				json.put("fname",list.get(i).getName());
