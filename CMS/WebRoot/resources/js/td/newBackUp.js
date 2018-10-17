@@ -29,7 +29,7 @@ function loadtree() {
 				});
 			}
 			if (data.length > 0) {
-				//找到第一个元素
+				/*//找到第一个元素
 				var nownodes = $('#myTree').tree('find', data[0].id);
 				//判断是否拥有子节点
 				if (nownodes.children != null) {
@@ -47,11 +47,11 @@ function loadtree() {
 					}
 				} else {
 					insfid = nownodes.id;
-				}
-				//默认选中第一个项目部
-				var defaultnode = $('#myTree').tree('find', insfid);
-				$('#myTree').tree('select', defaultnode.target);
-				$('#itemname').html(defaultnode.text);
+				}*/
+				//默认选中第一个元素
+				var nownodes = $('#myTree').tree('find', data[0].id);
+				insfid = nownodes.id;
+				$('#myTree').tree('select', nownodes.target);
 				getMachine(insfid);
 				//初始化
 				showChart();
@@ -83,7 +83,7 @@ function loadtree() {
 			});
 			var nownodes = $('#myTree').tree('find', node.id);
 			//判断是否拥有子节点
-			if (nownodes.children != null) {
+			/*if (nownodes.children != null) {
 				var nextnodes1 = nownodes.children[0];
 				if (nextnodes1.children != null) {
 					var nextnodes2 = nextnodes1.children[0];
@@ -97,9 +97,9 @@ function loadtree() {
 				} else {
 					insfid = nextnodes1.id;
 				}
-			} else {
-				insfid = nownodes.id;
-			}
+			} else {*/
+			insfid = nownodes.id;
+			/*}*/
 			$("#curve").html("");
 			$("#standby").html(0);
 			$("#work").html(0);
@@ -107,8 +107,8 @@ function loadtree() {
 			$("#overproof").html(0);
 			$("#overtime").html(0);
 			getMachine(insfid);
-			var defaultnode = $('#myTree').tree('find', insfid);
-			$('#itemname').html(defaultnode.text);
+			/*var defaultnode = $('#myTree').tree('find', insfid);*/
+			$('#itemname').html(nownodes.text);
 			flag = 0;
 			//清空实时数组
 			liveary.length = 0;
@@ -117,7 +117,6 @@ function loadtree() {
 					alert("未接收到数据!!!");
 		    		document.getElementById("load").style.display ='none';
 		    		document.getElementById("show").style.display ='none';
-					
 				}
 			}, 10000);
 		}
@@ -247,7 +246,7 @@ function getMachine(insfid) {
 				$("#curve").html();
 				for(var i=0;i<machine.length;i++){
 					var str = '<div id="machine'+machine[i].fid+'" style="width:200px;height:120px;float:left;display:none">'+
-						'<div style="float:left;width:40%;height:100%;"><a href="td/goNextcurve?value='+machine[i].fid+'&valuename='+machine[i].fequipment_no+'"><img id="img'+machine[i].fid+'" src="resources/images/welder_04.png" style="height:100px;width:100%;padding-top:10px;"></a></div>'+
+						'<div style="float:left;width:40%;height:100%;"><a href="td/goNextcurve?value='+machine[i].fid+'&valuename='+machine[i].fequipment_no+'" title="'+machine[i].fequipment_no+'"><img id="img'+machine[i].fid+'" src="resources/images/welder_04.png" style="height:100px;width:100%;padding-top:10px;"></a></div>'+
 						'<div style="float:left;width:60%;height:100%;">'+
 						'<ul><li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">设备编号：<span id="m1'+machine[i].fid+'">'+machine[i].fequipment_no+'</span></li>'+
 						'<li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">焊缝编号：<span id="m2'+machine[i].fid+'">--</span></li>'+

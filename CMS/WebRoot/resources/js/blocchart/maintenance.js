@@ -201,14 +201,14 @@ function showChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
-	charts.on('click', function (param) {
-		var url = 'maintain/goMaintain?&str=(i.fid='+param.data.id+' or ins.fid='+param.data.id+' or insf.fid='+param.data.id+' or insf.fparent='+param.data.id+') and fstart_time >= \''+dtoTime1+'\' and fend_time <= \''+dtoTime2+'\'';
+	/*charts.on('click', function (param) {
+		var url = '';
 		var img = new Image();
 	    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
 	    url = img.src;  // 此时相对路径已经变成绝对路径
 	    img.src = null; // 取消请求
 		window.location.href = encodeURI(url);
-	});
+	});*/
 	domresize();
 }
 
@@ -421,7 +421,10 @@ function dgDatagrid(){
 			title : "部门",
 			width : 100,
 			halign : "center",
-			align : "center"
+			align : "center",
+			formatter : function(value,row,index){
+				return '<a href="maintain/goMaintain?&str=(i.fid='+row.id+' or ins.fid='+row.id+' or insf.fid='+row.id+' or insf.fparent='+row.id+') and fstart_time >= \''+dtoTime1+'\' and fend_time <= \''+dtoTime2+'\'">'+value+'</a>';
+			}
 		},{
 			field : "total",
 			title : "维修次数",
@@ -463,6 +466,7 @@ function dgDatagrid(){
 			$('#dg').datagrid('insertRow',{
 				index: 0,// 索引从0开始
 				row: {
+					name: '',
 					total: '总维护次数：'+sumnum,
 					proportion: '总维护占比：'+1,
 //					faultratio:'总故障次数：'+faultnum,
