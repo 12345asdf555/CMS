@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.chainsaw.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -470,6 +471,10 @@ public class LiveDataManagerImpl implements LiveDataManager {
 			strsql = getDay(time1, time2);
 		}else if(timetype==4){
 			strsql = getWeek(time1, time2);
+		}else if(timetype==5){
+			strsql = getQuarter(time1, time2);
+		}else if(timetype==6){
+			strsql = getHalfAYear(time1, time2);
 		}
 		return live.getDurationTime(strsql);
 	}
@@ -485,6 +490,10 @@ public class LiveDataManagerImpl implements LiveDataManager {
 			strsql = getDay(time1, time2);
 		}else if(timetype==4){
 			strsql = getWeek(time1, time2);
+		}else if(timetype==5){
+			strsql = getQuarter(time1, time2);
+		}else if(timetype==6){
+			strsql = getHalfAYear(time1, time2);
 		}
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
 		return live.getDurationTime(strsql);
@@ -593,9 +602,7 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		}
 		return str;
 	}
-	
-
-	
+		
 	/**
 	 * 获取周
 	 * @return
@@ -647,6 +654,126 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return str;
 	}
 
+	/**
+	 * 获取季度
+	 * @return
+	 */
+	public String getQuarter(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+			Calendar c1 = Calendar.getInstance();    
+			Calendar c2 = Calendar.getInstance();   
+			c1.setTime(sdf.parse(time1)); 
+			c2.setTime(sdf.parse(time2));     
+			int year1 = c1.get(Calendar.YEAR);
+			int year2 = c2.get(Calendar.YEAR);
+			c1.setTime(sdf.parse(time1)); 
+			c2.setTime(sdf.parse(time2));     
+			int month1 = c1.get(Calendar.MONTH)+1;
+			int month2 = c2.get(Calendar.MONTH)+1;
+			int quarter1 = 0;
+			if(month1>=1 && month1<=3){
+				quarter1 = 1;
+			}else if(month1>=4 && month1<=6){
+				quarter1 = 2;
+			}else if(month1>=7 && month1<=9){
+				quarter1 = 3;
+			}else if(month1>=10 && month1<=12){
+				quarter1 = 4;
+			}
+			int quarter2 = 0;
+			if(month2>=1 && month2<=3){
+				quarter2 = 1;
+			}else if(month2>=4 && month2<=6){
+				quarter2 = 2;
+			}else if(month2>=7 && month2<=9){
+				quarter2 = 3;
+			}else if(month2>=10 && month2<=12){
+				quarter2 = 4;
+			}
+			if(year1!=year2){
+				for(int i=quarter1;i<=4;i++){
+					str += "SELECT '"+ year1+"-"+ i +"' AS weldTime UNION ALL ";
+				}
+				for(int i=1;i<=quarter2;i++){
+					if(i!=quarter2){
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime)temp";
+					}
+				}
+			}else{
+				for(int i=quarter1;i<=quarter2;i++){
+					if(i!=quarter2){
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime)temp";
+					}
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	/**
+	 * 获取半年
+	 * @return
+	 */
+	public String getHalfAYear(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+			Calendar c1 = Calendar.getInstance();    
+			Calendar c2 = Calendar.getInstance();   
+			c1.setTime(sdf.parse(time1)); 
+			c2.setTime(sdf.parse(time2));     
+			int year1 = c1.get(Calendar.YEAR);
+			int year2 = c2.get(Calendar.YEAR);
+			c1.setTime(sdf.parse(time1)); 
+			c2.setTime(sdf.parse(time2));     
+			int month1 = c1.get(Calendar.MONTH)+1;
+			int month2 = c2.get(Calendar.MONTH)+1;
+			int quarter1 = 0;
+			if(month1>=1 && month1<=6){
+				quarter1 = 1;
+			}else if(month1>=7 && month1<=12){
+				quarter1 = 2;
+			}
+			int quarter2 = 0;
+			if(month2>=1 && month2<=6){
+				quarter2 = 1;
+			}else if(month2>=7 && month2<=12){
+				quarter2 = 2;
+			}
+			if(year1!=year2){
+				for(int i=quarter1;i<=2;i++){
+					str += "SELECT '"+ year1+"-"+ i +"' AS weldTime UNION ALL ";
+				}
+				for(int i=1;i<=quarter2;i++){
+					if(i!=quarter2){
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime)temp";
+					}
+				}
+			}else{
+				for(int i=quarter1;i<=quarter2;i++){
+					if(i!=quarter2){
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime)temp";
+					}
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
 	@Override
 	public List<ModelDto> getUseDetail(Page page, BigInteger fid, int type, WeldDto dto) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());

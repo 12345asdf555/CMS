@@ -127,7 +127,7 @@ function ItemidleDatagrid() {
 				var width = $("#bodydiv").width() / result.rows.length;
 				column.push({
 					field : "weldTime",
-					title : "时间跨度(年/月/日/周)",
+					title : "时间跨度(月/季度/半年/年)",
 					width : width,
 					halign : "center",
 					align : "center"
@@ -179,13 +179,14 @@ function ItemidleDatagrid() {
 }
 
 function otypecombobox() {
-	var optionFields = "<option value='1'>一年</option>" +
-		"<option value='2'>一月</option>" +
-		"<option value='3'>一日</option>" +
-		"<option value='4'>一周</option>";
+	var optionFields = 
+	"<option value='2'>月</option>" +
+	"<option value='5'>季度</option>" +
+	"<option value='6'>半年</option>" +
+	"<option value='1'>年</option>";
 	$("#otype").html(optionFields);
 	$("#otype").combobox();
-	$('#otype').combobox('select', "3");
+	$('#otype').combobox('select', "2");
 }
 
 function serachitemIdle() {

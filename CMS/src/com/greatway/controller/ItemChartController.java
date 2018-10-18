@@ -827,9 +827,9 @@ public class ItemChartController {
 				dto.setYear("year");
 			}else if(type.equals("2")){
 				dto.setMonth("month");
-			}else if(type.equals("3")){
+			}else if(type.equals("5")){
 				dto.setDay("day");
-			}else if(type.equals("4")){
+			}else if(type.equals("6")){
 				dto.setWeek("week");
 			}
 		}
@@ -857,41 +857,37 @@ public class ItemChartController {
 			List<LiveData> ins = lm.getAllInsf(parent,23);
 			double[] num = new double[time.size()];
 			double[] bilv = new double[time.size()];
-			if(list.size()>0){
-				for(int i=0;i<time.size();i++){
-					int count = lm.getMachineCount(ins.get(0).getFid());
-					num[i] = count;
-					if(count==0){
-						bilv[i] = 0;
-					}else{
+			for(int i=0;i<time.size();i++){
+				int count = lm.getMachineCount(ins.get(0).getFid());
+				num[i] = count;
+				if(count==0){
+					bilv[i] = 0;
+				}else{
+					bilv[i] = (double)Math.round(num[i]*10000/count)/100;
+				}
+				for(ModelDto m:list){
+					if(time.get(i).getWeldTime().equals(m.getWeldTime())){
+						num[i] = count - m.getNum().doubleValue();
 						bilv[i] = (double)Math.round(num[i]*10000/count)/100;
 					}
-					for(ModelDto m:list){
-						if(time.get(i).getWeldTime().equals(m.getWeldTime())){
-							num[i] = count - m.getNum().doubleValue();
-							bilv[i] = (double)Math.round(num[i]*10000/count)/100;
-						}
+				}
+				if(type.equals("6")){
+					String[] str = time.get(i).getWeldTime().split("-");
+					if(str[1].equals("1")){
+						json.put("weldTime",str[0]+"-上半年");
+					}else{
+						json.put("weldTime",str[0]+"-下半年");
 					}
+				}else{
 					json.put("weldTime",time.get(i).getWeldTime());
-					json.put("num",num[i]);
-					ary.add(json);
 				}
-				object.put("name", list.get(0).getFname());
-				object.put("num", num);
-				object.put("bilv", bilv);
-				arys.add(object);
-			}else{
-				int count = lm.getMachineCount(ins.get(0).getFid());
-				for(int i=0;i<time.size();i++){
-					json.put("weldTime",time.get(i).getWeldTime());
-					json.put("num",count);
-					num[i] = count;
-					ary.add(json);
-				}
-				object.put("name", ins.get(0).getFname());
-				object.put("num", num);
-				arys.add(object);
+				json.put("num",num[i]);
+				ary.add(json);
 			}
+			object.put("name", ins.get(0).getFname());
+			object.put("num", num);
+			object.put("bilv", bilv);
+			arys.add(object);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

@@ -813,9 +813,9 @@ public class CompanyChartController {
 				dto.setYear("year");
 			}else if(type.equals("2")){
 				dto.setMonth("month");
-			}else if(type.equals("3")){
+			}else if(type.equals("5")){
 				dto.setDay("day");
-			}else if(type.equals("4")){
+			}else if(type.equals("6")){
 				dto.setWeek("week");
 			}
 		}
@@ -847,7 +847,16 @@ public class CompanyChartController {
 			double[] num = null;
 			double[] bilv = null;
 			for(ModelDto live :time){
-				json.put("weldTime",live.getWeldTime());
+				if(type.equals("6")){
+					String[] str = live.getWeldTime().split("-");
+					if(str[1].equals("1")){
+						json.put("weldTime",str[0]+"-上半年");
+					}else{
+						json.put("weldTime",str[0]+"-下半年");
+					}
+				}else{
+					json.put("weldTime",live.getWeldTime());
+				}
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
@@ -883,7 +892,16 @@ public class CompanyChartController {
 					String[] str = overproof.split(",");
 					object.put("a"+j, str[i]);
 				}
-				object.put("w",time.get(i).getWeldTime());
+				if(type.equals("6")){
+					String[] str = time.get(i).getWeldTime().split("-");
+					if(str[1].equals("1")){
+						object.put("w",str[0]+"-上半年");
+					}else{
+						object.put("w",str[0]+"-下半年");
+					}
+				}else{
+					object.put("w",time.get(i).getWeldTime());
+				}
 				ary.add(object);
 			}
 		}catch(Exception e){
