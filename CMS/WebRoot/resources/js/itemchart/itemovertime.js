@@ -88,7 +88,7 @@ function ItemtimeDatagrid(){
          success : function(result) {  
              if (result) {
             	 var width=$("#bodydiv").width()/result.rows.length;
-                 column.push({field:"weldTime",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "center"});
+                 column.push({field:"weldTime",title:"时间跨度(年/月/周/日)",width:width,halign : "center",align : "center"});
                  for(var i=0;i<result.rows.length;i++){
                    	array1.push(result.rows[i].weldTime);
              	 }

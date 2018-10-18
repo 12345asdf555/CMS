@@ -50,8 +50,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				时间跨度:
 				<input type="radio" class="radioStyle" name="otype" value="1" />年
 				<input type="radio" class="radioStyle" name="otype" value="2" />月
-				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
 				<input type="radio" class="radioStyle" name="otype" value="4" />周
+				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
 				<input class="easyui-combobox" name="item" id="item">
 				一天超时待机:
 				<input class="easyui-numberbox" name="number" id="number" value="30">分钟

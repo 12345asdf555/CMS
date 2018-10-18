@@ -50,8 +50,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				时间跨度:
 				<input type="radio" class="radioStyle" name="otype" value="1" />年
 				<input type="radio" class="radioStyle" name="otype" value="2" />月
-				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
 				<input type="radio" class="radioStyle" name="otype" value="4" />周
+				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
 				<a href="javascript:serachCompanynoloads();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>

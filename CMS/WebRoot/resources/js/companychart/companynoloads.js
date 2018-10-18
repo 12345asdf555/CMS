@@ -88,7 +88,7 @@ function CompanynoloadsDatagrid(){
          success : function(result) {  
              if (result) {
             	 var width=$("#bodydiv").width()/result.rows.length;
-                 column.push({field:"w",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "center"});
+                 column.push({field:"w",title:"时间跨度(年/月/周/日)",width:width,halign : "center",align : "center"});
                  for(var i=0;i<result.arys.length;i++){
                     	array1.push(result.arys[i].weldTime);
               	 }

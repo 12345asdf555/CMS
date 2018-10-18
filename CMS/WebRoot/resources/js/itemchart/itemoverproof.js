@@ -97,7 +97,7 @@ function ItemoverproofDatagrid() {
 				var width = $("#bodydiv").width() / result.rows.length;
 				column.push({
 					field : "weldTime",
-					title : "时间跨度(年/月/日/周)",
+					title : "时间跨度(年/月/周/日)",
 					width : width,
 					halign : "center",
 					align : "center"
