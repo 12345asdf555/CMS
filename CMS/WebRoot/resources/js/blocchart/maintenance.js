@@ -172,7 +172,8 @@ function showChart(){
 			feature:{
 				saveAsImage:{}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		series:[{
 			name:'设备维修率',

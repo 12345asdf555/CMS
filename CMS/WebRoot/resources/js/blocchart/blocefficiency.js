@@ -91,7 +91,8 @@ function showblocEfficiencyChart(){
 	            restore : {show: true},
 	            saveAsImage : {show: true}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',
