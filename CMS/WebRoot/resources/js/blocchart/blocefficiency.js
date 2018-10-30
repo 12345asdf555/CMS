@@ -76,7 +76,9 @@ function showblocEfficiencyChart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['工时分布(1:1)']
+			data:['工时分布(1:1)'],
+			x : 'left',
+			left : '50'
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
@@ -125,6 +127,13 @@ function showblocEfficiencyChart(){
 		BlocEfficiencyDatagrid();
 	});
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#blocEfficiencyChart").width("100%");
+	if(array1.length>7){
+		var width = (array1.length-7) * 40;
+		$("#blocEfficiencyChart").width($("#blocEfficiencyChart").width()+width);
+	}
+	echarts.init(document.getElementById('blocEfficiencyChart')).resize();
 }
 
 function typecombobox(){

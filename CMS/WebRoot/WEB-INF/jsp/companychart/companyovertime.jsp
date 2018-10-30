@@ -66,8 +66,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ul>
 			</div>
 		</div>
-		<div id="companyOvertimeChart" style="height:50%;width:70%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
-		
+		<div class="divParent">
+			<div id="companyOvertimeChart" style="height:100%;width:100%;"></div>
+		</div>
 	    <table id="companyOvertimeTable" style="table-layout: fixed; width:100%;"></table>
 	    
 	</div>

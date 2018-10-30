@@ -49,7 +49,9 @@ function showblocUseChart(){
 			trigger: 'axis',//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['时长(h)']
+			data:['时长(h)'],
+			x : 'left',
+			left : '50'
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
@@ -96,6 +98,21 @@ function showblocUseChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
  	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#blocUseChart").width("100%");
+	if(array1.length>3){
+		var maxlength = array1[0];
+		for(var i=0; i<array1.length; i++){
+			if(array1[i].length>maxlength.length){
+				maxlength = array1[i];
+			}
+		}
+		var width = array1.length * maxlength.length * 12;//最长组织机构名字每个字节算9px
+		if($("#blocUseChart").width()<width){
+			$("#blocUseChart").width(width);
+		}
+	}
+	echarts.init(document.getElementById('blocUseChart')).resize();
 }
 
 function CaustUseDatagrid(){

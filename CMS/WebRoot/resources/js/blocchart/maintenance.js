@@ -48,8 +48,8 @@ function parentCombobox(){
 
 function dealwith(num,url){
 	$("#charts").show();
-//	$("#itemcharts1").hide();
-	$("#itemcharts2").hide();
+//	$("#div1").hide();
+	$("#div2").hide();
 	position = num;
 	activeurl = url;
 	setTimeout(function() {
@@ -76,8 +76,8 @@ function serach(){
 	}else if(type==23){
 		$("#charts").hide();
 		$("#explain").html("<span>设备维修率</span><hr><ul><li>展现某一时间段内，该部门的不同厂商不同设备类型的焊机总费用及设备维修费用</li></ul>");
-//		$("#itemcharts1").show();
-		$("#itemcharts2").show();
+//		$("#div1").show();
+		$("#div2").show();
 		position = 0;
 		activeurl = "itemChart/getItemTypeMaintain?flag=3";
 		setTimeout(function() {
@@ -202,14 +202,6 @@ function showChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
-	/*charts.on('click', function (param) {
-		var url = '';
-		var img = new Image();
-	    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
-	    url = img.src;  // 此时相对路径已经变成绝对路径
-	    img.src = null; // 取消请求
-		window.location.href = encodeURI(url);
-	});*/
 	domresize();
 }
 
@@ -263,7 +255,7 @@ function showItemMoneyChart(){
 			grid:{
 				left:'60',//组件距离容器左边的距离
 				right:'120',
-				bottom:'70',
+				bottom:'20',
 				containLaber:true//区域是否包含坐标轴刻度标签
 			},
 			toolbox:{
@@ -278,11 +270,11 @@ function showItemMoneyChart(){
 			xAxis:{
 				type:'category',
 				data: array3,
-				name:'厂商-类型',
+				name:'厂商-类型'/*,
 				axisLabel : {
 					rotate: 30, //x轴文字倾斜
 				    interval:0 //允许x轴文字全部显示并重叠
-				}
+				}*/
 			},
 			yAxis:[{
 				type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
@@ -326,6 +318,21 @@ function showItemMoneyChart(){
 	charts.hideLoading();
 	$("#chartLoading").hide();
 	domresize();
+	//重定义图表宽度
+	$("#itemcharts2").width("100%");
+	if(array3.length>3){
+		var maxlength = array3[0];
+		for(var i=0; i<array3.length; i++){
+			if(array3[i].length>maxlength.length){
+				maxlength = array3[i];
+			}
+		}
+		var width = array3.length * maxlength.length * 18;//最长组织机构名字每个字节算18px
+		if($("#itemcharts2").width()<width){
+			$("#itemcharts2").width(width);
+		}
+	}
+	echarts.init(document.getElementById('itemcharts2')).resize();
 
 }
 
@@ -362,11 +369,11 @@ function showItemNumChart(){
 			},
 			xAxis:{
 				type:'category',
-				data: array4,
+				data: array4/*,
 				axisLabel : {
 					rotate: 50, //x轴文字倾斜
 				    interval:0 //允许x轴文字全部显示并重叠
-				}
+				}*/
 			},
 			yAxis:{
 				type: 'value'//value:数值轴，category:类目轴，time:时间轴，log:对数轴
@@ -391,7 +398,21 @@ function showItemNumChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
-
+	//重定义图表宽度
+	$("#itemcharts1").width("100%");
+	if(array4.length>3){
+		var maxlength = array4[0];
+		for(var i=0; i<array4.length; i++){
+			if(array4[i].length>maxlength.length){
+				maxlength = array4[i];
+			}
+		}
+		var width = array4.length * maxlength.length * 18;//最长组织机构名字每个字节算18px
+		if($("#itemcharts1").width()<width){
+			$("#itemcharts1").width(width);
+		}
+	}
+	echarts.init(document.getElementById('itemcharts1')).resize();
 }
 
 

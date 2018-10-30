@@ -52,7 +52,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div id="parentMsg"><h2>${str }</h2></div>
-		<div id="caustHourChart" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:left;"></div>
+		<div class="divParent" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:left;">
+			<div id="caustHourChart" style="height:100%;width:100%;"></div>
+		</div>
 		<div id="classifydiv" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:right;">
 			<!-- 自定义多条件查询 -->
 		    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">

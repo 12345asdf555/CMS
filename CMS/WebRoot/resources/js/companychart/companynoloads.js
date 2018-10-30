@@ -33,7 +33,9 @@ function showCompanynoLoadsChart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:array2
+			data:array2,
+			x: 'left',
+			left: '50'
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
@@ -75,6 +77,13 @@ function showCompanynoLoadsChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#companyNoLoadsChart").width("100%");
+	if(array1.length>3 || array2.length>5){//array2：柱状图数量
+		var width = array1.length * array2.length * 22;
+		$("#companyNoLoadsChart").width($("#companyNoLoadsChart").width()+width);
+	}
+	echarts.init(document.getElementById('companyNoLoadsChart')).resize();
 }
 
 function CompanynoloadsDatagrid(){

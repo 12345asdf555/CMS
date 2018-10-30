@@ -67,12 +67,14 @@ function showChart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['运行时长(h)']
+			data:['运行时长(h)'],
+			x : 'left',
+			left : '50'
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
 			right:'120',
-			bottom:'50',
+			bottom:'20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -88,9 +90,9 @@ function showChart(){
 		xAxis:{
 			type:'category',
 			data: array1,
-			name: '运行时长',
+			name: '设备编号',
 			axisLabel : {
-				rotate: 40, //x轴文字倾斜
+				/*rotate: 40, //x轴文字倾斜*/
 			    interval:0 //允许x轴文字全部显示并重叠
 			}
 		},
@@ -135,6 +137,21 @@ function showChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#charts").width("100%");
+	if (array1.length > 3) {
+		var maxlength = array1[0];
+		for (var i = 0; i < array1.length; i++) {
+			if (array1[i].length > maxlength.length) {
+				maxlength = array1[i];
+			}
+		}
+		var width = array1.length * maxlength.length * 8; //最长组织机构名字每个字节算18px
+		if ($("#charts").width() < width) {
+			$("#charts").width(width);
+		}
+	}
+	echarts.init(document.getElementById('charts')).resize();
 }
 
 function dgDatagrid(){

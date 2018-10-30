@@ -127,12 +127,6 @@ function showChart(){
 }
 
 function chart(){
-	var bootomnum,rotatenum,interval;
-	if(position==0){
-		bootomnum=20,rotatenum=0,interval="auto";
-	}else{
-		bootomnum=50,rotatenum=30,interval=0;
-	}
    	//初始化echart实例
 	charts = echarts.init(document.getElementById("charts"));
 	//显示加载动画效果
@@ -145,12 +139,14 @@ function chart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['焊接时长(h)','开机时长(h)','上班时长(h)','工作效率','有效焊接率']
+			data:['焊接时长(h)','开机时长(h)','上班时长(h)','工作效率','有效焊接率'],
+			x : 'left',
+			left : '50'
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
 			right:'120',
-			bottom: bootomnum,
+			bottom: '20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -160,17 +156,16 @@ function chart(){
 	            restore : {show: true},
 	            saveAsImage : {show: true}//保存为图片
 			},
-			right:'2%',
-			top:'30'
+			right:'2%'
 		},
 		xAxis:{
 			type:'category',
 			data: array0,
-			name : '    '+dgname,
+			name : '    '+dgname/*,
 			axisLabel : {
 				rotate: rotatenum, //x轴文字倾斜
 			    interval:interval //0:允许x轴文字全部显示并重叠
-			}
+			}*/
 		},
 		yAxis:[{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
@@ -260,6 +255,21 @@ function chart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#charts").width("100%");
+	if (array0.length > 3) {
+		var maxlength = array0[0];
+		for (var i = 0; i < array0.length; i++) {
+			if (array0[i].length > maxlength.length) {
+				maxlength = array0[i];
+			}
+		}
+		var width = array0.length * maxlength.length * 18; //最长组织机构名字每个字节算18px
+		if ($("#charts").width() < width) {
+			$("#charts").width(width);
+		}
+	}
+	echarts.init(document.getElementById('charts')).resize();
 }
 
 function dgDatagrid(){
