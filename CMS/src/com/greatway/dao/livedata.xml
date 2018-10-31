@@ -2060,21 +2060,23 @@
 		)temp
 	</select>
 	
-	<select id="getJunctionByWelder" resultMap="dtoMap">
-		select fwelded_junction_no fname,i.fname iname ,fmax_electricity,fmin_electricity,fmax_valtage,fmin_valtage,fwall_thickness,fnextwall_thickness,Fmaterial,Fnext_material,fexternal_diameter,fnextExternal_diameter from tb_live_data l 
-		INNER join tb_welder w on l.fwelder_id = w.fwelder_no 
-		INNER join tb_welded_junction j on l.fjunction_id = j.fwelded_junction_no
-		INNER JOIN tb_insframework i ON j.fitemId = i.fid 
-		where l.fwelder_id=#{welder}
-		<if test="dto!=null and dto!=''">
-			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				and i.fid = #{dto.parent} and fweldtime &gt;=#{dto.dtoTime1}  and fweldtime &lt;= date_sub(date_sub(#{dto.dtoTime1},interval -1 day),interval 0 minute)
-			</if>
-		</if>group by fjunction_id,i.fid
-	</select>
-	
 	<select id="getExcessiveBack" resultMap="dtoMap">
-		select rownum num,fwelder_id,fjunction_id,timestampdiff(SECOND,weldtime,weldtimes) sum1,weldtime,felectricity,fmax_electricity,fmin_electricity,fname from (
+		SELECT o.fid,w.fwelder_no fwelder_id,w.fname wname ,j.fwelded_junction_no fjunction_id,m.fequipment_no fmachine_id,
+		i.fname iname,fstarttime starttime,fendtime endtime,fmax_electricity,fmin_electricity FROM tb_over_head o 
+		INNER JOIN tb_welder w on w.fid = o.fwelder_id INNER JOIN tb_welded_junction j on j.fid = o.fjunction_id 
+		INNER JOIN tb_welding_machine m on m.fid = o.fmachine_id INNER JOIN tb_insframework i on i.fid = w.fItemID 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent
+		where 1=1
+		<if test="dto!=null and dto!=''">
+			and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				 and fstarttime &gt;=#{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				 and fendtime &lt;=#{dto.dtoTime2}
+			</if>
+		</if>
+		<!-- select rownum num,fwelder_id,fjunction_id,timestampdiff(SECOND,weldtime,weldtimes) sum1,weldtime,felectricity,fmax_electricity,fmin_electricity,fname from (
    		select * from (select *,rownum+1 nums from ( 
    		select @rownum:=@rownum+1 as rownum,A.* from ( 
    		SELECT case when felectricity &gt; fmax_electricity then 1 when felectricity &lt; fmin_electricity then 1 else 0 end as overproof,felectricity,fmax_electricity,fmin_electricity,w.fname ,
@@ -2087,7 +2089,11 @@
 		select @rownum:=0) r2,case when felectricity &gt; fmax_electricity then 1 when felectricity &lt; fmin_electricity then 1 else 0 end as overproofs FROM ( 
 		select felectricity,fjunction_id,fweldtime,fwelder_id from tb_live_data where fstatus = 3 and fweldtime &gt;= #{time} and fweldtime &lt;= date_sub(date_sub(#{time},interval -1 day),interval 0 minute)) as k0 
 		inner join tb_welded_junction j on j.fwelded_junction_no=k0.fjunction_id inner join tb_welder w on w.fwelder_no = k0.fwelder_id where fwelder_id=#{welder} and fjunction_id=#{junction} group by weldtimes )B
-		where overproofs=1 order by weldtimes)C where num>1 )D on F.nums = D.num)temp
+		where overproofs=1 order by weldtimes)C where num>1 )D on F.nums = D.num)temp -->
+	</select>
+	
+	<select id="getExcessiveBackDetail" resultMap="dtoMap">
+		SELECT felectricity,fmax_electricity,fmin_electricity,FWeldTime weldTime FROM tb_over_body where fhead_id = #{id}
 	</select>
 	
 	<select id="getBlocRunTime" resultMap="dtoMap">
@@ -2503,6 +2509,4 @@
 		</if>
 		LIMIT 10
 	</select>
-	
-
 </mapper>

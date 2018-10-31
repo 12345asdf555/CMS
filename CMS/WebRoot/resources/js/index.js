@@ -153,7 +153,7 @@ function openRunTime() {
 }
 
 function openOverproofRecall() {
-	addTab("焊接工艺超标回溯", "companyChart/goSelectWelderJunction");
+	addTab("焊接工艺超标回溯", "companyChart/goOverproofTimeQuantum");
 }
 
 function openUser() {

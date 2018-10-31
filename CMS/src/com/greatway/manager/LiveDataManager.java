@@ -436,22 +436,20 @@ public interface LiveDataManager {
 	double getCountByTime(BigInteger parent,String time1,String time2,BigInteger mid, int type);
 	
 	/**
-	 * 根据焊工获取焊口
-	 * @param dto 扩展参数类
-	 * @param welder 焊工编号
-	 * @return
-	 */
-	List<ModelDto> getJunctionByWelder(Page page,WeldDto dto ,String welder);
-	
-	/**
 	 * 获取超标回溯
 	 * @param time 超标时间
 	 * @param welder 焊工
 	 * @param jucntion 焊口
 	 * @return
 	 */
-	List<ModelDto> getExcessiveBack(String time,String welder,String junction);
+	List<ModelDto> getExcessiveBack(Page page,WeldDto dto);
 
+	/**
+	 * 根据id获取连续超标明细
+	 * @param id
+	 * @return
+	 */
+	List<ModelDto> getExcessiveBackDetail(BigInteger id);
 	
 	/**
 	 * 获取设备运行时长

@@ -346,14 +346,9 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getJunctionByWelder(Page page,WeldDto dto, String welder) {
+	public List<ModelDto> getExcessiveBack(Page page,WeldDto dto) {
 		PageHelper.startPage(page.getPageIndex(),page.getPageSize());
-		return live.getJunctionByWelder(dto, welder);
-	}
-
-	@Override
-	public List<ModelDto> getExcessiveBack(String time, String welder, String junction) {
-		return live.getExcessiveBack(time, welder, junction);
+		return live.getExcessiveBack(dto);
 	}
 
 	@Override
@@ -793,6 +788,11 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	@Override
 	public List<ModelDto> getWelderList(WeldDto dto) {
 		return live.getWelderList(dto);
+	}
+
+	@Override
+	public List<ModelDto> getExcessiveBackDetail(BigInteger id) {
+		return live.getExcessiveBackDetail(id);
 	}
 
 }

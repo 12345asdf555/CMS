@@ -38,13 +38,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
     <div id="bodydiv" region="center"  hide="true"  split="true">
-    	<input type="hidden" id="welder" value="${welder }"/>
-    	<input type="hidden" id="junction" value="${junction }"/>
-    	<input type="hidden" id="weldtime" value="${weldtime }"/>
-    	<input type="hidden" id="electricitys" value="${electricitys }"/>
-    	<input type="hidden" id="maxelectricity" value="${maxelectricity }"/>
-    	<input type="hidden" id="minelectricity" value="${minelectricity }"/>
-		<div id="overproof" style="height:500px;width:90%; margin-bottom: 20px; margin-top: 20px;" align="center"></div>
+    	<input type="hidden" id="id" value="${id }"/>
+    	
+		<div class="divParent" style="height:500px;width:90%;margin: 20px;">
+			<div id="overproof" style="height:100%;width:100%;"></div>
+		</div>
+		<!-- <div id="overproof" style="height:500px;width:90%; margin-bottom: 20px; margin-top: 20px;" align="center"></div> -->
 	    
 	</div>
   </body>

@@ -116,10 +116,10 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	Double getCountByTime(@Param("parent")BigInteger parent,@Param("time1")String time1,@Param("time2")String time2,@Param("mid")BigInteger mid,@Param("type")int type);
 	
-	List<ModelDto> getJunctionByWelder(@Param("dto")WeldDto dto,@Param("welder")String welder);
-	
-	List<ModelDto> getExcessiveBack(@Param("time")String time,@Param("welder")String welder,@Param("junction")String junction);
+	List<ModelDto> getExcessiveBack(@Param("dto")WeldDto dto);
 
+	List<ModelDto> getExcessiveBackDetail(@Param("id")BigInteger id);
+	
 	List<ModelDto> getBlocRunTime(@Param("parent")BigInteger parent,@Param("dto")WeldDto dto,@Param("startindex")int startindex,@Param("endindex")int endindex);
 	
 	List<ModelDto> getUseratio(@Param("time1")String time1,@Param("time2")String time2,@Param("insftype")String insftype);
