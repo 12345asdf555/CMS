@@ -193,6 +193,11 @@ public class BlocChartController {
 		return "blocchart/operatorefficiency";
 	}
 	
+	@RequestMapping("goNewOvertime")
+	public String goNewOvertime(HttpServletRequest request){
+		return "blocchart/newovertime";
+	}
+	
 	/**
 	 * 集团工时报表信息查询
 	 * @param request
@@ -1826,6 +1831,134 @@ public class BlocChartController {
 		}
 		obj.put("rows", ary);
 		obj.put("total", total);
+		return obj.toString();
+	}
+
+	/**
+	 * 连续超时报表信息查询
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getNewOvertime")
+	@ResponseBody
+	public String getNewOvertime(HttpServletRequest request){
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		String type = request.getParameter("otype");
+		int number = Integer.parseInt(request.getParameter("number"));
+		int parentflag = Integer.parseInt(request.getParameter("parentflag"));
+		String parentid = request.getParameter("parent"),insfstr = "";
+		WeldDto dto = new WeldDto();
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(type)){
+			if(type.equals("1")){
+				dto.setYear("year");
+			}else if(type.equals("2")){
+				dto.setMonth("month");
+			}else if(type.equals("3")){
+				dto.setDay("day");
+			}else if(type.equals("4")){
+				dto.setWeek("week");
+			}
+		}
+		if(iutil.isNull(parentid)){
+			dto.setParent(new BigInteger(parentid));
+		}else{
+			BigInteger uid = lm.getUserId(request);
+			String afreshLogin = (String)request.getAttribute("afreshLogin");
+			if(iutil.isNull(afreshLogin)){
+				return "0";
+			}
+			dto.setParent(insm.getUserInsfId(uid));
+		}
+		if(parentflag==1){
+			insfstr = insm.showParents(dto.getParent().toString());
+		}
+		List<ModelDto> time = null;
+		if(iutil.isNull(request.getParameter("page")) && iutil.isNull(request.getParameter("rows"))){
+			pageIndex = Integer.parseInt(request.getParameter("page"));
+			pageSize = Integer.parseInt(request.getParameter("rows"));
+			page = new Page(pageIndex,pageSize,total);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
+		}else{
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
+		}
+		long total = 0;
+		if(time != null){
+			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(time);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		JSONArray arys = new JSONArray();
+		JSONArray arys1 = new JSONArray();
+		try{
+			int usertype = insm.getTypeById(dto.getParent()),types = usertype;
+			String status = "itemid";
+			if(usertype==20){
+				types = 21;
+				status = "fid";
+			}else if(usertype==21){
+				types = 22;
+				status = "caustid";
+			}else if(usertype==22){
+				types = 23;
+			}
+			List<ModelDto> list = lm.getNewOvertime(dto, number, status);
+			List<LiveData> ins = lm.getAllInsf(dto.getParent(), types);
+			int[] num = null;
+			for(ModelDto live :time){
+				json.put("weldTime",live.getWeldTime());
+				arys.add(json);
+			}
+			for(int i=0;i<ins.size();i++){
+				num = new int[time.size()];
+				for(int j=0;j<time.size();j++){
+					num[j] = 0;
+					for(ModelDto l:list){
+						BigInteger id = l.getItemid();
+						if(usertype==20){
+							id = l.getFid();
+						}else if(usertype==21){
+							id = l.getCaustid();
+						}
+						if(ins.get(i).getId().equals(id) && time.get(j).getWeldTime().equals(l.getWeldTime())){
+							num[j] = l.getTotal();
+						}
+					}
+				}
+				json.put("num",num);
+				json.put("name",ins.get(i).getFname());
+				json.put("itemid",ins.get(i).getId());
+				json.put("type", usertype);
+				json.put("insfstr", insfstr);
+				arys1.add(json);
+			}
+			JSONObject object = new JSONObject();
+			
+			for(int i=0;i<time.size();i++){
+				for(int j=0;j<arys1.size();j++){
+					JSONObject js = (JSONObject)arys1.get(j);
+					String overproof = js.getString("num").substring(1, js.getString("num").length()-1);
+					String[] str = overproof.split(",");
+					object.put("a"+j, str[i]);
+				}
+				object.put("w",time.get(i).getWeldTime());
+				ary.add(object);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		obj.put("arys", arys);
+		obj.put("arys1", arys1);
 		return obj.toString();
 	}
 }

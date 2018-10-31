@@ -127,6 +127,27 @@ public class InsframeworkManagerImpl implements InsframeworkManager {
 			request.setAttribute("str", sb);
 		}
 	}
+	
+	@Override
+	public String showParents(String parentid) {
+		IsnullUtil iutil = new IsnullUtil();
+		StringBuffer sb = new StringBuffer();  
+		if(iutil.isNull(parentid)){
+			boolean flag = true;
+			Insframework ins = getParent(new BigInteger(parentid));
+			while(flag){
+				if(ins!=null){
+					sb.insert(0, ins.getName()+"-");
+					ins = getParent(ins.getId());
+				}else if(ins==null){
+					flag = false;
+				}
+			}
+			String name = getInsframeworkById(new BigInteger(parentid));
+			sb.append(name);
+		}
+		return sb.toString();
+	}
 
 	@Override
 	public List<Insframework> getInsByType(int type,BigInteger parent) {

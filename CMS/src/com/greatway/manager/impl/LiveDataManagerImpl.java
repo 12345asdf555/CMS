@@ -795,4 +795,9 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getExcessiveBackDetail(id);
 	}
 
+	@Override
+	public List<ModelDto> getNewOvertime(WeldDto dto, int num, String type) {
+		return live.getNewOvertime(dto, num, type);
+	}
+
 }

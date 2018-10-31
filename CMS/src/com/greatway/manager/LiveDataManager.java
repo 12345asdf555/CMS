@@ -591,6 +591,11 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getDurationTime(String time1,String time2,int timetype);
+	/**
+	 * 获取持续时间
+	 * @param sql 获取持续时间sql
+	 * @return
+	 */
 	List<ModelDto> getDurationTime(Page page,String time1,String time2,int timetype);
 	
 	/**
@@ -617,4 +622,12 @@ public interface LiveDataManager {
 	 */
 	List<ModelDto> getWelderList(WeldDto dto);
 	
+	/**
+	 * 获取连续超时待机
+	 * @param dto
+	 * @param num
+	 * @param type
+	 * @return
+	 */
+	List<ModelDto> getNewOvertime(WeldDto dto,int num,String type);
 }

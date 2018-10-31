@@ -116,6 +116,10 @@ function getUserInsframework() {
 	})
 }
 
+function OpenNewOvertime(){
+	addTab("连续待机超时统计", "blocChart/goNewOvertime");
+}
+
 function openWps(){
 	addTab("工艺管理", "wps/goWps");
 }
@@ -448,7 +452,7 @@ function tabsIncident() {
 
 //选中时改变背景颜色
 function changeColor(id) {
-	for(var i=1;i<=74;i++){
+	for(var i=1;i<=80;i++){
 		$("#clickid"+i).hide();
 	}
 	$("#clickid"+id).show();
