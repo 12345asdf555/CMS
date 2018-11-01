@@ -107,7 +107,14 @@ function BloctimeDatagrid(parent){
                 	 if(result.arys1[m].insfstr){
                 		 $("#parentMsg").html("<h2>"+result.arys1[m].insfstr+"</h2>");//显示当前位置
                 	 }
-                	 column.push({field:"a"+m,title:"<a href='javascript:changeInsframework("+result.arys1[m].itemid+","+result.arys1[m].type+")'>"+result.arys1[m].name+"(次)</a>",width:width,halign : "center",align : "center"});
+                	 var iid = result.arys1[m].itemid;
+                	 if(result.arys1[m].type==23){//项目部层
+                		 column.push({field:"a"+m,title:result.arys1[m].name,width:width,halign : "center",align : "center",formatter : function(value,row,index){
+                			 return '<a href="junctionChart/gojunctionnewovertime?parent='+iid+'&otype='+otype+'&weldtime='+row.w+chartStr+'">'+value+'</a>';
+                		 }});
+                	 }else{
+                		 column.push({field:"a"+m,title:"<a href='javascript:changeInsframework("+iid+","+result.arys1[m].type+")'>"+result.arys1[m].name+"(次)</a>",width:width,halign : "center",align : "center"});
+                	 }
                 	 array2.push(result.arys1[m].name);
                   	 Series.push({
                   		name : result.arys1[m].name,
@@ -159,10 +166,18 @@ function serach(){
 
 var parentflag = 0;
 function changeInsframework(parent,type){
+	var row = $("#dg").datagrid('getSelected');
 	parentflag = 1;
-	if(type==23){
+	/*if(type==23){
 		alert("项目部！");
-	}else{
+		var url = 
+		var img = new Image();
+	    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
+	    url = img.src;  // 此时相对路径已经变成绝对路径
+	    img.src = null; // 取消请求
+		window.location.href = encodeURI(url);
+		//return "<a href='+"'>"+value+"</a>";
+	}else{*/
 		tempparent = parent;
 		$("#chartLoading").show();
 		Series = [];
@@ -173,7 +188,7 @@ function changeInsframework(parent,type){
 			BloctimeDatagrid(parent);
 			showBlocOverptimeChart();
 		},500);
-	}
+	/*}*/
 }
 
 //监听窗口大小变化

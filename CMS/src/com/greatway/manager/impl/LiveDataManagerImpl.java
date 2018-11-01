@@ -800,4 +800,10 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getNewOvertime(dto, num, type);
 	}
 
+	@Override
+	public List<ModelDto> getNewOvertimeDetail(Page page, WeldDto dto, int num) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getNewOvertimeDetail(dto, num);
+	}
+
 }

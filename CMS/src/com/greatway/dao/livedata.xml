@@ -74,7 +74,7 @@
         <result property="overproof" column="overproof"></result>
         <result property="weldTime" column="weldTime"></result>
         <result property="fname" column="fname"></result>
-        <result property="f_welder_id" column="f_welder_id"></result>
+        <result property="fwelder_id" column="fwelder_id"></result>
         <result property="fmachine_id" column="fmachine_id"></result>
         <result property="fjunction_id" column="fjunction_id"></result>
         <result property="felectricity" column="felectricity"></result>
@@ -853,7 +853,21 @@
 	<select id="getDetailovertime" resultMap="dtoMap">
 		SELECT * from (select sum(num) overtime,fid,fname,wname,fequipment_no fmachine_id, fwelder_id, weldTime, worktime from (
 		SELECT case when SUM(fstandbytime)/60 &gt;=#{num} then 1 else 0 end as num,fequipment_no,i.fid,i.fname,w.fname wname,fwelder_id,
-		DATE_FORMAT( fstarttime,'%Y-%m-%d' ) weldTime,SUM(fstandbytime)/60 worktime
+		<if test="dto!=null and dto!=''">
+			<if test="dto.year!=null and dto.year!=''">
+				DATE_FORMAT( fstarttime,  '%Y' )
+			</if>
+			<if test="dto.month!=null and dto.month!=''">
+				DATE_FORMAT( fstarttime,  '%Y-%m' )
+			</if>
+			<if test="dto.day!=null and dto.day!=''">
+				DATE_FORMAT( fstarttime,  '%Y-%m-%d' )
+			</if>
+			<if test="dto.week!=null and dto.week!=''">
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
+			</if>
+		</if>
+		weldTime,SUM(fstandbytime)/60 worktime
 		FROM tb_standby l 
         left join tb_welding_machine m on l.fmachine_id = m.fid
         left join tb_welder w on w.fwelder_no = l.fwelder_id
@@ -2549,4 +2563,46 @@
 		</if>
 		GROUP by weldTime,${insftype}
 	</select>
+	
+	<select id="getNewOvertimeDetail" resultMap="dtoMap">
+		SELECT w.fwelder_no fwelder_id,w.fname wname,m.fequipment_no fmachine_id,j.fwelded_junction_no fjunction_id,fstarttime starttime,fendtime endtime,fovertime/60 time,i.fname iname,
+		<if test="dto!=null and dto!=''">
+			<if test="dto.year!=null and dto.year!=''">
+				DATE_FORMAT( fstarttime, '%Y')
+			</if>
+			<if test="dto.month!=null and dto.month!=''">
+				DATE_FORMAT( fstarttime, '%Y-%m')
+			</if>
+			<if test="dto.day!=null and dto.day!=''">
+				DATE_FORMAT( fstarttime, '%Y-%m-%d')
+			</if>
+			<if test="dto.week!=null and dto.week!=''">
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
+			</if>
+		</if>weldtime FROM tb_standby_over so 
+		INNER JOIN tb_welder w on w.fid = so.fwelder_id INNER JOIN tb_insframework i on i.fid = w.fItemID
+        INNER JOIN tb_welding_machine m on m.fid = so.fmachine_id INNER JOIN tb_welded_junction j on j.fid = so.fjunction_id
+        where fovertime/60>${num} 
+		<if test="dto!=null and dto!=''">
+			<if test="dto.time!=null and dto.time!=''">
+				<choose>
+					<when test="dto.week!=null and dto.week!=''">
+						AND fstarttime &gt;= #{dto.time} AND fendtime &lt;= #{dto.time2}
+					</when>
+					<otherwise>
+						and fstarttime like '${dto.time}%'
+						<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+							AND fstarttime &gt;= #{dto.dtoTime1}
+						</if>
+						<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+							AND fendtime &lt;= #{dto.dtoTime2}
+						</if>
+					</otherwise>
+				</choose>
+			</if>
+			<if test="dto.parent!=null and dto.parent!=''">
+				AND i.fid=#{dto.parent}
+			</if>
+		</if>
+	</select> 
 </mapper>

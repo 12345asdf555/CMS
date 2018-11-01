@@ -630,4 +630,12 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getNewOvertime(WeldDto dto,int num,String type);
+	
+	/**
+	 * 获取连续超标明细
+	 * @param dto
+	 * @param num
+	 * @return
+	 */
+	List<ModelDto> getNewOvertimeDetail(Page page,WeldDto dto,int num);
 }
