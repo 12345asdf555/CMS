@@ -1187,8 +1187,8 @@ public class BlocChartController {
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
 		String parentid = request.getParameter("parent");
-		String time1 = request.getParameter("time1");
-		String time2 = request.getParameter("time2");
+		String time1 = request.getParameter("time1")+" 00:00:00";
+		String time2 = request.getParameter("time2")+" 23:59:59";
 		int flag = Integer.parseInt(request.getParameter("flag"));
 		BigInteger parent = null;
 		List<Insframework> insf = null;
