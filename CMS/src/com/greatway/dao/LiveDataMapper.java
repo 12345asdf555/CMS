@@ -166,4 +166,6 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	List<ModelDto> getNewOvertime(@Param("dto")WeldDto dto,@Param("num")int num,@Param("insftype")String insftype);
 	
+	List<ModelDto> getNewOvertimeDetail(@Param("dto")WeldDto dto,@Param("num")int num);
+	
 }
