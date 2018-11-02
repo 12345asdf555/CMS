@@ -26,7 +26,7 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	List<ModelDto> getItemOverproof(@Param("dto") WeldDto dto,@Param("id") BigInteger id);
 	
-	List<ModelDto> getDatailOverproof(@Param("dto") WeldDto dto,@Param("parent") BigInteger parent);
+	List<ModelDto> getDatailOverproof(@Param("dto") WeldDto dto);
 	
 	List<LiveData> getAllInsf(@Param("parent") BigInteger parent,@Param("type") int type);
 	

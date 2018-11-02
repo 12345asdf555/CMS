@@ -93,6 +93,7 @@ function showitemOverproofChart() {
 
 function ItemoverproofDatagrid() {
 	setParam();
+	var otype = $("input[name='otype']:checked").val();
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	var column = new Array();
@@ -119,7 +120,10 @@ function ItemoverproofDatagrid() {
 						title : result.arys[m].name + "(min)",
 						width : width,
 						halign : "center",
-						align : "center"
+						align : "center",
+						formatter : function(value, row, index){
+							return '<a href="junctionChart/goOverproofDetail?itemid='+row.itemid+'&weldtime='+row.weldTime+'&dtoTime1='+dtoTime1+'&dtoTime2='+dtoTime2+'&otype='+otype+'">'+value+'</a>';
+						}
 					}, {
 						field : "itemid",
 						title : "项目id",
@@ -190,8 +194,13 @@ function ItemtimeCombobox() {
 		}
 	});
 	$("#item").combobox();
-	var data = $("#item").combobox('getData');
-	$("#item").combobox('select', data[0].value);
+	var parent = $("#parent").val();
+	if(parent!=null && parent!=''){
+		$("#item").combobox('select', parent);
+	}else{
+		var data = $("#item").combobox('getData');
+		$("#item").combobox('select', data[0].value);
+	}
 }
 
 function serachitemoverproof() {

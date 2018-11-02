@@ -84,7 +84,7 @@ public interface LiveDataManager {
 	 * @param dto 扩展参数类
 	 * @return
 	 */
-	List<ModelDto> getDatailOverproof(Page page,WeldDto dto,BigInteger parent);
+	List<ModelDto> getDatailOverproof(Page page,WeldDto dto);
 	
 	/**
 	 * 获取某焊工在某个时间/焊机/焊口的总工时

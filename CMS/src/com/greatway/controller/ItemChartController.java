@@ -500,7 +500,7 @@ public class ItemChartController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/getDatailOverproof")
+	/*@RequestMapping("/getDatailOverproof")
 	@ResponseBody
 	public String getDatailOverproof(HttpServletRequest request){
 		if(iutil.isNull(request.getParameter("page"))){
@@ -565,7 +565,7 @@ public class ItemChartController {
 		obj.put("total", total);
 		obj.put("rows", ary);
 		return obj.toString();
-	}
+	}*/
 	
 	@RequestMapping("/getCountTime")
 	@ResponseBody

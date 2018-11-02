@@ -636,36 +636,61 @@
 		</if>
 	</select>
 	
-	<!-- 超标明细
+	<!-- 超标明细 -->
 	<select id="getDatailOverproof" resultMap="dtoMap">
-		select * from(
-		select sum(OverFlage) overproof,k.* from (
-		select case when felectricity &gt; fmax_electricity then 1 when felectricity &lt; fmin_electricity then 1 else 0 end as OverFlage, 
-		i.fid iid,j.fid jid,fmax_electricity,fmin_electricity,felectricity,DATE_FORMAT(fweldtime,'%Y-%m-%d') weldtime ,fgather_no jidgather,
-		i.fname iname,fwelder_id,fequipment_no fmachine_id,fjunction_id,k0.fname wname from ( 
-		select felectricity,fjunction_id,fweldtime,fwelder_id,fequipment_no,l.fgather_no,w.fname,l.fitemid from tb_live_data l left join tb_welder w on l.fwelder_id = w.fwelder_no
-        LEFT JOIN tb_welding_machine m on m.fid = l.fmachine_id where l.fstatus=3 ) as k0 
-		inner join tb_welded_junction j on j.fwelded_junction_no=k0.fjunction_id 
-		inner join tb_insframework i on k0.fitemid = i.fid 
-		where i.ftype=23
-		<if test="parent!=null and parent!=''">
-			AND i.fid = #{parent}
-		</if>
+		select * from (
+		select sum(falarmtime)/60 as overproof,j.fwelded_junction_no fjunction_id,w.fwelder_no fwelder_id,w.fname wname,
+		<if test="dto!=null and dto!=''">
+			<if test="dto.year!=null and dto.year!=''">
+				DATE_FORMAT( fstarttime, '%Y')
+			</if>
+			<if test="dto.month!=null and dto.month!=''">
+				DATE_FORMAT( fstarttime, '%Y-%m')
+			</if>
+			<if test="dto.day!=null and dto.day!=''">
+				DATE_FORMAT( fstarttime, '%Y-%m-%d')
+			</if>
+			<if test="dto.week!=null and dto.week!=''">
+				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
+			</if>
+		</if> weldtime ,i.fname from  tb_alarm l 
+		inner join tb_welded_junction j on j.fwelded_junction_no=l.fjunction_id 
+        left join tb_welder w on w.fwelder_no = l.fwelder_id
+		inner join tb_insframework i on l.fitemid = i.fid  and i.fid = j.fitemid and i.fid = w.fItemID
+		where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.time!=null and dto.time!=''">
-				and fweldtime like #{dto.time}
+				<choose>
+					<when test="dto.week!=null and dto.week!=''">
+						AND fstarttime &gt;= #{dto.time} AND fendtime &lt;= #{dto.time2}
+					</when>
+					<otherwise>
+						and fstarttime like '${dto.time}%'
+						<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+							AND fstarttime &gt;= #{dto.dtoTime1}
+						</if>
+						<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+							AND fendtime &lt;= #{dto.dtoTime2}
+						</if>
+					</otherwise>
+				</choose>
 			</if>
-			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				and fweldtime &gt;= #{dto.dtoTime1}
+			<if test="dto.time==null or dto.time==''">
+				<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+					AND fstarttime &gt;= #{dto.dtoTime1}
+				</if>
+				<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+					AND fendtime &lt;= #{dto.dtoTime2}
+				</if>
 			</if>
-			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and fweldtime &lt;= #{dto.dtoTime2}
+			<if test="dto.parent!=null and dto.parent!=''">
+				AND i.fid=#{dto.parent}
 			</if>
 		</if>
-		)k group by fwelder_id,jid,fmachine_id,weldtime
+		group by weldtime,j.fid,w.fid
 		)temp
 	</select>
-	
+	<!-- 
 	<select id="getCountTime" resultType="java.lang.Integer" >
 		 select count(l.fid) from tb_live_data l inner join tb_welded_junction j on j.fwelded_junction_no = l.fjunction_id 
 		 inner join tb_insframework i on i.fid = l.fitemid
@@ -2669,4 +2694,6 @@
         group by d.fvalue
         )
 	</select>
+	
+	
 </mapper>

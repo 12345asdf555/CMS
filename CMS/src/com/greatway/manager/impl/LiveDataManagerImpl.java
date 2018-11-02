@@ -82,9 +82,9 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getDatailOverproof(Page page,WeldDto dto,BigInteger parent) {
+	public List<ModelDto> getDatailOverproof(Page page,WeldDto dto) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.getDatailOverproof(dto,parent);
+		return live.getDatailOverproof(dto);
 	}
 
 	@Override

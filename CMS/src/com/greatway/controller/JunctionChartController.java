@@ -225,6 +225,28 @@ public class JunctionChartController {
 	}
 	
 	/**
+	 * 跳转超标明细页面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/goOverproofDetail")
+	public String goOverproofDetail(HttpServletRequest request){
+		String weldtime = request.getParameter("weldtime");
+		String itemid = request.getParameter("itemid");
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		String otype = request.getParameter("otype");
+		insm.showParent(request,itemid);
+		lm.getUserId(request);
+		request.setAttribute("parent",itemid);
+		request.setAttribute("weldtime",weldtime);
+		request.setAttribute("time1",time1);
+		request.setAttribute("time2",time2);
+		request.setAttribute("otype",otype);
+		return "junctionchart/detailoverproof";
+	}
+	
+	/**
 	 * 获取焊机工时报表信息
 	 * @param request
 	 * @return
@@ -767,6 +789,9 @@ public class JunctionChartController {
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
+		if(iutil.isNull(parent)){
+			dto.setParent(new BigInteger(parent));
+		}
 		if(iutil.isNull(type)){
 			if(type.equals("1")){
 				dto.setYear("year");
@@ -825,6 +850,100 @@ public class JunctionChartController {
 				json.put("itemname",l.getIname());
 				json.put("starttime", l.getStarttime());
 				json.put("endtime", l.getEndtime());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 获取超标报表信息
+	 * @param request
+	 * @param welderno
+	 * @param machineno
+	 * @param junctionno
+	 * @param time
+	 * @return
+	 */
+	@RequestMapping("/getOverproofDetail")
+	@ResponseBody
+	public String getOverproofDetail(HttpServletRequest request,@RequestParam String parent){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		String weldtime = request.getParameter("weldtime");
+		String type = request.getParameter("otype");
+		WeldDto dto = new WeldDto();
+		dto.setTime(weldtime);
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(parent)){
+			dto.setParent(new BigInteger(parent));
+		}
+		if(iutil.isNull(type)){
+			if(type.equals("1")){
+				dto.setYear("year");
+			}else if(type.equals("2")){
+				dto.setMonth("month");
+			}else if(type.equals("3")){
+				dto.setDay("day");
+			}else if(type.equals("4")){
+				dto.setWeek("week");
+			}
+		}
+		page = new Page(pageIndex,pageSize,total);
+		List<ModelDto> list = null;
+		if(Integer.parseInt(type)==4){
+			String[] str = dto.getTime().split("-");
+			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+			String[] weektime = weekdate.split("/");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				long t1 = sdf.parse(weektime[0]).getTime();
+				long t2 = sdf.parse(time1).getTime();
+				long t3 = sdf.parse(weektime[1]).getTime();
+				long t4 = sdf.parse(time2).getTime();
+				if(t1<=t2){
+					weektime[0] = time1;
+				}
+				if(t3>=t4){
+					weektime[1] = time2;
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			dto.setTime(weektime[0]);
+			dto.setTime2(weektime[1]);
+			dto.setWeek("week");
+		}
+
+		list = lm.getDatailOverproof(page, dto);
+		long total = 0;
+		if(list != null){
+			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(ModelDto l:list){
+				json.put("overproof", (double)Math.round(l.getOverproof()*100)/100);
+				json.put("weldtime", l.getWeldTime());
+				json.put("welderno",l.getFwelder_id());
+				json.put("junctionno",l.getFjunction_id());
+				json.put("wname",l.getWname());
+				json.put("itemname",l.getFname());
 				ary.add(json);
 			}
 		}catch(Exception e){
