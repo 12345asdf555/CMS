@@ -120,7 +120,7 @@ function webclient(){
 						}
 					}
 				}
-				if(redata.substring(0+i,2+i)=="03"||redata.substring(0+i,2+i)=="05"||redata.substring(0+i,2+i)=="07"){
+				if(redata.substring(0+i,2+i)=="03"||redata.substring(0+i,2+i)=="05"||redata.substring(0+i,2+i)=="07"||redata.substring(0+i,2+i)=="09"){
 					if(work.length==0){
 						work.push(redata.substring(4+i, 8+i));
 					}else{

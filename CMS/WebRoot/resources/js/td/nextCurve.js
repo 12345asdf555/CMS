@@ -33,7 +33,7 @@ var series;
 var chart;
 var series1;
 var chart1;
-var dic,starows,flag=0,noflag=0;
+var dic,/*starows,*/flag=0,noflag=0;
 var led = [ "0,1,2,4,5,6", "2,5", "0,2,3,4,6", "0,2,3,5,6", "1,2,3,5", "0,1,3,5,6", "0,1,3,4,5,6", "0,2,5", "0,1,2,3,4,5,6", "0,1,2,3,5,6" ];
 $(function() {
 	var width = $("#treeDiv").width();
@@ -110,7 +110,7 @@ $(function() {
 })
 
 function getMsg(){
-	$.ajax({
+	/*$.ajax({
 		type : "post",
 		async : false,
 		url : "Dictionary/getDictionaryValueame?ivalue=81",
@@ -141,7 +141,7 @@ function getMsg(){
 		error : function(errorMsg) {
 			alert("数据请求失败，请联系系统管理员!");
 		}
-	});
+	});*/
 }
 function getNowFormatDate(millsTime) {
 	var day = new Date(millsTime);
@@ -496,9 +496,9 @@ function iview() {
 					var mstatus = redata.substring(0 + i, 2 + i);
 					switch (mstatus) {
 					case "00":
-						if($("#in4").val() == "超时待机"){
+						/*if($("#in4").val() == "超时待机"){
 							break;
-						}
+						}*/
 						document.getElementById("in4").value = "待机";
 						document.getElementById("in4").style.backgroundColor = "#f9e718";
 						document.getElementById("mrjpg").src = "resources/images/welder_02.png";
@@ -524,6 +524,11 @@ function iview() {
 							document.getElementById("in4").style.backgroundColor = "#7cbc16";
 							document.getElementById("mrjpg").src = "resources/images/welder_03.png";
 						break;
+					case "09":
+							document.getElementById("in4").value = "超时待机";
+							document.getElementById("in4").style.backgroundColor = "#55a7f3";
+							document.getElementById("mrjpg").src = "resources/images/welder_05.png";
+						break;
 					}
 					var x = time[z],
 						y = ele[z],
@@ -543,7 +548,7 @@ function iview() {
 						}
 					}
 				}
-				if(starows.length==0){
+				/*if(starows.length==0){
 					var arr  =
 				     {
 				         "fname" : redata.substring(4+i, 8+i),
@@ -570,11 +575,11 @@ function iview() {
 							}
 						}
 					}
-				}
+				}*/
 			}
 //		}
 		z++;
-		if(flag==0){
+		/*if(flag==0){
 			if(starows.length!=0){
 	        	for(var j=0;j<starows.length;j++){
 	        		if(document.getElementById("in2").value==starows[j].fname){
@@ -585,7 +590,7 @@ function iview() {
 	        	}
 			};
 			flag == 1;
-		}
+		}*/
 		
 	}
 	if ((time.length) % 3 == 1) {
@@ -603,7 +608,7 @@ function iview() {
 	}
 }
 
-//统计超时
+/*//统计超时
 function getOvertime(){
 	getMsg();
 	if(starows.length!=0){
@@ -620,12 +625,7 @@ function getOvertime(){
 	  		}    
 	  	}
 	};
-}
-
-//每小时统计超时
-/*window.setInterval(function() {
-	getOvertime();
-}, 3600*1000)*/
+}*/
 
 
 //监听窗口大小变化
