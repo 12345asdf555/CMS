@@ -80,7 +80,7 @@ function showCompanynoLoadsChart(){
 	//重定义图表宽度
 	$("#companyNoLoadsChart").width("100%");
 	if(array1.length>3 || array2.length>5){//array2：柱状图数量
-		var width = array1.length * array2.length * 22;
+		var width = array1.length * 80 + array2.length * 22;
 		$("#companyNoLoadsChart").width($("#companyNoLoadsChart").width()+width);
 	}
 	echarts.init(document.getElementById('companyNoLoadsChart')).resize();

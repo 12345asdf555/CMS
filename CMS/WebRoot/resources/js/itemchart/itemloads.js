@@ -91,7 +91,7 @@ function showitemLoadsChart() {
 	//重定义图表宽度
 	$("#itemLoadsChart").width("100%");
 	if(array1.length>3 || array2.length>5){//array2：柱状图数量
-		var width = array1.length * array2.length * 22;
+		var width = array1.length * array2.length * 100;
 		$("#itemLoadsChart").width($("#itemLoadsChart").width()+width);
 	}
 	echarts.init(document.getElementById('itemLoadsChart')).resize();

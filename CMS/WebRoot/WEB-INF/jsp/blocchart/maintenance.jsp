@@ -59,10 +59,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="charts" style="height:50%;width:70%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
 <!-- 	<div class="divParent" id="div1" style="height:50%;width:49.5%;">
-			<div id="itemcharts1" style="height:100%;width:100%;"></div>
+			<div id="itemcharts1" style="height:96%;width:100%;"></div>
 		</div> -->
 		<div class="divParent" id="div2" style="height:50%;width:65%;">
-			<div id="itemcharts2" style="height:100%;width:100%;"></div>
+			<div id="itemcharts2" style="height:96%;width:100%;"></div>
 		</div>
 		<div id="dg1"><table id="dg" style="table-layout: fixed; width:100%;"></table></div>
 	    <div id="dg2"><table id="itemdg" style="table-layout: fixed; width:100%;"></table></div>

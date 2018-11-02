@@ -168,4 +168,8 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	List<ModelDto> getNewOvertimeDetail(@Param("dto")WeldDto dto,@Param("num")int num);
 	
+	List<ModelDto> getNewIdle(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getMachineTypeTotal(@Param("parent")BigInteger parent);
+	
 }

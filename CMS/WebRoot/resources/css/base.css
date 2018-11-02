@@ -619,10 +619,6 @@ select::-ms-expand {
 	text-indent: 18px;
 }
 
-.hourdivParent{
-	
-}
-
 .divParent{
 	height:50%;
 	width:70%;
@@ -635,7 +631,7 @@ select::-ms-expand {
 
 .divParent::-webkit-scrollbar{/*滚动条整体样式*/
     width:8px;
-    height:8px;
+    height:4%;
     background-color: #61B6EB;
 }
 

@@ -116,6 +116,10 @@ function getUserInsframework() {
 	})
 }
 
+function openNewIdle(){
+	addTab("设备类型闲置率", "blocChart/goNewIdle");
+}
+
 function OpenNewOvertime(){
 	addTab("连续待机超时统计", "blocChart/goNewOvertime");
 }
@@ -452,7 +456,7 @@ function tabsIncident() {
 
 //选中时改变背景颜色
 function changeColor(id) {
-	for(var i=1;i<=80;i++){
+	for(var i=1;i<=85;i++){
 		$("#clickid"+i).hide();
 	}
 	$("#clickid"+id).show();

@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<input type="hidden" id="id" value="${id }"/>
     	
 		<div class="divParent" style="height:500px;width:90%;margin: 20px;">
-			<div id="overproof" style="height:100%;width:100%;"></div>
+			<div id="overproof" style="height:96%;width:100%;"></div>
 		</div>
 		<!-- <div id="overproof" style="height:500px;width:90%; margin-bottom: 20px; margin-top: 20px;" align="center"></div> -->
 	    

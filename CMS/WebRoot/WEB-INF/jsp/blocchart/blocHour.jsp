@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<div class="divParent" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:left;">
-			<div id="blocHourChart" style="height:100%;width:100%;"></div>
+			<div id="blocHourChart" style="height:96%;width:100%;"></div>
 		</div>
 		<!-- <div id="blocHourChart" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:left;"></div> -->
 		<div id="classifydiv" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:right;">

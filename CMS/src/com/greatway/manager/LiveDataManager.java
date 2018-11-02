@@ -638,4 +638,18 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getNewOvertimeDetail(Page page,WeldDto dto,int num);
+	
+	/**
+	 * 根据焊机类型获取工作焊机数量
+	 * @param dto 
+	 * @return
+	 */
+	List<ModelDto> getNewIdle(WeldDto dto);
+	
+	/**
+	 * 根据类型获取焊机数量
+	 * @param parent 组织机构id
+	 * @return
+	 */
+	List<ModelDto> getMachineTypeTotal(BigInteger parent);
 }

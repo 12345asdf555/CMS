@@ -806,4 +806,14 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getNewOvertimeDetail(dto, num);
 	}
 
+	@Override
+	public List<ModelDto> getNewIdle(WeldDto dto) {
+		return live.getNewIdle(dto);
+	}
+
+	@Override
+	public List<ModelDto> getMachineTypeTotal(BigInteger parent) {
+		return live.getMachineTypeTotal(parent);
+	}
+
 }

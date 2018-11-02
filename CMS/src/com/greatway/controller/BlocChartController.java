@@ -195,7 +195,14 @@ public class BlocChartController {
 	
 	@RequestMapping("goNewOvertime")
 	public String goNewOvertime(HttpServletRequest request){
+		lm.getUserId(request);
 		return "blocchart/newovertime";
+	}
+	
+	@RequestMapping("goNewIdle")
+	public String goNewIdle(HttpServletRequest request){
+		lm.getUserId(request);
+		return "blocchart/newidle";
 	}
 	
 	/**
@@ -1959,6 +1966,182 @@ public class BlocChartController {
 		obj.put("rows", ary);
 		obj.put("arys", arys);
 		obj.put("arys1", arys1);
+		return obj.toString();
+	}
+	
+	/**
+	 * 设备类型闲置率报表信息查询
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getNewIdle")
+	@ResponseBody
+	public String getNewIdle(HttpServletRequest request){
+		if(iutil.isNull(request.getParameter("page"))){
+			pageIndex = Integer.parseInt(request.getParameter("page"));
+		}
+		if(iutil.isNull(request.getParameter("rows"))){
+			pageSize = Integer.parseInt(request.getParameter("rows"));
+		}
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		String type = request.getParameter("otype");
+		String parentid = request.getParameter("parent");
+		WeldDto dto = new WeldDto();
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(type)){
+			if(type.equals("1")){
+				dto.setYear("year");
+			}else if(type.equals("2")){
+				dto.setMonth("month");
+			}else if(type.equals("5")){
+				dto.setDay("day");
+			}else if(type.equals("6")){
+				dto.setWeek("week");
+			}
+		}
+		if(iutil.isNull(parentid)){
+			dto.setParent(new BigInteger(parentid));
+		}else{
+			BigInteger uid = lm.getUserId(request);
+			String afreshLogin = (String)request.getAttribute("afreshLogin");
+			if(iutil.isNull(afreshLogin)){
+				return "0";
+			}
+			dto.setParent(insm.getUserInsfId(uid));
+		}
+		List<ModelDto> time = null;
+		if(iutil.isNull(request.getParameter("page")) && iutil.isNull(request.getParameter("rows"))){
+			pageIndex = Integer.parseInt(request.getParameter("page"));
+			pageSize = Integer.parseInt(request.getParameter("rows"));
+			page = new Page(pageIndex,pageSize,total);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
+		}else{
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
+		}
+		long total = 0;
+		if(time != null){
+			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(time);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		JSONArray arys = new JSONArray();
+		JSONArray arys1 = new JSONArray();
+		try{
+			List<ModelDto> list = lm.getNewIdle(dto);
+			List<ModelDto> ins = lm.getMachineTypeTotal(dto.getParent());
+			double[] num = null;
+			double[] bilv = null;
+			for(ModelDto live :time){
+				if(type.equals("6")){
+					String[] str = live.getWeldTime().split("-");
+					if(str[1].equals("1")){
+						json.put("weldTime",str[0]+"-上半年");
+					}else{
+						json.put("weldTime",str[0]+"-下半年");
+					}
+				}else{
+					json.put("weldTime",live.getWeldTime());
+				}
+				arys.add(json);
+			}
+			for(int i=0;i<ins.size();i++){
+				num = new double[time.size()];
+				bilv = new double[time.size()];
+				int count = ins.get(i).getTotal();
+				for(int j=0;j<time.size();j++){
+					num[j] = count;
+					if(count==0){
+						bilv[j] = 0;
+					}else{
+						bilv[j] = (double)Math.round(num[j]*10000/count)/100;
+					}
+					for(int x=0;i<list.size();x++){
+						if(list.get(x).getTypeid() == ins.get(i).getTypeid()){
+							num[j] = count - list.get(x).getTotal();
+							bilv[j] = (double)Math.round(num[j]*10000/count)/100;
+						}
+					}
+				}
+				json.put("bilv", bilv);
+				json.put("idle",num);
+				json.put("name",ins.get(i).getFname());
+				json.put("id",ins.get(i).getTypeid());
+				arys1.add(json);
+			}
+			JSONObject object = new JSONObject();
+			
+			for(int i=0;i<time.size();i++){
+				for(int j=0;j<arys1.size();j++){
+					JSONObject js = (JSONObject)arys1.get(j);
+					String overproof = js.getString("idle").substring(1, js.getString("idle").length()-1);
+					String[] str = overproof.split(",");
+					object.put("a"+j, str[i]);
+				}
+				if(type.equals("6")){
+					String[] str = time.get(i).getWeldTime().split("-");
+					if(str[1].equals("1")){
+						object.put("w",str[0]+"-上半年");
+					}else{
+						object.put("w",str[0]+"-下半年");
+					}
+				}else{
+					object.put("w",time.get(i).getWeldTime());
+				}
+				ary.add(object);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		obj.put("arys", arys);
+		obj.put("arys1", arys1);
+		return obj.toString();
+	}
+	
+
+	/**
+	 * 公司下拉框
+	 * @return 
+	 */
+	@RequestMapping("getChildren")
+	@ResponseBody
+	public String getChildren(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			BigInteger uid = lm.getUserId(request);
+			String afreshLogin = (String)request.getAttribute("afreshLogin");
+			if(iutil.isNull(afreshLogin)){
+				return "0";
+			}
+			int usertype = insm.getUserInsfType(uid);
+			if(usertype==20){
+				usertype = 21;
+			}else if(usertype==21){
+				usertype = 22;
+			}else if(usertype==22){
+				usertype = 23;
+			}
+			List<LiveData> list = lm.getAllInsf(insm.getUserInsfId(uid), usertype);
+			for(LiveData i:list){
+				json.put("id", i.getId());
+				json.put("name", i.getFname());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
 		return obj.toString();
 	}
 }

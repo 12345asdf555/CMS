@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="parentMsg"><h2>${str }</h2></div>
 		<div class="divParent" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:left;">
-			<div id="companyHourChart" style="height:100%;width:100%;"></div>
+			<div id="companyHourChart" style="height:96%;width:100%;"></div>
 		</div>
 		<div id="classifydiv" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:right;">
 			<!-- 自定义多条件查询 -->
