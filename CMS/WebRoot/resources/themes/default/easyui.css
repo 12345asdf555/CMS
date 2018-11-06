@@ -301,6 +301,7 @@
 .textbox {
   border: 1px solid #95B8E7;
   vertical-align: middle;
+  display: inline-block;
 }
 .combo {
   display: inline-block;
