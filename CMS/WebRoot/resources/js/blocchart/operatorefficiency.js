@@ -98,6 +98,7 @@ var array2 = new Array();
 var array3 = new Array();
 var array4 = new Array();
 var array5 = new Array();
+var avg2=0,avg5=0;
 function showChart(){
 	setParam();
 	 $.ajax({  
@@ -108,14 +109,82 @@ function showChart(){
         dataType : "json", //返回数据形式为json  
         success : function(result) {  
             if (result) {
-            	for(var i=0;i<result.rows.length;i++){
-            		array0.push(result.rows[i].name);
-            		array1.push(result.rows[i].worktime);
-            		array2.push(result.rows[i].weldtime);
-            		array3.push(result.rows[i].workratio);
-            		array4.push(result.rows[i].effectiveratio);
-            		array5.push(result.rows[i].boottime);
+            	//根据焊接时长进行冒泡排序
+    			/*for(var i=0;i<result.rows.length-1;i++){
+    				for(var j=0;j<result.rows.length-1-i;j++){
+    					if(result.rows[j].weldtime<result.rows[j+1].weldtime){
+    						var temp=result.rows[j].weldtime;
+    						result.rows[j].weldtime = result.rows[j+1].weldtime;
+    						result.rows[j+1].weldtime = temp;
+    					}
+    				}
+    			} 
+    			for(var i=0;i<result.rows.length;i++){
+    				console.log(result.rows[i].weldtime);
+    			}*/
+            	if(type!=23){
+                	for(var i=0;i<result.rows.length;i++){
+                		array0.push(result.rows[i].name);
+                		array1.push(result.rows[i].worktime);
+                		array2.push(result.rows[i].weldtime);
+                		array3.push(result.rows[i].workratio);
+                		array4.push(result.rows[i].effectiveratio);
+                		array5.push(result.rows[i].boottime);
 
+                	}
+            	}else{
+            		if(result.rows.length>=5){
+            			for(var i=0;i<5;i++){
+                    		array0.push(result.rows[i].name);
+                    		array1.push(result.rows[i].worktime);
+                    		array2.push(result.rows[i].weldtime);
+                    		array3.push(result.rows[i].workratio);
+                    		array4.push(result.rows[i].effectiveratio);
+                    		array5.push(result.rows[i].boottime);
+
+                    	}
+            		}else{
+            			for(var i=0;i<result.rows.length;i++){
+                    		array0.push(result.rows[i].name);
+                    		array1.push(result.rows[i].worktime);
+                    		array2.push(result.rows[i].weldtime);
+                    		array3.push(result.rows[i].workratio);
+                    		array4.push(result.rows[i].effectiveratio);
+                    		array5.push(result.rows[i].boottime);
+
+                    	}
+            		}
+            		if(result.rows.length>=10){
+            			for(var i=result.rows.length-5;i<result.rows.length;i++){
+                    		array0.push(result.rows[i].name);
+                    		array1.push(result.rows[i].worktime);
+                    		array2.push(result.rows[i].weldtime);
+                    		array3.push(result.rows[i].workratio);
+                    		array4.push(result.rows[i].effectiveratio);
+                    		array5.push(result.rows[i].boottime);
+
+                    	}
+            		}else if(result.rows.length>5 && result.rows.length<10){
+            			for(var i=5;i<result.rows.length;i++){
+                    		array0.push(result.rows[i].name);
+                    		array1.push(result.rows[i].worktime);
+                    		array2.push(result.rows[i].weldtime);
+                    		array3.push(result.rows[i].workratio);
+                    		array4.push(result.rows[i].effectiveratio);
+                    		array5.push(result.rows[i].boottime);
+
+                    	}
+            		}
+            		avg2 = 0,avg5 = 0;
+            		for(var i=0;i<result.rows.length;i++){
+                		avg2 += result.rows[i].weldtime;
+                		avg5 += result.rows[i].boottime;
+                	}
+                	if(result.rows.length!=0){
+                    	avg2 = (avg2/result.rows.length).toFixed(2);
+                    	avg5 = (avg5/result.rows.length).toFixed(2);
+                	}
+            		
             	}
             }  
         },  
@@ -125,7 +194,6 @@ function showChart(){
    }); 
 	 chart();
 }
-
 function chart(){
    	//初始化echart实例
 	charts = echarts.init(document.getElementById("charts"));
@@ -184,6 +252,7 @@ function chart(){
 			name:'焊接时长(h)',
 			type:'bar',
             barMaxWidth:20,//最大宽度
+            color:['#C23531'],
 			data:array2,
 			label : {
 				normal : {
@@ -195,6 +264,8 @@ function chart(){
 			name:'开机时长(h)',
 			type:'bar',
             barMaxWidth:20,//最大宽度
+            color:['#2F4554'],
+            
 			data:array5,
 			label : {
 				normal : {
@@ -209,6 +280,7 @@ function chart(){
             interval: 20,//间隔
 			type:'line',
             barMaxWidth:20,//最大宽度
+            color:['#61A0A8'],
 			data:array1,
 			label : {
 				normal : {
@@ -223,6 +295,7 @@ function chart(){
             interval: 20,//间隔
 			type:'line',
             yAxisIndex: 1,
+            color:['#D48265'],
             barMaxWidth:20,//最大宽度
 			data:array3,
 			label : {
@@ -240,6 +313,7 @@ function chart(){
 			type:'line',
             yAxisIndex: 1,
             barMaxWidth:20,//最大宽度
+            color:['#91C7AE'],
 			data:array4,
 			label : {
 				normal : {
@@ -249,6 +323,15 @@ function chart(){
 				}
 			}
 		}]
+	}
+	//项目部时添加标志线
+	if(type==23){
+		option.series[0].markLine={data: [{yAxis: avg2, name: "焊接平均时长"}],
+				label: {normal: {position: "middle",color:"#C23531",formatter: "{b}: {c}h"}},
+		        itemStyle : {normal: { lineStyle: { color:"#C23531"}}}};
+		option.series[1].markLine={data: [{yAxis: avg5, name: "开机平均时长"}],
+				label: {normal: {position: "middle",color:"#2F4554",formatter: "{b}: {c}h"}},
+		        itemStyle : {normal: { lineStyle: { color:"#2F4554"}}}};
 	}
 	//为echarts对象加载数据
 	charts.setOption(option);

@@ -435,6 +435,12 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
+	public List<ModelDto> getItemWorkTime(Page page,WeldDto dto) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getItemWorkTime(dto);
+	}
+	
+	@Override
 	public List<ModelDto> getItemWorkTime(WeldDto dto) {
 		return live.getItemWorkTime(dto);
 	}

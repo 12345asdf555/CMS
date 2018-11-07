@@ -29,7 +29,8 @@ import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping(value = "/hierarchy", produces = { "text/json;charset=UTF-8" })
-public class MainController {private Page page;
+public class MainController {
+	private Page page;
 	private int pageIndex = 1;
 	private int pageSize = 10;
 	private int total = 0;

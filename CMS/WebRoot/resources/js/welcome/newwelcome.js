@@ -128,7 +128,7 @@ function webclient(){
 			}, 3000)
 			symbol=1;
 		}
-		for(var i = 0;i < redata.length;i+=89){
+		for(var i = 0;i < redata.length;i+=97){
 			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var x=0;x<namex.length;x++){
 					//组织机构与焊工编号都与数据库中一直则录入
@@ -148,7 +148,7 @@ function webclient(){
 						}
 					}
 				}
-				if(redata.substring(0+i,2+i)=="03"||redata.substring(0+i,2+i)=="05"||redata.substring(0+i,2+i)=="07"||redata.substring(0+i,2+i)=="00"){
+				if(redata.substring(0+i,2+i)=="03"||redata.substring(0+i,2+i)=="05"||redata.substring(0+i,2+i)=="07"||redata.substring(0+i,2+i)=="09"||redata.substring(0+i,2+i)=="00"){
 					for(var x=0;x<machine.length;x++){
 						if(machine[x].fid == parseInt(redata.substring(4+i, 8+i))){
 							if(mall.length==0){

@@ -1429,7 +1429,7 @@ public class ItemChartController {
 		String time2 = request.getParameter("time2");
 		WeldDto dto = new WeldDto();
 		BigInteger parent = null;
-		List<Welder> welder = null;
+		List<ModelDto> wtime = null;
 		if(iutil.isNull(parentid)){
 			parent = new BigInteger(parentid);
 			dto.setParent(parent);
@@ -1444,13 +1444,13 @@ public class ItemChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			welder = weldmanager.getWelderAll(page, null, parent);
+			wtime = lm.getItemWorkTime(page, dto);
 		}else{
-			welder = weldmanager.getWelderAll(null,parent);
+			wtime = lm.getItemWorkTime(dto);
 		}
 		long total = 0;
-		if(welder!=null){
-			PageInfo<Welder> pageinfo = new PageInfo<Welder>(welder);
+		if(wtime!=null){
+			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(wtime);
 			total = pageinfo.getTotal();
 		}
 		try{
@@ -1459,7 +1459,6 @@ public class ItemChartController {
 			long t1 = sdf.parse(time1).getTime();
 			long t2 = sdf.parse(time2).getTime();
 			int days = (int)((t2-t1)/(1000*60*60*24))+1;
-			List<ModelDto> wtime = lm.getItemWorkTime(dto);
 			List<ModelDto> stime = lm.getItemStandbyTime(dto);
 			JSONObject jo = new JSONObject();
 			JSONArray ja = new JSONArray();
@@ -1477,9 +1476,15 @@ public class ItemChartController {
 							json.put("welderno",wtime.get(i).getFwelder_id());
 							json.put("name","未定义");
 							json.put("shutdowntime", (double)Math.round((days*24-wtime.get(i).getWorktime())*100)/100);//关机时长
-							json.put("sjratio", (double)Math.round((wtime.get(i).getWorktime()+stime.get(j).getWorktime())/(days*8)*100*100)/100);//上机率
-							json.put("effectiveratio", (double)Math.round(wtime.get(i).getWorktime()/(wtime.get(i).getWorktime()+stime.get(j).getWorktime())*100*100)/100);//有效焊接率
-							json.put("workratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//工作效率
+							if(wtime.get(i).getWorktime()!=0){
+								json.put("sjratio", (double)Math.round((wtime.get(i).getWorktime()+stime.get(j).getWorktime())/(days*8)*100*100)/100);//上机率
+								json.put("effectiveratio", (double)Math.round(wtime.get(i).getWorktime()/(wtime.get(i).getWorktime()+stime.get(j).getWorktime())*100*100)/100);//有效焊接率
+								json.put("workratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//工作效率
+							}else{
+								json.put("sjratio", 0);//上机率
+								json.put("effectiveratio", 0);//有效焊接率
+								json.put("workratio", 0);//工作效率
+							}
 							json.put("worktime", (double)Math.round(days*8*100)/100);//工作时长
 							ary.add(json);
 						}else{
@@ -1500,9 +1505,15 @@ public class ItemChartController {
 						json.put("welderno",wtime.get(i).getFwelder_id());
 						json.put("name","未定义");
 						json.put("shutdowntime", (double)Math.round((days*24-wtime.get(i).getWorktime())*100)/100);//关机时长
-						json.put("sjratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//上机率
-						json.put("effectiveratio", (double)Math.round(wtime.get(i).getWorktime()/wtime.get(i).getWorktime()*100*100)/100);//有效焊接率
-						json.put("workratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//工作效率
+						if(wtime.get(i).getWorktime()!=0){
+							json.put("sjratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//上机率
+							json.put("effectiveratio", (double)Math.round(wtime.get(i).getWorktime()/wtime.get(i).getWorktime()*100*100)/100);//有效焊接率
+							json.put("workratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//工作效率
+						}else{
+							json.put("sjratio", 0);//上机率
+							json.put("effectiveratio", 0);//有效焊接率
+							json.put("workratio", 0);//工作效率
+						}
 						json.put("worktime", (double)Math.round(days*8*100)/100);//工作时长
 						ary.add(json);
 					}else{
@@ -1559,11 +1570,11 @@ public class ItemChartController {
 				temp.add(m);
 				
 			}
-			for(int j=0;j<welder.size();j++){
+			for(int j=0;j<wtime.size();j++){
 				double boottime = 0,weldtime = 0,standbytime = 0,worktime = 0;
 				//开机时长,焊接时长，待机时长
 				for(int x=0;x<temp.size();x++){
-					if(welder.get(j).getWelderno().equals(temp.get(x).getFwelder_id())){
+					if(wtime.get(j).getFwelder_id().equals(temp.get(x).getFwelder_id())){
 						boottime = temp.get(x).getWorktime();
 						weldtime = temp.get(x).getLoads();
 						standbytime = temp.get(x).getTime();
@@ -1574,8 +1585,8 @@ public class ItemChartController {
 					json.put("boottime",0);//开机时长
 					json.put("weldtime",0);//焊接时长
 					json.put("standbytime",0);//待机时长
-					json.put("welderno",welder.get(j).getWelderno());//焊工编号
-					json.put("name",welder.get(j).getName());//焊工姓名
+					json.put("welderno",wtime.get(j).getFwelder_id());//焊工编号
+					json.put("name",wtime.get(j).getFname());//焊工姓名
 					json.put("shutdowntime", days*24);//关机时长
 					json.put("sjratio", 0);//上机率
 					json.put("effectiveratio", 0);//有效焊接率
@@ -1586,12 +1597,18 @@ public class ItemChartController {
 					json.put("boottime",(double)Math.round(boottime*100)/100);//开机时长
 					json.put("weldtime",(double)Math.round(weldtime*100)/100);//焊接时长
 					json.put("standbytime",(double)Math.round(standbytime*100)/100);//待机时长
-					json.put("welderno",welder.get(j).getWelderno());//焊工编号
-					json.put("name",welder.get(j).getName());//焊工姓名
+					json.put("welderno",wtime.get(j).getFwelder_id());//焊工编号
+					json.put("name",wtime.get(j).getFname());//焊工姓名
 					json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);//关机时长
-					json.put("sjratio", (double)Math.round(boottime/(days*8)*100*100)/100);//上机率
-					json.put("effectiveratio", (double)Math.round(weldtime/boottime*100*100)/100);//有效焊接率
+					if(wtime.get(j).getWorktime()!=0){
+						json.put("sjratio", (double)Math.round(boottime/(days*8)*100*100)/100);//上机率
+						json.put("effectiveratio", (double)Math.round(weldtime/boottime*100*100)/100);//有效焊接率
 					json.put("workratio", (double)Math.round(weldtime/(days*8)*100*100)/100);//工作效率
+					}else{
+						json.put("sjratio", 0);//上机率
+						json.put("effectiveratio", 0);//有效焊接率
+						json.put("workratio", 0);//工作效率
+					}
 					json.put("worktime", (double)Math.round(worktime*100)/100);//工作时长
 					ary.add(json);
 				}

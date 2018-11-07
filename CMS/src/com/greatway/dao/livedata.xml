@@ -2445,6 +2445,7 @@
 	</select>
 	
 	<select id="getItemWorkTime" resultMap="dtoMap">
+		select * from(
 		select SUM(fworktime)/60/60 worktime,fwelder_id,w.fname from tb_work tw 
 		INNER JOIN tb_insframework i on i.fid = tw.fitemid
 		left JOIN tb_welder w on w.fwelder_no = tw.fwelder_id
@@ -2460,6 +2461,29 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if> group by fwelder_id
+		UNION
+     	select 0 worktime,fwelder_no,fname from tb_welder where fid not in (
+     	select w.fid from tb_work tw 
+		INNER JOIN tb_insframework i on i.fid = tw.fitemid
+		left JOIN tb_welder w on w.fwelder_no = tw.fwelder_id
+		where 1=1 
+		<if test="dto!=null and dto!=''">
+			<if test="dto.parent!=null and dto.parent!=''">
+				and w.fItemID=#{dto.parent}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if> group by fwelder_id)
+		<if test="dto!=null and dto!=''">
+			<if test="dto.parent!=null and dto.parent!=''">
+				and fitemid=#{dto.parent}
+			</if>
+		</if>
+		)temp order by worktime desc
 	</select>
 	
 	<select id="getItemStandbyTime" resultMap="dtoMap">

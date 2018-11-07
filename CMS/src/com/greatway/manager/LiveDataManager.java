@@ -568,7 +568,15 @@ public interface LiveDataManager {
 	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
 	 * @return
 	 */
+	List<ModelDto> getItemWorkTime(Page page,WeldDto dto);
+	
+	/**
+	 * 获取项目部正常开机时长,焊接时长，待机时长，焊工编号，姓名
+	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
 	List<ModelDto> getItemWorkTime(WeldDto dto);
+	
 	
 	/**
 	 * 获取项目部待机开机时长,焊接时长，待机时长，焊工编号，姓名
