@@ -36,6 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="body" region="center"  hide="true"  split="true">
 	  	<div id="detailLoad_btn">
 			<div style="margin-bottom: 5px;">
+<!-- 			<a href="javascript:addUser()" class="easyui-linkbutton" iconCls="icon-add">新增</a> -->
+				<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
 				<input  name="id" id="id" type="hidden" value="${id }"/>
 				<input  name="type" id="type" type="hidden" value="${type }"/>
 				<input  name="time1" id="time1" type="hidden" value="${time1 }"/>

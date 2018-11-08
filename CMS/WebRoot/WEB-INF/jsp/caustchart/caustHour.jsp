@@ -49,6 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">--
 				<input class="easyui-datetimebox" name="dtoTime2" id="dtoTime2">
 				<a href="javascript:serachCaustHour();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
+				<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
 			</div>
 		</div>
 		<div id="parentMsg"><h2>${str }</h2></div>
@@ -59,10 +60,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<!-- 自定义多条件查询 -->
 		    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">
 		    	<div id="div0">
+		    	
 			    	<select class="fields" id="fields"></select>
 			    	<select class="condition" id="condition"></select>
 			    	<input class="content" id="content"/>
 			    	<select class="joint" id="joint"></select>
+			    	
 			    	<a href="javascript:newSearchhoustclassify();" class="easyui-linkbutton" iconCls="icon-add"></a>
 			    	<a href="javascript:removeSerach();" class="easyui-linkbutton" iconCls="icon-remove"></a>
 		    	</div>

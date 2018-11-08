@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="box-rig fl" id="boxrig">
 					<div style="float:left"><a href="">首页</a></div>
 					<div style="float:right">
-						<a href="javascript:history.go(-1)" id="pageUp">返回</a>
+<!-- 						<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a> -->
 						<a href="javascript:void(0)" id="userInsframework"></a>
 						<a href="user/logout">注销</a>
 						<a href="javascript:updatePwd()">修改密码</a>

@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
     <div id="bodydiv" region="center"  hide="true"  split="true">
     	<input type="hidden" id="id" value="${id }"/>
-    	
+    	<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
 		<div class="divParent" style="height:500px;width:90%;margin: 20px;">
 			<div id="overproof" style="height:96%;width:100%;"></div>
 		</div>
