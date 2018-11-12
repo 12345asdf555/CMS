@@ -43,6 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-excel">导入</a>
 				<a href="javascript:exporMaintain();" class="easyui-linkbutton" iconCls="icon-excel">导出</a>
 				<a href="javascript:insertSearchMaintain();" class="easyui-linkbutton" iconCls="icon-search" >查找</a>
+				<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
 			</div>
 		</div>
 		

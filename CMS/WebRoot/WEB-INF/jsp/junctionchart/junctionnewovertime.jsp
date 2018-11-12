@@ -36,6 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="body" region="center"  hide="true"  split="true">
 	  	<div id="junctionOvertime_btn">
 			<div style="margin-bottom: 5px;margin-left:20px;">
+			<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 				<input  name="parent" id="parent" type="hidden" value="${parent }"/>
 				<input  name="weldtime" id="weldtime" type="hidden" value="${weldtime }"/>

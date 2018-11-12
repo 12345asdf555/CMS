@@ -51,6 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<select class="easyui-combobox" name="otype" id="otype"></select>
 				<input class="easyui-combobox" name="item" id="item">
 				<a href="javascript:serachitemIdle();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
+				<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
 			</div>
 		</div>
 		<div id="parentMsg"><h2>${str }</h2></div>
