@@ -52,6 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input class="easyui-numberbox" id="rank1" name="ranki1" value="1" data-options="iconCls:'icon-search',iconWidth:100"/>~
 				<input class="easyui-numberbox" id="rank2" name="ranki2" value="20" data-options="iconCls:'icon-search',iconWidth:100"/>
 				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
+				
 			</div>
 		</div>
 		<div id="maxexplain">
