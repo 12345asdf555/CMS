@@ -31,6 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
 	<script type="text/javascript" src="resources/js/getTime.js"></script>
 	<script type="text/javascript" src="resources/js/blocchart/newovertime.js"></script>
+<!-- 	<script type="text/javascript"> document.write(document.referrer); </script>  -->
   </head>
   
   <body class="easyui-layout">
@@ -41,6 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	<div id="dg_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
+				<input  name="nextparent" id="nextparent" type="hidden" value="${nextparent }"/>
 				时间：
 				<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">--
 				<input class="easyui-datetimebox" name="dtoTime2" id="dtoTime2">
@@ -57,7 +59,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<option value="40">40</option>
 				</select>分钟
 				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
-<!-- 				<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a> -->
+				<a href="javascript:back()" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
+					
 			</div>
 		</div>
 		<div id="parentMsg"></div>

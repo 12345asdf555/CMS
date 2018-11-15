@@ -196,6 +196,7 @@ public class BlocChartController {
 	@RequestMapping("goNewOvertime")
 	public String goNewOvertime(HttpServletRequest request){
 		lm.getUserId(request);
+		request.setAttribute("nextparent", request.getParameter("parent"));
 		return "blocchart/newovertime";
 	}
 	
@@ -1922,6 +1923,7 @@ public class BlocChartController {
 			int[] num = null;
 			for(ModelDto live :time){
 				json.put("weldTime",live.getWeldTime());
+				json.put("type",usertype);
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
@@ -2142,6 +2144,28 @@ public class BlocChartController {
 			e.printStackTrace();
 		}
 		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 获取上级组织机构id
+	 * @return 
+	 */
+	@RequestMapping("getParent")
+	@ResponseBody
+	public String getParent(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		String parentid = request.getParameter("parent");
+		BigInteger parent = null;
+		if(iutil.isNull(parentid)){
+			parent = new BigInteger(parentid);
+		}
+		try{
+			Insframework insf = insm.getParent(parent);
+			obj.put("parent", insf.getId());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return obj.toString();
 	}
 }

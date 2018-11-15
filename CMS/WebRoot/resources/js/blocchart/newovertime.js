@@ -79,11 +79,15 @@ function showBlocOverptimeChart(){
 	}
 	echarts.init(document.getElementById('charts')).resize();
 }
-
+var parenttype;
 function BloctimeDatagrid(parent){
 	var url;
 	setParam();
 	var otype = $("input[name='otype']:checked").val();
+	if($("#nextparent").val()){//项目部id
+		parent = $("#nextparent").val();
+		tempparent = parent;
+	}
 	if(parent){
 		url = "blocChart/getNewOvertime?parent="+parent+"&otype="+otype+chartStr;
 	}else{
@@ -101,8 +105,14 @@ function BloctimeDatagrid(parent){
             	 var width=$("#bodydiv").width()/result.rows.length;
                  column.push({field:"w",title:"时间跨度(年/月/周/日)",width:width,halign : "center",align : "center"});
                  for(var i=0;i<result.arys.length;i++){
+                	 parenttype = result.arys[i].type;
                   	 array1.push(result.arys[i].weldTime);
             	 }
+                 if(parenttype==20){
+                	 $("#pageUp").hide();
+                 }else{
+                	 $("#pageUp").show();
+                 }
                  for(var m=0;m<result.arys1.length;m++){
                 	 if(result.arys1[m].insfstr){
                 		 $("#parentMsg").html("<h2>"+result.arys1[m].insfstr+"</h2>");//显示当前位置
@@ -151,6 +161,27 @@ function BloctimeDatagrid(parent){
 	 })
 }
 
+function back(){
+	if(parenttype!=20){
+		$.ajax({  
+	        type : "post",  
+	        async : false,
+	        url : "blocChart/getParent?parent="+tempparent,
+	        data : {},  
+	        dataType : "json", //返回数据形式为json  
+	        success : function(result) {  
+	            if (result) {
+	            	$("#nextparent").val("");
+	            	tempparent = result.parent;
+	            	serach();
+	            }
+	        },  
+	       error : function(errorMsg) {  
+	            alert("请求数据失败啦,请联系系统管理员!");  
+	        }  
+	   });
+	}
+}
 var tempparent;
 function serach(){
 	$("#chartLoading").show();
