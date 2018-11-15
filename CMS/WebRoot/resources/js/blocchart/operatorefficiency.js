@@ -109,19 +109,6 @@ function showChart(){
         dataType : "json", //返回数据形式为json  
         success : function(result) {  
             if (result) {
-            	//根据焊接时长进行冒泡排序
-    			/*for(var i=0;i<result.rows.length-1;i++){
-    				for(var j=0;j<result.rows.length-1-i;j++){
-    					if(result.rows[j].weldtime<result.rows[j+1].weldtime){
-    						var temp=result.rows[j].weldtime;
-    						result.rows[j].weldtime = result.rows[j+1].weldtime;
-    						result.rows[j+1].weldtime = temp;
-    					}
-    				}
-    			} 
-    			for(var i=0;i<result.rows.length;i++){
-    				console.log(result.rows[i].weldtime);
-    			}*/
             	if(type!=23){
                 	for(var i=0;i<result.rows.length;i++){
                 		array0.push(result.rows[i].name);

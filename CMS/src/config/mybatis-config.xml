@@ -17,6 +17,7 @@
 		<typeAlias alias="Authority" type="com.spring.model.Authority" />
 		<typeAlias alias="Resources" type="com.spring.model.Resources" />
 		<typeAlias alias="Wps" type="com.greatway.model.Wps"/>
+		<typeAlias alias="Sms" type="com.greatway.model.SmsUser"/>
 	</typeAliases>
 	
 	<plugins>

@@ -11,11 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.greatway.dao.UserMapper;
 import com.greatway.dto.WeldDto;
+import com.greatway.model.SmsUser;
 import com.greatway.page.Page;
 import com.spring.model.User;
 import com.spring.service.UserService;
-
-
 
 @Service
 @Transactional  //此处不再进行创建SqlSession和提交事务，都已交由spring去管理了。
@@ -58,24 +57,19 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public List<String> getAuthoritiesByUsername(String userName) {
-		 
 		return mapper.getAuthoritiesByUsername(userName);
 	}
 
 	public User findById(Integer id) {
-
 		User user = mapper.findById(id);
-		
 		return user;
 	}
 	
 	public User LoadUser(String userName) {
-		
 		return mapper.LoadUser(userName);
 	}
 	
 	public String findByRoleId(Integer id) {
-		
 		return mapper.findByRoleId(id);
 	}
 
@@ -84,23 +78,19 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public void save(User user) {
-
 		mapper.save(user);
 	}
 	
 	public void saveRole(User user) {
-
 		mapper.saveRole(user);
 	}
 
 	public boolean update(User user) {
-
 		return mapper.update(user);
 	}
 
 	@Override
 	public String updateUserRole(Integer findByRoleId) {
-		// TODO Auto-generated method stub
 		return mapper.updateUserRole(findByRoleId);
 	}
 
@@ -112,6 +102,38 @@ public class UserServiceImpl implements UserService {
 	public List<User> getInsUser(int ins) {
 		List<User> getInsUser = mapper.getInsUser(ins);
 		return getInsUser;
+	}
+
+	@Override
+	public List<SmsUser> getSMSUser(Page page, BigInteger parent, String str) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return mapper.getSMSUser(parent, str);
+	}
+
+	@Override
+	public boolean saveSMSUser(SmsUser user) {
+		return mapper.saveSMSUser(user);
+	}
+
+	@Override
+	public boolean editSMSUser(SmsUser user) {
+		return mapper.editSMSUser(user);
+	}
+
+	@Override
+	public boolean removeSMSUser(BigInteger id) {
+		return mapper.removeSMSUser(id);
+	}
+
+	@Override
+	public List<User> selectUser(Page page,BigInteger parent, String name) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return mapper.selectUser(parent, name);
+	}
+
+	@Override
+	public int getSelectCountByInsid(BigInteger id) {
+		return mapper.getSelectCountByInsid(id);
 	}
 
 }

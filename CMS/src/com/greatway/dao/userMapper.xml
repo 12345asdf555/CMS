@@ -108,4 +108,45 @@
 		select tb_users.id id,tb_users.users_name userName,tb_users.users_password userPassword,tb_users.users_login_name userLoginName,tb_users.users_phone userPhone,tb_users.users_email userEmail,tb_users.users_insframework userInsframework,tb_users.users_position userPosition,tb_users.status status from tb_users where tb_users.users_insframework=#{id}
 	</select>
 	
+	<select id="getSMSUser" resultType="sms">
+		SELECT s.fid,s.fname,femail,fphone,fitemid,i.fname fitemname,fuserid FROM tb_sms s 
+		INNER JOIN tb_insframework i on i.fid = s.fitemid LEFT JOIN tb_insframework ins on ins.fid = i.fparent 
+		LEFT JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or ins.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="str!=null and str!=''">
+			AND ${str}
+		</if>
+	</select>
+	
+	<insert id="saveSMSUser" parameterType="sms">
+		INSERT INTO tb_sms (fname, femail, fphone, fitemid, fuserid, fcreator, fcreatetime) VALUES (#{fname}, #{femail}, #{fphone}, #{fitemid}, #{fuserid}, #{fcreator}, now())
+	</insert>
+	
+	<update id="editSMSUser" parameterType="sms">
+		UPDATE tb_sms SET fname = #{fname}, femail = #{femail}, fphone = #{fphone}, fitemid = #{fitemid}, fuserid=#{fuserid}, fmodifier = #{fmodifier},fupdatetime = now() WHERE fid = #{fid}
+	</update>
+	
+	<delete id="removeSMSUser">
+		delete from tb_sms where fid = #{id}
+	</delete>
+	
+	<select id="selectUser" resultType="User">
+		SELECT u.id,u.users_name userName,users_phone userPhone,users_email userEmail,users_position userPosition,i.fid insid,i.fname insname FROM tb_users u 
+		INNER JOIN tb_insframework i on i.fid = u.users_insframework 
+		left JOIN tb_insframework ins on ins.fid = i.fparent 
+		left JOIN tb_insframework insf on insf.fid = ins.fparent 
+		where u.id not in (select fuserid from tb_sms)
+		<if test="name!=null and name!=''">
+			and users_name like #{name}
+		</if> 
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+	</select>
+	
+	<select id="getSelectCountByInsid" resultType="java.lang.Integer">
+		SELECT count(fid) FROM tb_sms where fitemid = #{id}
+	</select>
 </mapper>

@@ -116,6 +116,10 @@ function getUserInsframework() {
 	})
 }
 
+function openSMSUser(){
+	addTab("短信用户管理", "user/goSMSUser");
+}
+
 function openNewIdle(){
 	addTab("设备类型闲置率", "blocChart/goNewIdle");
 }

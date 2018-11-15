@@ -395,5 +395,31 @@ $(function(){
 					},
 					message : '工艺参数编号已存在'
 				},
+				smsuserValidate : {
+					validator : function(value, param){
+						if(flag){
+							if($("#folduserid").val()==$("#fuserid").val()){
+								return true;
+							}
+							var id = $("#fitemid").val();
+							var result = "";
+							$.ajax({
+								type : 'post',
+								async : false,
+								url : 'user/getSmsCount',
+								data : {
+									"id" : id
+								},
+								success : function(data){
+									result = data;
+								}
+							});
+							return result;
+						}else{
+							return true;
+						}
+					},
+					message : '该项目部下已选择短信用户'
+				},
 			})
 })

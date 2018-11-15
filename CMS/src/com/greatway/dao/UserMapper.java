@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.greatway.dto.WeldDto;
+import com.greatway.model.SmsUser;
 import com.spring.model.User;
 
 public interface UserMapper {
@@ -27,4 +27,11 @@ public interface UserMapper {
 	List<User> getIns(@Param("parent") BigInteger parent);
 	User getUserInsframework(@Param("id")BigInteger id);
 	List<User> getInsUser(int ins);
+	
+	List<SmsUser> getSMSUser(@Param("parent")BigInteger parent,@Param("str")String str);
+	boolean saveSMSUser(SmsUser user);
+	boolean editSMSUser(SmsUser user);
+	boolean removeSMSUser(@Param("id")BigInteger id);
+	List<User> selectUser(@Param("parent")BigInteger parent,@Param("name")String name);
+	int getSelectCountByInsid(@Param("id")BigInteger id);
 }
