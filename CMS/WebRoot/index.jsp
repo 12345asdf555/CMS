@@ -180,7 +180,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    <li onclick="changeColor(72)"><a href="javascript:openManufacturer()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;生产厂商管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid72"/></div></a></li>
 	        <li onclick="changeColor(73)"><a href="javascript:openInsframework()"><div><img src="resources/images/c-11.png" />&nbsp;&nbsp;组织机构管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid73"/></div></a></li>
 	        <li onclick="changeColor(74)"><a href="javascript:openGather()"><div><img src="resources/images/s-7.png"/>&nbsp;&nbsp;采集模块管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid74"/></div></a></li>
-	   		<li style="margin-bottom: 10px;" onclick="changeColor(83)"><a href="javascript:openSMSUser()"><div><img src="resources/images/c-1.png" />&nbsp;&nbsp;短信用户管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid83"/></div></a></li>
+<!-- 	   		<li style="margin-bottom: 10px;" onclick="changeColor(83)"><a href="javascript:openSMSUser()"><div><img src="resources/images/c-1.png" />&nbsp;&nbsp;短信用户管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid83"/></div></a></li> -->
 		</ul>
     </div>
 	<div id="mainPanle" region="center" style="background: white; overflow-y: hidden">
