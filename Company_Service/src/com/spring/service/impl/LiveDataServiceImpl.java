@@ -501,4 +501,84 @@ public class LiveDataServiceImpl implements LiveDataService {
 			return null;
 		}
 	}
+
+	@Override
+	public ModelDto getWelderMsg(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getWelderMsg(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public String getWelderMaxTime(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getWelderMaxTime(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public String getWelderMinTime(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getWelderMinTime(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public int getMachineTotal(BigInteger parent) {
+		try{
+			return live.getMachineTotal(parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public ModelDto getMachineMsg(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getMachineMsg(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public int getMachineStandby(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getMachineStandby(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public String getMachineStandbyTime(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getMachineStandbyTime(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return "0";
+		}
+	}
+
+	@Override
+	public int getWelderTotal(BigInteger parent) {
+		try{
+			return live.getWelderTotal(parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }

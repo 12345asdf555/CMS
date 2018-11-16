@@ -1,18 +1,22 @@
 package com.sshome.ssmcxf.webservice.impl;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
 import com.spring.dto.JudgeUtil;
 import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
 import com.spring.model.LiveData;
+import com.spring.model.Welder;
 import com.spring.service.LiveDataService;
+import com.spring.service.WelderService;
 import com.sshome.ssmcxf.webservice.LiveDataWebService;
 
 import net.sf.json.JSONArray;
@@ -23,6 +27,8 @@ import net.sf.json.JSONObject;
 public class LiveDataWebServiceImpl implements LiveDataWebService {
 	@Autowired
 	private LiveDataService live;
+	@Autowired
+	private WelderService welder;
 	
 	private JudgeUtil jutil = new JudgeUtil();
 	
@@ -1462,6 +1468,90 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 			}
 			return ary.toString();
 		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getSMSMessage(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			BigInteger parent = null;
+			String parentid = json.getString("PARENT");
+			if(parentid!=null && !"".equals(parentid)){
+				parent = new BigInteger(parentid);
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String starttime = json.getString("STARTTIME");
+			String endtime = json.getString("ENDTIME");
+			Calendar cal = Calendar.getInstance();
+			Date time1 = sdf.parse(starttime);
+			Date time2 = sdf.parse(endtime);
+			if(endtime!=null && !"".equals(endtime)){
+				cal.setTime(time2);
+			}else{
+				cal.setTime(time1);
+			}
+			cal.add(Calendar.DATE, 1);//增加一天,即：结束时间刚好到第二点零点整
+			dto.setDtoTime2(sdf.format(cal.getTime())+" 00:00:00");
+			cal.setTime(time1);
+			dto.setDtoTime1(sdf.format(cal.getTime())+" 00:00:00");
+			//获取单位焊工数量
+			int weldertotal = live.getWelderTotal(parent);
+			//获取当天作业X名，总焊接时长X小时，平均每名焊工焊接X小时
+			ModelDto weldmsg = live.getWelderMsg(dto, parent);
+			//获取最长/最短焊接时长焊工XXX
+			String max = live.getWelderMaxTime(dto, parent);
+			String min = live.getWelderMinTime(dto, parent);
+			//焊机总数XX台
+			int machinetotal = live.getMachineTotal(parent);
+			//当天使用XX台，累计空载时长XX小时，平均空载时长XX小时
+			ModelDto machinemsg = live.getMachineMsg(dto, parent);
+			//超过半小时以上待机次数XX次,累计时长XX小时
+			int standby = live.getMachineStandby(dto, parent);
+			String standbytime = live.getMachineStandbyTime(dto, parent);
+			
+			obj.put("WELDERTOTAL", jutil.setValue(weldertotal));//焊工总数
+			if(weldmsg!=null){
+				obj.put("WORKWELDERTOTAL", jutil.setValue(weldmsg.getTotal()));//作业焊工数
+				if(weldmsg.getWeldTime()!=null && !"".equals(weldmsg.getWeldTime())){
+					obj.put("WELDTIME", jutil.setValue((double)Math.round(Double.parseDouble(weldmsg.getWeldTime())*100)/100));//焊接时长
+				}else{
+					obj.put("WELDTIME", 0);//焊接时长
+				}
+				obj.put("AVGWELDTIME", jutil.setValue((double)Math.round(weldmsg.getLoads()*100)/100));//平均焊接时长
+			}else{
+				obj.put("WORKWELDERTOTAL", 0);//作业焊工数
+				obj.put("WELDTIME", 0);//焊接时长
+				obj.put("AVGWELDTIME", 0);//平均焊接时长
+			}
+			obj.put("MAXWELDER", jutil.setValue(max));//最长焊接焊工
+			obj.put("MINWELDER", jutil.setValue(min));//最短焊接焊工
+			obj.put("MACHINETOTAL", jutil.setValue(machinetotal));//焊机总数
+			if(machinemsg!=null){
+				obj.put("WORKMACHINETOTAL", jutil.setValue(machinemsg.getTotal()));//作业焊机数
+				if(machinemsg.getWeldTime()!=null && !"".equals(machinemsg.getWeldTime())){
+					obj.put("STANDBYTIME", jutil.setValue((double)Math.round(Double.parseDouble(machinemsg.getWeldTime())*100)/100));//空载总时长
+				}else{
+					obj.put("STANDBYTIME", 0);//空载总时长
+				}
+				obj.put("AVGSTANDBYTIME", jutil.setValue((double)Math.round(machinemsg.getLoads()*100)/100));//平均空载时长
+			}else{
+				obj.put("WORKMACHINETOTAL", 0);//作业焊机数
+				obj.put("STANDBYTIME", 0);//空载总时长
+				obj.put("AVGSTANDBYTIME", 0);//平均空载时长
+			}
+			obj.put("OVERTIMETOTAL", jutil.setValue(standby));//超时待机次数
+			if(standbytime!=null && !"".equals(standbytime)){
+				obj.put("OVERTIME", jutil.setValue((double)Math.round(Double.parseDouble(standbytime)*100)/100));//累计超时时长
+			}else{
+				obj.put("OVERTIME", 0);//累计超时时长
+			}
+			return obj.toString();
+		}catch(Exception e){
+			e.printStackTrace();
 			return null;
 		}
 	}

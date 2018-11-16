@@ -59,7 +59,49 @@ public class ModelDto {
 	private BigInteger hous;//用来获取工时的总值
 	private String starttime;
 	private String endtime;
+	private BigInteger caustid;
+	private double worktime;
+	private int rmoney;
+	private int mmoney;
+	private int total;
+	private int typeid;
 
+	public BigInteger getCaustid() {
+		return caustid;
+	}
+	public void setCaustid(BigInteger caustid) {
+		this.caustid = caustid;
+	}
+	public double getWorktime() {
+		return worktime;
+	}
+	public void setWorktime(double worktime) {
+		this.worktime = worktime;
+	}
+	public int getRmoney() {
+		return rmoney;
+	}
+	public void setRmoney(int rmoney) {
+		this.rmoney = rmoney;
+	}
+	public int getMmoney() {
+		return mmoney;
+	}
+	public void setMmoney(int mmoney) {
+		this.mmoney = mmoney;
+	}
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
+	public int getTypeid() {
+		return typeid;
+	}
+	public void setTypeid(int typeid) {
+		this.typeid = typeid;
+	}
 	public BigInteger getEid() {
 		return eid;
 	}

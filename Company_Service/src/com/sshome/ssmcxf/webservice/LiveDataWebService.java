@@ -386,4 +386,11 @@ public interface LiveDataWebService {
 	 * @return
 	 */
 	Object getStandbytimeout(String object);
+	
+	/**
+	 * 获取短信所需信息
+	 * @param object
+	 * @return
+	 */
+	Object getSMSMessage(String object);
 }

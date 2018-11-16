@@ -121,4 +121,22 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	List<ModelDto> getExcessiveBack(@Param("time")String time,@Param("welder")String welder,@Param("junction")String junction);
 	
 	List<ModelDto> getStandbytimeout(@Param("dto")WeldDto dto);
+	
+	//短信方法
+	ModelDto getWelderMsg(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	String getWelderMaxTime(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	String getWelderMinTime(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	int getMachineTotal(@Param("parent")BigInteger parent);
+	
+	ModelDto getMachineMsg(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	int getMachineStandby(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	String getMachineStandbyTime(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	int getWelderTotal(@Param("parent")BigInteger parent);
+	
 }

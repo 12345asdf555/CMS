@@ -37,7 +37,12 @@ public class WelderServiceImpl implements WelderService {
 			JSONObject json = JSONObject.fromObject(object);
 			JSONObject obj = new JSONObject();
 			JSONArray ary = new JSONArray();
-			List<Welder> list = wm.getWelderAll(json.getString("STR"));
+			String parentid = json.getString("PARENT");
+			BigInteger parent = null;
+			if(parentid!=null && !"".equals(parentid)){
+				parent = new BigInteger(parentid);
+			}
+			List<Welder> list = wm.getWelderAll(parent,json.getString("STR"));
 			for(int i=0;i<list.size();i++){
 				obj.put("ID", jutil.setValue(list.get(i).getId()));
 				obj.put("NAME",jutil.setValue(list.get(i).getName()));

@@ -115,6 +115,12 @@
        	<result property="jidgather" column="jidgather"></result>
        	<result property="starttime" column="starttime"></result>
        	<result property="endtime" column="endtime"></result>
+       	<result property="caustid" column="caustid"></result>
+       	<result property="worktime" column="worktime"></result>
+       	<result property="rmoney" column="rmoney"></result>
+       	<result property="mmoney" column="mmoney"></result>
+       	<result property="total" column="total"></result>
+       	<result property="typeid" column="ftype_id"></result>
     </resultMap>
     
     <!-- 集团焊接工时 -->
@@ -2074,5 +2080,177 @@
 		GROUP BY m.fid having COUNT(l.fid)/60>=55) 
 		GROUP BY m.fid
 	</select>
-
+	
+	<!-- 获取当天作业X名，总焊接时长X小时，平均每名焊工焊接X小时， -->
+	<select id="getWelderMsg" resultMap="dtoMap">
+		SELECT count(fid) total,sum(time)/60/60 weldtime,avg(time)/60/60 loads from (
+		select w.fid,sum(tw.fworktime) time from tb_work tw INNER JOIN tb_welder w on w.fwelder_no = tw.fwelder_id 
+		INNER JOIN tb_insframework i on i.fid = w.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER 
+		JOIN tb_insframework insf on insf.fid = ins.fparent  where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				AND fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				AND fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by w.fid
+    	)temp
+	</select>
+	
+	<!-- 最长焊接时长焊工XXX -->
+	<select id="getWelderMaxTime" resultType="string">
+		SELECT fwelder_no from (
+		select w.fid,w.fwelder_no,sum(tw.fworktime)/60/60 time from tb_work tw 
+		INNER JOIN tb_welder w on w.fwelder_no = tw.fwelder_id INNER JOIN tb_insframework i on i.fid = w.fItemID 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent
+		where 1=1 
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				AND fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				AND fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if> group by w.fid order by time desc,fid desc  LIMIT 0,1
+    	)temp
+	</select>
+	
+	<!-- 最短焊接时长焊工XXX -->
+	<select id="getWelderMinTime" resultType="string">
+		SELECT fwelder_no from (
+		select w.fid,w.fwelder_no,sum(tw.fworktime)/60/60 time from tb_work tw 
+		INNER JOIN tb_welder w on w.fwelder_no = tw.fwelder_id INNER JOIN tb_insframework i on i.fid = w.fItemID 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
+		where 1=1 
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				AND fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				AND fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if> group by w.fid 
+    	union all
+    	select fid ,fwelder_no,0 time from tb_welder where fid not in (
+   		select w.fid from tb_work tw INNER JOIN tb_welder w on w.fwelder_no = tw.fwelder_id 
+   		INNER JOIN tb_insframework i on i.fid = w.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+   		INNER JOIN tb_insframework insf on insf.fid = ins.fparent  
+   		where 1=1 
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				AND fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				AND fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if> group by w.fid)
+	    )temp order by time ,fid LIMIT 0,1
+	</select>
+	
+	<!-- 焊机总数XX台 -->
+	<select id="getMachineTotal" resultType="java.lang.Integer">
+		select count(m.fid) total from tb_welding_machine m INNER JOIN tb_insframework i on i.fid = m.finsframework_id 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent
+		where 1=1 
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+	</select>
+	
+	<select id="getWelderTotal" resultType="java.lang.Integer" parameterType="java.math.BigInteger">
+		select count(w.fid) total from tb_welder w INNER JOIN tb_insframework i on i.fid = w.fItemID 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
+		where 1=1 
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+	</select>
+	
+	<!-- 当天使用XX台，累计空载时长XX小时，平均空载时长XX小时。 -->
+	<select id="getMachineMsg" resultMap="dtoMap">
+		SELECT count(DISTINCT(fid)) total,sum(time)/60/60 time,avg(time)/60/60 loads from (
+		select m.fid,0 time from tb_work tw INNER JOIN tb_welding_machine m on m.fid = tw.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = m.finsframework_id INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent  where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				AND fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				AND fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>group by m.fid
+    	union ALL
+    	select m.fid,sum(ts.fstandbytime) time from tb_standby ts INNER JOIN tb_welding_machine m on m.fid = ts.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = m.finsframework_id INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent  where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				AND fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				AND fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>group by m.fid
+    	)temp
+	</select>
+	
+	<!-- 超过半小时以上待机次数XX次 -->
+	<select id="getMachineStandby" resultType="java.lang.Integer">
+		select count(so.fid) total from tb_standby_over so 
+		INNER JOIN tb_welder w on w.fid = so.fwelder_id INNER JOIN tb_insframework i on i.fid = w.fItemID 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
+		where fovertime/60>30
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				AND fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				AND fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+	</select>
+	
+	<!-- 待机累计时长XX小时 -->
+	<select id="getMachineStandbyTime" resultType="java.lang.String">
+		select sum(fovertime)/60/60 time from tb_standby_over so INNER JOIN tb_welder w on w.fid = so.fwelder_id 
+		INNER JOIN tb_insframework i on i.fid = w.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
+		where 1=1 
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				AND fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				AND fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+	</select>
 </mapper>
