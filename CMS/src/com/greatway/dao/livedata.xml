@@ -2108,10 +2108,11 @@
 	
 	<select id="getExcessiveBack" resultMap="dtoMap">
 		SELECT o.fid,w.fwelder_no fwelder_id,w.fname wname ,j.fwelded_junction_no fjunction_id,m.fequipment_no fmachine_id,
-		i.fname iname,fstarttime starttime,fendtime endtime,fmax_electricity,fmin_electricity FROM tb_over_head o 
+		i.fname iname,fstarttime starttime,fendtime endtime,A.fmax_electricity,A.fmin_electricity FROM tb_over_head o 
 		INNER JOIN tb_welder w on w.fid = o.fwelder_id INNER JOIN tb_welded_junction j on j.fid = o.fjunction_id 
 		INNER JOIN tb_welding_machine m on m.fid = o.fmachine_id INNER JOIN tb_insframework i on i.fid = w.fItemID 
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent
+		INNER JOIN  tb_over_body A on A.fhead_id = o.fid
 		where 1=1
 		<if test="dto!=null and dto!=''">
 			and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})

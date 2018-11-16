@@ -261,7 +261,7 @@ function chart(){
 				}
 			}
 		},{
-			name:'上班时长(h)',
+			name:'制度时长(h)',
             min: 0,
             max: 100,//最大最小值
             interval: 20,//间隔
@@ -363,7 +363,7 @@ function dgDatagrid(){
 				align : "center"
 			},{
 				field : "worktime",
-				title : "上班时长(h)",
+				title : "制度时长(h)",
 				width : 100,
 				halign : "center",
 				align : "center"
@@ -378,7 +378,8 @@ function dgDatagrid(){
 				title : "关机时长(h)",
 				width : 100,
 				halign : "center",
-				align : "center"
+				align : "center",
+				hidden: true
 			},{
 				field : "standbytime",
 				title : "待机时长(h)",
