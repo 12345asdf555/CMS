@@ -1038,7 +1038,6 @@ public class CaustChartController {
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
 		String parentId = request.getParameter("parent");
-		String nextparent = request.getParameter("nextparent");
 		int min = -1,max = -1;
 		if(iutil.isNull(request.getParameter("min"))){
 			min = Integer.parseInt(request.getParameter("min"));
@@ -1054,9 +1053,7 @@ public class CaustChartController {
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
-		if(iutil.isNull(nextparent)){
-			parent = new BigInteger(nextparent);
-		}else if(iutil.isNull(parentId)){
+		if(iutil.isNull(parentId)){
 			parent = new BigInteger(parentId);
 		}
 		pageIndex = Integer.parseInt(request.getParameter("page"));
@@ -1113,7 +1110,7 @@ public class CaustChartController {
 		try{
 			String time1 = request.getParameter("dtoTime1");
 			String time2 = request.getParameter("dtoTime2");
-			String nextparent = request.getParameter("nextparent");
+			String parentid = request.getParameter("parent");
 			WeldDto dto = new WeldDto();
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -1121,8 +1118,8 @@ public class CaustChartController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			if(iutil.isNull(nextparent)){
-				parent = new BigInteger(nextparent);
+			if(iutil.isNull(parentid)){
+				parent = new BigInteger(parentid);
 			}
 			List<ModelDto> list = lm.getEfficiencyChartNum(dto, parent);
 			List<ModelDto> efficiency = null;

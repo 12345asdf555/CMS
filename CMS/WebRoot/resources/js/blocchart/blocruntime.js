@@ -1,7 +1,7 @@
 $(function(){
 	parentCombobox();
 	dgDatagrid();
-	$("#rank1").numberbox({
+	/*$("#rank1").numberbox({
 		"onChange" : function() {
 			if($("#rank1").val()==null || $("#rank1").val()==""){
 				$("#rank1").numberbox('setValue',1);
@@ -14,7 +14,7 @@ $(function(){
 				$("#rank2").numberbox('setValue',20);
 			}
 		}
-	});
+	});*/
 })
 
 var chartStr = "";
@@ -24,11 +24,11 @@ $(document).ready(function(){
 var dtoTime1,dtoTime2;
 function setParam(){
 	var parent = $("#parent").combobox('getValue');
-	var rank1 = $("#rank1").val();
-	var rank2 = $("#rank2").val();
+	/*var rank1 = $("#rank1").val();
+	var rank2 = $("#rank2").val();*/
 	dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-	chartStr = "?parent="+parent+"&rank1="+rank1+"&rank2="+rank2+"&time1="+dtoTime1+"&time2="+dtoTime2;
+	chartStr = "?parent="+parent+"&time1="+dtoTime1+"&time2="+dtoTime2;//+"&rank1="+rank1+"&rank2="+rank2
 }
 
 var array1 = new Array();
@@ -45,8 +45,40 @@ function showChart(){
         success : function(result) {  
             if (result) {
             	for(var i=0;i<result.rows.length;i++){
-            		array1.push(result.rows[i].machineno);
-            		array2.push(result.rows[i].time);
+//            		array1.push(result.rows[i].machineno);
+//            		array2.push(result.rows[i].time);
+            		if(result.rows.length>=5){
+            			for(var i=0;i<5;i++){
+                    		array1.push(result.rows[i].machineno);
+                    		array2.push(result.rows[i].time);
+                    	}
+            		}else{
+            			for(var i=0;i<result.rows.length;i++){
+                    		array1.push(result.rows[i].machineno);
+                    		array2.push(result.rows[i].time);
+                    	}
+            		}
+            		if(result.rows.length>=10){
+            			for(var i=result.rows.length-5;i<result.rows.length;i++){
+                    		array1.push(result.rows[i].machineno);
+                    		array2.push(result.rows[i].time);
+
+                    	}
+            		}else if(result.rows.length>5 && result.rows.length<10){
+            			for(var i=5;i<result.rows.length;i++){
+                    		array1.push(result.rows[i].machineno);
+                    		array2.push(result.rows[i].time);
+                    	}
+            		}
+            		/*avg1 = 0,avg2 = 0;
+            		for(var i=0;i<result.rows.length;i++){
+                		avg1 += result.rows[i].weldtime;
+                		avg2 += result.rows[i].boottime;
+                	}
+                	if(result.rows.length!=0){
+                    	avg1 = (avg1/result.rows.length).toFixed(2);
+                    	avg2 = (avg2/result.rows.length).toFixed(2);
+                	}*/
             	}
             	avg = result.avgnum;
             }  
@@ -110,7 +142,7 @@ function showChart(){
                 ],
         		label: {
                     normal: {
-                        position: 'middle',
+                        position: 'end',
                         color:'#000099',//字体颜色
                         formatter: '{b}: {c}h' //标志线说明
                     }

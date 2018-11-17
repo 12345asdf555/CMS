@@ -160,7 +160,10 @@ function CaustEfficiencyDatagrid(){
 			title : '项目部',
 			width : 100,
 			halign : "center",
-			align : "center"
+			align : "center",
+			formatter : function(value,row,index){
+				return "<a href='itemChart/goItemEfficiency?nextparent="+row.id+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+value+"</a>";
+			}
 		}, {
 			field : 'wname',
 			title : '焊工姓名',

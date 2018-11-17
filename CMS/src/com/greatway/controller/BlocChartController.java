@@ -1032,8 +1032,8 @@ public class BlocChartController {
 		String parentid = request.getParameter("parent");
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
-		int rank1 = Integer.parseInt(request.getParameter("rank1"))-1;
-		int rank2 = Integer.parseInt(request.getParameter("rank2"));
+//		int rank1 = Integer.parseInt(request.getParameter("rank1"))-1;
+//		int rank2 = Integer.parseInt(request.getParameter("rank2"));
 		WeldDto dto = new WeldDto();
 		BigInteger parent = null;
 		double avgnum = 0;
@@ -1054,9 +1054,9 @@ public class BlocChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			list = lm.getBlocRunTime(page, parent, dto, rank1, rank2);
+			list = lm.getBlocRunTime(page, parent, dto, 0, 0);
 		}else{
-			list = lm.getBlocRunTime(parent, dto, rank1, rank2);
+			list = lm.getBlocRunTime(parent, dto, 0, 0);
 		}
 		long total = 0;
 		if(list!=null){

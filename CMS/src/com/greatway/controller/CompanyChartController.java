@@ -967,19 +967,24 @@ public class CompanyChartController {
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
 		BigInteger parent = null;
-		//数据权限处理
-		BigInteger uid = lm.getUserId(request);
-		String afreshLogin = (String)request.getAttribute("afreshLogin");
-		if(iutil.isNull(afreshLogin)){
-			json.put("id", 0);
-			json.put("name", "无");
-			ary.add(json);
-			obj.put("ary", ary);
-			return obj.toString();
-		}
-		int type = insm.getUserInsfType(uid);
-		if(type==21){
-			parent = insm.getUserInsfId(uid);
+		String parentid = request.getParameter("parent");
+		if(iutil.isNull(parentid)){
+			parent = new BigInteger(parentid);
+		}else{
+			//数据权限处理
+			BigInteger uid = lm.getUserId(request);
+			String afreshLogin = (String)request.getAttribute("afreshLogin");
+			if(iutil.isNull(afreshLogin)){
+				json.put("id", 0);
+				json.put("name", "无");
+				ary.add(json);
+				obj.put("ary", ary);
+				return obj.toString();
+			}
+			int type = insm.getUserInsfType(uid);
+			if(type==21){
+				parent = insm.getUserInsfId(uid);
+			}
 		}
 		try{
 			List<Insframework> list = insm.getInsByType(22,parent);
@@ -1006,7 +1011,6 @@ public class CompanyChartController {
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
 		String parentId = request.getParameter("parent");
-		String nextparent = request.getParameter("nextparent");
 		int min = -1,max = -1;
 		if(iutil.isNull(request.getParameter("min"))){
 			min = Integer.parseInt(request.getParameter("min"));
@@ -1022,9 +1026,7 @@ public class CompanyChartController {
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
-		if(iutil.isNull(nextparent)){
-			parent = new BigInteger(nextparent);
-		}else if(iutil.isNull(parentId)){
+		if(iutil.isNull(parentId)){
 			parent = new BigInteger(parentId);
 		}
 		pageIndex = Integer.parseInt(request.getParameter("page"));

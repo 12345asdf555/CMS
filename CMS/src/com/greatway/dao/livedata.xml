@@ -1811,7 +1811,6 @@
 		<if test="min>=0 and max>=0">
 			where roundTime &gt;=#{min} and roundTime &lt;= #{max}
 		</if>
-		group by fwelder_id,fid
 		)temp
 	</select>
 	
@@ -1842,7 +1841,6 @@
 		<if test="min>=0 and max>=0">
 			where roundTime &gt;=#{min} and roundTime &lt;= #{max}
 		</if>
-		group by fwelder_id,fid
 		)temp
 	</select>
 	
@@ -1872,7 +1870,6 @@
 		<if test="min>=0 and max>=0">
 			where roundTime &gt;=#{min} and roundTime &lt;= #{max}
 		</if>
-		group by fwelder_id,fid
 		)temp
 	</select>
 
@@ -2160,7 +2157,7 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
-		GROUP BY fmachine_id order by time desc limit #{endindex} OFFSET #{startindex} 
+		GROUP BY fmachine_id order by time desc <!-- limit #{endindex} OFFSET #{startindex}  -->
 		)TEMP
 	</select>
 	
