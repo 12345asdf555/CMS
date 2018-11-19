@@ -383,6 +383,7 @@ function dlgSearchWPS() {
 }
 
 function showMore(){
+	$('#showfm').form('clear');
 	var row = $('#weldedJunctionTable').datagrid('getSelected');
 	if (row) {
 		$('#moredlg').window( {
