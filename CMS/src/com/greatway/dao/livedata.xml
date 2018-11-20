@@ -1794,7 +1794,7 @@
 		inner join tb_welded_junction j on l.fjunction_id = j.fwelded_junction_no
 		inner join tb_insframework i on i.fid = l.fitemid
 		inner join tb_insframework ins on ins.fid = i.fparent
-		where j.fend_time is not null
+		where  1=1
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -1806,7 +1806,7 @@
 		<if test="parent!=null and parent!=''">
 			AND (i.fid = #{parent} or i.fparent=#{parent} or ins.fparent=#{parent}) 
 		</if>
-		group by i.fid,fwelder_id
+		group by i.fid,w.fid
 		)A 
 		<if test="min>=0 and max>=0">
 			where roundTime &gt;=#{min} and roundTime &lt;= #{max}
@@ -1824,7 +1824,7 @@
 		inner join tb_insframework i on i.fid = l.fitemid
 		inner join tb_insframework ins on ins.fid = i.fparent
 		inner join tb_insframework insf on insf.fid = ins.fparent
-		where j.fend_time is not null
+		where 1=1
 		<if test="parent!=null and parent!=''">
 			AND insf.fid=#{parent} 
 		</if>
@@ -1836,7 +1836,7 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
-		group by i.fid,fwelder_id
+		group by i.fid,w.fid
 		)A 
 		<if test="min>=0 and max>=0">
 			where roundTime &gt;=#{min} and roundTime &lt;= #{max}
@@ -1853,7 +1853,7 @@
 		inner join tb_welded_junction j on l.fjunction_id = j.fwelded_junction_no
 		inner join tb_insframework i on i.fid = l.fitemid
 		inner join tb_insframework ins on ins.fid = i.fparent
-		where j.fend_time is not null
+		where  1=1
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -1865,7 +1865,7 @@
 		<if test="parent!=null and parent!=''">
 			AND (i.fid = #{parent} or i.fparent=#{parent} or ins.fparent=#{parent}) 
 		</if>
-		group by i.fid,fwelder_id
+		group by i.fid,w.fid
 		)A 
 		<if test="min>=0 and max>=0">
 			where roundTime &gt;=#{min} and roundTime &lt;= #{max}
@@ -1904,7 +1904,7 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
-		group by i.fid,w.fname ORDER by num
+		group by i.fid,w.fid ORDER by num
 		)A
 		)temp
 	</select>
@@ -1939,7 +1939,7 @@
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
-		group by w.fname,i.fid ORDER by round(sum(fworktime)/60/60))A)temp
+		group by w.fid,i.fid ORDER by round(sum(fworktime)/60/60))A)temp
 	</select>
 	
 	<!-- 	查询实时数据集团焊机数量 -->

@@ -3,8 +3,6 @@ package com.greatway.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-
-import com.spring.model.Authority;
 import com.spring.model.Resources;
 
 

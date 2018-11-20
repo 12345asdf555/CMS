@@ -213,7 +213,8 @@ function CompanyEfficiencyDatagrid(){
 			title : '完成焊口数',
 			width : 150,
 			halign : "center",
-			align : "center"
+			align : "center",
+			hidden : true
 		}, {
 			field : 'dyne',
 			title : '总达因值',
