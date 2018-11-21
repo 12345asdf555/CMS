@@ -88,4 +88,11 @@ public interface WeldingMachineService {
 	 * 根据组织机构及采集编号获取焊机编号
 	 */
 	String getGatheridMachine(BigInteger itemid,String gatherno);
+	
+	/**
+	 * 根据组织机构及采集编号获取焊机编号
+	 */
+	String getMachineByGather(BigInteger itemid,String gatherno);
+	
+	int getCountByInsframework(BigInteger id);
 }

@@ -43,4 +43,6 @@ public interface WeldingMachineMapper extends Mapper<WeldingMachine>{
 	BigInteger getMachineCountByManu(@Param("mid")BigInteger mid,@Param("id")BigInteger id);
 	
 	String getMachineByGather(@Param("itemid")BigInteger itemid,@Param("gather")String gather);
+	
+	int getCountByInsframework(@Param("id")BigInteger id);
 }

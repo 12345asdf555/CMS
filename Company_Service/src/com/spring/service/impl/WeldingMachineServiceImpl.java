@@ -162,4 +162,14 @@ public class WeldingMachineServiceImpl implements WeldingMachineService {
 		}
 	}
 
+	@Override
+	public int getCountByInsframework(BigInteger id) {
+		try{
+			return wmm.getCountByInsframework(id);
+		}catch(Exception e){
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
 }

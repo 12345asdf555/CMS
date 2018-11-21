@@ -32,7 +32,12 @@ public class WpsServiceImpl implements WpsService {
 			JSONObject json = JSONObject.fromObject(object);
 			JSONObject obj = new JSONObject();
 			JSONArray ary = new JSONArray();
-			List<Wps> list = wm.findAll(json.getString("STR"));
+			BigInteger parent = null;
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				parent = new BigInteger(parentid);
+			}
+			List<Wps> list = wm.findAll(parent, json.getString("WPSNUM"), json.getString("STR"));
 			for(int i=0;i<list.size();i++){
 				obj.put("ID", jutil.setValue(list.get(i).getChildrenid()));
 				obj.put("WPSNO",jutil.setValue(list.get(i).getFwpsnum()));
@@ -43,14 +48,17 @@ public class WpsServiceImpl implements WpsService {
 				obj.put("MAXVALTAGE",jutil.setValue(list.get(i).getFweld_v_max()));
 				obj.put("MINVALTAGE",jutil.setValue(list.get(i).getFweld_v_min()));
 				obj.put("PRECHANNEL",jutil.setValue(list.get(i).getFweld_prechannel()));
+				obj.put("WELDALTERI",jutil.setValue(list.get(i).getFweld_alter_i()));
+				obj.put("WELDALTERV",jutil.setValue(list.get(i).getFweld_alter_v()));
 				obj.put("INSFID",jutil.setValue(list.get(i).getInsid()));
+				obj.put("INSFNAME",jutil.setValue(list.get(i).getFitemname()));
 				obj.put("BACK",jutil.setValue(list.get(i).getFback()));
 				obj.put("NAME",jutil.setValue(list.get(i).getFname()));
 				obj.put("WELDINGMETHOD",jutil.setValue(list.get(i).getFwelding_method()));
 				obj.put("TYPE",jutil.setValue(list.get(i).getFtype()));
 				obj.put("GETFPOLARITY",jutil.setValue(list.get(i).getFpolarity()));
 				obj.put("WELDINGSPEED",jutil.setValue(list.get(i).getFwelding_speed()));
-				obj.put("SPECIFICATION",jutil.setValue(list.get(i).getFspecification()));
+				obj.put("SPECIFICATION",jutil.setValue(list.get(i).getFchildren_specification()));
 				ary.add(obj);
 			}
 			return JSON.toJSONString(ary);
@@ -121,7 +129,7 @@ public class WpsServiceImpl implements WpsService {
 			JSONObject obj = new JSONObject();
 			JSONArray ary = new JSONArray();
 			BigInteger insid = null;
-			String iid = json.getString("insfid");
+			String iid = json.getString("INSFID");
 			if(iid!=null && !"".equals(iid)){
 				insid = new BigInteger(iid);
 			}

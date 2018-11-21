@@ -90,4 +90,6 @@ public interface WeldingMachineWebService {
 	 * 根据组织机构及采集编号获取焊机编号
 	 */
 	String getMachineByGather(String object);
+	
+	int getCountByInsframework(String object);
 }

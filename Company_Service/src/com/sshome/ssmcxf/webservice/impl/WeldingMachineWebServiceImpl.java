@@ -585,4 +585,14 @@ public class WeldingMachineWebServiceImpl implements WeldingMachineWebService {
 		}
 	}
 
+	@Override
+	public int getCountByInsframework(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			return wms.getCountByInsframework(new BigInteger(json.getString("INSFID")));
+		}catch(Exception e){
+			return -1;
+		}
+	}
+
 }

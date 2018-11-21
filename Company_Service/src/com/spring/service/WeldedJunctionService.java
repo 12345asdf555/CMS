@@ -40,4 +40,6 @@ public interface WeldedJunctionService {
 	 * @param object
 	 */
 	Object deleteJunction(String obj1, String obj2);
+	
+	Object getLiveJunction(String object);
 }

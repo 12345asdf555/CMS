@@ -42,13 +42,20 @@
 	</delete>
 	
 	<select id="findAll" resultType="Wps">
-		select tb_mainwps.FID 
-		childrenid,FWPSNum,Fweld_I,Fweld_V,Fweld_I_MAX,Fweld_I_MIN,Fweld_V_MAX,Fweld_V_MIN,Fweld_Alter_I,Fweld_Alter_V,Fweld_PreChannel,FCReateDate,FUpdateDate fupdatedate,Fowner insid,Fback fback,Fname,Fdiameter fchildren_diameter,Fwelding_method,Ftype,Fpolarity,Fwelding_speed,Fspecification fchildren_specification from tb_mainwps 
+		select m.FID childrenid,FWPSNum,Fweld_I,Fweld_V,Fweld_I_MAX,Fweld_I_MIN,Fweld_V_MAX,Fweld_V_MIN,Fweld_Alter_I,Fweld_Alter_V,Fweld_PreChannel,FCReateDate,FUpdateDate fupdatedate,Fowner insid,Fback fback,m.Fname,Fdiameter fchildren_diameter,Fwelding_method,m.Ftype,Fpolarity,
+		Fwelding_speed,Fspecification fchildren_specification,i.fname fitemname from tb_mainwps m INNER JOIN tb_insframework i on i.fid = m.Fowner
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent INNER JOIN tb_insframework insf ON insf.fid = ins.fparent
 		where 1=1
 		<if test="wpsnum!=null and wpsnum!=''">
 			and fwpsnum = #{wpsnum}
 		</if>
-		ORDER by tb_mainwps.FID
+		<if test="parent!=null and parent!=''">
+			and (i.fid = #{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="str!=null and str!=''">
+			and ${str}
+		</if>
+        ORDER by m.FID
 	</select>
 
 	<select id="findById" parameterType="BigInteger" resultType="Wps">

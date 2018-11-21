@@ -327,5 +327,26 @@ public class WeldingMachineWebServiceImpl implements WeldingMachineWebService {
 			return null;
 		}
 	}
+	
+	
+	@Override
+	public String getMachineByGather(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			return wms.getMachineByGather(new BigInteger(json.getString("INSFID")), json.getString("GATHERNO"));
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public int getCountByInsframework(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			return wms.getCountByInsframework(new BigInteger(json.getString("INSFID")));
+		}catch(Exception e){
+			return -1;
+		}
+	}
 
 }
