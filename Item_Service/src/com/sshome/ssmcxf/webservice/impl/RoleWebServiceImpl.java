@@ -268,5 +268,14 @@ public class RoleWebServiceImpl implements RoleWebService{
 		}
 	}
 
+	@Override
+	public int findbyid(String object) {
+		try{
+			JSONObject json  = JSONObject.fromObject(object);
+			return ros.findbyid(json.getString("ROLENAME"));
+		}catch(Exception e){
+			return -1;
+		}
+	}
 
 }

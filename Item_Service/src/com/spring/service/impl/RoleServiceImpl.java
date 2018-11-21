@@ -192,6 +192,15 @@ public class RoleServiceImpl implements RoleService {
 			return null;
 		}
 	}
+
+	@Override
+	public int findbyid(String roleName) {
+		try{
+			return mapper.findbyid(roleName);
+		}catch(Exception e){
+			return 0;
+		}
+	}
 	
 
 }
