@@ -18,4 +18,5 @@ public interface RoleWebService {
 	Object findAllUser();
 	Object findUserRoleDetail(String object);
 	int getRolenameCount(String object);
+	int findbyid(String object);
 }

@@ -98,4 +98,8 @@
 	<select id="findbyid" parameterType="String" resultType="int">
 		select id from tb_roles where roles_name=#{roleName}
 	</select>
+	
+	<select id="findbyid" parameterType="String" resultType="int">
+		select id from tb_roles where roles_name=#{roleName}
+	</select>
 </mapper>

@@ -28,4 +28,5 @@ import com.spring.model.Role;
 		List<Role> findAllUser();
 		List<Role> findUser(Integer id);
 		int getRolenameCount(@Param("roleName")String roleName);
+		int findbyid(String roleName);
 	}
