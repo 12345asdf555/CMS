@@ -37,7 +37,7 @@ public class WelderServiceImpl implements WelderService {
 			JSONObject json = JSONObject.fromObject(object);
 			JSONObject obj = new JSONObject();
 			JSONArray ary = new JSONArray();
-			String parentid = json.getString("PARENT");
+			String parentid = json.getString("INSFID");
 			BigInteger parent = null;
 			if(parentid!=null && !"".equals(parentid)){
 				parent = new BigInteger(parentid);
@@ -206,10 +206,10 @@ public class WelderServiceImpl implements WelderService {
 	public int getWeldernoCount(String object) {
 		try{
 			JSONObject json = JSONObject.fromObject(object);
-			return wm.getWeldernoCount(json.getString("WELDERNO"));
+			return wm.getWeldernoCount(json.getString("WELDERNO"),new BigInteger(json.getString("INSFID")));
 		}catch(Exception e){
 			e.printStackTrace();
-			return 0;
+			return -1;
 		}
 	}
 

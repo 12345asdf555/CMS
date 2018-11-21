@@ -43,4 +43,9 @@ public class JunctionWebServiceImpl implements JunctionWebService {
 		return jws.deleteJunction(obj1, obj2);
 	}
 
+	@Override
+	public Object getLiveJunction(String object) {
+		return jws.getLiveJunction(object);
+	}
+
 }

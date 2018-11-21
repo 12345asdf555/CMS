@@ -38,7 +38,12 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			JSONObject json = JSONObject.fromObject(object);
 			JSONObject obj = new JSONObject();
 			JSONArray ary = new JSONArray();
-			List<WeldedJunction> list = wjm.getWeldedJunctionAll(json.getString("STR"));
+			BigInteger parent = null;
+			String parentid  = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				parent = new BigInteger(parentid);
+			}
+			List<WeldedJunction> list = wjm.getWeldedJunctionAll(json.getString("STR"),parent);
 			for(int i=0;i<list.size();i++){
 				obj.put("ID", jutil.setValue(list.get(i).getId()));
 				obj.put("JUNCTIONNO",jutil.setValue(list.get(i).getWeldedJunctionno()));
@@ -128,7 +133,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 	public int getWeldedjunctionByNo(String object) {
 		try{
 			JSONObject json = JSONObject.fromObject(object);
-			return wjm.getWeldedjunctionByNo(json.getString("JUNCTIONNO"));
+			return wjm.getWeldedjunctionByNo(json.getString("JUNCTIONNO"),new BigInteger(json.getString("INSFID")));
 		}catch(Exception e){
 			e.printStackTrace();
 			return 0;
@@ -336,6 +341,42 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
+		}
+	}
+
+	@Override
+	public Object getLiveJunction(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONObject obj = new JSONObject();
+			JSONArray ary = new JSONArray();
+			BigInteger parent = null;
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				parent = new BigInteger(parentid);
+			}
+			List<WeldedJunction> list = wjm.getLiveJunction(parent);
+			for(int i=0;i<list.size();i++){
+				obj.put("ID", jutil.setValue(list.get(i).getId()));
+				obj.put("JUNCTIONNO",jutil.setValue(list.get(i).getWeldedJunctionno()));
+				obj.put("MAXELECTRICITY",jutil.setValue(list.get(i).getMaxElectricity()));
+				obj.put("MINELECTRICITY",jutil.setValue(list.get(i).getMinElectricity()));
+				obj.put("MAXVALTAGE",jutil.setValue(list.get(i).getMaxValtage()));
+				obj.put("MINVALTAGE",jutil.setValue(list.get(i).getMinValtage()));
+				obj.put("MATERIAL",jutil.setValue(list.get(i).getMaterial()));
+				obj.put("NEXTMATERIAL",jutil.setValue(list.get(i).getNext_material()));
+				obj.put("EXTERNALDIAMETER",jutil.setValue(list.get(i).getExternalDiameter()));
+				obj.put("NEXTEXTERNALDIAMETER",jutil.setValue(list.get(i).getNextexternaldiameter()));
+				obj.put("WALLTHICKNESS",jutil.setValue(list.get(i).getWallThickness()));
+				obj.put("NEXTWALLTHICKNESS",jutil.setValue(list.get(i).getNextwall_thickness()));
+				obj.put("INSFID",jutil.setValue(list.get(i).getItemid().getId()));
+				obj.put("ITEMNAME",jutil.setValue(list.get(i).getItemid().getName()));
+				ary.add(obj);
+			}
+			return JSON.toJSONString(ary);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
 		}
 	}
 

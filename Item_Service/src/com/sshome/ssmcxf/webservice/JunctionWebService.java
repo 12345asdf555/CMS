@@ -40,4 +40,6 @@ public interface JunctionWebService {
 	 * @param object
 	 */
 	boolean deleteJunction(String object);
+	
+	Object getLiveJunction(String object);
 }
