@@ -707,7 +707,7 @@ public class CaustChartController {
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
-				double[] noload=new double[time.size()],summachine=new double[time.size()],livecount=new double[time.size()];
+				double[] noload=new double[time.size()],livecount=new double[time.size()];//summachine=new double[time.size()],
 				num = new double[time.size()];
 				for(int j=0;j<time.size();j++){
 					num[j] = 0;

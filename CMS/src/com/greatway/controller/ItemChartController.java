@@ -19,11 +19,9 @@ import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.LiveDataManager;
-import com.greatway.manager.WelderManager;
 import com.greatway.manager.WeldingMachineManager;
 import com.greatway.model.Insframework;
 import com.greatway.model.LiveData;
-import com.greatway.model.Welder;
 import com.greatway.page.Page;
 import com.greatway.util.IsnullUtil;
 import com.spring.model.MyUser;
@@ -47,10 +45,6 @@ public class ItemChartController {
 	
 	@Autowired
 	private WeldingMachineManager wm;
-	
-	@Autowired
-	private WelderManager weldmanager;
-	
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -921,6 +915,8 @@ public class ItemChartController {
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
+		page = new Page(pageIndex,pageSize,total);
+		long total = 0;
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
@@ -929,10 +925,9 @@ public class ItemChartController {
 			Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			MyUser myuser = (MyUser)object;
 			List<Insframework> insf = insm.getInsByUserid(new BigInteger(myuser.getId()+""));
-			page = new Page(pageIndex,pageSize,total);
+			
 			for(Insframework ins:insf){
 				List<ModelDto> list = lm.getItemUse(page, dto, ins.getId());
-				long total = 0;
 				if(list != null){
 					PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
 					total = pageinfo.getTotal();

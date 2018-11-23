@@ -729,7 +729,8 @@
 			</if>
 		</if>
 		weldTime from tb_standby l  
-		INNER JOIN tb_insframework i on i.fid = l.fitemid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf ON insf.fid = ins.fparent
 		WHERE 1=1 
@@ -766,7 +767,8 @@
 			</if>
 		</if>
 		weldTime from tb_standby l  
-		INNER JOIN tb_insframework i on i.fid = l.fitemid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
 		WHERE 1=1 
 		<if test="parent!=null and parent!=''">
@@ -805,7 +807,8 @@
 			</if>
 		</if>
 		weldTime from tb_standby l  
-		INNER JOIN tb_insframework i on i.fid = l.fitemid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
 		WHERE 1=1 
 		<if test="parent!=null and parent!=''">
@@ -844,7 +847,8 @@
 			</if>
 		</if>
 		weldTime from tb_standby l  
-		INNER JOIN tb_insframework i on i.fid = l.fitemid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
 		WHERE 1=1 
 		<if test="dto!=null and dto!=''">
@@ -945,7 +949,8 @@
 		</if>
 		AS weldTime,insf.fid iid, insf.fname
 		FROM tb_work l
-		INNER JOIN tb_insframework i ON l.fitemid = i.fid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
 		INNER JOIN tb_insframework insf ON insf.fid = ins.fparent
 		WHERE 1=1
@@ -984,7 +989,8 @@
 			</if>
 		</if>
 		AS weldTime,ins.fid iid, ins.fname  from tb_work l 
-		INNER JOIN tb_insframework i ON l.fitemid = i.fid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
 		WHERE 1=1 
 		<if test="parent!=null and parent!=''">
@@ -1025,7 +1031,8 @@
 			</if>
 		</if>
 		AS weldTime,i.fid iid, i.fname  from tb_work l 
-		INNER JOIN tb_insframework i ON l.fitemid = i.fid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
 		WHERE 1=1 
 		<if test="parent!=null and parent!=''">
@@ -1066,7 +1073,8 @@
 			</if>
 		</if>
 		AS weldTime,i.fid iid, i.fname  from tb_work l 
-		INNER JOIN tb_insframework i ON l.fitemid = i.fid
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		WHERE 1=1 
 		<if test="parent!=null and parent!=''">
 				AND i.fid = #{parent}
@@ -1113,7 +1121,7 @@
 			</if>
 		</if>fstarttime weldTime,i.fid,i.fname,fgather_no , m.fequipment_no fmachine_id from tb_work l  
  		LEFT JOIN tb_welding_machine m ON m.fid = l.fmachine_id
-		INNER JOIN tb_insframework i ON l.fitemid = i.fid
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		WHERE 1=1
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
@@ -1161,7 +1169,8 @@
 		</if>
 		weldTime, insf.fname, insf.fid iid
 		FROM tb_standby l
-      	INNER JOIN tb_insframework i ON l.fitemId = i.fid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
 		INNER JOIN tb_insframework insf ON insf.fid = ins.fparent
 		WHERE 1=1 
@@ -1198,7 +1207,8 @@
 		</if>
 		weldTime, ins.fname, ins.fid iid
 		FROM tb_standby l
-      	INNER JOIN tb_insframework i ON l.fitemId = i.fid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
 		WHERE 1=1 
 		<if test="parent!=null and parent!=''">
@@ -1237,7 +1247,8 @@
 		</if>
 		weldTime, i.fname, i.fid iid
 		FROM tb_standby l
-      	INNER JOIN tb_insframework i ON l.fitemId = i.fid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
 		WHERE 1=1 
 		<if test="parent!=null and parent!=''">
@@ -1276,7 +1287,8 @@
 		</if>
 		weldTime, i.fname, i.fid fid
 		FROM tb_standby l
-      	INNER JOIN tb_insframework i ON l.fitemId = i.fid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		WHERE 1=1 
 		<if test="parent!=null and parent!=''">
 				and i.fid = #{parent}
@@ -1299,8 +1311,8 @@
 		FROM (
 		SELECT SUM(fstandbytime)/60/60 AS loads,fstarttime weldTime,i.fname,i.fid,fequipment_no fmachine_id
 		FROM tb_standby l
-        INNER JOIN tb_insframework i ON l.fitemid = i.fid 
 		LEFT JOIN tb_welding_machine m ON m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		WHERE i.ftype =23 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
@@ -1346,8 +1358,8 @@
 				concat(DATE_FORMAT(fstarttime, '%Y-'),FLOOR((DATE_FORMAT(fstarttime, '%m')+5)/6))
 			</if>
 		</if> weldTime ,insf.fname,insf.fid FROM tb_work l
-		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
-		INNER JOIN tb_insframework i ON i.fid = l.fitemid
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent
 		INNER JOIN tb_insframework insf ON insf.fid = ins.fparent
 		WHERE  1=1
@@ -1376,8 +1388,8 @@
 				concat(DATE_FORMAT(fstarttime, '%Y-'),FLOOR((DATE_FORMAT(fstarttime, '%m')+5)/6))
 			</if>
 		</if> weldTime ,insf.fname,insf.fid FROM tb_standby l
-		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
-		INNER JOIN tb_insframework i ON i.fid = l.fitemid
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent
 		INNER JOIN tb_insframework insf ON insf.fid = ins.fparent
 		WHERE  1=1
@@ -1967,7 +1979,9 @@
 				tb_standby
 			</if>
 		</if> l 
-		INNER JOIN tb_insframework i on i.fid = l.fitemid  INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
 		WHERE 1=1
 		<if test="parent!=null and parent!=''">
 			AND ins.fparent = #{parent}
@@ -2007,7 +2021,9 @@
 				tb_standby
 			</if>
 		</if> l 
-		INNER JOIN tb_insframework i on i.fid = l.fitemid  INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
 		WHERE  1=1
 		<if test="parent!=null and parent!=''">
 			AND ins.fparent = #{parent}
@@ -2047,8 +2063,9 @@
 				tb_standby
 			</if>
 		</if> l 
-		INNER JOIN tb_insframework i on i.fid = l.fitemid
-		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
 		WHERE 1=1
 		<if test="parent!=null and parent!=''">
 			AND (i.fid = #{parent} or ins.fid = #{parent} or ins.fparent=#{parent})
@@ -2067,7 +2084,8 @@
 	<select id="getCountByTime" resultType="java.lang.Double">
 		select sum(time)/60/60 from (
 		select sum(fworktime) time from tb_work l 
-		INNER JOIN tb_insframework i on i.fid = l.fitemid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		where 1=1
 		<if test="type!=4">
@@ -2085,7 +2103,8 @@
 		</if>
      	UNION ALL
      	select sum(fstandbytime) time from tb_standby l 
-		INNER JOIN tb_insframework i on i.fid = l.fitemid 
+    	INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		where 1=1
 		<if test="type!=4">
@@ -2107,9 +2126,9 @@
 		SELECT o.fid,w.fwelder_no fwelder_id,w.fname wname ,j.fwelded_junction_no fjunction_id,m.fequipment_no fmachine_id,
 		i.fname iname,fstarttime starttime,fendtime endtime,A.fmax_electricity,A.fmin_electricity FROM tb_over_head o 
 		INNER JOIN tb_welder w on w.fid = o.fwelder_id INNER JOIN tb_welded_junction j on j.fid = o.fjunction_id 
-		INNER JOIN tb_welding_machine m on m.fid = o.fmachine_id INNER JOIN tb_insframework i on i.fid = w.fItemID 
+		INNER JOIN tb_welding_machine m on m.fid = o.fmachine_id INNER JOIN tb_insframework i on i.fid = o.fitemid and i.fid = m.finsframework_id
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent
-		INNER JOIN  tb_over_body A on A.fhead_id = o.fid
+		INNER JOIN tb_over_body A on A.fhead_id = o.fid
 		where 1=1
 		<if test="dto!=null and dto!=''">
 			and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -2143,7 +2162,7 @@
 	<select id="getBlocRunTime" resultMap="dtoMap">
 		SELECT * FROM(
 		SELECT sum(fworktime)/60/60 time,fequipment_no fmachine_id,i.fname FROM tb_work l INNER JOIN tb_welding_machine m on l.fmachine_id = m.fid 
-		INNER JOIN tb_insframework i on i.fid = l.fitemid INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
 		where 1=1 
 		<if test="parent!=null and parent!=''">
@@ -2167,13 +2186,13 @@
         SELECT fid,caustid,itemid,fname,fmachine_id,weldTime,sum(num) worktime from (
 		SELECT insf.fid,ins.fid caustid,i.fid itemid,i.fname,m.fid fmachine_id,DATE_FORMAT(fstarttime, '%Y-%m-%d') weldTime,sum(fworktime)/60/60 num FROM tb_work l 
 		INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
-        INNER JOIN tb_insframework i on i.fid = l.fitemid INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+        INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
 		where  1=1 and fstarttime &gt;= #{time1} and fstarttime &lt;= #{time2} group by i.fid,fmachine_id,weldTime
    	 	UNION
     	SELECT insf.fid,ins.fid caustid,i.fid itemid,i.fname,m.fid fmachine_id,DATE_FORMAT(fstarttime, '%Y-%m-%d') weldTime,sum(fstandbytime)/60/60 num FROM tb_standby l 
 		INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id
-        INNER JOIN tb_insframework i on i.fid = l.fitemid INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+        INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
 		where  1=1 and fstarttime &gt;= #{time1} and fstarttime &lt;= #{time2} group by i.fid,fmachine_id,weldTime
 		)t group by itemid,fmachine_id,weldTime
@@ -2274,7 +2293,7 @@
 	<select id="getFaultRatio" resultMap="dtoMap">
 		SELECT insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,count(l.fid) total FROM tb_warn l 
 		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id
-		INNER JOIN tb_insframework i on i.fid = m.finsframework_id INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework i on i.fid = l.fitemid and i.fid = m.finsframework_id INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
@@ -2383,7 +2402,9 @@
 		select fid,fname,caustid,iname,itemid,wname,sum(weldtime) total from (
 		select fid,fname,caustid,iname,itemid,wname,count(fwelder_id)*#{time} weldtime,dates from (
 		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,fwelder_id,DATE_FORMAT( fstarttime,'%Y-%m-%d') dates from tb_work tw 
-		INNER JOIN tb_insframework i on i.fid = tw.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_welder w on w.fwelder_no = tw.fwelder_id
+		INNER JOIN tb_insframework i on i.fid = tw.fItemID and i.fid = w.fItemID
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
@@ -2395,7 +2416,9 @@
 		</if> group by i.fid,fwelder_id,dates 
 		UNION 
 		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,fwelder_id,DATE_FORMAT( fstarttime,'%Y-%m-%d') dates from tb_standby ts 
-		INNER JOIN tb_insframework i on i.fid = ts.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_welder w on w.fwelder_no = ts.fwelder_id
+		INNER JOIN tb_insframework i on i.fid = ts.fItemID and i.fid = w.fItemID
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
@@ -2413,8 +2436,8 @@
 	<select id="getOperatoreTime" resultMap="dtoMap">
 		select fid,fname,caustid,iname,itemid,wname,sum(time) worktime,sum(wtime) loads,sum(stime) time from (
 		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,SUM(fworktime)/60/60 time,
-		SUM(fworktime)/60/60 wtime,0 stime from tb_work tw 
-		INNER JOIN tb_insframework i on i.fid = tw.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		SUM(fworktime)/60/60 wtime,0 stime from tb_work tw left JOIN tb_welder w on w.fwelder_no = tw.fwelder_id
+		INNER JOIN tb_insframework i on i.fid = tw.fItemID and i.fid = w.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
@@ -2427,8 +2450,8 @@
 		group by i.fid
 		UNION all
 		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,SUM(fstandbytime)/60/60 time,
-		0 wtime,SUM(fstandbytime)/60/60 stime from tb_standby ts 
-		INNER JOIN tb_insframework i on i.fid = ts.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		0 wtime,SUM(fstandbytime)/60/60 stime from tb_standby ts left JOIN tb_welder w on w.fwelder_no = ts.fwelder_id
+		INNER JOIN tb_insframework i on i.fid = ts.fItemID and i.fid = w.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
@@ -2445,12 +2468,12 @@
 	<select id="getItemWorkTime" resultMap="dtoMap">
 		select * from(
 		select SUM(fworktime)/60/60 worktime,fwelder_id,w.fname from tb_work tw 
-		INNER JOIN tb_insframework i on i.fid = tw.fitemid
 		left JOIN tb_welder w on w.fwelder_no = tw.fwelder_id
+		LEFT JOIN tb_insframework i on i.fid = tw.fitemid and i.fid = w.fItemID
 		where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
-				and w.fItemID=#{dto.parent}
+				and i.fid=#{dto.parent}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -2462,12 +2485,12 @@
 		UNION
      	select 0 worktime,fwelder_no,fname from tb_welder where fid not in (
      	select w.fid from tb_work tw 
-		INNER JOIN tb_insframework i on i.fid = tw.fitemid
 		left JOIN tb_welder w on w.fwelder_no = tw.fwelder_id
+		LEFT JOIN tb_insframework i on i.fid = tw.fitemid and i.fid = w.fItemID
 		where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
-				and w.fItemID=#{dto.parent}
+				and i.fid=#{dto.parent}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -2487,10 +2510,11 @@
 	<select id="getItemStandbyTime" resultMap="dtoMap">
 		select SUM(fstandbytime)/60/60 worktime,fwelder_id,w.fname from tb_standby ts 
 		left JOIN tb_welder w on w.fwelder_no = ts.fwelder_id
+		LEFT JOIN tb_insframework i on i.fid = ts.fitemid and i.fid = w.fItemID
 		where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
-				and w.fItemID=#{dto.parent}
+				and i.fid=#{dto.parent}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}

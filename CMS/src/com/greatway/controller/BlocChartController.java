@@ -2065,7 +2065,7 @@ public class BlocChartController {
 					}else{
 						bilv[j] = (double)Math.round(num[j]*10000/count)/100;
 					}
-					for(int x=0;i<list.size();x++){
+					for(int x=0;x<list.size();x++){
 						if(list.get(x).getTypeid() == ins.get(i).getTypeid()){
 							num[j] = count - list.get(x).getTotal();
 							bilv[j] = (double)Math.round(num[j]*10000/count)/100;

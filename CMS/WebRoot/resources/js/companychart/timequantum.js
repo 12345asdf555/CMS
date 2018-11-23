@@ -108,9 +108,7 @@ function insframeworkTree(){
 	$("#myTree").tree({  
 		onClick : function(node){
 			parent = node.id;
-			$("#dg").datagrid('load',{
-				"parent" : parent
-			});
+			weldDatagrid();
 		 }
 	})
 }
@@ -124,44 +122,6 @@ function serach(){
 	weldDatagrid();
 }
 
-/*//假分页
-function page(){
-	$('#timequantumTable').datagrid({ loadFilter: pagerFilter }).datagrid({  
-        url:"companyChart/getTimequantum?time="+$("#weldtime").val()+"&welder="+$("#welder").val()+"&junction="+$("#junction").val()    //加载数据  
-    });  
-
-//分页数据的操作  
-function pagerFilter(data) {  
-    if (typeof data.length == 'number' && typeof data.splice == 'function') {   // is array  
-        data = {  
-            total: data.length,  
-            rows: data  
-        }  
-    }  
-    var dg = $(this);  
-    var opts = dg.datagrid('options');  
-    var pager = dg.datagrid('getPager');  
-    pager.pagination({  
-        onSelectPage: function (pageNum, pageSize) {  
-            opts.pageNumber = pageNum;  
-            opts.pageSize = pageSize;  
-            pager.pagination('refresh', {  
-                pageNumber: pageNum,  
-                pageSize: pageSize  
-            });  
-            dg.datagrid('loadData', data);  
-        }  
-    });  
-    if (!data.originalRows) {  
-        data.originalRows = (data.rows);  
-    }  
-    var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);  
-    var end = start + parseInt(opts.pageSize);  
-    data.rows = (data.originalRows.slice(start, end));  
-    return data;  
-}
-}
-*/
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);

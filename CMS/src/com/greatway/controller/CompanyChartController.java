@@ -1123,7 +1123,7 @@ public class CompanyChartController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		obj.put("total", ary.size());
+		obj.put("total", total);
 		obj.put("rows", ary);
 		return obj.toString();
 	}

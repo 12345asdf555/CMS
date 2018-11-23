@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping(value="/logincheck",produces="text/json;charset=UTF-8")
