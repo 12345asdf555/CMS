@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div id="explain">
 				<span>设备运行时长</span><hr>
 				<ul>
-					<li>展现某一时间段内，各部门设备运行时长排行(由高到低)</li>
+					<li>展现某一时间段内，各部门设备运行时长排行(最高五位及最低五位)</li>
 				</ul>
 			</div>
 		</div>

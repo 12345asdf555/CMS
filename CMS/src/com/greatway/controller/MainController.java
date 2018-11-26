@@ -271,8 +271,8 @@ public class MainController {
 			List<Welcome> list = wm.getItemMachineCount(dto);
 			List<Insframework> insf = im.getCause(parent, null);
 			Insframework item = null;
-			int machinetotal = 0;
 			if(type==23){
+				int machinetotal = 0;
 				item = im.getInsById(parent);
 				for(int j=0;j<list.size();j++){
 					if(list.get(j).getId().equals(parent)){
@@ -291,6 +291,7 @@ public class MainController {
 				ary.add(json);
 			}else{
 				for(int i=0;i<insf.size();i++){
+					int machinetotal = 0;
 					for(int j=0;j<list.size();j++){
 						BigInteger insfid = null;
 						if(type==20){

@@ -54,6 +54,8 @@ function serach(){
 		$("#chartLoading").show();
 	}
 	flagnum = 0;
+	$("#explain").html("<span>操作者率</span><hr><ul><li>展现某一时间段内，各部门操作者上班时长、焊接时长以及工作效率</li><li>上机率=开机时长/上班时长</li>"+
+					"<li>有效焊接率=焊接时长/开机时长</li><li>工作效率=焊接时长/上班时长</li></ul>");
 	if(type==20){
 		position = 0;
 		dgname = "部门";
@@ -70,6 +72,8 @@ function serach(){
 		position = 1;
 		dgname = "姓名";
 		activeurl = "itemChart/getOperatorEfficiency?flag=3";
+		$("#explain").html("<span>操作者率</span><hr><ul><li>展现某一时间段内，各部门操作者上班时长、焊接时长以及工作效率(取最高五位及最低五位)</li><li>上机率=开机时长/上班时长</li>"+
+		"<li>有效焊接率=焊接时长/开机时长</li><li>工作效率=焊接时长/上班时长</li></ul>");
 	}
 	array0 = new Array();
 	array1 = new Array();
