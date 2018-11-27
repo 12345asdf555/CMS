@@ -2,7 +2,7 @@ var insfid;
 var charts;
 var websocketURL, dic, /*starows, */redata, symbol=0, welderName;
 var worknum=0, standbynum=0, overproofnum=0, offnum=0, overtimenum=0, flag = 0;
-var liveary = new Array(), machine = new Array;
+var liveary = new Array(), machine = new Array(), miday = new Array();
 $(function() {
 	loadtree();
 	websocketUrl();
@@ -150,12 +150,14 @@ function getMachine(insfid) {
 		dataType : "json", //返回数据形式为json  
 		success : function(result) {
 			if (result) {
+				miday.length = 0;
 				machine = eval(result.rows);
 				$("#machinenum").html(machine.length);
 				$("#off").html(machine.length);
 //				showChart();
 				$("#curve").html();
 				for(var i=0;i<machine.length;i++){
+					miday.push(machine[i].fid);
 					var str = '<div id="machine'+machine[i].fid+'" style="width:200px;height:120px;float:left;display:none">'+
 						'<div style="float:left;width:40%;height:100%;"><a href="td/goNextcurve?value='+machine[i].fid+'&valuename='+machine[i].fequipment_no+'" title="'+machine[i].fequipment_no+'"><img id="img'+machine[i].fid+'" src="resources/images/welder_04.png" style="height:100px;width:100%;padding-top:10px;"></a></div>'+
 						'<div style="float:left;width:60%;height:100%;">'+
@@ -320,68 +322,54 @@ function iview() {
 	if(redata.length==291){
 		for (var i = 0; i < redata.length; i += 97) {
 	//		if (redata.substring(8 + i, 12 + i) != "0000") {
-			if(machine!=null && machine!=""){
-				$("#m3"+parseInt(redata.substring(4 + i, 8+ i))).html(redata.substring(8+i, 12+i));
-				$("#m2"+parseInt(redata.substring(4 + i, 8+ i))).html(redata.substring(89 + i, 97 + i));
-				var liveele = parseInt(redata.substring(12+i, 16+i));
-	            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
-	            var maxele = parseInt(redata.substring(61+i, 64+i));
-	            var minele = parseInt(redata.substring(64+i, 67+i));
-	            var maxvol = parseInt(redata.substring(67+i, 70+i));
-	            var minvol = parseInt(redata.substring(70+i, 73+i));
-				var mstatus = redata.substring(0 + i, 2 + i);
-				$("#m4"+parseInt(redata.substring(4 + i, 8+ i))).html(parseInt(redata.substring(12+i, 16+i))+"A");
-				$("#m5"+parseInt(redata.substring(4 + i, 8+ i))).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
-				var livestatus,livestatusid,liveimg;
-				switch (mstatus) {
-				case "00":
-					livestatus = "待机";
-					livestatusid = 1;
-					liveimg = "resources/images/welder_02.png";
-					break;
-				case "03":
-					if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
-						livestatus = "超标";
-						livestatusid = 3;
-						liveimg = "resources/images/welder_01.png";
-					}else{
+				if(miday.indexOf(parseInt(redata.substring(4 + i, 8+ i)))!=-1){
+				if(machine!=null && machine!=""){
+					$("#m3"+parseInt(redata.substring(4 + i, 8+ i))).html(redata.substring(8+i, 12+i));
+					$("#m2"+parseInt(redata.substring(4 + i, 8+ i))).html(redata.substring(89 + i, 97 + i));
+					var liveele = parseInt(redata.substring(12+i, 16+i));
+		            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
+		            var maxele = parseInt(redata.substring(61+i, 64+i));
+		            var minele = parseInt(redata.substring(64+i, 67+i));
+		            var maxvol = parseInt(redata.substring(67+i, 70+i));
+		            var minvol = parseInt(redata.substring(70+i, 73+i));
+					var mstatus = redata.substring(0 + i, 2 + i);
+					$("#m4"+parseInt(redata.substring(4 + i, 8+ i))).html(parseInt(redata.substring(12+i, 16+i))+"A");
+					$("#m5"+parseInt(redata.substring(4 + i, 8+ i))).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+					var livestatus,livestatusid,liveimg;
+					switch (mstatus) {
+					case "00":
+						livestatus = "待机";
+						livestatusid = 1;
+						liveimg = "resources/images/welder_02.png";
+						break;
+					case "03":
+						if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
+							livestatus = "超标";
+							livestatusid = 3;
+							liveimg = "resources/images/welder_01.png";
+						}else{
+							livestatus = "工作";
+							livestatusid = 0;
+							liveimg = "resources/images/welder_03.png";
+						}
+						break;
+					case "05":
 						livestatus = "工作";
 						livestatusid = 0;
 						liveimg = "resources/images/welder_03.png";
+						break;
+					case "07":
+						livestatus = "工作";
+						livestatusid = 0;
+						liveimg = "resources/images/welder_03.png";
+						break;
+					case "09":
+						livestatus = "超时";
+						livestatusid = 4;
+						liveimg = "resources/images/welder_05.png";
+						break;
 					}
-					break;
-				case "05":
-					livestatus = "工作";
-					livestatusid = 0;
-					liveimg = "resources/images/welder_03.png";
-					break;
-				case "07":
-					livestatus = "工作";
-					livestatusid = 0;
-					liveimg = "resources/images/welder_03.png";
-					break;
-				case "09":
-					livestatus = "超时";
-					livestatusid = 4;
-					liveimg = "resources/images/welder_05.png";
-					break;
-				}
-				if(liveary.length==0){
-					liveary.push(
-							{"fid":parseInt(redata.substring(4 + i, 8+ i)),
-							"liveele":liveele+"A",
-							"livevol":livevol+"V",
-							"livestatus":livestatus,
-							"livestatusid":livestatusid,
-							"liveimg":liveimg})
-				}else{
-					var tempflag = false;
-					for(var x=0;x<liveary.length;x++){
-						if(liveary[x].fid == parseInt(redata.substring(4 + i, 8+ i))){
-							tempflag = true;
-						}
-					}
-					if(!tempflag){
+					if(liveary.length==0){
 						liveary.push(
 								{"fid":parseInt(redata.substring(4 + i, 8+ i)),
 								"liveele":liveele+"A",
@@ -389,10 +377,26 @@ function iview() {
 								"livestatus":livestatus,
 								"livestatusid":livestatusid,
 								"liveimg":liveimg})
+					}else{
+						var tempflag = false;
+						for(var x=0;x<liveary.length;x++){
+							if(liveary[x].fid == parseInt(redata.substring(4 + i, 8+ i))){
+								tempflag = true;
+								break;
+							}
+						}
+						if(!tempflag){
+							liveary.push(
+									{"fid":parseInt(redata.substring(4 + i, 8+ i)),
+									"liveele":liveele+"A",
+									"livevol":livevol+"V",
+									"livestatus":livestatus,
+									"livestatusid":livestatusid,
+									"liveimg":liveimg})
+						}
 					}
 				}
 			}
-	//		}
 		}
 	}
 }

@@ -2094,7 +2094,7 @@
 		<if test="type==4">
 			and fstarttime &gt;=#{time1} and fstarttime &lt;=#{time2} 
 		</if>
-		
+		 
 		<if test="parent!=null and parent!=''">
 			and (i.fid=#{parent} or ins.fid=#{parent} or ins.fparent=#{parent})
 		</if>
@@ -2482,30 +2482,8 @@
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
 				and fendtime &lt;= #{dto.dtoTime2}
 			</if>
-		</if> group by fwelder_id
-		UNION
-     	select 0 worktime,fwelder_no,fname from tb_welder where fid not in (
-     	select w.fid from tb_work tw 
-		left JOIN tb_welder w on w.fwelder_no = tw.fwelder_id
-		LEFT JOIN tb_insframework i on i.fid = tw.fitemid and i.fid = w.fItemID
-		where 1=1 
-		<if test="dto!=null and dto!=''">
-			<if test="dto.parent!=null and dto.parent!=''">
-				and i.fid=#{dto.parent}
-			</if>
-			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				and fstarttime &gt;= #{dto.dtoTime1}
-			</if>
-			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and fendtime &lt;= #{dto.dtoTime2}
-			</if>
-		</if> group by fwelder_id)
-		<if test="dto!=null and dto!=''">
-			<if test="dto.parent!=null and dto.parent!=''">
-				and fitemid=#{dto.parent}
-			</if>
-		</if>
-		)temp order by worktime desc
+		</if> group by fwelder_id order by worktime desc
+		)temp
 	</select>
 	
 	<select id="getItemStandbyTime" resultMap="dtoMap">
