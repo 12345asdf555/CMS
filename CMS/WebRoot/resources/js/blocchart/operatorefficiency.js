@@ -30,18 +30,9 @@ function parentCombobox(){
 	$("#parent").combobox({
 		onChange: function (newvalue,oldvalue) {
 			$("#parent").combobox('setText',$("#parent").combobox('getText').trim());
-			$.ajax({
-				type : "post",
-				async : true,
-				url : "blocChart/getInsframeworkType?id="+newvalue,
-				dataType : "json",
-				success : function(result){
-					type = result.type;
-					if(flagnum==1){
-						serach();
-					}
-				}
-			})
+			if(flagnum==1){
+				serach();
+			}
 		}
 	});
 	var data = $("#parent").combobox('getData');
@@ -49,7 +40,22 @@ function parentCombobox(){
 }
 var activeurl = "blocChart/getOperatorEfficiency?flag=0";
 var dgname = "部门";
+
 function serach(){
+	$.ajax({
+		type : "post",
+		async : true,
+		url : "blocChart/getInsframeworkType?id="+$("#parent").combobox("getValue"),
+		dataType : "json",
+		success : function(result){
+			type = result.type;
+			loadData();
+		}
+	})
+
+}
+
+function loadData(){
 	if(flagnum!=1){
 		$("#chartLoading").show();
 	}
