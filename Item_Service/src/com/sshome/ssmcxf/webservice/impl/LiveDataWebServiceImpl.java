@@ -1,13 +1,15 @@
 package com.sshome.ssmcxf.webservice.impl;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
 import com.spring.dto.JudgeUtil;
 import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
@@ -1365,12 +1367,14 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 	}
 
 	@Override
-	public Object getCountByTime(String object) {
+	public double getCountByTime(String object) {
 		try{
 			JSONObject json = JSONObject.fromObject(object);
 			BigInteger parent = null,mid = null;
+			int type = json.getInt("TYPE");
 			String parentid = json.getString("INSFID");
-			String time = json.getString("TIME").replace("/", "-")+"%";
+			String time1 = json.getString("TIME1").replace("/", "-");
+			String time2 = json.getString("TIME2").replace("/", "-");
 			String machineid = json.getString("MACHINEID");
 			if(parentid!=null && !"".equals(parentid)){
 				parent = new BigInteger(parentid);
@@ -1378,13 +1382,14 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 			if(machineid!=null && !"".equals(machineid)){
 				mid = new BigInteger(machineid);
 			}
-			return live.getCountByTime(parent, time, mid);
+			return live.getCountByTime(parent, time1, time2, mid,type);
 		}catch(Exception e){
-			return null;
+			e.printStackTrace();
+			return 0;
 		}
 	}
 
-	@Override
+	/*@Override
 	public Object getJunctionByWelder(String object) {
 		try{
 			JSONObject json = JSONObject.fromObject(object);
@@ -1416,7 +1421,7 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 		}catch(Exception e){
 			return null;
 		}
-	}
+	}*/
 
 	@Override
 	public Object getExcessiveBack(String object) {
@@ -1424,17 +1429,23 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 			JSONObject json = JSONObject.fromObject(object);
 			JSONArray ary = new JSONArray();
 			JSONObject obj = new JSONObject();
-			String time = json.getString("TIME").replace("/", "-");
-			String welderno = json.getString("WELDERNO");
-			String junctionno = json.getString("JUNCTIONNO");
-			List<ModelDto> list = live.getExcessiveBack(time, welderno, junctionno);
+			WeldDto dto = new WeldDto();
+			dto.setDtoTime1(json.getString("TIME1").replace("/", "-"));
+			dto.setDtoTime2(json.getString("TIME2").replace("/", "-"));
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			List<ModelDto> list = live.getExcessiveBack(dto);
 			for(ModelDto d:list){
-				obj.put("NUM", jutil.setValue(d.getNum()));
+				obj.put("FID", jutil.setValue(d.getFid()));
 				obj.put("WELDERNO", jutil.setValue(d.getFwelder_id()));
+				obj.put("WELDNAME", jutil.setValue(d.getWname()));
 				obj.put("JUNCTIONNO", jutil.setValue(d.getFjunction_id()));
-				obj.put("TIMEDIFFENERCE", jutil.setValue(d.getSum1()));
-				obj.put("WELDTIME", jutil.setValue(d.getWeldTime()));
-				obj.put("ELECTRICITY", jutil.setValue(d.getFelectricity()));
+				obj.put("MACHINENO", jutil.setValue(d.getFmachine_id()));
+				obj.put("INSFNAME", jutil.setValue(d.getIname()));
+				obj.put("STARTTIME", jutil.setValue(d.getStarttime()));
+				obj.put("ENDTIME", jutil.setValue(d.getEndtime()));
 				obj.put("MAXELECTRICITY", jutil.setValue(d.getFmax_electricity()));
 				obj.put("MINELECTRICITY", jutil.setValue(d.getFmin_electricity()));
 				ary.add(obj);
@@ -1454,10 +1465,732 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 			WeldDto dto = new WeldDto();
 			dto.setDtoTime1(json.getString("STARTTIME"));
 			dto.setDtoTime2(json.getString("ENDTIME"));
-			List<ModelDto> list = live.getStandbytimeout(dto);
+			int num = json.getInt("NUM");
+			List<ModelDto> list = live.getStandbytimeout(dto, num);
 			for(ModelDto d:list){
 				obj.put("FNAME", jutil.setValue(d.getFname()));
 				obj.put("HOUS", jutil.setValue(d.getHous()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getExcessiveBackDetail(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			List<ModelDto> list = live.getExcessiveBackDetail(new BigInteger(json.getString("ID")));
+			for(ModelDto d:list){
+				obj.put("ELECTRICITY", jutil.setValue(d.getFelectricity()));
+				obj.put("MAXELECTRICITY", jutil.setValue(d.getFmax_electricity()));
+				obj.put("MINELECTRICITY", jutil.setValue(d.getFmin_electricity()));
+				obj.put("WELDTIME", jutil.setValue(d.getWeldTime()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getBlocRunTime(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			BigInteger parent = null;
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				parent = new BigInteger(parentid);
+			}
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getBlocRunTime(parent, dto, 0, 0);
+			for(ModelDto d:list){
+				obj.put("TIME", jutil.setValue(d.getTime()));
+				obj.put("MACHINENO", jutil.setValue(d.getFmachine_id()));
+				obj.put("INSFNAME", jutil.setValue(d.getFname()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getUseratio(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			String time1 = json.getString("TIME1");
+			String time2 = json.getString("TIME2");
+			String insftype = json.getString("INSFTYPE");
+			List<ModelDto> list = live.getUseratio(time1, time2, insftype);
+			for(ModelDto d:list){
+				obj.put("COMPANYID", jutil.setValue(d.getFid()));
+				obj.put("CAUSTID", jutil.setValue(d.getCaustid()));
+				obj.put("ITEMID", jutil.setValue(d.getItemid()));
+				obj.put("ITEMNAME", jutil.setValue(d.getFname()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				obj.put("WELDTIME", jutil.setValue(d.getWeldTime()));
+				obj.put("WORKTIME", jutil.setValue(d.getWorktime()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getMaintenanceratio(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getMaintenanceratio(dto);
+			for(ModelDto d:list){
+				obj.put("COMPANYID", jutil.setValue(d.getFid()));
+				obj.put("COMPANYNAME", jutil.setValue(d.getFname()));
+				obj.put("CAUSTID", jutil.setValue(d.getCaustid()));
+				obj.put("CAUSTNAME", jutil.setValue(d.getIname()));
+				obj.put("ITEMID", jutil.setValue(d.getItemid()));
+				obj.put("ITEMNAME", jutil.setValue(d.getWname()));
+				obj.put("MONEY", jutil.setValue(d.getRmoney()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getSumMaintenance(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			ModelDto list = live.getSumMaintenance(dto);
+			if(list!=null){
+				obj.put("TOTAL", jutil.setValue(list.getTotal()));
+				obj.put("MONEY", jutil.setValue(list.getRmoney()));
+				obj.put("MACHINEMONEY", jutil.setValue(list.getMmoney()));
+			}
+			return obj.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getItemTypeMaintain(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			BigInteger itemid = null;
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			String item = json.getString("ITEMID");
+			if(item!=null && !"".equals(item)){
+				itemid = new BigInteger(item);
+			}
+			List<ModelDto> list = live.getItemTypeMaintain(dto, itemid);
+			for(ModelDto d:list){
+				obj.put("ID", jutil.setValue(d.getFid()));
+				obj.put("MONEY", jutil.setValue(d.getRmoney()));
+				obj.put("TYPEID", jutil.setValue(d.getTypeid()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getItemMachineSumMoneyByType(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			BigInteger itemid = null;
+			String item = json.getString("ITEMID");
+			if(item!=null && !"".equals(item)){
+				itemid = new BigInteger(item);
+			}
+			List<ModelDto> list = live.getItemMachineSumMoneyByType(itemid);
+			for(ModelDto d:list){
+				obj.put("ID", jutil.setValue(d.getFid()));
+				obj.put("TYPEID", jutil.setValue(d.getTypeid()));
+				obj.put("TYPENAME", jutil.setValue(d.getType()));
+				obj.put("NAME", jutil.setValue(d.getFname()));
+				obj.put("MONEY", jutil.setValue(d.getMmoney()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getMachineMoney() {
+		try{
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			List<ModelDto> list = live.getMachineMoney();
+			for(ModelDto d:list){
+				obj.put("COMPANYID", jutil.setValue(d.getFid()));
+				obj.put("COMPANYNAME", jutil.setValue(d.getFname()));
+				obj.put("CAUSTID", jutil.setValue(d.getCaustid()));
+				obj.put("CAUSTNAME", jutil.setValue(d.getIname()));
+				obj.put("ITEMID", jutil.setValue(d.getItemid()));
+				obj.put("ITEMNAME", jutil.setValue(d.getWname()));
+				obj.put("MONEY", jutil.setValue(d.getMmoney()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getFaultRatio(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getFaultRatio(dto);
+			for(ModelDto d:list){
+				obj.put("COMPANYID", jutil.setValue(d.getFid()));
+				obj.put("COMPANYNAME", jutil.setValue(d.getFname()));
+				obj.put("CAUSTID", jutil.setValue(d.getCaustid()));
+				obj.put("CAUSTNAME", jutil.setValue(d.getIname()));
+				obj.put("ITEMID", jutil.setValue(d.getItemid()));
+				obj.put("ITEMNAME", jutil.setValue(d.getWname()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getMaintenanceNum(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getMaintenanceNum(dto);
+			for(ModelDto d:list){
+				obj.put("ID", jutil.setValue(d.getFid()));
+				obj.put("TYPEID", jutil.setValue(d.getTypeid()));
+				obj.put("NAME", jutil.setValue(d.getFname()));
+				obj.put("TYPENAME", jutil.setValue(d.getType()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getFaultNum(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getFaultNum(dto);
+			for(ModelDto d:list){
+				obj.put("ID", jutil.setValue(d.getFid()));
+				obj.put("TYPEID", jutil.setValue(d.getTypeid()));
+				obj.put("NAME", jutil.setValue(d.getFname()));
+				obj.put("TYPENAME", jutil.setValue(d.getType()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getFaultRatioByType(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getFaultRatioByType(dto);
+			for(ModelDto d:list){
+				obj.put("TYPEID", jutil.setValue(d.getTypeid()));
+				obj.put("TYPENAME", jutil.setValue(d.getType()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getFaultDetail(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			dto.setDtoStatus(json.getInt("TYPEID"));
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getFaultDetail(dto);
+			for(ModelDto d:list){
+				obj.put("TYPENAME", jutil.setValue(d.getType()));
+				obj.put("MACHINENO", jutil.setValue(d.getFmachine_id()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				obj.put("WELDTIME", jutil.setValue(d.getWeldTime()));
+				obj.put("NAME", jutil.setValue(d.getFname()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getOnlineNumber(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			double time = 0;
+			String times = json.getString("TIME");
+			if(times!=null && !"".equals(times)){
+				time = Double.valueOf(times);
+			}
+			List<ModelDto> list = live.getOnlineNumber(dto, time);
+			for(ModelDto d:list){
+				obj.put("COMPANYID", jutil.setValue(d.getFid()));
+				obj.put("COMPANYNAME", jutil.setValue(d.getFname()));
+				obj.put("CAUSTID", jutil.setValue(d.getCaustid()));
+				obj.put("CAUSTNAME", jutil.setValue(d.getIname()));
+				obj.put("ITEMID", jutil.setValue(d.getItemid()));
+				obj.put("ITEMNAME", jutil.setValue(d.getWname()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getOperatoreTime(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getOperatoreTime(dto);
+			for(ModelDto d:list){
+				obj.put("COMPANYID", jutil.setValue(d.getFid()));
+				obj.put("COMPANYNAME", jutil.setValue(d.getFname()));
+				obj.put("CAUSTID", jutil.setValue(d.getCaustid()));
+				obj.put("CAUSTNAME", jutil.setValue(d.getIname()));
+				obj.put("ITEMID", jutil.setValue(d.getItemid()));
+				obj.put("ITEMNAME", jutil.setValue(d.getWname()));
+				obj.put("WORKTIME", jutil.setValue(d.getWorktime()));
+				obj.put("LOADTIME", jutil.setValue(d.getLoads()));
+				obj.put("STANDBYTIME", jutil.setValue(d.getTime()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getItemWorkTime(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getItemWorkTime(dto);
+			for(ModelDto d:list){
+				obj.put("WORKTIME", jutil.setValue(d.getWorktime()));
+				obj.put("WELDERNO", jutil.setValue(d.getFwelder_id()));
+				obj.put("WELDNAME", jutil.setValue(d.getFname()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getItemStandbyTime(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getItemStandbyTime(dto);
+			for(ModelDto d:list){
+				obj.put("WORKTIME", jutil.setValue(d.getWorktime()));
+				obj.put("WELDERID", jutil.setValue(d.getFwelder_id()));
+				obj.put("WELDERNAME", jutil.setValue(d.getFname()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getInsfandMachinenum(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			BigInteger parent = null;
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				parent = new BigInteger(parentid);
+			}
+			List<ModelDto> list = live.getInsfandMachinenum(parent);
+			for(ModelDto d:list){
+
+				obj.put("COMPANYID", jutil.setValue(d.getFid()));
+				obj.put("COMPANYNAME", jutil.setValue(d.getFname()));
+				obj.put("CAUSTID", jutil.setValue(d.getCaustid()));
+				obj.put("CAUSTNAME", jutil.setValue(d.getIname()));
+				obj.put("ITEMID", jutil.setValue(d.getItemid()));
+				obj.put("ITEMNAME", jutil.setValue(d.getWname()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getUseDetail(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getUseDetail(new BigInteger(json.getString("ID")), json.getInt("TYPEID"), dto);
+			for(ModelDto d:list){
+				obj.put("MACHINENO", jutil.setValue(d.getWname()));
+				obj.put("NAME", jutil.setValue(d.getFname()));
+				obj.put("TYPENAME", jutil.setValue(d.getType()));
+				obj.put("TIME", jutil.setValue(d.getTime()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Object getDurationTime(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			List<ModelDto> list = live.getDurationTime(json.getString("SQL"));
+			for(ModelDto d:list){
+				obj.put("WELDTIME", jutil.setValue(d.getWeldTime()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getWeldingmachineList(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			int status = 0;
+			String statusid = json.getString("STATUS");
+			if(statusid!=null && !"".equals(statusid)){
+				status = Integer.parseInt(statusid);
+			}
+			dto.setDtoStatus(status);
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getWeldingmachineList(dto);
+			for(ModelDto d:list){
+				obj.put("LOADS", jutil.setValue(d.getLoads()));
+				obj.put("MACHINENO", jutil.setValue(d.getFname()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getWelderList(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			int status = 0;
+			String statusid = json.getString("STATUS");
+			if(statusid!=null && !"".equals(statusid)){
+				status = Integer.parseInt(statusid);
+			}
+			dto.setDtoStatus(status);
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getWelderList(dto);
+			for(ModelDto d:list){
+				obj.put("LOADS", jutil.setValue(d.getLoads()));
+				obj.put("WELDERNAME", jutil.setValue(d.getFname()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getNewOvertime(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();WeldDto dto = new WeldDto();
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			int num = json.getInt("NUM");
+			int type = json.getInt("TYPEID");
+			if(type==1){
+				dto.setYear("year");
+			}else if(type==2){
+				dto.setMonth("month");
+			}else if(type==3){
+				dto.setDay("day");
+			}else if(type==4){
+				dto.setWeek("week");
+			}
+			List<ModelDto> list = live.getNewOvertime(dto, num, json.getString("INSFTYPE"));
+			for(ModelDto d:list){
+				obj.put("CAOMPANYID", jutil.setValue(d.getFid()));
+				obj.put("CAUSTID", jutil.setValue(d.getCaustid()));
+				obj.put("ITEMID", jutil.setValue(d.getItemid()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				obj.put("WELDTIME", jutil.setValue(d.getWeldTime()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getNewOvertimeDetail(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			dto.setTime(json.getString("TIME"));
+			int type = json.getInt("TYPEID");
+			if(type==1){
+				dto.setYear("year");
+			}else if(type==2){
+				dto.setMonth("month");
+			}else if(type==3){
+				dto.setDay("day");
+			}else if(type==4){
+				dto.setWeek("week");
+			}
+			int num = json.getInt("NUM");
+			List<ModelDto> list = live.getNewOvertimeDetail(dto, num);
+			for(ModelDto d:list){
+				obj.put("WELDERNO", jutil.setValue(d.getFwelder_id()));
+				obj.put("WELDERNAME", jutil.setValue(d.getWname()));
+				obj.put("MACHINENO", jutil.setValue(d.getFmachine_id()));
+				obj.put("JUNCTIONNO", jutil.setValue(d.getFjunction_id()));
+				obj.put("STATRTIME", jutil.setValue(d.getStarttime()));
+				obj.put("ENDTIME", jutil.setValue(d.getEndtime()));
+				obj.put("TIME", jutil.setValue(d.getTime()));
+				obj.put("ITEMNAME", jutil.setValue(d.getIname()));
+				obj.put("WELDTIME", jutil.setValue(d.getWeldTime()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getNewIdle(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			int type = json.getInt("TYPEID");
+			if(type==1){
+				dto.setYear("year");
+			}else if(type==2){
+				dto.setMonth("month");
+			}else if(type==3){
+				dto.setDay("day");
+			}else if(type==4){
+				dto.setWeek("week");
+			}
+			dto.setDtoTime1(json.getString("STARTTIME"));
+			dto.setDtoTime2(json.getString("ENDTIME"));
+			List<ModelDto> list = live.getNewIdle(dto);
+			for(ModelDto d:list){
+				obj.put("TYPEID", jutil.setValue(d.getTypeid()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
+				obj.put("WELDTIME", jutil.setValue(d.getWeldTime()));
+				ary.add(obj);
+			}
+			return ary.toString();
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public Object getMachineTypeTotal(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			BigInteger parent = null;
+			String parentid = json.getString("INSFID");
+			if(parentid!=null && !"".equals(parentid)){
+				parent = new BigInteger(parentid);
+			}
+			List<ModelDto> list = live.getMachineTypeTotal(parent);
+			for(ModelDto d:list){
+				obj.put("TYPEID", jutil.setValue(d.getTypeid()));
+				obj.put("TYPENAME", jutil.setValue(d.getFname()));
+				obj.put("TOTAL", jutil.setValue(d.getTotal()));
 				ary.add(obj);
 			}
 			return ary.toString();

@@ -26,7 +26,7 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	List<ModelDto> getItemOverproof(@Param("dto") WeldDto dto,@Param("id") BigInteger id);
 	
-	List<ModelDto> getDatailOverproof(@Param("dto") WeldDto dto,@Param("parent") BigInteger parent);
+	List<ModelDto> getDatailOverproof(@Param("dto") WeldDto dto);
 	
 	List<LiveData> getAllInsf(@Param("parent") BigInteger parent,@Param("type") int type);
 	
@@ -114,11 +114,87 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	List<ModelDto> getCaustMachineCount(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
 	
-	BigInteger getCountByTime(@Param("parent")BigInteger parent,@Param("time")String time,@Param("mid")BigInteger mid);
+	Double getCountByTime(@Param("parent")BigInteger parent,@Param("time1")String time1,@Param("time2")String time2,@Param("mid")BigInteger mid,@Param("type")int type);
 	
-	List<ModelDto> getJunctionByWelder(@Param("dto")WeldDto dto,@Param("welder")String welder);
+	/*List<ModelDto> getJunctionByWelder(@Param("dto")WeldDto dto,@Param("welder")String welder);
 	
 	List<ModelDto> getExcessiveBack(@Param("time")String time,@Param("welder")String welder,@Param("junction")String junction);
 	
 	List<ModelDto> getStandbytimeout(@Param("dto")WeldDto dto);
+	*/
+	
+	List<ModelDto> getExcessiveBack(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getExcessiveBackDetail(@Param("id")BigInteger id);
+	
+	List<ModelDto> getBlocRunTime(@Param("parent")BigInteger parent,@Param("dto")WeldDto dto,@Param("startindex")int startindex,@Param("endindex")int endindex);
+	
+	List<ModelDto> getUseratio(@Param("time1")String time1,@Param("time2")String time2,@Param("insftype")String insftype);
+	
+	List<ModelDto> getMaintenanceratio(@Param("dto")WeldDto dto);
+	
+	ModelDto getSumMaintenance(@Param("dto")WeldDto dto);
+	
+	List<ModelDto> getStandbytimeout(@Param("dto")WeldDto dto,@Param("str")int str);
+	
+	List<ModelDto> getItemTypeMaintain(@Param("dto")WeldDto dto,@Param("itemid")BigInteger itemid);
+	
+	List<ModelDto> getItemMachineSumMoneyByType(@Param("itemid")BigInteger itemid);
+	
+	List<ModelDto> getMachineMoney();
+
+	List<ModelDto> getFaultRatio(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getMaintenanceNum(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getFaultNum(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getFaultRatioByType(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getFaultDetail(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getOnlineNumber(@Param("dto")WeldDto dto,@Param("time")double time);
+
+	List<ModelDto> getOperatoreTime(@Param("dto")WeldDto dto);
+	
+	List<ModelDto> getItemWorkTime(@Param("dto")WeldDto dto);
+	
+	List<ModelDto> getItemStandbyTime(@Param("dto")WeldDto dto);
+	
+	List<ModelDto> getInsfandMachinenum(@Param("parent")BigInteger parent);
+	
+	List<ModelDto> getUseDetail(@Param("fid")BigInteger fid,@Param("type")int type,@Param("dto")WeldDto dto);
+	
+	List<ModelDto> getDurationTime(@Param("sql")String sql);
+	
+	List<ModelDto> getWeldingmachineList(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getWelderList(@Param("dto")WeldDto dto);
+	
+	List<ModelDto> getNewOvertime(@Param("dto")WeldDto dto,@Param("num")int num,@Param("insftype")String insftype);
+	
+	List<ModelDto> getNewOvertimeDetail(@Param("dto")WeldDto dto,@Param("num")int num);
+	
+	List<ModelDto> getNewIdle(@Param("dto")WeldDto dto);
+
+	List<ModelDto> getMachineTypeTotal(@Param("parent")BigInteger parent);
+	
+	
+	//短信方法
+	ModelDto getWelderMsg(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	String getWelderMaxTime(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	String getWelderMinTime(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	int getMachineTotal(@Param("parent")BigInteger parent);
+	
+	ModelDto getMachineMsg(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	int getMachineStandby(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	String getMachineStandbyTime(@Param("dto")WeldDto dto,@Param("parent")BigInteger parent);
+	
+	int getWelderTotal(@Param("parent")BigInteger parent);
+	
 }

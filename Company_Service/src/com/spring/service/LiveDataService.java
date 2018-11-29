@@ -3,8 +3,6 @@ package com.spring.service;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
 import com.spring.model.LiveData;
@@ -390,7 +388,7 @@ public interface LiveDataService {
 	 * @param mid 鐒婃満id
 	 * @return
 	 */
-	BigInteger getCountByTime(BigInteger parent,String time,BigInteger mid);
+	Double getCountByTime(BigInteger parent,String time1,String time2,BigInteger mid,int type);
 	
 	/**
 	 * 鏍规嵁鐒婂伐鑾峰彇鐒婂彛
@@ -398,7 +396,7 @@ public interface LiveDataService {
 	 * @param welder 鐒婂伐缂栧彿
 	 * @return
 	 */
-	List<ModelDto> getJunctionByWelder(WeldDto dto ,String welder);
+	/*List<ModelDto> getJunctionByWelder(WeldDto dto ,String welder);*/
 	
 	/**
 	 * 鑾峰彇瓒呮爣鍥炴函
@@ -406,15 +404,15 @@ public interface LiveDataService {
 	 * @param welder 鐒婂伐
 	 * @param jucntion 鐒婂彛
 	 * @return
-	 */
+	 *//*
 	List<ModelDto> getExcessiveBack(String time,String welder,String junction);
 	
-	/**
+	*//**
 	 * 得到焊机待机时间和总时间
 	 * @param dto 截止当前时间为止的一个小时内
 	 * @return
-	 */
-	List<ModelDto> getStandbytimeout(WeldDto dto);
+	 *//*
+	List<ModelDto> getStandbytimeout(WeldDto dto);*/
 	
 	/**
 	 * 获取当天作业X名，总焊接时长X小时，平均每名焊工焊接X小时
@@ -477,5 +475,61 @@ public interface LiveDataService {
 	 * @return
 	 */
 	int getWelderTotal(BigInteger parent);
+	
+	List<ModelDto> getExcessiveBack(WeldDto dto);
+
+	List<ModelDto> getExcessiveBackDetail(BigInteger id);
+	
+	List<ModelDto> getBlocRunTime(BigInteger parent,WeldDto dto,int startindex,int endindex);
+	
+	List<ModelDto> getUseratio(String time1,String time2,String insftype);
+	
+	List<ModelDto> getMaintenanceratio(WeldDto dto);
+	
+	ModelDto getSumMaintenance(WeldDto dto);
+	
+	List<ModelDto> getStandbytimeout(WeldDto dto,int str);
+	
+	List<ModelDto> getItemTypeMaintain(WeldDto dto,BigInteger itemid);
+	
+	List<ModelDto> getItemMachineSumMoneyByType(BigInteger itemid);
+	
+	List<ModelDto> getMachineMoney();
+
+	List<ModelDto> getFaultRatio(WeldDto dto);
+
+	List<ModelDto> getMaintenanceNum(WeldDto dto);
+
+	List<ModelDto> getFaultNum(WeldDto dto);
+
+	List<ModelDto> getFaultRatioByType(WeldDto dto);
+
+	List<ModelDto> getFaultDetail(WeldDto dto);
+
+	List<ModelDto> getOnlineNumber(WeldDto dto,double time);
+
+	List<ModelDto> getOperatoreTime(WeldDto dto);
+	
+	List<ModelDto> getItemWorkTime(WeldDto dto);
+	
+	List<ModelDto> getItemStandbyTime(WeldDto dto);
+	
+	List<ModelDto> getInsfandMachinenum(BigInteger parent);
+	
+	List<ModelDto> getUseDetail(BigInteger fid,int type,WeldDto dto);
+	
+	List<ModelDto> getDurationTime(String sql);
+	
+	List<ModelDto> getWeldingmachineList(WeldDto dto);
+
+	List<ModelDto> getWelderList(WeldDto dto);
+	
+	List<ModelDto> getNewOvertime(WeldDto dto,int num,String insftype);
+	
+	List<ModelDto> getNewOvertimeDetail(WeldDto dto,int num);
+	
+	List<ModelDto> getNewIdle(WeldDto dto);
+
+	List<ModelDto> getMachineTypeTotal(BigInteger parent);
 	
 }

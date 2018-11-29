@@ -361,7 +361,7 @@ public interface LiveDataWebService {
 	 * @param mid 鐒婃満id
 	 * @return
 	 */
-	Object getCountByTime(String object);
+	double getCountByTime(String object);
 	
 	/**
 	 * 鏍规嵁鐒婂伐鑾峰彇鐒婂彛
@@ -369,7 +369,7 @@ public interface LiveDataWebService {
 	 * @param welder 鐒婂伐缂栧彿
 	 * @return
 	 */
-	Object getJunctionByWelder(String object);
+	/*Object getJunctionByWelder(String object);*/
 	
 	/**
 	 * 鑾峰彇瓒呮爣鍥炴函
@@ -393,4 +393,57 @@ public interface LiveDataWebService {
 	 * @return
 	 */
 	Object getSMSMessage(String object);
+
+	Object getExcessiveBackDetail(String object);
+	
+	Object getBlocRunTime(String object);
+	
+	Object getUseratio(String object);
+	
+	Object getMaintenanceratio(String object);
+	
+	Object getSumMaintenance(String object);
+	
+	Object getItemTypeMaintain(String object);
+	
+	Object getItemMachineSumMoneyByType(String object);
+	
+	Object getMachineMoney();
+
+	Object getFaultRatio(String object);
+
+	Object getMaintenanceNum(String object);
+
+	Object getFaultNum(String object);
+
+	Object getFaultRatioByType(String object);
+
+	Object getFaultDetail(String object);
+
+	Object getOnlineNumber(String object);
+
+	Object getOperatoreTime(String object);
+	
+	Object getItemWorkTime(String object);
+	
+	Object getItemStandbyTime(String object);
+	
+	Object getInsfandMachinenum(String object);
+	
+	Object getUseDetail(String object);
+	
+	Object getDurationTime(String sql);
+	
+	Object getWeldingmachineList(String object);
+
+	Object getWelderList(String object);
+	
+	Object getNewOvertime(String object);
+	
+	Object getNewOvertimeDetail(String object);
+	
+	Object getNewIdle(String object);
+
+	Object getMachineTypeTotal(String object);
+	
 }

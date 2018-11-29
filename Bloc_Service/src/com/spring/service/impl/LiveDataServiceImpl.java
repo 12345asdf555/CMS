@@ -466,36 +466,396 @@ public class LiveDataServiceImpl implements LiveDataService {
 	}
 
 	@Override
-	public BigInteger getCountByTime(BigInteger parent, String time, BigInteger mid) {
+	public Double getCountByTime(BigInteger parent, String time1,String time2, BigInteger mid,int type) {
 		try{
-			return live.getCountByTime(parent, time, mid);
+			return live.getCountByTime(parent, time1, time2, mid, type);
 		}catch(Exception e){
 			return null;
 		}
 	}
 
-	@Override
+	/*@Override
 	public List<ModelDto> getJunctionByWelder(WeldDto dto, String welder) {
 		try{
 			return live.getJunctionByWelder(dto, welder);
 		}catch(Exception e){
 			return null;
 		}
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public List<ModelDto> getExcessiveBack(String time, String welder, String junction) {
 		try{
 			return live.getExcessiveBack(time, welder, junction);
 		}catch(Exception e){
 			return null;
 		}
-	}
-
-	@Override
+	}*/
+	
+	/*@Override
 	public List<ModelDto> getStandbytimeout(WeldDto dto) {
 		try{
 			return live.getStandbytimeout(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}*/
+
+	@Override
+	public ModelDto getWelderMsg(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getWelderMsg(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public String getWelderMaxTime(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getWelderMaxTime(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public String getWelderMinTime(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getWelderMinTime(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public int getMachineTotal(BigInteger parent) {
+		try{
+			return live.getMachineTotal(parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public ModelDto getMachineMsg(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getMachineMsg(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public int getMachineStandby(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getMachineStandby(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public String getMachineStandbyTime(WeldDto dto, BigInteger parent) {
+		try{
+			return live.getMachineStandbyTime(dto, parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return "0";
+		}
+	}
+
+	@Override
+	public int getWelderTotal(BigInteger parent) {
+		try{
+			return live.getWelderTotal(parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getExcessiveBack(WeldDto dto) {
+		try{
+			return live.getExcessiveBack(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getExcessiveBackDetail(BigInteger id) {
+		try{
+			return live.getExcessiveBackDetail(id);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getBlocRunTime(BigInteger parent, WeldDto dto, int startindex, int endindex) {
+		try{
+			return live.getBlocRunTime(parent, dto, startindex, endindex);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getUseratio(String time1, String time2, String insftype) {
+		try{
+			return live.getUseratio(time1, time2, insftype);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getMaintenanceratio(WeldDto dto) {
+		try{
+			return live.getMaintenanceratio(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public ModelDto getSumMaintenance(WeldDto dto) {
+		try{
+			return live.getSumMaintenance(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getStandbytimeout(WeldDto dto, int str) {
+		try{
+			return live.getStandbytimeout(dto, str);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getItemTypeMaintain(WeldDto dto, BigInteger itemid) {
+		try{
+			return live.getItemTypeMaintain(dto, itemid);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getItemMachineSumMoneyByType(BigInteger itemid) {
+		try{
+			return live.getItemMachineSumMoneyByType(itemid);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getMachineMoney() {
+		try{
+			return live.getMachineMoney();
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getFaultRatio(WeldDto dto) {
+		try{
+			return live.getFaultRatio(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getMaintenanceNum(WeldDto dto) {
+		try{
+			return live.getMaintenanceNum(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getFaultNum(WeldDto dto) {
+		try{
+			return live.getFaultNum(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getFaultRatioByType(WeldDto dto) {
+		try{
+			return live.getFaultRatioByType(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getFaultDetail(WeldDto dto) {
+		try{
+			return live.getFaultDetail(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getOnlineNumber(WeldDto dto, double time) {
+		try{
+			return live.getOnlineNumber(dto, time);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getOperatoreTime(WeldDto dto) {
+		try{
+			return live.getOperatoreTime(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getItemWorkTime(WeldDto dto) {
+		try{
+			return live.getItemWorkTime(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getItemStandbyTime(WeldDto dto) {
+		try{
+			return live.getItemStandbyTime(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getInsfandMachinenum(BigInteger parent) {
+		try{
+			return live.getInsfandMachinenum(parent);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getUseDetail(BigInteger fid, int type, WeldDto dto) {
+		try{
+			return live.getUseDetail(fid, type, dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getDurationTime(String sql) {
+		try{
+			return live.getDurationTime(sql);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getWeldingmachineList(WeldDto dto) {
+		try{
+			return live.getWeldingmachineList(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getWelderList(WeldDto dto) {
+		try{
+			return live.getWelderList(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getNewOvertime(WeldDto dto, int num, String insftype) {
+		try{
+			return live.getNewOvertime(dto, num, insftype);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getNewOvertimeDetail(WeldDto dto, int num) {
+		try{
+			return live.getNewOvertimeDetail(dto, num);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getNewIdle(WeldDto dto) {
+		try{
+			return live.getNewIdle(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getMachineTypeTotal(BigInteger parent) {
+		try{
+			return live.getMachineTypeTotal(parent);
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
