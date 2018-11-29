@@ -15,7 +15,7 @@ function showOverproof(){
         success : function(result) {  
             if (result) {  
                 for(var i=0;i<result.rows.length;i++){
-                 	array1.push(result.rows[i].weldtime);
+                 	array1.push(result.rows[i].weldtime1+"\n"+result.rows[i].weldtime2);
                 	array2.push(result.rows[i].electricity);
                 }
                 Series.push({
@@ -55,9 +55,9 @@ function showOverproof(){
 			left:'6%'
 		},
 		grid:{
-			left:'6%',//组件距离容器左边的距离
-			right:'4%',
-			bottom:'20',
+			left:'50',//组件距离容器左边的距离
+			right:'50',
+			bottom:'40',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -85,8 +85,8 @@ function showOverproof(){
 	charts.hideLoading();
 	//重定义图表宽度
 	$("#overproof").width("100%");
-	if(array1.length>5){
-		var width = (array1.length-5) * 200;
+	if(array1.length>10){
+		var width = (array1.length-10) * 120;
 		$("#overproof").width($("#overproof").width()+width);
 	}
 	echarts.init(document.getElementById('overproof')).resize();

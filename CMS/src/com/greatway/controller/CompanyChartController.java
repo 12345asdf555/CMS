@@ -1129,7 +1129,7 @@ public class CompanyChartController {
 	}
 	
 	/**
-	 * 公司负荷率报表信息查询
+	 * 超标回溯报表信息查询
 	 * @param request
 	 * @return
 	 */
@@ -1143,7 +1143,10 @@ public class CompanyChartController {
 		try{
 			List<ModelDto> list = lm.getExcessiveBackDetail(new BigInteger(id));
 			for(int i=0;i<list.size();i++){
-				json.put("weldtime",list.get(i).getWeldTime());
+				String weldtime1 = list.get(i).getWeldTime().substring(0, 10);
+				String weldtime2 = list.get(i).getWeldTime().substring(10, list.get(i).getWeldTime().length());
+				json.put("weldtime1",weldtime1);
+				json.put("weldtime2",weldtime2);
 				json.put("maxelectricity",list.get(i).getFmax_electricity());
 				json.put("minelectricity",list.get(i).getFmin_electricity());
 				json.put("electricity",list.get(i).getFelectricity());
