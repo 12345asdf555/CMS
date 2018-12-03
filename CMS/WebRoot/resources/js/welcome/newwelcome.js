@@ -338,7 +338,7 @@ function refreshPersonData(data){
 }
 window.setInterval(function () {
 	for(var m=0;m<mall.length;m++){
-		if(mall[m].fstatus=="00"){
+		if(mall[m].fstatus=="00" || mall[m].fstatus=="09"){
 			wait.push(mall[m]);
 		}else{
 			work.push(mall[m]);
