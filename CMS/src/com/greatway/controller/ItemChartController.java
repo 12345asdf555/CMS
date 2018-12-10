@@ -2,7 +2,6 @@ package com.greatway.controller;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -1438,16 +1437,8 @@ public class ItemChartController {
 		if(iutil.isNull(request.getParameter("page")) && iutil.isNull(request.getParameter("rows"))){
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
-			page = new Page(pageIndex,pageSize,total);
-			wtime = lm.getItemWorkTime(page, dto);
-		}else{
-			wtime = lm.getItemWorkTime(dto);
 		}
-		long total = 0;
-		if(wtime!=null){
-			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(wtime);
-			total = pageinfo.getTotal();
-		}
+		wtime = lm.getItemWorkTime(dto);
 		try{
 			//获取时间差
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -1455,54 +1446,24 @@ public class ItemChartController {
 			long t2 = sdf.parse(time2).getTime();
 			int days = (int)((t2-t1)/(1000*60*60*24))+1;
 			List<ModelDto> stime = lm.getItemStandbyTime(dto);
-			JSONObject jo = new JSONObject();
-			JSONArray ja = new JSONArray();
-			//获取相同焊工数据以及不同的正常工作焊工数据
-			for(int i=0;i<wtime.size();i++){
-				boolean flag = false;
+			for(int i=0;i<wtime.size();i++){//取出工作表所有数据
+				boolean flag = true;
 				for(int j=0;j<stime.size();j++){
 					if(wtime.get(i).getFwelder_id().equals(stime.get(j).getFwelder_id())){
-						flag = true;
-						//将未录入焊工系统的信息先存入ary
-						if(wtime.get(i).getFname()==null || "".equals(wtime.get(i).getFname())){
-							json.put("boottime",wtime.get(i).getWorktime()+stime.get(j).getWorktime());
-							json.put("weldtime",wtime.get(i).getWorktime());
-							json.put("standbytime",stime.get(j).getWorktime());
-							json.put("welderno",wtime.get(i).getFwelder_id());
-							json.put("name","未定义");
-							json.put("shutdowntime", (double)Math.round((days*24-wtime.get(i).getWorktime())*100)/100);//关机时长
-							if(wtime.get(i).getWorktime()!=0){
-								json.put("sjratio", (double)Math.round((wtime.get(i).getWorktime()+stime.get(j).getWorktime())/(days*8)*100*100)/100);//上机率
-								json.put("effectiveratio", (double)Math.round(wtime.get(i).getWorktime()/(wtime.get(i).getWorktime()+stime.get(j).getWorktime())*100*100)/100);//有效焊接率
-								json.put("workratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//工作效率
-							}else{
-								json.put("sjratio", 0);//上机率
-								json.put("effectiveratio", 0);//有效焊接率
-								json.put("workratio", 0);//工作效率
-							}
-							json.put("worktime", (double)Math.round(days*8*100)/100);//工作时长
-							ary.add(json);
+						flag = false;
+						json.put("boottime", (double)Math.round(wtime.get(i).getWorktime()+stime.get(j).getWorktime()));
+						json.put("weldtime", (double)Math.round(wtime.get(i).getWorktime()));
+						json.put("standbytime", (double)Math.round(stime.get(j).getWorktime()));
+						json.put("welderno", wtime.get(i).getFwelder_id());
+						if(iutil.isNull(wtime.get(i).getFname())){
+							json.put("name", wtime.get(i).getFname());
 						}else{
-							jo.put("boottime",wtime.get(i).getWorktime()+stime.get(j).getWorktime());
-							jo.put("weldtime",wtime.get(i).getWorktime());
-							jo.put("standbytime",stime.get(j).getWorktime());
-							jo.put("welderno",wtime.get(i).getFwelder_id());
-							jo.put("name",wtime.get(i).getFname());
-							ja.add(jo);
+							json.put("name","未定义");
 						}
-					}
-				}
-				if(!flag){
-					if(wtime.get(i).getFname()==null || "".equals(wtime.get(i).getFname())){
-						json.put("boottime",wtime.get(i).getWorktime());
-						json.put("weldtime",wtime.get(i).getWorktime());
-						json.put("standbytime",0);
-						json.put("welderno",wtime.get(i).getFwelder_id());
-						json.put("name","未定义");
 						json.put("shutdowntime", (double)Math.round((days*24-wtime.get(i).getWorktime())*100)/100);//关机时长
 						if(wtime.get(i).getWorktime()!=0){
-							json.put("sjratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//上机率
-							json.put("effectiveratio", (double)Math.round(wtime.get(i).getWorktime()/wtime.get(i).getWorktime()*100*100)/100);//有效焊接率
+							json.put("sjratio", (double)Math.round((wtime.get(i).getWorktime()+stime.get(j).getWorktime())/(days*8)*100*100)/100);//上机率
+							json.put("effectiveratio", (double)Math.round(wtime.get(i).getWorktime()/(wtime.get(i).getWorktime()+stime.get(j).getWorktime())*100*100)/100);//有效焊接率
 							json.put("workratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//工作效率
 						}else{
 							json.put("sjratio", 0);//上机率
@@ -1511,100 +1472,56 @@ public class ItemChartController {
 						}
 						json.put("worktime", (double)Math.round(days*8*100)/100);//工作时长
 						ary.add(json);
+						break;
+					}
+				}
+				if(flag){
+					json.put("boottime",(double)Math.round(wtime.get(i).getWorktime()));
+					json.put("weldtime",(double)Math.round(wtime.get(i).getWorktime()));
+					json.put("standbytime",0);
+					json.put("welderno",wtime.get(i).getFwelder_id());
+					if(iutil.isNull(wtime.get(i).getFname())){
+						json.put("name", wtime.get(i).getFname());
 					}else{
-						jo.put("boottime",wtime.get(i).getWorktime());
-						jo.put("weldtime",wtime.get(i).getWorktime());
-						jo.put("standbytime",0);
-						jo.put("welderno",wtime.get(i).getFwelder_id());
-						jo.put("name",wtime.get(i).getFname());
-						ja.add(jo);
-					}
-				}
-			}
-			//获取不同的待机焊工数据
-			for(int i=0;i<stime.size();i++){
-				boolean flag = false;
-				for(int j=0;j<wtime.size();j++){
-					if(!wtime.get(j).getFwelder_id().equals(stime.get(i).getFwelder_id())){
-						flag = true;
-					}
-				}
-				if(!flag){
-					if(stime.get(i).getFname()==null || "".equals(stime.get(i).getFname())){
-						json.put("boottime",stime.get(i).getWorktime());
-						json.put("weldtime",0);
-						json.put("standbytime",stime.get(i).getWorktime());
-						json.put("welderno",stime.get(i).getFwelder_id());
 						json.put("name","未定义");
-						json.put("shutdowntime", (double)Math.round((days*24-stime.get(i).getWorktime())*100)/100);//关机时长
-						json.put("sjratio", (double)Math.round(stime.get(i).getWorktime()/(days*8)*100*100)/100);//上机率
-						json.put("effectiveratio", (double)Math.round(stime.get(i).getWorktime()/(stime.get(i).getWorktime())*100*100)/100);//有效焊接率
-						json.put("workratio", (double)Math.round(stime.get(i).getWorktime()/(days*8)*100*100)/100);//工作效率
-						json.put("worktime", (double)Math.round(days*8*100)/100);//工作时长
-						ary.add(json);
-					}else{
-						jo.put("boottime",stime.get(i).getWorktime());
-						jo.put("weldtime",0);
-						jo.put("standbytime",stime.get(i).getWorktime());
-						jo.put("welderno",stime.get(i).getFwelder_id());
-						jo.put("name",stime.get(i).getFname());
-						ja.add(jo);
 					}
-				}
-			}
-			ArrayList<ModelDto> temp = new ArrayList<ModelDto>();
-			for(int i=0;i<ja.size();i++){
-		       	String str = ja.getString(i);
-		       	JSONObject js = JSONObject.fromObject(str);
-				ModelDto m = new ModelDto();
-				m.setTime(Double.parseDouble(js.getString("standbytime")));
-				m.setWorktime(Double.parseDouble(js.getString("boottime")));
-				m.setLoads(Double.parseDouble(js.getString("weldtime")));
-				m.setFwelder_id(js.getString("welderno"));
-				m.setFname(js.getString("name"));
-				temp.add(m);
-				
-			}
-			for(int j=0;j<wtime.size();j++){
-				double boottime = 0,weldtime = 0,standbytime = 0,worktime = 0;
-				//开机时长,焊接时长，待机时长
-				for(int x=0;x<temp.size();x++){
-					if(wtime.get(j).getFwelder_id().equals(temp.get(x).getFwelder_id())){
-						boottime = temp.get(x).getWorktime();
-						weldtime = temp.get(x).getLoads();
-						standbytime = temp.get(x).getTime();
-						worktime = days*8;
-					}
-				}
-				if(temp.isEmpty()){
-					json.put("boottime",0);//开机时长
-					json.put("weldtime",0);//焊接时长
-					json.put("standbytime",0);//待机时长
-					json.put("welderno",wtime.get(j).getFwelder_id());//焊工编号
-					json.put("name",wtime.get(j).getFname());//焊工姓名
-					json.put("shutdowntime", days*24);//关机时长
-					json.put("sjratio", 0);//上机率
-					json.put("effectiveratio", 0);//有效焊接率
-					json.put("workratio", 0);//工作效率
-					json.put("worktime", 0);//工作时长
-					ary.add(json);
-				}else{
-					json.put("boottime",(double)Math.round(boottime*100)/100);//开机时长
-					json.put("weldtime",(double)Math.round(weldtime*100)/100);//焊接时长
-					json.put("standbytime",(double)Math.round(standbytime*100)/100);//待机时长
-					json.put("welderno",wtime.get(j).getFwelder_id());//焊工编号
-					json.put("name",wtime.get(j).getFname());//焊工姓名
-					json.put("shutdowntime", (double)Math.round((days*24-boottime)*100)/100);//关机时长
-					if(wtime.get(j).getWorktime()!=0){
-						json.put("sjratio", (double)Math.round(boottime/(days*8)*100*100)/100);//上机率
-						json.put("effectiveratio", (double)Math.round(weldtime/boottime*100*100)/100);//有效焊接率
-					json.put("workratio", (double)Math.round(weldtime/(days*8)*100*100)/100);//工作效率
+					json.put("shutdowntime", (double)Math.round((days*24-wtime.get(i).getWorktime())*100)/100);//关机时长
+					if(wtime.get(i).getWorktime()!=0){
+						json.put("sjratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//上机率
+						json.put("effectiveratio", (double)Math.round(wtime.get(i).getWorktime()/wtime.get(i).getWorktime()*100*100)/100);//有效焊接率
+						json.put("workratio", (double)Math.round(wtime.get(i).getWorktime()/(days*8)*100*100)/100);//工作效率
 					}else{
 						json.put("sjratio", 0);//上机率
 						json.put("effectiveratio", 0);//有效焊接率
 						json.put("workratio", 0);//工作效率
 					}
-					json.put("worktime", (double)Math.round(worktime*100)/100);//工作时长
+					json.put("worktime", (double)Math.round(days*8*100)/100);//工作时长
+					ary.add(json);
+				}
+			}
+			for(int i=0;i<stime.size();i++){//取出待机表不一样的（不存在工作表）数据
+				boolean flag = true;
+				for(int j=0;j<wtime.size();j++){
+					if(stime.get(i).getFwelder_id().equals(wtime.get(j).getFwelder_id())){
+						flag = false;
+						break;
+					}
+				}
+				if(flag){
+					json.put("boottime",(double)Math.round(stime.get(i).getWorktime()));
+					json.put("weldtime",0);
+					json.put("standbytime",(double)Math.round(stime.get(i).getWorktime()));
+					json.put("welderno",stime.get(i).getFwelder_id());
+					if(iutil.isNull(stime.get(i).getFname())){
+						json.put("name", stime.get(i).getFname());
+					}else{
+						json.put("name","未定义");
+					}
+					json.put("shutdowntime", (double)Math.round((days*24-stime.get(i).getWorktime())*100)/100);//关机时长
+					json.put("sjratio", (double)Math.round(stime.get(i).getWorktime()/(days*8)*100*100)/100);//上机率
+					json.put("effectiveratio", (double)Math.round(stime.get(i).getWorktime()/(stime.get(i).getWorktime())*100*100)/100);//有效焊接率
+					json.put("workratio", (double)Math.round(stime.get(i).getWorktime()/(days*8)*100*100)/100);//工作效率
+					json.put("worktime", (double)Math.round(days*8*100)/100);//工作时长
 					ary.add(json);
 				}
 			}
@@ -1612,7 +1529,7 @@ public class ItemChartController {
 			e.printStackTrace();
 		}
 		obj.put("rows", ary);
-		obj.put("total", total);
+		obj.put("total", ary.size());
 		return obj.toString();
 	}
 }
