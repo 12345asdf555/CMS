@@ -2597,9 +2597,10 @@
 				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>weldtime from tb_standby_over so 
-		INNER JOIN tb_welder w on w.fid = so.fwelder_id 
-		INNER JOIN tb_welding_machine m on m.fid = so.fmachine_id INNER JOIN tb_welded_junction j on j.fid = so.fjunction_id
-		INNER JOIN tb_insframework i on i.fid = w.fItemID and i.fid = so.fitemid and i.fid = m.finsframework_id and i.fid = j.fitemId
+		LEFT JOIN tb_welder w on w.fwelder_no = so.fwelder_id and w.fitemID = so.fitemid
+        LEFT JOIN tb_welding_machine m on m.fid = so.fmachine_id and m.finsframework_id = so.fitemid 
+        LEFT JOIN tb_welded_junction j on j.fwelded_junction_no = so.fjunction_id and j.fitemId = so.fitemid
+        INNER JOIN tb_insframework i on i.fid = so.fitemid
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
 		where fovertime/60>${num} 
 		<if test="dto!=null and dto!=''">
@@ -2632,9 +2633,10 @@
 				concat(DATE_FORMAT(fstarttime,'%Y-'),weekofyear(fstarttime))
 			</if>
 		</if>weldtime FROM tb_standby_over so 
-		INNER JOIN tb_welder w on w.fid = so.fwelder_id 
-        INNER JOIN tb_welding_machine m on m.fid = so.fmachine_id INNER JOIN tb_welded_junction j on j.fid = so.fjunction_id
-        INNER JOIN tb_insframework i on i.fid = w.fItemID and i.fid = so.fitemid and i.fid = m.finsframework_id and i.fid = j.fitemId
+		LEFT JOIN tb_welder w on w.fwelder_no = so.fwelder_id and w.fitemID = so.fitemid
+        LEFT JOIN tb_welding_machine m on m.fid = so.fmachine_id and m.finsframework_id = so.fitemid 
+        LEFT JOIN tb_welded_junction j on j.fwelded_junction_no = so.fjunction_id and j.fitemId = so.fitemid
+        INNER JOIN tb_insframework i on i.fid = so.fitemid
         where fovertime/60>${num} 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.time!=null and dto.time!=''">
