@@ -2659,6 +2659,7 @@
 				AND i.fid=#{dto.parent}
 			</if>
 		</if>
+		ORDER by starttime
 	</select> 
 	
 	<select id="getNewIdle" resultMap="dtoMap">

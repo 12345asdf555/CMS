@@ -9,7 +9,7 @@ var dtoTime1,dtoTime2,parent="";
 function setParam(){
 	dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-	var number = $("#number").val();
+	var number = $("#number").combobox('getValue');
 	chartStr += "&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number+"&parentflag="+parentflag;
 }
 
