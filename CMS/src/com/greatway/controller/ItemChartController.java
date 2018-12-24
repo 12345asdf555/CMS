@@ -1451,9 +1451,9 @@ public class ItemChartController {
 				for(int j=0;j<stime.size();j++){
 					if(wtime.get(i).getFwelder_id().equals(stime.get(j).getFwelder_id())){
 						flag = false;
-						json.put("boottime", (double)Math.round(wtime.get(i).getWorktime()+stime.get(j).getWorktime()));
-						json.put("weldtime", (double)Math.round(wtime.get(i).getWorktime()));
-						json.put("standbytime", (double)Math.round(stime.get(j).getWorktime()));
+						json.put("boottime", (double)Math.round(wtime.get(i).getWorktime()+stime.get(j).getWorktime()*100)/100);
+						json.put("weldtime", (double)Math.round(wtime.get(i).getWorktime()*100)/100);
+						json.put("standbytime", (double)Math.round(stime.get(j).getWorktime()*100)/100);
 						json.put("welderno", wtime.get(i).getFwelder_id());
 						if(iutil.isNull(wtime.get(i).getFname())){
 							json.put("name", wtime.get(i).getFname());
@@ -1476,8 +1476,8 @@ public class ItemChartController {
 					}
 				}
 				if(flag){
-					json.put("boottime",(double)Math.round(wtime.get(i).getWorktime()));
-					json.put("weldtime",(double)Math.round(wtime.get(i).getWorktime()));
+					json.put("boottime",(double)Math.round(wtime.get(i).getWorktime()*100)/100);
+					json.put("weldtime",(double)Math.round(wtime.get(i).getWorktime()*100)/100);
 					json.put("standbytime",0);
 					json.put("welderno",wtime.get(i).getFwelder_id());
 					if(iutil.isNull(wtime.get(i).getFname())){
@@ -1508,9 +1508,9 @@ public class ItemChartController {
 					}
 				}
 				if(flag){
-					json.put("boottime",(double)Math.round(stime.get(i).getWorktime()));
+					json.put("boottime",(double)Math.round(stime.get(i).getWorktime()*100)/100);
 					json.put("weldtime",0);
-					json.put("standbytime",(double)Math.round(stime.get(i).getWorktime()));
+					json.put("standbytime",(double)Math.round(stime.get(i).getWorktime()*100)/100);
 					json.put("welderno",stime.get(i).getFwelder_id());
 					if(iutil.isNull(stime.get(i).getFname())){
 						json.put("name", stime.get(i).getFname());
@@ -1519,8 +1519,8 @@ public class ItemChartController {
 					}
 					json.put("shutdowntime", (double)Math.round((days*24-stime.get(i).getWorktime())*100)/100);//关机时长
 					json.put("sjratio", (double)Math.round(stime.get(i).getWorktime()/(days*8)*100*100)/100);//上机率
-					json.put("effectiveratio", (double)Math.round(stime.get(i).getWorktime()/(stime.get(i).getWorktime())*100*100)/100);//有效焊接率
-					json.put("workratio", (double)Math.round(stime.get(i).getWorktime()/(days*8)*100*100)/100);//工作效率
+					json.put("effectiveratio", 0);//有效焊接率
+					json.put("workratio", 0);//工作效率
 					json.put("worktime", (double)Math.round(days*8*100)/100);//工作时长
 					ary.add(json);
 				}
