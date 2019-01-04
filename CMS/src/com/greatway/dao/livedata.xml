@@ -2125,7 +2125,7 @@
 	<select id="getExcessiveBack" resultMap="dtoMap">
 		SELECT o.fid,w.fwelder_no fwelder_id,w.fname wname ,j.fwelded_junction_no fjunction_id,m.fequipment_no fmachine_id,
 		i.fname iname,fstarttime starttime,fendtime endtime,A.fmax_electricity,A.fmin_electricity FROM tb_over_head o 
-		INNER JOIN tb_welder w on w.fid = o.fwelder_id INNER JOIN tb_welded_junction j on j.fid = o.fjunction_id 
+		INNER JOIN tb_welder w on w.fwelder_no = o.fwelder_id INNER JOIN tb_welded_junction j on j.fwelded_junction_no = o.fjunction_id 
 		INNER JOIN tb_welding_machine m on m.fid = o.fmachine_id 
 		INNER JOIN tb_insframework i on i.fid = o.fitemid and i.fid = m.finsframework_id and i.fid = w.fItemID and i.fid = j.fitemId
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent INNER JOIN tb_insframework insf on insf.fid = ins.fparent
