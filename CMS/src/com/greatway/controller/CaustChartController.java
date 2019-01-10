@@ -1071,20 +1071,24 @@ public class CaustChartController {
 				json.put("iname",m.getIname());
 				json.put("wname",m.getWname());
 				json.put("wid",m.getFwelder_id());
-				String[] str = m.getJidgather().split(",");
-				String search = "and (";
-				for(int i=0;i<str.length;i++){
-					search += " fid = "+str[i];
-					if(i<str.length-1){
-						search += " or";
+				if(iutil.isNull(m.getJidgather())){
+					String[] str = m.getJidgather().split(",");
+					/*String search = "and (";
+					for(int i=0;i<str.length;i++){
+						search += " fid = "+str[i];
+						if(i<str.length-1){
+							search += " or";
+						}
 					}
+					search += " )";
+					BigInteger dyne = lm.getDyneByJunctionno(search);
+					json.put("dyne",dyne);*/
+					json.put("num",str.length);
+				}else{
+					json.put("num",0);
 				}
-				search += " )";
-				BigInteger dyne = lm.getDyneByJunctionno(search);
-				json.put("dyne",dyne);
 				double weldtime = (double)Math.round(Double.valueOf(m.getWeldTime())*100)/100;
 				json.put("weldtime",weldtime);
-				json.put("num",str.length);
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -1136,7 +1140,7 @@ public class CaustChartController {
 							num1[0] = m.getMinnum()+"-"+(m.getMinnum()+m.getAvgnum());
 						}
 						for(int i=1;i<10;i++){
-							oldnum = m.getMinnum()+m.getAvgnum()*i+1;
+							oldnum = m.getMinnum()+m.getAvgnum()*i;
 							newnum = m.getMinnum()+m.getAvgnum()*(i+1);
 							num1[i] = oldnum+"-"+newnum;
 						}
@@ -1147,12 +1151,12 @@ public class CaustChartController {
 							num1[0] = m.getMinnum()+"-"+(m.getMinnum()+m.getAvgnum());
 						}
 						for(int i=1;i<9;i++){
-							oldnum = m.getMinnum()+m.getAvgnum()*i+1;
+							oldnum = m.getMinnum()+m.getAvgnum()*i;
 							newnum = m.getMinnum()+m.getAvgnum()*(i+1);
 							num1[i] = oldnum+"-"+newnum;
 						}
-						maxnum = m.getMinnum()+m.getAvgnum()*10+10;
-						num1[9] = newnum+1+"-"+maxnum;
+						maxnum = m.getMinnum()+m.getAvgnum()*10;
+						num1[9] = newnum+"-"+maxnum;
 					}
 					efficiency = lm.getEfficiencyChart(dto, parent, m.getMinnum(), m.getAvgnum());
 					for(ModelDto e:efficiency){
@@ -1160,7 +1164,7 @@ public class CaustChartController {
 						num2[0] = e.getSum1()/sum*100;num2[1] = e.getSum2()/sum*100;
 						num2[2] = e.getSum3()/sum*100;num2[3] = e.getSum4()/sum*100;
 						num2[4] = e.getSum5()/sum*100;num2[5] = e.getSum6()/sum*100;
-						num2[6] = e.getSum7()/sum*100;num2[7] = e.getSum7()/sum*100;
+						num2[6] = e.getSum7()/sum*100;num2[7] = e.getSum8()/sum*100;
 						num2[8] = e.getSum9()/sum*100;num2[9] = e.getSum10()/sum*100;
 					}
 					for(int i=0;i<num2.length;i++){
