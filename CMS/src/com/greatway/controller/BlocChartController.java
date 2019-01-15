@@ -2209,8 +2209,10 @@ public class BlocChartController {
 		int usertype = insm.getTypeById(dto.getParent());
 		String insftype = "itemid";
 		if(usertype==20){
-			insftype = "fid";
+			insftype = "";
 		}else if(usertype==21){
+			insftype = "fid";
+		}else if(usertype==22){
 			insftype = "caustid";
 		}
 		List<ModelDto> weldertime = lm.getWelderWorkTime(page, dto, insftype);
@@ -2243,11 +2245,11 @@ public class BlocChartController {
 			e.printStackTrace();
 		}
 		if(avg!=null){
-			obj.put("avgWorktime", avg.getWorktime());
-			obj.put("avgtime", avg.getTime());
+			obj.put("avgWorktime", (double)Math.round(avg.getWorktime()*100)/100);
+			obj.put("avgtime", (double)Math.round(avg.getTime()*100)/100);
 		}else{
 			obj.put("avgWorktime", 0);
-			obj.put("avgTime", 0);
+			obj.put("avgtime", 0);
 		}
 		obj.put("total", total);
 		obj.put("rows", ary);

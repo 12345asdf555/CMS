@@ -4,10 +4,9 @@ $(function(){
 	dgDatagrid();
 })
 
-
-/*$(document).ready(function(){
+$(document).ready(function(){
 	showChart();
-})*/
+})
 
 //获取组织机构下拉框
 function parentCombobox(){
@@ -30,9 +29,6 @@ function parentCombobox(){
 	$("#parent").combobox({
 		onChange: function (newvalue,oldvalue) {
 			$("#parent").combobox('setText',$("#parent").combobox('getText').trim());
-			if(flagnum==1){
-				serach();
-			}
 		}
 	});
 	var data = $("#parent").combobox('getData');
@@ -52,30 +48,7 @@ var array1 = new Array();
 var array2 = new Array();
 var array3 = new Array();
 var avgworktime=0,avgtime=0;
-/*function showChart(){
-	 $.ajax({  
-        type : "post",  
-        async : false,
-        url : "blocChart/getWelderWorkTime",
-        data : {},  
-        dataType : "json", //返回数据形式为json  
-        success : function(result) {  
-            if (result) {
-            	for(var i=0;i<result.rows.length;i++){
-            		array1.push(result.rows[i].welderno);
-            		array2.push(result.rows[i].worktime);
-            		array3.push(result.rows[i].time);
-            	}
-            	avgworktime = result.avgWorktime();
-            	avgtime = result.avgTime();
-            }  
-        },  
-       error : function(errorMsg) {  
-            alert("请求数据失败啦,请联系系统管理员!");  
-        }  
-   }); 
-	 chart();
-}*/
+var charts,option;
 function showChart(){
    	//初始化echart实例
 	charts = echarts.init(document.getElementById("charts"));
@@ -89,7 +62,7 @@ function showChart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['焊接时长(h)','开机时长(h)','制度时长(h)','工作效率','有效焊接率'],
+			data:['焊接时长(h)','工作时长(h)'],
 			x : 'left',
 			left : '50'
 		},
@@ -242,25 +215,37 @@ function dgDatagrid(){
 			}]],
 		    toolbar : '#dgTable_btn',
 		    onLoadSuccess: function(data){
-		    	/*array1.push(result.rows[i].welderno);
-        		array2.push(result.rows[i].worktime);
-        		array3.push(result.rows[i].time);*/
-        	
+		    	//加载图表
+		    	array1.length = 0;
+		    	array2.length = 0;
+		    	array3.length = 0;
 	        	avgworktime = data.avgWorktime;
-	        	avgtime = data.avgTime;
+	        	avgtime = data.avgtime;
 	        	if(data.rows.length!=0){
-	        		for(var i=0;i<data.rows.length;i++)
-	        		array1.push(data.rows[i].welderno);
-	        		array2.push(data.rows[i].worktime);
-	        		array3.push(data.rows[i].time);
+	        		for(var i=0;i<data.rows.length;i++){
+		        		array1.push(data.rows[i].welderno);
+		        		array2.push(data.rows[i].worktime);
+		        		array3.push(data.rows[i].time);
+	        		}
 	        	}
-		    	
-//		    	showChart();
+		    	showChart();
 		    }
 	 })
 }
 
-
+//导出到Excel
+function exporWelderWorkTime(){
+	$.messager.confirm("提示", "文件默认保存在浏览器的默认路径，<br/>如需更改路径请设置浏览器的<br/>“下载前询问每个文件的保存位置“属性！", function(result) {
+		if (result) {
+			var url = "export/exporWelderWorkTime?parent="+$("#parent").combobox('getValue')+"&time1="+$("#dtoTime1").datetimebox('getValue')+"&time2="+$("#dtoTime2").datetimebox('getValue');
+			var img = new Image();
+			img.src = url; // 设置相对路径给Image, 此时会发送出请求
+			url = img.src; // 此时相对路径已经变成绝对路径
+			img.src = null; // 取消请求
+			window.location.href = encodeURI(url);
+		}
+	});
+}
 
 //监听窗口大小变化
 window.onresize = function() {
@@ -275,43 +260,3 @@ function domresize() {
 	});
 	echarts.init(document.getElementById('charts')).resize();
 }
-
-
-/*function loadData(){
-	if(flagnum!=1){
-		$("#chartLoading").show();
-	}
-	flagnum = 0;
-	$("#explain").html("<span>操作者率</span><hr><ul><li>展现某一时间段内，各部门操作者上班时长、焊接时长以及工作效率</li><li>上机率=开机时长/上班时长</li>"+
-					"<li>有效焊接率=焊接时长/开机时长</li><li>工作效率=焊接时长/上班时长</li></ul>");
-	if(type==20){
-		position = 0;
-		dgname = "部门";
-		activeurl = "blocChart/getOperatorEfficiency?flag=0";
-	}else if(type==21){
-		position = 0;
-		dgname = "部门";
-		activeurl = "blocChart/getOperatorEfficiency?flag=1";
-	}else if(type==22){
-		position = 1;
-		dgname = "部门";
-		activeurl = "blocChart/getOperatorEfficiency?flag=2";
-	}else if(type==23){
-		position = 1;
-		dgname = "姓名";
-		activeurl = "itemChart/getOperatorEfficiency?flag=3";
-		$("#explain").html("<span>操作者率</span><hr><ul><li>展现某一时间段内，各部门操作者上班时长、焊接时长以及工作效率(取最高五位及最低五位)</li><li>上机率=开机时长/上班时长</li>"+
-		"<li>有效焊接率=焊接时长/开机时长</li><li>工作效率=焊接时长/上班时长</li></ul>");
-	}
-	array0 = new Array();
-	array1 = new Array();
-	array2 = new Array();
-	array3 = new Array();
-	array4 = new Array();
-	array5 = new Array();
-	setTimeout(function() {
-		dgDatagrid();
-		showChart();
-	}, 500);
-}*/
-
