@@ -49,4 +49,16 @@
 		select tb_authorities.authorities_name from tb_authorities left join tb_authorities_resources on tb_authorities.id = tb_authorities_resources.authorities_id left join tb_resources on tb_authorities_resources.resources_id = tb_resources.id where tb_resources.resources_address =#{resourceAddress} 
 	</select>
 	
+	<select id="getResourceByUserid" resultType="Resources">
+		SELECT resources_name resourceName,r.resources_address resourceAddress FROM tb_resources r INNER JOIN tb_authorities_resources ar on r.id = ar.resources_id INNER JOIN tb_roles_authorities ra on ra.authority_id = ar.authorities_id INNER JOIN tb_users_roles ur on ur.roles_id = ra.roles_id 
+		where ur.users_id=#{id}
+	</select>
+	
+	<select id="getResourceByAdmin" resultType="Resources">
+		SELECT resources_name resourceName,resources_address resourceAddress FROM tb_resources 
+	</select>
+	
+	<select id="getAuthName" resultType="String">
+		SELECT authorities_name FROM tb_authorities a INNER JOIN tb_roles_authorities ra on ra.authority_id = a.id INNER JOIN tb_users_roles ur on ur.roles_id = ra.roles_id where ur.users_id = #{id}
+	</select>
 </mapper>

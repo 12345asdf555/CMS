@@ -21,7 +21,9 @@ import com.greatway.model.Welcome;
 import com.greatway.page.Page;
 import com.greatway.util.IsnullUtil;
 import com.spring.model.MyUser;
+import com.spring.model.Resources;
 import com.spring.model.User;
+import com.spring.service.ResourceService;
 import com.spring.service.UserService;
 
 import net.sf.json.JSONArray;
@@ -36,6 +38,9 @@ public class MainController {
 	private int total = 0;
 	@Autowired
 	private UserService user;
+	
+	@Autowired
+	private ResourceService rs;
 	
 	@Autowired
 	private WelcomeManager wm;
@@ -120,6 +125,7 @@ public class MainController {
 	@ResponseBody
 	public String getUserInsframework(HttpServletRequest request){
 		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
 		try{
 			//获取用户id
 			Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -129,10 +135,31 @@ public class MainController {
 			}
 			MyUser myuser = (MyUser)obj;
 			User list = user.getUserInsframework(new BigInteger(myuser.getId()+""));
+			List<String> name = rs.getAuthName((int)myuser.getId());
+			List<Resources> menu = null;
+			boolean flag = true;
+			for(int i=0;i<name.size();i++){
+				if(name.get(i).equalsIgnoreCase("ROLE_ADMIN")){
+					flag = false;
+					menu = rs.getResourceByAdmin();
+					break;
+				}
+			}
+			if(flag){
+				menu = rs.getResourceByUserid((int)myuser.getId());
+			}
+			for(int i=0;i<menu.size();i++){
+				json.put("resource", menu.get(i).getResourceAddress().substring(1));
+				ary.add(json);
+			}
+			//获取服务器ip地址
+			String ipurl = request.getSession().getServletContext().getInitParameter("ipurl");
+			json.put("ipurl", ipurl);
 			json.put("id", myuser.getId());
 			json.put("uname", list.getUserName());
 			json.put("type", list.getType());
 			json.put("insframework", list.getInsname());
+			json.put("ary", ary);
 		}catch(Exception e){
 			json.put("afreshLogin", "您的Session已过期，请重新登录！");
 		}

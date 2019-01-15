@@ -5,50 +5,7 @@ $(function() {
 })
 
 var type;
-/*function hierarchyLoding() {
-	$.ajax({
-		type : "post",
-		async : false,
-		url : "hierarchy/goIndex",
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (result) {
-				if (result.hierarchy == 1) { //集团层
-					$('#accordiondiv').accordion('add', {
-						title : '<i class="iconfont icon-ren"></i>    报表分析',
-						content : $("#bloc").html(),
-						selected : false
-					});
-				} else if (result.hierarchy == 2 || result.hierarchy == 3) { //公司层/事业部层
-					if (type == 21) {
-						$('#accordiondiv').accordion('add', {
-							title : '<i class="iconfont icon-ren"></i>    报表分析',
-							content : $("#company").html(),
-							selected : false
-						});
-					} else if (type == 22) {
-						$('#accordiondiv').accordion('add', {
-							title : '<i class="iconfont icon-ren"></i>    报表分析',
-							content : $("#caust").html(),
-							selected : false
-						});
-					}
-				} else if (result.hierarchy == 4) { //项目部层
-					$('#accordiondiv').accordion('add', {
-						title : '<i class="iconfont icon-ren"></i>    报表分析',
-						content : $("#item").html(),
-						selected : false
-					});
-				}
-			}
-		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	});
-}*/
-
+var resourceary = [],xmlname;
 function getUserInsframework() {
 	$.ajax({
 		type : "post",
@@ -62,8 +19,21 @@ function getUserInsframework() {
 			$("#uname").val(result.uname);
 			$("#uid").val(result.id);
 			$("#userInsframework").append(str);
-			//			hierarchyLoding();
+			for(var r=0;r<result.ary.length;r++){
+				resourceary.push(result.ary[r].resource);
+			}
 			if (type == 20) {
+				xmlname = "blocMenu";
+			} else if (type == 21) {
+				xmlname = "companyMenu";
+			} else if (type == 22) {
+				xmlname = "caustMenu";
+			} else if (type == 23) {
+				xmlname = "itemMenu";
+			}
+			anaylsis(result.ipurl);
+			//			hierarchyLoding();
+			/*if (type == 20) {
 				$('#accordiondiv').accordion('add', {
 					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;设备分析</div>',
 					content : $("#bloc1").html()
@@ -108,15 +78,185 @@ function getUserInsframework() {
 				title : '<div><img src="resources/images/user.png"/>&nbsp;&nbsp;管理员</div>',
 				content : $("#admin").html(),
 				selected : false
-			});
+			});*/
 		},
 		error : function(errorMsg) {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	})
 }
+function loadxmlDoc(file) {
+	try {
+		//IE
+		xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+	} catch (e) {
+		//Firefox, Mozilla, Opera, etc
+		xmlDoc = document.implementation.createDocument("", "", null);
+	}
 
-function openSMSUser(){
+	try {
+		xmlDoc.async = false;
+		xmlDoc.load(file); //chrome没有load方法
+	} catch (e) {
+		//针对Chrome,不过只能通过http访问,通过file协议访问会报错
+		var xmlhttp = new window.XMLHttpRequest();
+		xmlhttp.open("GET", file, false);
+		xmlhttp.send(null);
+		xmlDoc = xmlhttp.responseXML.documentElement;
+	}
+	return xmlDoc;
+}
+
+var resourceary = [],menuindex = 0;
+function anaylsis(ipurl){
+	var object = loadxmlDoc(ipurl+"ConfigFile/"+xmlname+".xml");
+	var menuinfo = object.getElementsByTagName("Menuinfo");
+	for(var m = 1; m <= menuinfo.length; m++){
+		for (var i = 0; i < menuinfo.length; i++) {
+			var showIndex = menuinfo[i].getElementsByTagName("ShowIndex");//显示位置
+			if (document.all) {
+				showIndex = showIndex[0].text;
+			} else {
+				showIndex = showIndex[0].textContent;
+			}
+			if(m == showIndex){
+				var menuName = menuinfo[i].getElementsByTagName("Name");//菜单名
+				var submenus = menuinfo[i].getElementsByTagName("Submenus");//二级菜单
+				var imgName = menuinfo[i].getElementsByTagName("ImgName");//菜单图标
+				var array = [], firstcontext = "";
+				if (document.all) {
+					menuName = menuName[0].text,imgName = imgName[0].text;
+				} else {
+					menuName = menuName[0].textContent,imgName = imgName[0].textContent;
+				}
+				var context = '<ul id="ul'+showIndex+'">';
+				for (var x = 0; x < submenus.length; x++) {
+					var firstName = submenus[x].getElementsByTagName("FirstName");
+					var firstResource = submenus[x].getElementsByTagName("FirstResource");
+					var firstimgName = submenus[x].getElementsByTagName("FirstImgName");//菜单图标
+					var firstsubmenus = submenus[x].getElementsByTagName("FirstSubmenus");//三级菜单
+					var firstshowIndex = submenus[x].getElementsByTagName("FirstShowIndex");//显示位置
+					var subnenustext,/*flag = true,*/lastcontext = "";
+					if (document.all) { //IE
+						firstName = firstName[0].text,firstResource = firstResource[0].text,firstimgName = firstimgName[0].text,
+						subnenustext = firstsubmenus[0].text,firstshowIndex = firstshowIndex[0].text;
+					} else {
+						firstName = firstName[0].textContent,firstResource = firstResource[0].textContent,firstimgName = firstimgName[0].textContent,
+						subnenustext = firstsubmenus[0].textContent,firstshowIndex = firstshowIndex[0].textContent;
+					}
+					/*if(subnenustext.trim()){
+						flag = false;
+						array.push(firstshowIndex);
+						firstcontext +='<li onclick="changeColor(this)" id="'+firstshowIndex+'"><a href="javascript:openSubmenus('+showIndex+','+firstshowIndex+')">'+
+						'<div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="resources/images/arrow.png" id="subimg'+showIndex+'_'+firstshowIndex+'"/></div>'+
+						'</a></li><li><div id="div'+showIndex+'_'+firstshowIndex+'" style="display:none;"><ul id="last'+firstshowIndex+'">';
+						for (var j = 0; j < firstsubmenus.length; j++) {
+							var LastName = firstsubmenus[j].getElementsByTagName("LastName");
+							var LastResource = firstsubmenus[j].getElementsByTagName("LastResource");
+							var LastimgName = firstsubmenus[j].getElementsByTagName("LastImgName");//菜单图标
+							var lastshowIndex = firstsubmenus[j].getElementsByTagName("LastShowIndex");//显示位置
+							if (document.all) { //IE
+								LastName = LastName[0].text,LastResource = LastResource[0].text,LastimgName = LastimgName[0].text,lastshowIndex = lastshowIndex[0].text;
+							} else {
+								LastName = LastName[0].textContent,LastResource = LastResource[0].textContent,LastimgName = LastimgName[0].textContent,lastshowIndex = lastshowIndex[0].textContent;
+							}
+							if(resourceary.indexOf(LastResource)!=-1){
+								if(LastResource == "td/AllTd"){
+									lastcontext += '<li onclick="changeColor(this)" id="last'+lastshowIndex+'"><a href="javascript:openLive()" ><div><img src="resources/images/'+LastimgName+'" />&nbsp;&nbsp;'+LastName+'</div></a></li>';
+								}else{
+									lastcontext += '<li onclick="changeColor(this)" id="last'+lastshowIndex+'"><a href="javascript:openTab(\''+LastName+'\',\''+LastResource+'\')" ><div><img src="resources/images/'+LastimgName+'" />&nbsp;&nbsp;'+LastName+'</div></a></li>';
+								}
+							}
+						}
+						firstcontext += lastcontext+'</ul></div></li>';
+						if(lastcontext == null || lastcontext == ""){
+							firstcontext = "";
+						}
+					}*/
+					/*if(flag){*/
+						if(resourceary.indexOf(firstResource)!=-1){
+							var bottonnum = 0;
+							if(x == submenus.length-1){
+								bottonnum = 15;
+							}
+							if(firstResource == "td/newAllTd"){
+								firstcontext +='<li onclick="changeColor('+menuindex+')" id="'+firstshowIndex+'"><a href="javascript:openLive()" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="click'+menuindex+'"/></div></a></li>';
+							}else{
+								firstcontext +='<li style="margin-bottom:'+bottonnum+'px" onclick="changeColor('+menuindex+')" id="'+firstshowIndex+'"><a href="javascript:openTab(\''+firstName+'\',\''+firstResource+'\')" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="click'+menuindex+'"/></div></a></li>';
+								
+								
+							}
+							menuindex++;
+						}
+					/*}*/
+				}
+				context += firstcontext+'</ul>';
+				if(firstcontext != null && firstcontext != ""){
+					//动态渲染easyui的菜单样式
+					$('#accordiondiv').accordion('add', {
+						title : menuName,
+						content : context,
+						iconCls: imgName,
+						selected : false
+					});
+					menusort("ul"+showIndex/*,true*/);
+					/*for(var f=0;f<array.length;f++){
+						menusort("last"+array[f],false);
+					}*/
+				}
+				$("#accordiondiv").accordion({
+		            selected:0
+		        })
+			}
+		}
+	}
+	$.parser.parse($("#accordiondiv"));
+}
+
+//根据位置进行排序
+function menusort(name/*,flag*/){
+	var ul=document.getElementById(name);
+    var li=ul.getElementsByTagName("li");
+    var list=[];
+    //将li添加到list数组
+    for(var n=0;n<li.length;n++){
+    	var subid = li[n].id.substring(0, 4);
+    	/*if(flag){*/
+        	if(subid!="last"){
+            	list.push(li[n]);
+        	}
+    	/*}else{
+            list.push(li[n]);
+    	}*/
+    	
+    }
+    //对数组进行比较排序
+    list.sort(function (li1,li2){
+    	var n1,n2
+    	/*if(flag){*/
+    		n1=parseInt(li1.id);
+    		n2=parseInt(li2.id);
+    	/*}else{
+    		n1=parseInt(li1.id.substring(4));
+    		n2=parseInt(li2.id.substring(4));
+    	}*/
+        return n1-n2;
+    })
+    for(var x=0;x<list.length;x++){
+       ul.appendChild(list[x]);
+    }
+}
+
+//打开标签页
+function openTab(name,resource){
+	addTab(name,resource);
+}
+
+function openLive(){
+	window.open("td/newAllTd");
+}
+
+/*function openSMSUser(){
 	addTab("短信用户管理", "user/goSMSUser");
 }
 
@@ -370,7 +510,7 @@ function openBlocIdle() {
 }
 function openDictionary() {
 	addTab("字典管理", 'Dictionary/goDictionary')
-}
+}*/
 function addTab(title, url) {
 	//该面板是否已打开
 	if (!$("#tabs").tabs('exists', title)) {
@@ -459,11 +599,14 @@ function tabsIncident() {
 }
 
 //选中时改变背景颜色
-function changeColor(id) {
-	for(var i=1;i<=85;i++){
-		$("#clickid"+i).hide();
+function changeColor(obj_id) {
+	for(var i=0;i<=menuindex;i++){
+		if(!$("#click"+i).is(":hidden")){
+			$("#click"+i).hide();
+			break;
+		}
 	}
-	$("#clickid"+id).show();
+	$("#click"+obj_id).show();
 }
 
 function updatePwd() {

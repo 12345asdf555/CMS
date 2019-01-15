@@ -58,13 +58,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div region="west" hide="true" split="true" title= "导航菜单" style="width: 200px;background: #1d294d" id="west" data-options="iconCls:'icon-navigation'">
 	  	<div class="easyui-accordion" border="false" id="accordiondiv"></div>
 	</div>
-	<!-- 集团 -->
+	<!-- 集团
 	<div id="bloc1" >
     	<ul>
     		<li onclick="changeColor(74)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid74"/></div></a></li>
     		<li onclick="changeColor(1)"><a href="javascript:openBlocLoads()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备负荷率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid1"/></div></a></li>
     		<li onclick="changeColor(3)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid3"/></div></a></li>
-<!--     		<li onclick="changeColor(4)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid4"/></div></a></li> -->
+    		<li onclick="changeColor(4)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid4"/></div></a></li>
     		<li onclick="changeColor(5)"><a href="javascript:openMaintenance()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;设备维修率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid5"/></div></a></li>
     		<li onclick="changeColor(6)"><a href="javascript:openBlocIdle()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;设备闲置率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid6"/></div></a></li>
     		<li onclick="changeColor(7)"><a href="javascript:openRunTime()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备运行时长&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid7"/></div></a></li>
@@ -84,13 +84,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(14)" class="bootomdstyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid14"/></div></a></li>
     	</ul>
     </div>
-	<!-- 公司 -->
+	公司
     <div id="company1" >
     	<ul>
     		<li onclick="changeColor(15)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid15"/></div></a></li>
     		<li onclick="changeColor(16)"><a href="javascript:openCompanyLoads()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备负荷率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid16"/></div></a></li>
     		<li onclick="changeColor(18)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid18"/></div></a></li>
-<!--     		<li onclick="changeColor(19)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率&nbsp;</div><img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid19"/></a></li> -->
+    		<li onclick="changeColor(19)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率&nbsp;</div><img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid19"/></a></li>
     		<li onclick="changeColor(20)"><a href="javascript:openMaintenance()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;设备维修率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid20"/></div></a></li>
     		<li onclick="changeColor(21)"><a href="javascript:openCompanyIdle()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;设备闲置率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid21"/></div></a></li>
     		<li onclick="changeColor(22)"><a href="javascript:openRunTime()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备运行时长&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid22"/></div></a></li>
@@ -110,13 +110,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(29)" class="bootomdstyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid29"/></div></a></li>
     	</ul>
     </div>
-	<!-- 事业部 -->
+	事业部
     <div id="caust1" >
     	<ul>
     		<li onclick="changeColor(30)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid30"/></div></a></li>
     		<li onclick="changeColor(31)"><a href="javascript:openCaustLoads()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备负荷率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid31"/></div></a></li>
     		<li onclick="changeColor(33)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid33"/></div></a></li>
-<!--     		<li onclick="changeColor(34)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率&nbsp;</div><img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid34"/></a></li> -->
+    		<li onclick="changeColor(34)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率&nbsp;</div><img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid34"/></a></li>
     		<li onclick="changeColor(35)"><a href="javascript:openMaintenance()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;设备维修率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid35"/></div></a></li>
     		<li onclick="changeColor(36)"><a href="javascript:openCaustIdle()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;设备闲置率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid36"/></div></a></li>
     		<li onclick="changeColor(37)"><a href="javascript:openRunTime()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备运行时长&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid37"/></div></a></li>
@@ -136,13 +136,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(44)" class="bootomdstyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid44"/></div></a></li>
     	</ul>
     </div>
-	<!-- 项目部 -->
+	项目部
     <div  id="item1" >
     	<ul>
     		<li onclick="changeColor(45)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机实时状态监测&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid45"/></div></a></li>
     		<li onclick="changeColor(46)"><a href="javascript:openItemLoads()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备负荷率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid46"/></div></a></li>
     		<li onclick="changeColor(48)"><a href="javascript:openUseratio()"><div><img src="resources/images/s-7.png" />&nbsp;&nbsp;设备利用率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid48"/></div></a></li>
-<!--     		<li onclick="changeColor(49)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid49"/></div></a></li> -->
+    		<li onclick="changeColor(49)"><a href="javascript:openFaultRatio()"><div><i class="iconfont icon-bijiben"></i>设备故障率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid49"/></div></a></li>
     		<li onclick="changeColor(50)"><a href="javascript:openMaintenance()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;设备维修率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid50"/></div></a></li>
     		<li onclick="changeColor(51)"><a href="javascript:openItemIdle()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;设备闲置率&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid51"/></div></a></li>
     		<li onclick="changeColor(52)"><a href="javascript:openRunTime()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;设备运行时长&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid52"/></div></a></li>
@@ -162,7 +162,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<li onclick="changeColor(59)" class="bootomdstyle"><a href="javascript:openOverproofRecall()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊接工艺超标回溯&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid59"/></div></a></li>
     	</ul>
     </div>
-	<!-- 管理员 -->
+	管理员
 	<div id="admin">
 		<ul>
 			<li onclick="changeColor(60)"><a href="javascript:openUser()"><div><img src="resources/images/c-1.png" />&nbsp;&nbsp;用户管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid60"/></div></a></li>
@@ -176,13 +176,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<li onclick="changeColor(68)"><a href="javascript:openWeldingMachine()"><div><img src="resources/images/c-4.png" />&nbsp;&nbsp;焊机设备管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid68"/></div></a></li>
 			<li onclick="changeColor(69)"><a href="javascript:openMachineMigrate()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机设备迁移&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid69"/></div></a></li>
 		    <li onclick="changeColor(70)"><a href="javascript:openMachine()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;维修记录管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid70"/></div></a></li>
-<!-- 		    <li onclick="changeColor(71)"><a href="javascript:openFault()"><div><i class="iconfont icon-bijiben"></i>故障代码管理&nbsp;</div><img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid71"/></a></li> -->
+		    <li onclick="changeColor(71)"><a href="javascript:openFault()"><div><i class="iconfont icon-bijiben"></i>故障代码管理&nbsp;</div><img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid71"/></a></li>
 		    <li onclick="changeColor(72)"><a href="javascript:openManufacturer()"><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;生产厂商管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid72"/></div></a></li>
 	        <li onclick="changeColor(73)"><a href="javascript:openInsframework()"><div><img src="resources/images/c-11.png" />&nbsp;&nbsp;组织机构管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid73"/></div></a></li>
 	        <li onclick="changeColor(74)"><a href="javascript:openGather()"><div><img src="resources/images/s-7.png"/>&nbsp;&nbsp;采集模块管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid74"/></div></a></li>
-<!-- 	   		<li style="margin-bottom: 10px;" onclick="changeColor(83)"><a href="javascript:openSMSUser()"><div><img src="resources/images/c-1.png" />&nbsp;&nbsp;短信用户管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid83"/></div></a></li> -->
+	   		<li style="margin-bottom: 10px;" onclick="changeColor(83)"><a href="javascript:openSMSUser()"><div><img src="resources/images/c-1.png" />&nbsp;&nbsp;短信用户管理&nbsp;<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="clickid83"/></div></a></li>
 		</ul>
-    </div>
+    </div> -->
 	<div id="mainPanle" region="center" style="background: white; overflow-y: hidden">
 		<div id="tabs" class="easyui-tabs" fit="true" border="false"></div>
 		<div id="tabMenu" class="easyui-menu" style="width:150px">

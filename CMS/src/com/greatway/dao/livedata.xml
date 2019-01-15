@@ -2404,7 +2404,7 @@
 		select fid,fname,caustid,iname,itemid,wname,sum(weldtime) total from (
 		select fid,fname,caustid,iname,itemid,wname,count(fwelder_id)*#{time} weldtime,dates from (
 		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,fwelder_id,DATE_FORMAT( fstarttime,'%Y-%m-%d') dates from tb_work tw 
-		INNER JOIN tb_welder w on w.fwelder_no = tw.fwelder_id  and tw.fItemID and i.fid = w.fItemID
+		INNER JOIN tb_welder w on w.fwelder_no = tw.fwelder_id  and tw.fItemID = w.fItemID
 		INNER JOIN tb_insframework i on i.fid = tw.fItemID
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
@@ -2418,7 +2418,7 @@
 		</if> group by i.fid,fwelder_id,dates 
 		UNION 
 		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,fwelder_id,DATE_FORMAT( fstarttime,'%Y-%m-%d') dates from tb_standby ts 
-		INNER JOIN tb_welder w on w.fwelder_no = ts.fwelder_id and ts.fItemID and i.fid = w.fItemID
+		INNER JOIN tb_welder w on w.fwelder_no = ts.fwelder_id and ts.fItemID = w.fItemID
 		INNER JOIN tb_insframework i on i.fid = ts.fItemID
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
@@ -2454,7 +2454,7 @@
 		UNION all
 		select insf.fid, insf.fname,ins.fid caustid,ins.fname iname,i.fid itemid,i.fname wname,SUM(fstandbytime)/60/60 time,
 		0 wtime,SUM(fstandbytime)/60/60 stime from tb_standby ts left JOIN tb_welder w on w.fwelder_no = ts.fwelder_id  and ts.fItemID = w.fItemID
-		INNER JOIN tb_insframework i on i.fid = ts.fItemIDINNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework i on i.fid = ts.fItemID INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">

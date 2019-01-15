@@ -16,4 +16,7 @@ public interface ResourceService {
 	List<String> getResourcesByAuthName(String authName);
 	int getResourcenameCount(String resourceName);
 	List<String> getAuthByRes(String url);
+	List<Resources> getResourceByUserid(int id);
+	List<String> getAuthName(int id);
+	List<Resources> getResourceByAdmin();
 }
