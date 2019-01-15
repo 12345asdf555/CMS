@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      <div style="margin-bottom: 5px;margin-left:10px;">
 		      	<input type="radio" name="importDg" value="0" style="width:25px;"/>当前
 		      	<input type="radio" name="importDg" value="1" style="width:25px;" checked="checked"/>全部
-		        <a href="javascript:insertSearchWelder();" class="easyui-linkbutton" iconCls="icon-excel" >导出</a>
+		        <a href="javascript:exporWelderWorkTime();" class="easyui-linkbutton" iconCls="icon-excel" >导出</a>
 		      </div>
 		    </div>&nbsp;&nbsp;
 	    	<table id="dg" style="table-layout: fixed; width:100%;"></table>
