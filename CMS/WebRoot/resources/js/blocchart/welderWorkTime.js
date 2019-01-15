@@ -237,12 +237,15 @@ function dgDatagrid(){
 function exporWelderWorkTime(){
 	$.messager.confirm("提示", "文件默认保存在浏览器的默认路径，<br/>如需更改路径请设置浏览器的<br/>“下载前询问每个文件的保存位置“属性！", function(result) {
 		if (result) {
-			var url = "export/exporWelderWorkTime?parent="+$("#parent").combobox('getValue')+"&time1="+$("#dtoTime1").datetimebox('getValue')+"&time2="+$("#dtoTime2").datetimebox('getValue');
+			var page = $('#dg').datagrid('getPager').data("pagination").options.pageNumber;
+			var rows = $('#dg').datagrid('getPager').data("pagination").options.pageSize;
+			var url = "export/exporWelderWorkTime?parent="+$("#parent").combobox('getValue')+"&time1="+$("#dtoTime1").datetimebox('getValue')+
+			"&time2="+$("#dtoTime2").datetimebox('getValue')+"&page="+page+"&rows="+rows+"&status="+$("input[name='importDg']:checked").val();;
 			var img = new Image();
 			img.src = url; // 设置相对路径给Image, 此时会发送出请求
 			url = img.src; // 此时相对路径已经变成绝对路径
 			img.src = null; // 取消请求
-			window.location.href = encodeURI(url);
+			window.location.href = url;
 		}
 	});
 }
@@ -255,7 +258,7 @@ window.onresize = function() {
 //改变表格，图表高宽
 function domresize() {
 	$("#dg").datagrid('resize', {
-		height : $("#dgdiv").height(),
+		height : $("#dgdiv").height()-50,
 		width : $("#dgdiv").width()
 	});
 	echarts.init(document.getElementById('charts')).resize();

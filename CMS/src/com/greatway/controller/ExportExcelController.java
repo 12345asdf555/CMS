@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.manager.InsframeworkManager;
@@ -30,6 +31,7 @@ import com.greatway.manager.WeldingMachineManager;
 import com.greatway.model.Gather;
 import com.greatway.model.WeldingMachine;
 import com.greatway.model.WeldingMaintenance;
+import com.greatway.page.Page;
 import com.greatway.util.CommonExcelUtil;
 import com.greatway.util.IsnullUtil;
 
@@ -182,9 +184,13 @@ public class ExportExcelController {
 	public ResponseEntity<byte[]> exporWelderWorkTime(HttpServletRequest request,HttpServletResponse response){
 		File file = null;
 		try {
+			int pageIndex = Integer.parseInt(request.getParameter("page"));
+			int pageSize = Integer.parseInt(request.getParameter("rows"));
+			Page page = new Page(pageIndex,pageSize,0);
 			String parentid = request.getParameter("parent");
 			String time1 = request.getParameter("time1");
 			String time2 = request.getParameter("time2");
+			int status = Integer.parseInt(request.getParameter("status"));
 			WeldDto dto = new WeldDto();
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -202,7 +208,15 @@ public class ExportExcelController {
 			}else if(usertype==21){
 				insftype = "caustid";
 			}
-			List<ModelDto> list = ldm.getWelderWorkTime(dto, insftype);
+			List<ModelDto> list = null;
+			if(status == 1){
+				list = ldm.getWelderWorkTime(dto, insftype);
+			}else{
+				list = ldm.getWelderWorkTime(page, dto, insftype);
+				if(list != null){
+					PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
+				}
+			}
 			
 			String[] titles = new String[]{"姓名","编号","焊接时长","工作时长"};
 			Object[][] data = new Object[list.size()][4];
