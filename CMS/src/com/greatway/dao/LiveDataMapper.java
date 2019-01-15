@@ -172,4 +172,8 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 
 	List<ModelDto> getMachineTypeTotal(@Param("parent")BigInteger parent);
 	
+	List<ModelDto> getWelderWorkTime(@Param("dto")WeldDto dto,@Param("insftype")String insftype);
+	
+	ModelDto getWelderAvgWorkTime(@Param("dto")WeldDto dto);
+	
 }

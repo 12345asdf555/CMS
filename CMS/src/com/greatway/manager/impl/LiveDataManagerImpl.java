@@ -822,4 +822,20 @@ public class LiveDataManagerImpl implements LiveDataManager {
 		return live.getMachineTypeTotal(parent);
 	}
 
+	@Override
+	public List<ModelDto> getWelderWorkTime(Page page, WeldDto dto, String insftype) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getWelderWorkTime(dto, insftype);
+	}
+
+	@Override
+	public List<ModelDto> getWelderWorkTime(WeldDto dto, String insftype) {
+		return live.getWelderWorkTime(dto, insftype);
+	}
+	
+	@Override
+	public ModelDto getWelderAvgWorkTime(WeldDto dto) {
+		return live.getWelderAvgWorkTime(dto);
+	}
+
 }

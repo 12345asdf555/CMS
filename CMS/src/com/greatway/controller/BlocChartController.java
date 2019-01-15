@@ -53,6 +53,15 @@ public class BlocChartController {
 	private DictionaryManager dm;
 	
 	IsnullUtil iutil = new IsnullUtil();
+
+	/**
+	 * 焊工焊接工作时间
+	 * @return
+	 */
+	@RequestMapping("/goWelderWorkTime")
+	public String goWelderWorkTime(){
+		return "blocchart/welderWorkTime";
+	}
 	
 	/**
 	 * 跳转集团工时页面
@@ -2170,6 +2179,78 @@ public class BlocChartController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return obj.toString();
+	}
+	
+	/**
+	 * 获取焊工焊接工作时间
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("getWelderWorkTime")
+	@ResponseBody
+	public String getWelderWorkTime(HttpServletRequest request) {
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String parentid = request.getParameter("parent");
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		WeldDto dto = new WeldDto();
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(parentid)){
+			dto.setParent(new BigInteger(parentid));
+		}
+		page = new Page(pageIndex,pageSize,total);
+		int usertype = insm.getTypeById(dto.getParent());
+		String insftype = "itemid";
+		if(usertype==20){
+			insftype = "fid";
+		}else if(usertype==21){
+			insftype = "caustid";
+		}
+		List<ModelDto> weldertime = lm.getWelderWorkTime(page, dto, insftype);
+		long total = 0;
+		if(weldertime != null){
+			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(weldertime);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		ModelDto avg = lm.getWelderAvgWorkTime(dto);
+		try{
+			for(int i=0;i<weldertime.size();i++){
+				BigInteger id = weldertime.get(i).getItemid();
+				if(usertype==21){
+					id = weldertime.get(i).getFid();
+				}else if(usertype==22){
+					id = weldertime.get(i).getCaustid();
+				}
+				if(dto.getParent().equals(id) || usertype==20){
+					json.put("name", weldertime.get(i).getFname());
+					json.put("welderno", weldertime.get(i).getFwelder_id());
+					json.put("worktime", (double)Math.round(weldertime.get(i).getWorktime()*100)/100);
+					json.put("time", (double)Math.round(weldertime.get(i).getTime()*100)/100);
+					ary.add(json);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(avg!=null){
+			obj.put("avgWorktime", avg.getWorktime());
+			obj.put("avgtime", avg.getTime());
+		}else{
+			obj.put("avgWorktime", 0);
+			obj.put("avgTime", 0);
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
 		return obj.toString();
 	}
 }

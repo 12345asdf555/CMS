@@ -660,4 +660,22 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getMachineTypeTotal(BigInteger parent);
+	
+	/**
+	 * 获取焊工焊接时长，工作时长（指按分统计的焊接时长）
+	 * @param page
+	 * @param dto
+	 * @param insftype
+	 * @return
+	 */
+	List<ModelDto> getWelderWorkTime(Page page,WeldDto dto,String insftype);
+	List<ModelDto> getWelderWorkTime(WeldDto dto,String insftype);
+	
+	/**
+	 * 获取平均焊接时长，工作时长
+	 * @param dto
+	 * @param insftype
+	 * @return
+	 */
+	ModelDto getWelderAvgWorkTime(WeldDto dto);
 }
