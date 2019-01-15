@@ -1,6 +1,7 @@
 package com.greatway.controller;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.greatway.dto.ModelDto;
+import com.greatway.dto.WeldDto;
+import com.greatway.manager.InsframeworkManager;
+import com.greatway.manager.LiveDataManager;
 import com.greatway.manager.MaintainManager;
 import com.greatway.manager.WeldingMachineManager;
 import com.greatway.model.Gather;
@@ -38,6 +43,10 @@ public class ExportExcelController {
 	private WeldingMachineManager wmm;
 	@Autowired
 	private MaintainManager mm;
+	@Autowired
+	private LiveDataManager ldm;
+	@Autowired
+	private InsframeworkManager insm;
 	private String filename;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmSS");
 	IsnullUtil iutil = new IsnullUtil();
@@ -168,4 +177,72 @@ public class ExportExcelController {
 		}
 	}
 	
+	@RequestMapping("/exporWelderWorkTime")
+	@ResponseBody
+	public ResponseEntity<byte[]> exporWelderWorkTime(HttpServletRequest request,HttpServletResponse response){
+		File file = null;
+		try {
+			String parentid = request.getParameter("parent");
+			String time1 = request.getParameter("time1");
+			String time2 = request.getParameter("time2");
+			WeldDto dto = new WeldDto();
+			if(iutil.isNull(time1)){
+				dto.setDtoTime1(time1);
+			}
+			if(iutil.isNull(time2)){
+				dto.setDtoTime2(time2);
+			}
+			if(iutil.isNull(parentid)){
+				dto.setParent(new BigInteger(parentid));
+			}
+			int usertype = insm.getTypeById(dto.getParent());
+			String insftype = "itemid";
+			if(usertype==20){
+				insftype = "fid";
+			}else if(usertype==21){
+				insftype = "caustid";
+			}
+			List<ModelDto> list = ldm.getWelderWorkTime(dto, insftype);
+			
+			String[] titles = new String[]{"姓名","编号","焊接时长","工作时长"};
+			Object[][] data = new Object[list.size()][4];
+			for(int i =0; i<list.size();i++){
+				data[i][0] = list.get(i).getFname();
+				data[i][1] = list.get(i).getFwelder_id();
+				data[i][2] = (double)Math.round(list.get(i).getWorktime()*100)/100;
+				data[i][3] = (double)Math.round(list.get(i).getTime()*100)/100;
+			}
+			filename = "焊工焊接工时" + sdf.format(new Date()) + ".xls";
+
+			ServletContext scontext=request.getSession().getServletContext();
+			//获取绝对路径
+			String abpath=scontext.getRealPath("");
+			//String contextpath=scontext. getContextPath() ; 获取虚拟路径
+			
+			String path = abpath+"excelfiles/" + filename;
+			new CommonExcelUtil(titles, data, path, "焊机设备数据");
+			
+			file = new File(path);
+			HttpHeaders headers = new HttpHeaders();
+			String fileName = "";
+			
+			fileName = new String(filename.getBytes("gb2312"),"iso-8859-1");
+			
+			headers.setContentDispositionFormData("attachment", fileName);
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			
+			//处理ie无法下载的问题
+			response.setContentType("application/octet-stream;charset=utf-8");
+			response.setHeader( "Content-Disposition", 
+					"attachment;filename=\""+ fileName); 
+			ServletOutputStream o = response.getOutputStream();
+			o.flush();
+			
+			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+		}catch (Exception e) {
+	    	return null;
+		}  finally {
+			file.delete();
+		}
+	}
 }
