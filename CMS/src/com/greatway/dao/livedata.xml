@@ -2730,7 +2730,7 @@
 	
 	<!-- 获取焊工焊接工作时长 -->
 	<select id="getWelderWorkTime" resultMap="dtoMap">
-		SELECT insf.fid, ins.fid caustid,i.fid itemid,tw.fwelder_id,w.fname,tw.fworktime/60/60 worktime,tw.freworktime/60/60 time FROM tb_work tw
+		SELECT insf.fid, ins.fid caustid,i.fid itemid,tw.fwelder_id,w.fname,sum(tw.fworktime)/60/60 worktime,sum(tw.freworktime)/60/60 time FROM tb_work tw
 		LEFT JOIN tb_welder w on w.fwelder_no = tw.fwelder_id and w.fitemID = tw.fitemid 
 		INNER JOIN tb_insframework i on i.fid = tw.fitemid INNER JOIN tb_insframework ins on ins.fid = i.fparent 
 		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
