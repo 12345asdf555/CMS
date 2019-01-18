@@ -1456,8 +1456,6 @@ public class ItemChartController {
 				for(int j=0;j<stime.size();j++){
 					if(wtime.get(i).getFwelder_id().equals(stime.get(j).getFwelder_id())){
 						flag = false;
-						System.out.println(wtime.get(i).getWorktime()+stime.get(j).getWorktime());
-						System.out.println(wtime.get(i).getWorktime()+","+stime.get(j).getWorktime());
 						json.put("boottime", (double)Math.round((wtime.get(i).getWorktime()+stime.get(j).getWorktime())*100)/100);
 						json.put("weldtime", (double)Math.round(wtime.get(i).getWorktime()*100)/100);
 						json.put("standbytime", (double)Math.round(stime.get(j).getWorktime()*100)/100);
