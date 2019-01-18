@@ -3,6 +3,8 @@ package com.spring.service;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
 import com.spring.model.LiveData;
@@ -414,68 +416,6 @@ public interface LiveDataService {
 	 *//*
 	List<ModelDto> getStandbytimeout(WeldDto dto);*/
 	
-	/**
-	 * 获取当天作业X名，总焊接时长X小时，平均每名焊工焊接X小时
-	 * @param dto
-	 * @param parent
-	 * @return
-	 */
-	ModelDto getWelderMsg(WeldDto dto,BigInteger parent);
-	
-	/**
-	 * 最长焊接时长焊工XXX
-	 * @param dto
-	 * @param parent
-	 * @return
-	 */
-	String getWelderMaxTime(WeldDto dto,BigInteger parent);
-	
-	/**
-	 * 最短焊接时长焊工XXX
-	 * @param dto
-	 * @param parent
-	 * @return
-	 */
-	String getWelderMinTime(WeldDto dto,BigInteger parent);
-	
-	/**
-	 * 焊机总数XX台
-	 * @param parent
-	 * @return
-	 */
-	int getMachineTotal(BigInteger parent);
-	
-	/**
-	 * 当天使用XX台，累计空载时长XX小时，平均空载时长XX小时
-	 * @param dto
-	 * @param parent
-	 * @return
-	 */
-	ModelDto getMachineMsg(WeldDto dto,BigInteger parent);
-	
-	/**
-	 * 超过半小时以上待机次数XX次
-	 * @param dto
-	 * @param parent
-	 * @return
-	 */
-	int getMachineStandby(WeldDto dto,BigInteger parent);
-	
-	/**
-	 * 待机累计时长XX小时
-	 * @param dto
-	 * @param parent
-	 * @return
-	 */
-	String getMachineStandbyTime(WeldDto dto,BigInteger parent);
-	
-	/**
-	 * 单位焊工数
-	 * @param parent
-	 * @return
-	 */
-	int getWelderTotal(BigInteger parent);
-	
 	List<ModelDto> getExcessiveBack(WeldDto dto);
 
 	List<ModelDto> getExcessiveBackDetail(BigInteger id);
@@ -532,4 +472,9 @@ public interface LiveDataService {
 
 	List<ModelDto> getMachineTypeTotal(BigInteger parent);
 	
+	List<ModelDto> getWelderWorkTime(WeldDto dto,String insftype);
+	
+	ModelDto getWelderAvgWorkTime(WeldDto dto);
+	
+	List<ModelDto> getWelderRank(WeldDto dto, int status);
 }
