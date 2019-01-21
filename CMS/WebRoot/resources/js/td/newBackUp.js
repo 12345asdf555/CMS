@@ -1,5 +1,5 @@
 var insfid;
-var charts;
+var charts,userType;
 var websocketURL, dic, /*starows, */redata, symbol=0, welderName;
 var worknum=0, standbynum=0, overproofnum=0, offnum=0, overtimenum=0, flag = 0;
 var liveary = new Array(), machine = new Array(), miday = new Array();
@@ -28,26 +28,45 @@ function loadtree() {
 				});
 			}
 			if (data.length > 0) {
-				//默认选中第一个元素
-				var nownodes = $('#myTree').tree('find', data[0].id);
-				insfid = nownodes.id;
-				$('#myTree').tree('select', nownodes.target);
-				getMachine(insfid);
-				//初始化
-				showChart();
+				$.ajax({
+					type : "post",
+					async : false,
+					url : "insframework/getUserInsf",
+					data : {},
+					dataType : "json", //返回数据形式为json  
+					success : function(result) {
+						if (result) {
+							userType = result.type;
+							//默认选中当前部门
+							var nownodes = $('#myTree').tree('find', result.id);
+							insfid = nownodes.id;
+							$('#itemname').html(nownodes.text);
+							$('#myTree').tree('select', nownodes.target);
+							getMachine(insfid);
+							//初始化
+							showChart();
+						}
+					},
+					error : function(errorMsg) {
+						alert("数据请求失败，请联系系统管理员!");
+					}
+				});
 			}
-
 		},
 		//树形菜单点击事件,获取项目部id，默认选择当前组织机构下的第一个
 		onClick : function(node) {
+			var nownodes = $('#myTree').tree('find', node.id);
+			insfid = nownodes.id;
+			if(userType > nownodes.type && userType!=20){
+				alert("对不起，您没有此权限！");
+				return false;
+			}
 			document.getElementById("load").style.display="block";
 			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
 			$("#bodydiv").append(sh);
 			document.getElementById("show").style.display="block";
-			var dtoTime1 = getNowFormatDate(new Date().getTime() - 7200 * 1000);
-			var dtoTime2 = getNowFormatDate(new Date().getTime());
-			var nownodes = $('#myTree').tree('find', node.id);
-			insfid = nownodes.id;
+//			var dtoTime1 = getNowFormatDate(new Date().getTime() - 7200 * 1000);
+//			var dtoTime2 = getNowFormatDate(new Date().getTime());
 			$("#curve").html("");
 			$("#standby").html(0);
 			$("#work").html(0);
