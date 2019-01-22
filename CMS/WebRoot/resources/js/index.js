@@ -109,6 +109,25 @@ function loadxmlDoc(file) {
 
 var resourceary = [],menuindex = 0;
 function anaylsis(ipurl){
+	//处理ie不支持indexOf
+	/*if (!Array.prototype.indexOf){
+  		Array.prototype.indexOf = function(elt , from){
+	    var len = this.length >>> 0;
+	    var from = Number(arguments[1]) || 0;
+	    from = (from < 0)
+	         ? Math.ceil(from)
+	         : Math.floor(from);
+	    if (from < 0)
+	      from += len;
+	    for (; from < len; from++)
+	    {
+	      if (from in this &&
+	          this[from] === elt)
+	        return from;
+	    }
+	    return -1;
+	  };
+	}*/
 	var object = loadxmlDoc(ipurl+"ConfigFile/"+xmlname+".xml");
 	var menuinfo = object.getElementsByTagName("Menuinfo");
 	for(var m = 1; m <= menuinfo.length; m++){
@@ -136,7 +155,7 @@ function anaylsis(ipurl){
 					var firstimgName = submenus[x].getElementsByTagName("FirstImgName");//菜单图标
 					var firstsubmenus = submenus[x].getElementsByTagName("FirstSubmenus");//三级菜单
 					var firstshowIndex = submenus[x].getElementsByTagName("FirstShowIndex");//显示位置
-					var subnenustext,/*flag = true,*/lastcontext = "";
+					var subnenustext,lastcontext = "";
 					if (document.all) { //IE
 						firstName = firstName[0].text,firstResource = firstResource[0].text,firstimgName = firstimgName[0].text,
 						subnenustext = firstsubmenus[0].text,firstshowIndex = firstshowIndex[0].text;
@@ -144,51 +163,19 @@ function anaylsis(ipurl){
 						firstName = firstName[0].textContent,firstResource = firstResource[0].textContent,firstimgName = firstimgName[0].textContent,
 						subnenustext = firstsubmenus[0].textContent,firstshowIndex = firstshowIndex[0].textContent;
 					}
-					/*if(subnenustext.trim()){
-						flag = false;
-						array.push(firstshowIndex);
-						firstcontext +='<li onclick="changeColor(this)" id="'+firstshowIndex+'"><a href="javascript:openSubmenus('+showIndex+','+firstshowIndex+')">'+
-						'<div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="resources/images/arrow.png" id="subimg'+showIndex+'_'+firstshowIndex+'"/></div>'+
-						'</a></li><li><div id="div'+showIndex+'_'+firstshowIndex+'" style="display:none;"><ul id="last'+firstshowIndex+'">';
-						for (var j = 0; j < firstsubmenus.length; j++) {
-							var LastName = firstsubmenus[j].getElementsByTagName("LastName");
-							var LastResource = firstsubmenus[j].getElementsByTagName("LastResource");
-							var LastimgName = firstsubmenus[j].getElementsByTagName("LastImgName");//菜单图标
-							var lastshowIndex = firstsubmenus[j].getElementsByTagName("LastShowIndex");//显示位置
-							if (document.all) { //IE
-								LastName = LastName[0].text,LastResource = LastResource[0].text,LastimgName = LastimgName[0].text,lastshowIndex = lastshowIndex[0].text;
-							} else {
-								LastName = LastName[0].textContent,LastResource = LastResource[0].textContent,LastimgName = LastimgName[0].textContent,lastshowIndex = lastshowIndex[0].textContent;
-							}
-							if(resourceary.indexOf(LastResource)!=-1){
-								if(LastResource == "td/AllTd"){
-									lastcontext += '<li onclick="changeColor(this)" id="last'+lastshowIndex+'"><a href="javascript:openLive()" ><div><img src="resources/images/'+LastimgName+'" />&nbsp;&nbsp;'+LastName+'</div></a></li>';
-								}else{
-									lastcontext += '<li onclick="changeColor(this)" id="last'+lastshowIndex+'"><a href="javascript:openTab(\''+LastName+'\',\''+LastResource+'\')" ><div><img src="resources/images/'+LastimgName+'" />&nbsp;&nbsp;'+LastName+'</div></a></li>';
-								}
-							}
+					/*if(resourceary.indexOf(firstResource)!=-1){*/
+					if($.inArray(firstResource,resourceary)!=-1){
+						var bottonnum = 0;
+						if(x == submenus.length-1){
+							bottonnum = 15;
 						}
-						firstcontext += lastcontext+'</ul></div></li>';
-						if(lastcontext == null || lastcontext == ""){
-							firstcontext = "";
+						if(firstResource == "td/newAllTd"){
+							firstcontext +='<li onclick="changeColor('+menuindex+')" id="'+firstshowIndex+'"><a href="javascript:openLive()" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="click'+menuindex+'"/></div></a></li>';
+						}else{
+							firstcontext +='<li style="margin-bottom:'+bottonnum+'px" onclick="changeColor('+menuindex+')" id="'+firstshowIndex+'"><a href="javascript:openTab(\''+firstName+'\',\''+firstResource+'\')" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="click'+menuindex+'"/></div></a></li>';
 						}
-					}*/
-					/*if(flag){*/
-						if(resourceary.indexOf(firstResource)!=-1){
-							var bottonnum = 0;
-							if(x == submenus.length-1){
-								bottonnum = 15;
-							}
-							if(firstResource == "td/newAllTd"){
-								firstcontext +='<li onclick="changeColor('+menuindex+')" id="'+firstshowIndex+'"><a href="javascript:openLive()" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="click'+menuindex+'"/></div></a></li>';
-							}else{
-								firstcontext +='<li style="margin-bottom:'+bottonnum+'px" onclick="changeColor('+menuindex+')" id="'+firstshowIndex+'"><a href="javascript:openTab(\''+firstName+'\',\''+firstResource+'\')" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'<img src="resources/images/jt.png"style="display:none; width:20px;height:20px;" id="click'+menuindex+'"/></div></a></li>';
-								
-								
-							}
-							menuindex++;
-						}
-					/*}*/
+						menuindex++;
+					}
 				}
 				context += firstcontext+'</ul>';
 				if(firstcontext != null && firstcontext != ""){
@@ -199,10 +186,7 @@ function anaylsis(ipurl){
 						iconCls: imgName,
 						selected : false
 					});
-					menusort("ul"+showIndex/*,true*/);
-					/*for(var f=0;f<array.length;f++){
-						menusort("last"+array[f],false);
-					}*/
+					menusort("ul"+showIndex);
 				}
 				$("#accordiondiv").accordion({
 		            selected:0
@@ -221,25 +205,16 @@ function menusort(name/*,flag*/){
     //将li添加到list数组
     for(var n=0;n<li.length;n++){
     	var subid = li[n].id.substring(0, 4);
-    	/*if(flag){*/
-        	if(subid!="last"){
-            	list.push(li[n]);
-        	}
-    	/*}else{
-            list.push(li[n]);
-    	}*/
+    	if(subid!="last"){
+        	list.push(li[n]);
+    	}
     	
     }
     //对数组进行比较排序
     list.sort(function (li1,li2){
     	var n1,n2
-    	/*if(flag){*/
-    		n1=parseInt(li1.id);
-    		n2=parseInt(li2.id);
-    	/*}else{
-    		n1=parseInt(li1.id.substring(4));
-    		n2=parseInt(li2.id.substring(4));
-    	}*/
+		n1=parseInt(li1.id);
+		n2=parseInt(li2.id);
         return n1-n2;
     })
     for(var x=0;x<list.length;x++){
@@ -256,261 +231,6 @@ function openLive(){
 	window.open("td/newAllTd");
 }
 
-/*function openSMSUser(){
-	addTab("短信用户管理", "user/goSMSUser");
-}
-
-function openNewIdle(){
-	addTab("设备类型闲置率", "blocChart/goNewIdle");
-}
-
-function OpenNewOvertime(){
-	addTab("连续待机超时统计", "blocChart/goNewOvertime");
-}
-
-function openWps(){
-	addTab("工艺管理", "wps/goWps");
-}
-
-function openChildrenUseratio(){
-	addTab("设备利用率", "hierarchy/goUseratio");
-}
-
-function openChildrenLoadrate(){
-	addTab("焊接规范符合率", "hierarchy/goLoadrate");
-}
-
-function openChildrenWorkRank() {
-	addTab("焊工工作量排行", "hierarchy/goWorkRank");
-}
-
-function openOperatorEfficiency() {
-	addTab("操作者效率", "blocChart/goOperatorEfficiency");
-}
-
-function openFaultRatio() {
-	addTab("设备故障率", "blocChart/goFaultratio");
-}
-
-function openMaintenance() {
-	addTab("设备维修率", "blocChart/goMaintenanceratio");
-}
-
-function openUseratio() {
-	addTab("设备利用率", "blocChart/goUseratio");
-}
-
-function openRunTime() {
-	addTab("设备运行时长", "blocChart/goBlocRunTime");
-}
-
-function openOverproofRecall() {
-	addTab("焊接工艺超标回溯", "companyChart/goOverproofTimeQuantum");
-}
-
-function openUser() {
-	addTab("用户管理", "user/AllUser");
-}
-
-function openRole() {
-	addTab("角色管理", "role/AllRole");
-}
-
-function openAuthority() {
-	addTab("权限管理", "authority/AllAuthority");
-}
-
-function openResource() {
-	addTab("资源管理", "resource/AllResource");
-}
-function openData() {
-	addTab("实时数据", "data/AllData");
-}
-
-function openTd() {
-	addTab("焊机实时状态监测", "td/AllTdp");
-//	window.open("td/AllTdp");
-}
-
-function openWeldingMachine() {
-	addTab("焊机设备管理", "weldingMachine/goWeldingMachine");
-}
-
-function openMachineMigrate() {
-	addTab("焊机设备迁移", "weldingMachine/goMachineMigrate");
-}
-
-function openMachine() {
-	addTab("维修记录管理", "maintain/goMaintain");
-}
-
-function openFault() {
-	addTab("故障代码管理", "fault/goFault");
-}
-
-function openManufacturer() {
-	addTab("生产厂商管理", "manufacturer/goManufacturer");
-}
-
-function openWedJunction() {
-	addTab("焊口列表", "weldedjunction/goWeldedJunction");
-}
-
-function openWelder() {
-	addTab("焊工列表", "welder/goWelder");
-}
-
-function openInsframework() {
-	addTab("组织机构管理", "insframework/goInsframework");
-}
-
-function openGather() {
-	addTab("采集模块管理", "gather/goGather");
-}
-
-function openCaustEfficiency() {
-	addTab("工时分布", "caustChart/goCaustEfficiency");
-}
-
-function openCaustHour() {
-	addTab("焊口焊接工时", "caustChart/goCaustHour");
-}
-
-function openCaustoverproof() {
-	addTab("焊接工艺超标统计", "caustChart/goCaustOverproof");
-}
-
-function openCaustovertime() {
-	addTab("超时待机统计", "caustChart/goCaustOvertime");
-}
-
-function openCaustLoads() {
-	addTab("设备负荷率", "caustChart/goCaustLoads");
-}
-
-function openCaustNoLoads() {
-	addTab("设备平均空载率", "caustChart/goCaustNoLoads");
-}
-
-function openCaustIdle() {
-	addTab("设备闲置率", "caustChart/goCaustIdle");
-}
-
-function openCaustUse() {
-	addTab("单台设备运行数据统计", "caustChart/goCaustUse");
-}
-
-function openCaustTd() {
-	addTab("焊机实时状态监测", "td/AllTddi");
-}
-
-function openCompanytEfficiency() {
-	addTab("工时分布", "companyChart/goCompanyEfficiency");
-}
-
-function openCompanyUse() {
-	addTab("单台设备运行数据统计", "companyChart/goCompanyUse");
-}
-
-function openCompanyHour() {
-	addTab("焊口焊接工时", "companyChart/goCompanyHour");
-}
-
-function openCompanyoverproof() {
-	addTab("焊接工艺超标统计", "companyChart/goCompanyOverproof");
-}
-
-function openCompanyovertime() {
-	addTab("超时待机统计", "companyChart/goCompanyOvertime");
-}
-
-function openCompanyLoads() {
-	addTab("设备负荷率", "companyChart/goCompanyLoads");
-}
-
-function openCompanyNoLoads() {
-	addTab("设备平均空载率", "companyChart/goCompanyNoLoads");
-}
-
-function openCompanyIdle() {
-	addTab("设备闲置率", "companyChart/goCompanyIdle");
-}
-
-function openCompanyTd() {
-//	addTab("焊机实时状态监测", "td/newAllTd");
-	window.open("td/newAllTd");
-}
-
-function openItemEfficiency() {
-	addTab("工时分布", "itemChart/goItemEfficiency");
-}
-
-function openItemHour() {
-	addTab("焊口焊接工时", "itemChart/goItemHour");
-}
-
-function openItemovertime() {
-	addTab("超时待机统计", "itemChart/goItemOvertime");
-}
-
-function openItemLoads() {
-	addTab("设备负荷率", "itemChart/goItemLoads");
-}
-
-function openItemNoLoads() {
-	addTab("设备平均空载率", "itemChart/goItemNoLoads");
-}
-
-function openItemIdle() {
-	addTab("设备闲置率", "itemChart/goItemIdle");
-}
-
-function openItemTd() {
-	addTab("焊机实时状态监测", "td/AllTdp");
-}
-
-function openItemoverproofs() {
-	addTab("焊接工艺超标统计", "itemChart/goItemoverproof");
-}
-
-function openItemUse() {
-	addTab("单台设备运行数据统计", "itemChart/goItemUse");
-}
-
-function openBlocEfficiency() {
-	addTab("工时分布", "blocChart/goBlocEfficiency");
-}
-
-function openBlocUse() {
-	addTab("单台设备运行数据统计", "blocChart/goBlocUse");
-}
-
-function openBlocHour() {
-	addTab("焊口焊接工时", "blocChart/goBlocHour");
-}
-
-function openBlocoverproof() {
-	addTab("焊接工艺超标统计", "blocChart/goBlocOverproof");
-}
-
-function openBlocovertime() {
-	addTab("超时待机统计", "blocChart/goBlocOvertime");
-}
-
-function openBlocLoads() {
-	addTab("设备负荷率", "blocChart/goBlocLoads");
-}
-
-function openBlocNoLoads() {
-	addTab("设备平均空载率", "blocChart/goBlocNoLoads");
-}
-
-function openBlocIdle() {
-	addTab("设备闲置率", "blocChart/goBlocIdle");
-}
-function openDictionary() {
-	addTab("字典管理", 'Dictionary/goDictionary')
-}*/
 function addTab(title, url) {
 	//该面板是否已打开
 	if (!$("#tabs").tabs('exists', title)) {
