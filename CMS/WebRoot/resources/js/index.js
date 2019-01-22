@@ -32,53 +32,6 @@ function getUserInsframework() {
 				xmlname = "itemMenu";
 			}
 			anaylsis(result.ipurl);
-			//			hierarchyLoding();
-			/*if (type == 20) {
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;设备分析</div>',
-					content : $("#bloc1").html()
-				});
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;焊工分析</div>',
-					content : $("#bloc2").html(),
-					selected : false
-				});
-			} else if (type == 21) {
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;设备分析</div>',
-					content : $("#company1").html()
-				});
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;焊工分析</div>',
-					content : $("#company2").html(),
-					selected : false
-				});
-			} else if (type == 22) {
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;设备分析</div>',
-					content : $("#caust1").html()
-				});
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;焊工分析</div>',
-					content : $("#caust2").html(),
-					selected : false
-				});
-			} else if (type == 23) {
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/manager.png"/>&nbsp;&nbsp;设备分析</div>',
-					content : $("#item1").html()
-				});
-				$('#accordiondiv').accordion('add', {
-					title : '<div><img src="resources/images/c-6.png"/>&nbsp;&nbsp;焊工分析</div>',
-					content : $("#item2").html(),
-					selected : false
-				});
-			}
-			$('#accordiondiv').accordion('add', {
-				title : '<div><img src="resources/images/user.png"/>&nbsp;&nbsp;管理员</div>',
-				content : $("#admin").html(),
-				selected : false
-			});*/
 		},
 		error : function(errorMsg) {
 			alert("数据请求失败，请联系系统管理员!");
@@ -107,33 +60,21 @@ function loadxmlDoc(file) {
 	return xmlDoc;
 }
 
+function isIE() {//判断是否是ie是则返回true；document.all自ie11起返回false，所以此处不可以使用
+	if (!!window.ActiveXObject || "ActiveXObject" in window)
+		return true;
+	else
+		return false;
+}
+
 var resourceary = [],menuindex = 0;
 function anaylsis(ipurl){
-	//处理ie不支持indexOf
-	/*if (!Array.prototype.indexOf){
-  		Array.prototype.indexOf = function(elt , from){
-	    var len = this.length >>> 0;
-	    var from = Number(arguments[1]) || 0;
-	    from = (from < 0)
-	         ? Math.ceil(from)
-	         : Math.floor(from);
-	    if (from < 0)
-	      from += len;
-	    for (; from < len; from++)
-	    {
-	      if (from in this &&
-	          this[from] === elt)
-	        return from;
-	    }
-	    return -1;
-	  };
-	}*/
 	var object = loadxmlDoc(ipurl+"ConfigFile/"+xmlname+".xml");
 	var menuinfo = object.getElementsByTagName("Menuinfo");
 	for(var m = 1; m <= menuinfo.length; m++){
 		for (var i = 0; i < menuinfo.length; i++) {
 			var showIndex = menuinfo[i].getElementsByTagName("ShowIndex");//显示位置
-			if (document.all) {
+			if (isIE()) {
 				showIndex = showIndex[0].text;
 			} else {
 				showIndex = showIndex[0].textContent;
@@ -143,7 +84,7 @@ function anaylsis(ipurl){
 				var submenus = menuinfo[i].getElementsByTagName("Submenus");//二级菜单
 				var imgName = menuinfo[i].getElementsByTagName("ImgName");//菜单图标
 				var array = [], firstcontext = "";
-				if (document.all) {
+				if (isIE()) {
 					menuName = menuName[0].text,imgName = imgName[0].text;
 				} else {
 					menuName = menuName[0].textContent,imgName = imgName[0].textContent;
@@ -156,14 +97,13 @@ function anaylsis(ipurl){
 					var firstsubmenus = submenus[x].getElementsByTagName("FirstSubmenus");//三级菜单
 					var firstshowIndex = submenus[x].getElementsByTagName("FirstShowIndex");//显示位置
 					var subnenustext,lastcontext = "";
-					if (document.all) { //IE
+					if (isIE()) {//IE
 						firstName = firstName[0].text,firstResource = firstResource[0].text,firstimgName = firstimgName[0].text,
 						subnenustext = firstsubmenus[0].text,firstshowIndex = firstshowIndex[0].text;
 					} else {
 						firstName = firstName[0].textContent,firstResource = firstResource[0].textContent,firstimgName = firstimgName[0].textContent,
 						subnenustext = firstsubmenus[0].textContent,firstshowIndex = firstshowIndex[0].textContent;
 					}
-					/*if(resourceary.indexOf(firstResource)!=-1){*/
 					if($.inArray(firstResource,resourceary)!=-1){
 						var bottonnum = 0;
 						if(x == submenus.length-1){
