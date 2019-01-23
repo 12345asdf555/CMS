@@ -12,7 +12,7 @@ import tk.mybatis.mapper.common.Mapper;
 public interface WeldedJunctionMapper extends Mapper<WeldedJunction>{
 	List<WeldedJunction> getWeldedJunctionAll(@Param("str")String str,@Param("parent")BigInteger parent);
 	
-	List<WeldedJunction> getLiveJunction(@Param("parent")BigInteger parent);
+	List<WeldedJunction> getLiveJunction(@Param("str")String str,@Param("parent")BigInteger parent);
 	
 	WeldedJunction getWeldedJunctionById(@Param("id")BigInteger id);
 	

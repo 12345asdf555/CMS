@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div id="body" region="center"  hide="true"  split="true">
   		<div id="dg_btn">
   			<div>
-				<a href="javascript:insertsearchWJ();" class="easyui-linkbutton" iconCls="icon-search" >查找</a>
+				<a href="javascript:insertsearchLiveJunction();" class="easyui-linkbutton" iconCls="icon-search" >查找</a>
 	    	</div>
 	    </div>	
 	    <table id="dg" style="table-layout: fixed; overflow:hidden; width:100%;"></table>
@@ -44,12 +44,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	<select class="condition" id="condition"></select>
 		    	<input class="content" id="content"/>
 		    	<select class="joint" id="joint"></select>
-		    	<a href="javascript:newSearchWJ();" class="easyui-linkbutton" iconCls="icon-add"></a>
+		    	<a href="javascript:newSearchLiveJunction();" class="easyui-linkbutton" iconCls="icon-add"></a>
 		    	<a href="javascript:removeSerach();" class="easyui-linkbutton" iconCls="icon-remove"></a>
 	    	</div>
 	    </div>
 	    <div id="searchButton">
-			<a href="javascript:searchWJ();" class="easyui-linkbutton" iconCls="icon-ok">查询</a>
+			<a href="javascript:searchLiveJunction();" class="easyui-linkbutton" iconCls="icon-ok">查询</a>
 			<a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
 	</div>

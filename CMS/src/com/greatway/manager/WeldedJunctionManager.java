@@ -50,5 +50,5 @@ public interface WeldedJunctionManager {
 	 * @param parent 组织机构id
 	 * @return
 	 */
-	List<WeldedJunction> getLiveJunction(Page page,BigInteger parent);
+	List<WeldedJunction> getLiveJunction(Page page,String str,BigInteger parent);
 }

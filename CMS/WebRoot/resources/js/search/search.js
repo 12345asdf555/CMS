@@ -6,6 +6,45 @@ var content="";
 var joint = "";
 var flag = true;
 
+
+
+//新增实时焊机查询条件
+function newSearchLiveJunction(){
+	fillcontent();
+	newSearch();
+	searchLiveJuncCombobox();
+	initSearch();
+}
+
+//实时焊机查询下拉框
+function searchLiveJuncCombobox(){
+	var optionFields = 
+		"<option value='fwelded_junction_no'>编号</option>" +
+		"<option value='iname'>所属项目</option>" +
+		"<option value='fstart_time'>开始时间</option>" +
+		"<option value='fend_time'>结束时间</option>";
+	$(".fields").html(optionFields);
+	createSearchCombobox();
+}
+
+function insertsearchLiveJunction(){
+	$("#searchdiv").dialog("open");
+	searchLiveJuncCombobox();
+	initSearch();
+}
+
+function searchLiveJunction(){
+	fillcontent();
+	if(!getContent()){
+		return;
+	}
+	$('#dg').datagrid('load', {
+		"searchStr" : searchStr
+	});
+	$("#searchdiv").dialog("close");
+	searchStr="";
+}
+
 //新增工艺查询条件
 function newSearchWps(){
 	fillcontent();

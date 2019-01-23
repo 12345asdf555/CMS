@@ -51,9 +51,9 @@ public class WeldedJunctionManagerImpl implements WeldedJunctionManager{
 	}
 
 	@Override
-	public List<WeldedJunction> getLiveJunction(Page page,BigInteger parent) {
+	public List<WeldedJunction> getLiveJunction(Page page,String str,BigInteger parent) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return wjm.getLiveJunction(parent);
+		return wjm.getLiveJunction(str,parent);
 	}
 
 }

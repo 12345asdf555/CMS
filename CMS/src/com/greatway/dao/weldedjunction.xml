@@ -63,6 +63,9 @@
 		<if test="parent!=null and parent!=''">
 			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if>
+		<if test="str!=null and str!=''">
+			and ${str}
+		</if>
 		order by fend_time
 	</select>
 	

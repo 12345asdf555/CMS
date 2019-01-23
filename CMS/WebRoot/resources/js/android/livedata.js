@@ -214,164 +214,190 @@ function iview() {
 		
 		flag=2;
 	}
-	for (var i = 0; i < redata.length; i += 97) {
-//		if (redata.substring(8 + i, 12 + i) != "0000") {
-		if(machine!=null && machine!=""){
-			for(var f=0;f<machine.length;f++){
-				var machineflag = false;
-				for(var x=0;x<liveary.length;x++){
-					if(liveary[x]==machine[f].fid){
-						machineflag = true;
-					}
-				}
-				if(!machineflag && $("#status"+machine[f].fid).val()!=4){
-					$("#m3"+machine[f].fid).html("--");
-					$("#m4"+machine[f].fid).html("--A");
-					$("#m5"+machine[f].fid).html("--V");
-					$("#m6"+machine[f].fid).html("关机");
-					$("#status"+machine[f].fid).val(2);
-					$("#img"+machine[f].fid).attr("src","resources/images/welder_04.png");
-				}
-				if(machine[f].fid==(parseInt(redata.substring(4+i, 8+i)))){
-					for(var k=0;k<welderName.length;k++){
-						if(welderName[k].fwelder_no==redata.substring(8+i, 12+i)){
-							$("#m3"+machine[f].fid).html(welderName[k].fname);
+	if(redata.length==291){
+		for (var i = 0; i < redata.length; i += 97) {
+	//		if (redata.substring(8 + i, 12 + i) != "0000") {
+			if(machine!=null && machine!=""){
+				for(var f=0;f<machine.length;f++){
+					var machineflag = false;
+					for(var x=0;x<liveary.length;x++){
+						if(liveary[x]==machine[f].fid){
+							machineflag = true;
 						}
 					}
-					$("#m2"+machine[f].fid).html(redata.substring(89 + i, 97 + i));
-					var liveele = parseInt(redata.substring(12+i, 16+i));
-		            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
-		            var maxele = parseInt(redata.substring(61+i, 64+i));
-		            var minele = parseInt(redata.substring(64+i, 67+i));
-		            var maxvol = parseInt(redata.substring(67+i, 70+i));
-		            var minvol = parseInt(redata.substring(70+i, 73+i));
-					var mstatus = redata.substring(0 + i, 2 + i);
-					switch (mstatus) {
-					case "00":
-						
-						if(liveary.length==0){
-							liveary.push(machine[f].fid);
-							$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
-							$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
-							$("#m6"+machine[f].fid).html("待机");
-							$("#status"+machine[f].fid).val(1);
-							$("#img"+machine[f].fid).attr("src","resources/images/welder_02.png");
-						}else{
-							var tempflag = false;
-							for(var x=0;x<liveary.length;x++){
-								if(liveary[x] == machine[f].fid){
-									tempflag = true;
-								}
+					if(!machineflag && $("#status"+machine[f].fid).val()!=4){
+						$("#m3"+machine[f].fid).html("--");
+						$("#m4"+machine[f].fid).html("--A");
+						$("#m5"+machine[f].fid).html("--V");
+						$("#m6"+machine[f].fid).html("关机");
+						$("#status"+machine[f].fid).val(2);
+						$("#img"+machine[f].fid).attr("src","resources/images/welder_04.png");
+					}
+					if(machine[f].fid==(parseInt(redata.substring(4+i, 8+i)))){
+						for(var k=0;k<welderName.length;k++){
+							if(welderName[k].fwelder_no==redata.substring(8+i, 12+i)){
+								$("#m3"+machine[f].fid).html(welderName[k].fname);
 							}
-							if(!tempflag){
+						}
+						$("#m2"+machine[f].fid).html(redata.substring(89 + i, 97 + i));
+						var liveele = parseInt(redata.substring(12+i, 16+i));
+			            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
+			            var maxele = parseInt(redata.substring(61+i, 64+i));
+			            var minele = parseInt(redata.substring(64+i, 67+i));
+			            var maxvol = parseInt(redata.substring(67+i, 70+i));
+			            var minvol = parseInt(redata.substring(70+i, 73+i));
+						var mstatus = redata.substring(0 + i, 2 + i);
+						switch (mstatus) {
+						case "00":
+							
+							if(liveary.length==0){
 								liveary.push(machine[f].fid);
 								$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
 								$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
 								$("#m6"+machine[f].fid).html("待机");
 								$("#status"+machine[f].fid).val(1);
 								$("#img"+machine[f].fid).attr("src","resources/images/welder_02.png");
-							}
-						}
-						break;
-					case "03":
-						if(liveary.length==0){
-							liveary.push(machine[f].fid);
-							$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
-							$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
-							if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
-								$("#m6"+machine[f].fid).html("报警");
-								$("#status"+machine[f].fid).val(2);
-								$("#img"+machine[f].fid).attr("src","resources/images/welder_01.png");
 							}else{
-								$("#m6"+machine[f].fid).html("工作");
-								$("#status"+machine[f].fid).val(0);
-								$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
-							}
-						}else{
-							var tempflag = false;
-							for(var x=0;x<liveary.length;x++){
-								if(liveary[x] == machine[f].fid){
-									tempflag = true;
+								var tempflag = false;
+								for(var x=0;x<liveary.length;x++){
+									if(liveary[x] == machine[f].fid){
+										tempflag = true;
+									}
 								}
-							}
-							if(!tempflag){
-								if(liveary[x] != machine[f].fid){
+								if(!tempflag){
 									liveary.push(machine[f].fid);
 									$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
 									$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
-									if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
-										$("#m6"+machine[f].fid).html("报警");
-										$("#status"+machine[f].fid).val(2);
-										$("#img"+machine[f].fid).attr("src","resources/images/welder_01.png");
-									}else{
+									$("#m6"+machine[f].fid).html("待机");
+									$("#status"+machine[f].fid).val(1);
+									$("#img"+machine[f].fid).attr("src","resources/images/welder_02.png");
+								}
+							}
+							break;
+						case "03":
+							if(liveary.length==0){
+								liveary.push(machine[f].fid);
+								$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+								$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+								if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
+									$("#m6"+machine[f].fid).html("报警");
+									$("#status"+machine[f].fid).val(2);
+									$("#img"+machine[f].fid).attr("src","resources/images/welder_01.png");
+								}else{
+									$("#m6"+machine[f].fid).html("工作");
+									$("#status"+machine[f].fid).val(0);
+									$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+								}
+							}else{
+								var tempflag = false;
+								for(var x=0;x<liveary.length;x++){
+									if(liveary[x] == machine[f].fid){
+										tempflag = true;
+									}
+								}
+								if(!tempflag){
+									if(liveary[x] != machine[f].fid){
+										liveary.push(machine[f].fid);
+										$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+										$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+										if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
+											$("#m6"+machine[f].fid).html("报警");
+											$("#status"+machine[f].fid).val(2);
+											$("#img"+machine[f].fid).attr("src","resources/images/welder_01.png");
+										}else{
+											$("#m6"+machine[f].fid).html("工作");
+											$("#status"+machine[f].fid).val(0);
+											$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+										}
+									}
+								}
+							}
+							break;
+						case "05":
+							if(liveary.length==0){
+								liveary.push(machine[f].fid);
+								$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+								$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+								$("#m6"+machine[f].fid).html("工作");
+								$("#status"+machine[f].fid).val(0);
+								$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+							}else{
+								var tempflag = false;
+								for(var x=0;x<liveary.length;x++){
+									if(liveary[x] == machine[f].fid){
+										tempflag = true;
+									}
+								}
+								if(!tempflag){
+									if(liveary[x] != machine[f].fid){
+										liveary.push(machine[f].fid);
+										$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+										$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
 										$("#m6"+machine[f].fid).html("工作");
 										$("#status"+machine[f].fid).val(0);
 										$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
 									}
 								}
 							}
-						}
-						break;
-					case "05":
-						if(liveary.length==0){
-							liveary.push(machine[f].fid);
-							$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
-							$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
-							$("#m6"+machine[f].fid).html("工作");
-							$("#status"+machine[f].fid).val(0);
-							$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
-						}else{
-							var tempflag = false;
-							for(var x=0;x<liveary.length;x++){
-								if(liveary[x] == machine[f].fid){
-									tempflag = true;
+							break;
+						case "07":
+							if(liveary.length==0){
+								liveary.push(machine[f].fid);
+								$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+								$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+								$("#m6"+machine[f].fid).html("工作");
+								$("#status"+machine[f].fid).val(0);
+								$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+							}else{
+								var tempflag = false;
+								for(var x=0;x<liveary.length;x++){
+									if(liveary[x] == machine[f].fid){
+										tempflag = true;
+									}
+								}
+								if(!tempflag){
+									if(liveary[x] != machine[f].fid){
+										liveary.push(machine[f].fid);
+										$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+										$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+										$("#m6"+machine[f].fid).html("工作");
+										$("#status"+machine[f].fid).val(0);
+										$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+									}
 								}
 							}
-							if(!tempflag){
-								if(liveary[x] != machine[f].fid){
+							break;
+						case "09":
+							if(liveary.length==0){
+								liveary.push(machine[f].fid);
+								$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
+								$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+								$("#m6"+machine[f].fid).html("超时待机");
+								$("#status"+machine[f].fid).val(1);
+								$("#img"+machine[f].fid).attr("src","resources/images/welder_02.png");
+							}else{
+								var tempflag = false;
+								for(var x=0;x<liveary.length;x++){
+									if(liveary[x] == machine[f].fid){
+										tempflag = true;
+									}
+								}
+								if(!tempflag){
 									liveary.push(machine[f].fid);
 									$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
 									$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
-									$("#m6"+machine[f].fid).html("工作");
-									$("#status"+machine[f].fid).val(0);
-									$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
+									$("#m6"+machine[f].fid).html("超时待机");
+									$("#status"+machine[f].fid).val(1);
+									$("#img"+machine[f].fid).attr("src","resources/images/welder_02.png");
 								}
 							}
+							break;
 						}
-						break;
-					case "07":
-						if(liveary.length==0){
-							liveary.push(machine[f].fid);
-							$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
-							$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
-							$("#m6"+machine[f].fid).html("工作");
-							$("#status"+machine[f].fid).val(0);
-							$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
-						}else{
-							var tempflag = false;
-							for(var x=0;x<liveary.length;x++){
-								if(liveary[x] == machine[f].fid){
-									tempflag = true;
-								}
-							}
-							if(!tempflag){
-								if(liveary[x] != machine[f].fid){
-									liveary.push(machine[f].fid);
-									$("#m4"+machine[f].fid).html(parseInt(redata.substring(12+i, 16+i))+"A");
-									$("#m5"+machine[f].fid).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
-									$("#m6"+machine[f].fid).html("工作");
-									$("#status"+machine[f].fid).val(0);
-									$("#img"+machine[f].fid).attr("src","resources/images/welder_03.png");
-								}
-							}
-						}
-						break;
 					}
 				}
 			}
+	//		}
 		}
-//		}
-		
 	}
 }
 

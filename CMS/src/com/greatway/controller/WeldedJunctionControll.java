@@ -268,11 +268,12 @@ public class WeldedJunctionControll {
 	public String getLiveJunctionList(HttpServletRequest request){
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String serach = request.getParameter("searchStr");
 		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		long uid = myuser.getId();
 		BigInteger parent = im.getUserInsfId(BigInteger.valueOf(uid));
 		page = new Page(pageIndex,pageSize,total);
-		List<WeldedJunction> list = wjm.getLiveJunction(page, parent);
+		List<WeldedJunction> list = wjm.getLiveJunction(page,serach, parent);
 		long total = 0;
 		
 		if(list != null){
