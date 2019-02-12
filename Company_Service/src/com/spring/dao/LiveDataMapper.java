@@ -187,4 +187,6 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	ModelDto getWelderAvgWorkTime(@Param("dto")WeldDto dto);
 	
+	int getWelderTotal(@Param("dto")WeldDto dto);
+	
 }

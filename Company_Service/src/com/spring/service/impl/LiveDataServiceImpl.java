@@ -811,4 +811,14 @@ public class LiveDataServiceImpl implements LiveDataService {
 			return null;
 		}
 	}
+
+	@Override
+	public int getWelderTotal(WeldDto dto) {
+		try{
+			return live.getWelderTotal(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return -1;
+		}
+	}
 }

@@ -1513,14 +1513,13 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 			//获取平均焊接及工作时长
 			ModelDto avgmsg = live.getWelderAvgWorkTime(dto);
 			if(avgmsg!=null){
-				obj.put("AVGWELDTIME", (double)Math.round(avgmsg.getWorktime()*100)/100);//平均焊接时长
 				obj.put("AVGWORKTIME", (double)Math.round(avgmsg.getTime()*100)/100);//平均工作时长
 			}else{
-				obj.put("AVGWELDTIME", 0);
 				obj.put("AVGWORKTIME", 0);
 			}
 			List<ModelDto> front = live.getWelderRank(dto, 1);
 			List<ModelDto> back = live.getWelderRank(dto, 0);
+			int weldertotal = live.getWelderTotal(dto);//在线人数
 			String frontwelder = "", backwelder = "";
 			for(int i=0;i<front.size();i++){
 				String name = front.get(i).getFname();
@@ -1544,7 +1543,7 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 			}
 			obj.put("FRONTWELDER",frontwelder);
 			obj.put("BACKWELDER",backwelder);
-			
+			obj.put("WELDERTOTAL",weldertotal);
 			return obj.toString();
 		}catch(Exception e){
 			e.printStackTrace();

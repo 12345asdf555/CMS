@@ -477,4 +477,6 @@ public interface LiveDataService {
 	ModelDto getWelderAvgWorkTime(WeldDto dto);
 	
 	List<ModelDto> getWelderRank(WeldDto dto, int status);
+	
+	int getWelderTotal(WeldDto dto);
 }
