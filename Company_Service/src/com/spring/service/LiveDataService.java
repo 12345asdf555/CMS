@@ -3,8 +3,6 @@ package com.spring.service;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
 import com.spring.model.LiveData;
