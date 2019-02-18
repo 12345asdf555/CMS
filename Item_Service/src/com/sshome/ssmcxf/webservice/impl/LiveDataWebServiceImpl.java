@@ -6,6 +6,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.ws.handler.MessageContext;
+
+import org.apache.cxf.jaxws.context.WebServiceContextImpl;
+import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.dto.JudgeUtil;
 import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
+import com.spring.model.Insframework;
 import com.spring.model.LiveData;
+import com.spring.service.InsframeworkService;
 import com.spring.service.LiveDataService;
 import com.sshome.ssmcxf.webservice.LiveDataWebService;
 
@@ -25,6 +32,8 @@ import net.sf.json.JSONObject;
 public class LiveDataWebServiceImpl implements LiveDataWebService {
 	@Autowired
 	private LiveDataService live;
+	@Autowired
+	private InsframeworkService insf;
 	
 	private JudgeUtil jutil = new JudgeUtil();
 	
@@ -2198,4 +2207,73 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 			return null;
 		}
 	}
+	@Override
+	public Object getSMSMessage(String object) {
+		try{
+			//webservice获取request
+			MessageContext ctx = new WebServiceContextImpl().getMessageContext();
+			HttpServletRequest request = (HttpServletRequest) ctx.get(AbstractHTTPDestination.HTTP_REQUEST);
+			JSONObject json = JSONObject.fromObject(object);
+			JSONObject obj = new JSONObject();
+			WeldDto dto = new WeldDto();
+			dto.setParent(new BigInteger(request.getSession().getServletContext().getInitParameter("itemid")));
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String starttime = json.getString("STARTTIME");
+			String endtime = json.getString("ENDTIME");
+			Calendar cal = Calendar.getInstance();
+			Date time1 = sdf.parse(starttime);
+			Date time2 = sdf.parse(endtime);
+			if(endtime!=null && !"".equals(endtime)){
+				cal.setTime(time2);
+			}else{
+				cal.setTime(time1);
+			}
+			cal.add(Calendar.DATE, 1);//增加一天,即：结束时间刚好到第二点零点整
+			dto.setDtoTime2(sdf.format(cal.getTime())+" 00:00:00");
+			cal.setTime(time1);
+			dto.setDtoTime1(sdf.format(cal.getTime())+" 00:00:00");
+			//组织机构
+			Insframework item = insf.getInsfAllById(dto.getParent());
+			obj.put("ITEMNAME",item.getName());
+			//获取平均焊接及工作时长
+			ModelDto avgmsg = live.getWelderAvgWorkTime(dto);
+			int weldertotal = live.getWelderTotal(dto);//在线人数
+			if(avgmsg!=null){
+				obj.put("AVGWORKTIME", (double)Math.round(avgmsg.getTime()/weldertotal*100)/100);//平均工作时长
+			}else{
+				obj.put("AVGWORKTIME", 0);
+			}
+			List<ModelDto> front = live.getWelderRank(dto, 1);
+			List<ModelDto> back = live.getWelderRank(dto, 0);
+			String frontwelder = "", backwelder = "";
+			for(int i=0;i<front.size();i++){
+				String name = front.get(i).getFname();
+				if(name==null || "".equals(name)){
+					name = front.get(i).getFwelder_id();
+				}
+				frontwelder += name+"("+(double)Math.round(front.get(i).getWorktime()*100)/100+"h)";
+				if(i != front.size()-1){
+					frontwelder += "、";
+				}
+			}
+			for(int i=0;i<back.size();i++){
+				String name = back.get(i).getFname();
+				if(name==null || "".equals(name)){
+					name = back.get(i).getFwelder_id();
+				}
+				backwelder += name+"("+(double)Math.round(back.get(i).getWorktime()*100)/100+"h)";
+				if(i != front.size()-1){
+					backwelder += "、";
+				}
+			}
+			obj.put("FRONTWELDER",frontwelder);
+			obj.put("BACKWELDER",backwelder);
+			obj.put("WELDERTOTAL",weldertotal);
+			return obj.toString();
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

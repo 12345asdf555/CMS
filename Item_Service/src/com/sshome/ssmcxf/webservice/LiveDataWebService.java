@@ -438,5 +438,11 @@ public interface LiveDataWebService {
 	Object getNewIdle(String object);
 
 	Object getMachineTypeTotal(String object);
-	
+
+	/**
+	 * 获取短信所需信息
+	 * @param object
+	 * @return
+	 */
+	Object getSMSMessage(String object);
 }

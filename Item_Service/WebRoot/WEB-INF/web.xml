@@ -42,6 +42,11 @@
   	<param-name>companyurl</param-name>
   	<param-value>http://121.196.222.216:8080/Company_Service/companyWebService?wsdl</param-value>
   </context-param>
+  <!-- 当前项目部id -->
+  <context-param>
+  	<param-name>itemid</param-name>
+  	<param-value>17</param-value>
+  </context-param>
   <welcome-file-list>
     <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>

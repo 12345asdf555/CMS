@@ -503,86 +503,6 @@ public class LiveDataServiceImpl implements LiveDataService {
 	}*/
 
 	@Override
-	public ModelDto getWelderMsg(WeldDto dto, BigInteger parent) {
-		try{
-			return live.getWelderMsg(dto, parent);
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public String getWelderMaxTime(WeldDto dto, BigInteger parent) {
-		try{
-			return live.getWelderMaxTime(dto, parent);
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public String getWelderMinTime(WeldDto dto, BigInteger parent) {
-		try{
-			return live.getWelderMinTime(dto, parent);
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public int getMachineTotal(BigInteger parent) {
-		try{
-			return live.getMachineTotal(parent);
-		}catch(Exception e){
-			e.printStackTrace();
-			return 0;
-		}
-	}
-
-	@Override
-	public ModelDto getMachineMsg(WeldDto dto, BigInteger parent) {
-		try{
-			return live.getMachineMsg(dto, parent);
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public int getMachineStandby(WeldDto dto, BigInteger parent) {
-		try{
-			return live.getMachineStandby(dto, parent);
-		}catch(Exception e){
-			e.printStackTrace();
-			return 0;
-		}
-	}
-
-	@Override
-	public String getMachineStandbyTime(WeldDto dto, BigInteger parent) {
-		try{
-			return live.getMachineStandbyTime(dto, parent);
-		}catch(Exception e){
-			e.printStackTrace();
-			return "0";
-		}
-	}
-
-	@Override
-	public int getWelderTotal(BigInteger parent) {
-		try{
-			return live.getWelderTotal(parent);
-		}catch(Exception e){
-			e.printStackTrace();
-			return 0;
-		}
-	}
-
-	@Override
 	public List<ModelDto> getExcessiveBack(WeldDto dto) {
 		try{
 			return live.getExcessiveBack(dto);
@@ -859,6 +779,46 @@ public class LiveDataServiceImpl implements LiveDataService {
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getWelderWorkTime(WeldDto dto, String insftype) {
+		try{
+			return live.getWelderWorkTime(dto, insftype);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public ModelDto getWelderAvgWorkTime(WeldDto dto) {
+		try{
+			return live.getWelderAvgWorkTime(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<ModelDto> getWelderRank(WeldDto dto, int status) {
+		try{
+			return live.getWelderRank(dto, status);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public int getWelderTotal(WeldDto dto) {
+		try{
+			return live.getWelderTotal(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return -1;
 		}
 	}
 }

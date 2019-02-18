@@ -795,11 +795,11 @@ public class LiveDataServiceImpl implements LiveDataService {
 	@Override
 	public ModelDto getWelderAvgWorkTime(WeldDto dto) {
 		try{
-		return live.getWelderAvgWorkTime(dto);
-	}catch(Exception e){
-		e.printStackTrace();
-		return null;
-	}
+			return live.getWelderAvgWorkTime(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
