@@ -27,7 +27,6 @@ public class MyMultipartResolver extends CommonsMultipartResolver {
     public boolean isMultipart(HttpServletRequest request) {
         for (String url: excludeUrlArray) {
             // 这里可以自己换判断
-        	System.out.println(request.getRequestURI());
             if (request.getRequestURI().contains(url)) {
                 return false;
             }
