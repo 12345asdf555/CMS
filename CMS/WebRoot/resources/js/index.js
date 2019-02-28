@@ -171,6 +171,10 @@ function openLive(){
 	window.open("td/newAllTd");
 }
 
+function openTab(name,resource){
+	addTab(name,resource);
+}
+
 function addTab(title, url) {
 	//该面板是否已打开
 	if (!$("#tabs").tabs('exists', title)) {

@@ -123,7 +123,7 @@ public class WeldingMachineWebServiceImpl implements WeldingMachineWebService {
 			wm.setCreator(json.getString("CREATOR"));
 			Gather gather = new Gather();
 			String gatherid = json.getString("GATHERID");
-			if(gatherid!=null && !"".equals(gatherid)){
+			if(!gatherid.equals("0")){
 				gather.setId(new BigInteger(gatherid));
 			}
 			wm.setGatherId(gather);

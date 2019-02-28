@@ -679,5 +679,76 @@ public class WpsServiceImpl implements WpsService {
 			return false;
 		}
 	}
+	public Object saveChiledrenWps(String obj1, String obj2) {
+		try{
+			//webservice获取request
+			MessageContext ctx = new WebServiceContextImpl().getMessageContext();
+			HttpServletRequest request = (HttpServletRequest) ctx.get(AbstractHTTPDestination.HTTP_REQUEST);
+			//向集团层执行插入
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+			Client blocclient = dcf.createClient(request.getSession().getServletContext().getInitParameter("blocurl"));
+			jutil.Authority(blocclient);
+			Object[] blocobj = blocclient.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});
+			BigInteger id = new BigInteger(blocobj[0].toString());
+			JSONObject json = JSONObject.fromObject(obj2);
+			//获取层级id
+			String hierarchy = json.getString("HIERARCHY");
+			String itemurl = "";
+			boolean itemflag = true;
+			if(hierarchy.equals("4")){
+				itemurl = json.getString("ITEMURL");
+			}else{
+				if(json.getInt("INSFTYPE")==23){
+					BigInteger insfid = new BigInteger(json.getString("INSFID"));
+					itemurl = request.getSession().getServletContext().getInitParameter(insfid.toString());
+				}else{
+					itemflag = false;
+				}
+			}
+			boolean flag = true;
+			Wps w = new Wps();
+			w.setFwpsnum(json.getString("WPSNUM"));
+			w.setFweld_prechannel(json.getInt("WELDPRECHANNEL"));
+			w.setFwelding_method(json.getString("WELDINGMETHOD"));
+			w.setFtype(json.getString("TYPE"));
+			w.setFchildren_specification(json.getString("SPECIFICATION"));
+			w.setFpolarity(json.getString("POLARITY"));
+			w.setFweld_i_min(json.getInt("MINELECTRICITY"));
+			w.setFweld_i_max(json.getInt("MAXELECTRICITY"));
+			w.setFweld_v_min(json.getInt("MINVALTAGE"));
+			w.setFweld_v_max(json.getInt("MAXVALTAGE"));
+			w.setFweld_i((json.getInt("MINELECTRICITY")+json.getInt("MAXELECTRICITY"))/2);
+			w.setFweld_v((json.getInt("MINVALTAGE")+json.getInt("MAXVALTAGE"))/2);
+			w.setFweld_alter_i(0);
+			w.setFweld_alter_v(0);
+			w.setFname(json.getString("WPSNUM"));
+			w.setFwelding_speed(json.getString("WELDINGSPEED"));
+			w.setFcreater(json.getLong("CREATOR"));
+			w.setInsid(new BigInteger(json.getString("INSFID")));
+			flag = wm.save(w);
+			String result = "false";
+			if(flag){
+				if(!itemflag){
+					return true;
+				}
+				//向项目执行插入
+				if(itemurl!=null && !"".equals(itemurl)){
+					Client itemclient = dcf.createClient(itemurl);
+					jutil.Authority(itemclient);
+					obj2 = obj2.substring(0,obj2.length()-1)+",\"ID\":\""+id+"\"}";
+					Object[] itemobj = itemclient.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});
+					result = itemobj[0].toString();
+				}else{
+					return "未找到该项目部，请检查网络连接情况或是否部署服务";
+				}
+				return result;
+			}else{
+				return false;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 }

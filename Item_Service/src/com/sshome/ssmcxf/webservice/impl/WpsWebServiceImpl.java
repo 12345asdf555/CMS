@@ -57,4 +57,9 @@ public class WpsWebServiceImpl implements WpsWebService {
 		return ws.findWpsAll(object);
 	}
 
+	@Override
+	public Object saveChildrenWPS(String object) {
+		return ws.saveChiledrenWps(object);
+	}
+
 }

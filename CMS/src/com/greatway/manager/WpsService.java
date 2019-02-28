@@ -13,6 +13,7 @@ public interface WpsService {
 	 * @return
 	 */
 	List<Wps> findAll(BigInteger parent,String wpsnum);
+	List<Wps> findAll(BigInteger parent,String wpsnumm,String search);
 	List<Wps> findAll(Page page,BigInteger parent,String wpsnum,String search);
 	
 	/**
@@ -56,6 +57,7 @@ public interface WpsService {
 	 * @return
 	 */
 	List<Wps> findWpsAll(Page page,BigInteger parent, String str);
+	List<Wps> findWpsAll(BigInteger parent, String str);
 	
 	/**
 	 * 根据id查找wps

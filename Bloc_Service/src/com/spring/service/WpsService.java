@@ -73,4 +73,11 @@ public interface WpsService {
 	 * @return
 	 */
 	boolean deleteWps(String object);
+	
+	/**
+	 * 新增wps焊接参数
+	 * @param object
+	 * @return
+	 */
+	BigInteger saveChiledrenWps(String object);
 }

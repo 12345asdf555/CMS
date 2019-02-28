@@ -221,7 +221,7 @@ function editMachine(id, wid, flags) {
 function exportWeldingMachine() {
 	$.messager.confirm("提示", "文件默认保存在浏览器的默认路径，<br/>如需更改路径请设置浏览器的<br/>“下载前询问每个文件的保存位置“属性！", function(result) {
 		if (result) {
-			var url = "export/exporWeldingMachine";
+			var url = "export/exporWeldingMachine?parent="+$("#iId").combobox('getValue');
 			var img = new Image();
 			img.src = url; // 设置相对路径给Image, 此时会发送出请求
 			url = img.src; // 此时相对路径已经变成绝对路径

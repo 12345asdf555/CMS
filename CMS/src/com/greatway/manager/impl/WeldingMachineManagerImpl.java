@@ -45,8 +45,8 @@ public class WeldingMachineManagerImpl implements WeldingMachineManager {
 	}
 
 	@Override
-	public List<WeldingMachine> getWeldingMachine(String str) {
-		return wmm.getWeldingMachineAll(null,str);
+	public List<WeldingMachine> getWeldingMachine(BigInteger parent,String str) {
+		return wmm.getWeldingMachineAll(parent,str);
 	}
 
 	@Override

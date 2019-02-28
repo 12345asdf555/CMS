@@ -90,7 +90,7 @@ public class MaintainController {
 			}
 		} else{
 			searchStr = "(i.fid="+parentid+" or ins.fid="+parentid+" or insf.fid="+parentid+" or insf.fparent="+parentid+")";
-			if(iutil.isNull(str)){
+			if(!iutil.isNull(str)){
 				searchStr = str;
 			}
 		}

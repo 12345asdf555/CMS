@@ -457,11 +457,11 @@ function refreshWelderData(data){
 //调用父类（index页面）方法
 function openParentMethod(index){
 	if(index==0){
-		parent.openChildrenWorkRank();
+		parent.openTab("焊工工作量排行", "hierarchy/goWorkRank");
 	}else if(index==1){
-		parent.openChildrenUseratio();
+		parent.openTab("设备利用率", "hierarchy/goUseratio");
 	}else{
-		parent.openChildrenLoadrate();
+		parent.openTab("焊接规范符合率", "hierarchy/goLoadrate");
 	}
 }
 

@@ -35,8 +35,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <div style="margin-bottom: 5px;">
 	        	<a href="wps/goAddWps" class="easyui-linkbutton" iconCls="icon-add">新增</a>
 	        	<a href="javascript:insertSearchWps();" class="easyui-linkbutton" iconCls="icon-search" >查找</a>
+	        	<input type="radio" name="wps" value="0" checked="checked" style="width:20px;"/>工艺<input type="radio" name="wps" value="1" style="width:20px;"/>焊接参数
+	          	<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-excel">导入</a>
+			    <a href="javascript:exportWPS();" class="easyui-linkbutton" iconCls="icon-excel">导出</a>  
 	    	</div>
 	  	</div>
+	    <div id="importdiv" class="easyui-dialog" style="width:300px; height:200px;" closed="true">
+	      <form id="importfm" method="post" class="easyui-form" data-options="novalidate:true" enctype="multipart/form-data"> 
+	        <div>
+	          <span><input type="file" name="file" id="file"></span><br/><br/>
+	          <input type="button" value="上传" onclick="importWPS()" class="upButton"/>
+	        </div>
+	      </form>
+	    </div>
 	  	<table id="dg" style="table-layout:fixed;width:100%"></table>
     	<div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">
 	    	<div id="div0">

@@ -64,4 +64,11 @@ public interface WpsWebService {
 	 * @return
 	 */
 	Object deleteWps(String obj1,String obj2);
+	
+	/**
+	 * 新增wps焊接参数
+	 * @param object
+	 * @return
+	 */
+	Object saveChildrenWPS(String obj1,String obj2);
 }

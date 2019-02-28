@@ -35,6 +35,11 @@ public class WpsServiceImpl implements WpsService{
 	public List<Wps> findAll(BigInteger parent,String wpsnum) {
 		return mapper.findAll(parent,wpsnum,null);
 	}
+	
+	@Override
+	public List<Wps> findAll(BigInteger parent,String wpsnum,String str) {
+		return mapper.findAll(parent,wpsnum,str);
+	}
 
 	@Override
 	public boolean save(Wps wps) {
@@ -54,6 +59,11 @@ public class WpsServiceImpl implements WpsService{
 	@Override
 	public List<Wps> findWpsAll(Page page,BigInteger parent, String str) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return mapper.findWpsAll(parent, str);
+	}
+	
+	@Override
+	public List<Wps> findWpsAll(BigInteger parent, String str) {
 		return mapper.findWpsAll(parent, str);
 	}
 

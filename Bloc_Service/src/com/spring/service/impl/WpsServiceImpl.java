@@ -488,4 +488,39 @@ public class WpsServiceImpl implements WpsService {
 		}
 	}
 
+	@Override
+	public BigInteger saveChiledrenWps(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			Wps w = new Wps();
+			w.setFwpsnum(json.getString("WPSNUM"));
+			w.setFweld_prechannel(json.getInt("WELDPRECHANNEL"));
+			w.setFwelding_method(json.getString("WELDINGMETHOD"));
+			w.setFtype(json.getString("TYPE"));
+			w.setFchildren_specification(json.getString("SPECIFICATION"));
+			w.setFpolarity(json.getString("POLARITY"));
+			w.setFweld_i_min(json.getInt("MINELECTRICITY"));
+			w.setFweld_i_max(json.getInt("MAXELECTRICITY"));
+			w.setFweld_v_min(json.getInt("MINVALTAGE"));
+			w.setFweld_v_max(json.getInt("MAXVALTAGE"));
+			w.setFweld_i((json.getInt("MINELECTRICITY")+json.getInt("MAXELECTRICITY"))/2);
+			w.setFweld_v((json.getInt("MINVALTAGE")+json.getInt("MAXVALTAGE"))/2);
+			w.setFweld_alter_i(0);
+			w.setFweld_alter_v(0);
+			w.setFname(json.getString("WPSNUM"));
+			w.setFwelding_speed(json.getString("WELDINGSPEED"));
+			w.setFcreater(json.getLong("CREATOR"));
+			w.setInsid(new BigInteger(json.getString("INSFID")));
+			if(wm.save(w)){
+				return w.getChildrenid();
+			}else{
+				return null;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	
+	}
+
 }

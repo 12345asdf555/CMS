@@ -63,5 +63,10 @@ public class WpsWebServiceImpl implements WpsWebService {
 	public boolean deleteWps(String object) {
 		return ws.deleteWps(object);
 	}
+
+	@Override
+	public BigInteger saveChildrenWPS(String object) {
+		return ws.saveChiledrenWps(object);
+	}
 	
 }
