@@ -36,87 +36,8 @@ $(function() {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
-	getMsg();
 	websocket();
 })
-
-function getMsg(){
-	$.ajax({
-		type : "post",
-		async : false,
-		url : "Dictionary/getDictionaryValueame?ivalue=81",
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (result) {
-				dic = eval(result.ary);
-			}
-		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	});
-	var dtoTime1 = getNowFormatDate(new Date().getTime() - 3600 * 1000);
-	var dtoTime2 = getNowFormatDate(new Date().getTime());
-	$.ajax({
-		type : "post",
-		async : false,
-		url : "td/standbytimeout?dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2+ "&dictionry=" + dic[0].name,
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (result) {
-				starows = eval(result.rows);
-			}
-		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	});
-}
-function getNowFormatDate(millsTime) {
-	var day = new Date(millsTime);
-	var Year = 0;
-	var Month = 0;
-	var Day = 0;
-	var Hour = 0;
-	var Minute = 0;
-	var Second = 0;
-	var CurrentDate = "";
-	Year = day.getFullYear(); //支持IE和火狐浏览器.
-	Month = day.getMonth() + 1;
-	Day = day.getDate();
-	Hour = day.getHours();
-	Minute = day.getMinutes();
-	Second = day.getSeconds();
-	CurrentDate += Year + '-';
-	if (Month >= 10) {
-		CurrentDate += Month + '-';
-	} else {
-		CurrentDate += "0" + Month + '-';
-	}
-	if (Day >= 10) {
-		CurrentDate += Day + ' ';
-	} else {
-		CurrentDate += "0" + Day + ' ';
-	}
-	if (Hour >= 10) {
-		CurrentDate += Hour + ':';
-	} else {
-		CurrentDate += '0' + Hour + ':';
-	}
-	if (Minute >= 10) {
-		CurrentDate += Minute + ':';
-	} else {
-		CurrentDate += '0' + Minute + ':';
-	}
-	if (Second >= 10) {
-		CurrentDate += Second;
-	} else {
-		CurrentDate += '0' + Second;
-	}
-	return CurrentDate;
-}
 
 function websocket() {
 	if (typeof (WebSocket) == "undefined") {
