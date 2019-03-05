@@ -2771,7 +2771,6 @@
 				AND (i.fid=#{dto.parent} or ins.fid = #{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
 			</if>
 		</if>
-		group by tw.fwelder_id
 	</select>
 
 	<!-- 获取焊工排行（前后五） -->
