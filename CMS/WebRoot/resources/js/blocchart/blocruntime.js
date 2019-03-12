@@ -150,7 +150,7 @@ function showChart(){
 		        itemStyle : { 
 		            normal: { 
 		                lineStyle: { 
-		                    color:'#000099', //标志线颜色
+		                    color:'#000099'//标志线颜色
 		                }
 		            } 
 		        }

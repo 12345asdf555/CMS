@@ -37,27 +37,6 @@ var dic,/*starows,*/flag=0,noflag=0;
 var led = [ "0,1,2,4,5,6", "2,5", "0,2,3,4,6", "0,2,3,5,6", "1,2,3,5", "0,1,3,5,6", "0,1,3,4,5,6", "0,2,5", "0,1,2,3,4,5,6", "0,1,2,3,5,6" ];
 $(function() {
 	var width = $("#treeDiv").width();
-//	$(".easyui-layout").layout({
-//		onCollapse : function() {
-//			$("#dg").datagrid({
-//				height : $("#body").height(),
-//				width : $("#body").width()
-//			})
-//		},
-//		onExpand : function() {
-//			$("#dg").datagrid({
-//				height : $("#body").height(),
-//				width : $("#body").width()
-//			})
-//		}
-//	});
-//	$("#myTree").tree({
-//		onClick : function(node) {
-//			$("#dg").datagrid('load', {
-//				"parent" : node.id
-//			})
-//		}
-//	})
 	$.ajax({
 		type : "post",
 		async : false,
@@ -88,104 +67,8 @@ $(function() {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
-	/*		$.ajax({  
-			      type : "post",  
-			      async : false,
-			      url : "wps/Spe?machine="+document.getElementById("in2")+"&chanel="+"",  
-			      data : {},  
-			      dataType : "json", //返回数据形式为json  
-			      success : function(result) {
-			          if (result) {
-			        	tongdao = eval(result.rows);
-			        	}else{
-			        		alert("未查询到相关数据，请尝试索取保存。");
-			        	}
-			      },
-			      error : function(errorMsg) {  
-			          alert("数据请求失败，请联系系统管理员!");  
-			      }  
-			 });*/
-	getMsg();
 	websocket();
 })
-
-function getMsg(){
-	/*$.ajax({
-		type : "post",
-		async : false,
-		url : "Dictionary/getDictionaryValueame?ivalue=81",
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (result) {
-				dic = eval(result.ary);
-			}
-		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	});
-	var dtoTime1 = getNowFormatDate(new Date().getTime() - 3600 * 1000);
-	var dtoTime2 = getNowFormatDate(new Date().getTime());
-	$.ajax({
-		type : "post",
-		async : false,
-		url : "td/standbytimeout?dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2+ "&dictionry=" + dic[0].name,
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (result) {
-				starows = eval(result.rows);
-			}
-		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	});*/
-}
-function getNowFormatDate(millsTime) {
-	var day = new Date(millsTime);
-	var Year = 0;
-	var Month = 0;
-	var Day = 0;
-	var Hour = 0;
-	var Minute = 0;
-	var Second = 0;
-	var CurrentDate = "";
-	Year = day.getFullYear(); //支持IE和火狐浏览器.
-	Month = day.getMonth() + 1;
-	Day = day.getDate();
-	Hour = day.getHours();
-	Minute = day.getMinutes();
-	Second = day.getSeconds();
-	CurrentDate += Year + '-';
-	if (Month >= 10) {
-		CurrentDate += Month + '-';
-	} else {
-		CurrentDate += "0" + Month + '-';
-	}
-	if (Day >= 10) {
-		CurrentDate += Day + ' ';
-	} else {
-		CurrentDate += "0" + Day + ' ';
-	}
-	if (Hour >= 10) {
-		CurrentDate += Hour + ':';
-	} else {
-		CurrentDate += '0' + Hour + ':';
-	}
-	if (Minute >= 10) {
-		CurrentDate += Minute + ':';
-	} else {
-		CurrentDate += '0' + Minute + ':';
-	}
-	if (Second >= 10) {
-		CurrentDate += Second;
-	} else {
-		CurrentDate += '0' + Second;
-	}
-	return CurrentDate;
-}
 
 function websocket() {
 	if (typeof (WebSocket) == "undefined") {
@@ -610,26 +493,6 @@ function iview() {
 		time[time.length] = time[time.length - 1] + 1000;
 	}
 }
-
-/*//统计超时
-function getOvertime(){
-	getMsg();
-	if(starows.length!=0){
-	  	for(var j=0;j<starows.length/2;j++){
-	  		if(document.getElementById("inn2").value==starows[j].fname){
-	  			var count = (parseInt(starows[j].ftime)/parseInt(starows[starows.length/2+j].ftime)).toFixed(2);
-	  			if(count>(parseInt(dic[0].name)/100).toFixed(2)){
-					document.getElementById("in4").value = "超时待机";
-					document.getElementById("in4").style.backgroundColor = "#55a7f3";
-					document.getElementById("mrjpg").src = "resources/images/welder_05.png";
-	  			}
-	  			starows[j].ftime=0;
-	  			starows[starows.length/2+j].ftime=0;
-	  		}    
-	  	}
-	};
-}*/
-
 
 //监听窗口大小变化
 window.onresize = function() {

@@ -8,7 +8,7 @@ $(document).ready(function(){
 })
 
 var min="";
-var max ="",dtoTime1,dtoTime2;
+var max ="",dtoTime1,dtoTime2,charts;
 function setParam(){
 	chartStr = "";
 	var parent = $('#parent').combobox('getValue');

@@ -65,8 +65,6 @@ function loadtree() {
 			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
 			$("#bodydiv").append(sh);
 			document.getElementById("show").style.display="block";
-//			var dtoTime1 = getNowFormatDate(new Date().getTime() - 7200 * 1000);
-//			var dtoTime2 = getNowFormatDate(new Date().getTime());
 			$("#curve").html("");
 			$("#standby").html(0);
 			$("#work").html(0);
@@ -105,50 +103,6 @@ function websocketUrl() {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
-}
-
-function getNowFormatDate(millsTime) {
-	var day = new Date(millsTime);
-	var Year = 0;
-	var Month = 0;
-	var Day = 0;
-	var Hour = 0;
-	var Minute = 0;
-	var Second = 0;
-	var CurrentDate = "";
-	Year = day.getFullYear(); //支持IE和火狐浏览器.
-	Month = day.getMonth() + 1;
-	Day = day.getDate();
-	Hour = day.getHours();
-	Minute = day.getMinutes();
-	Second = day.getSeconds();
-	CurrentDate += Year + '-';
-	if (Month >= 10) {
-		CurrentDate += Month + '-';
-	} else {
-		CurrentDate += "0" + Month + '-';
-	}
-	if (Day >= 10) {
-		CurrentDate += Day + ' ';
-	} else {
-		CurrentDate += "0" + Day + ' ';
-	}
-	if (Hour >= 10) {
-		CurrentDate += Hour + ':';
-	} else {
-		CurrentDate += '0' + Hour + ':';
-	}
-	if (Minute >= 10) {
-		CurrentDate += Minute + ':';
-	} else {
-		CurrentDate += '0' + Minute + ':';
-	}
-	if (Second >= 10) {
-		CurrentDate += Second;
-	} else {
-		CurrentDate += '0' + Second;
-	}
-	return CurrentDate;
 }
 
 //获取焊机及焊工信息

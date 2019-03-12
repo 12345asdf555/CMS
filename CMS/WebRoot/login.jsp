@@ -61,7 +61,7 @@
 	                </tr>
 	                <tr>
 			            <td style="width:80px;">&nbsp;&nbsp;密     码:</td>
-			            <td><input type='password' name='j_password'></td>
+			            <td><input type='password' name='j_password' id="upass"></td>
 	                </tr>
 	                <tr>
 			            <td style="width:80px;">&nbsp;&nbsp;验证码:</td>

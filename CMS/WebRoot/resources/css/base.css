@@ -373,12 +373,6 @@ select::-ms-expand {
 .required{
 	color: red; 
 }
-
-#accordiondiv ul li{
-	line-height:25px;
-	padding-left: 20px;
-	color: #fff;
-}
 #chartLoading{ 
 	display: none; 
 	position: absolute; 

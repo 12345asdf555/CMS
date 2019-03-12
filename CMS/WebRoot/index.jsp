@@ -34,11 +34,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<!-- 头部 -->
   	<div region="north" split="true" style="height: 128px;" id="north">
 		<div class="head-wrap">
-			<a href="" class="logo"></a>
+			<a href="" class="logo"><img src="resources/images/logo.png"></a>
 			<div class="search-wrap">
 				<div class="search">
-					<input type="" placeholder='公司内部' class=''>
-					<button><i class="iconfont icon-search ver-a-m"></i></button>
+					<input type="" value='公司内部' readonly="readonly">
 				</div>
 			</div>
 			<div class="box clearfix">

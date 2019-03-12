@@ -2,10 +2,12 @@
 body {
     background-image: url(../images/denglu.jpg);
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 110%;
+    width:110%;
     text-align: center;
     background-color: #D1DCEE;
     font-family: 'Microsoft YaHei UI';
+	overflow: hidden;/*溢出隐藏*/
 }
 
 table {
@@ -44,7 +46,7 @@ h1 {
     width: 130px;
     height: 130px;
     margin-left: 70px;
-    margin-right: 50px;
+    margin-rigjt: 50px;
 }
 
 tr td:first-child {
@@ -52,7 +54,7 @@ tr td:first-child {
 }
 
 td img {
-    width: 77%;
+    width: 350px;
 }
 
 #btnLogin {
@@ -66,7 +68,7 @@ td > span {
     letter-spacing: 2px;
 }
 
-input[type=text],input[type=password] {
+#uname,#upass,#code {
     -webkit-appearance: none;
     -moz-appearance: none;
     background-color: #fff;
