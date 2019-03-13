@@ -30,7 +30,7 @@ function parentCombobox(){
 	})
 	$("#parent").combobox({
 		onChange: function (newvalue,oldvalue) {
-			$("#parent").combobox('setText',$("#parent").combobox('getText').trim());
+			$("#parent").combobox('setText',$.trim($("#parent").combobox('getText')));
 			$.ajax({
 				type : "post",
 				async : true,

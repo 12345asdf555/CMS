@@ -5,7 +5,7 @@ $(function(){
 })
 
 $(document).ready(function(){
-	showChart();
+	showChart(0);
 })
 
 //获取组织机构下拉框
@@ -28,7 +28,7 @@ function parentCombobox(){
 	})
 	$("#parent").combobox({
 		onChange: function (newvalue,oldvalue) {
-			$("#parent").combobox('setText',$("#parent").combobox('getText').trim());
+			$("#parent").combobox('setText',$.trim($("#parent").combobox('getText')));
 		}
 	});
 	var data = $("#parent").combobox('getData');
@@ -49,9 +49,11 @@ var array2 = new Array();
 var array3 = new Array();
 var avgworktime=0,avgtime=0;
 var charts,option;
-function showChart(){
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("charts"));
+function showChart(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("charts"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -173,7 +175,7 @@ function showChart(){
 			$("#charts").width(width);
 		}
 	}
-	echarts.init(document.getElementById('charts')).resize();
+	charts.resize();
 }
 
 function dgDatagrid(){
@@ -261,5 +263,5 @@ function domresize() {
 		height : $("#dgdiv").height()-50,
 		width : $("#dgdiv").width()
 	});
-	echarts.init(document.getElementById('charts')).resize();
+	charts.resize();
 }

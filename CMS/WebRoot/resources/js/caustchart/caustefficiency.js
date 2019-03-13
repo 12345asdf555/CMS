@@ -4,10 +4,10 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showcaustEfficiencyChart();
+	showcaustEfficiencyChart(0);
 })
 
-var min="",max ="",dtoTime1,dtoTime2;
+var min="",max ="",dtoTime1,dtoTime2,charts;
 function setParam(){
 	chartStr = "";
 	var parent = $('#parent').combobox('getValue');
@@ -17,7 +17,7 @@ function setParam(){
 	chartStr = "?parent="+parent+"&nextparent="+nextparent+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&min="+min+"&max="+max;
 }
 
-function showcaustEfficiencyChart(){
+function showcaustEfficiencyChart(num){
 	setParam();
 	var array1 = new Array();
 	var array2 = new Array();
@@ -60,8 +60,10 @@ function showcaustEfficiencyChart(){
              alert("图表请求数据失败啦!");  
          }  
     }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("caustEfficiencyChart"));
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("caustEfficiencyChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -132,7 +134,7 @@ function showcaustEfficiencyChart(){
 		var width = (array1.length-7) * 40;
 		$("#caustEfficiencyChart").width($("#caustEfficiencyChart").width()+width);
 	}
-	echarts.init(document.getElementById('caustEfficiencyChart')).resize();
+	charts.resize();
 }
 
 function CaustEfficiencyDatagrid(){
@@ -231,7 +233,7 @@ function serachEfficiencyCaust(){
 	$("#nextparent").val("");
 	$("#chartLoading").show();
 	setTimeout(function() {
-		showcaustEfficiencyChart();
+		showcaustEfficiencyChart(1);
 		CaustEfficiencyDatagrid();
 	}, 500)
 }
@@ -247,5 +249,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#caustEfficiencyChart").height()-$("#caustEfficiency_btn").height()-45,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('caustEfficiencyChart')).resize();
+	charts.resize();
 }

@@ -13,7 +13,7 @@ function setParam(){
 var charts;
 var array1 = new Array();
 var array2 = new Array();
-function showCaustHourChart(){
+function showCaustHourChart(num){
 	setParam();
 	var parent = $("#parent").val();
 	 $.ajax({  
@@ -39,8 +39,10 @@ function showCaustHourChart(){
              alert("图表请求数据失败啦!");  
          }  
     }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("caustHourChart"));
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("caustHourChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -114,7 +116,7 @@ function showCaustHourChart(){
 			$("#caustHourChart").width(width);
 		}
 	}
-	echarts.init(document.getElementById('caustHourChart')).resize();
+	charts.resize();
 }
 
 function CaustHourDatagrid(){
@@ -238,7 +240,7 @@ function classifyDatagrid(){
 			array1 = new Array();
 			array2 = new Array();
 			CaustHourDatagrid();
-			showCaustHourChart();
+			showCaustHourChart(0);
 		}
 	});
 }
@@ -255,7 +257,7 @@ function commitChecked(){
 	chartStr += "&search="+search;
 	setTimeout(function(){
 		CaustHourDatagrid();
-		showCaustHourChart();
+		showCaustHourChart(1);
 	},500);
 }
 
@@ -278,5 +280,5 @@ function domresize() {
 		height : $("#classifydiv").height(),
 		width : $("#bodydiv").width()/2
 	});
-	echarts.init(document.getElementById('caustHourChart')).resize();
+	charts.resize();
 }

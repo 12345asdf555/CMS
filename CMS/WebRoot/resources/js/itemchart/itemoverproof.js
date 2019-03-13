@@ -4,7 +4,7 @@ $(function() {
 })
 var chartStr = "";
 $(document).ready(function() {
-	showitemOverproofChart();
+	showitemOverproofChart(0);
 })
 
 function setParam() {
@@ -18,10 +18,12 @@ function setParam() {
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showitemOverproofChart() {
-	//初始化echart实例
-	charts = echarts.init(document.getElementById("itemOverproofChart"));
+var charts,Series = [];
+function showitemOverproofChart(num) {
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("itemOverproofChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text : '稍等片刻,精彩马上呈现...',
@@ -88,7 +90,7 @@ function showitemOverproofChart() {
 		var width = array1.length * array2.length * 100;
 		$("#itemOverproofChart").width($("#itemOverproofChart").width()+width);
 	}
-	echarts.init(document.getElementById('itemOverproofChart')).resize();
+	charts.resize();
 }
 
 function ItemoverproofDatagrid() {
@@ -211,7 +213,7 @@ function serachitemoverproof() {
 	chartStr = "";
 	setTimeout(function() {
 		ItemoverproofDatagrid();
-		showitemOverproofChart();
+		showitemOverproofChart(1);
 	}, 500);
 }
 
@@ -226,5 +228,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#itemOverproofChart").height() - $("#itemOverproof_btn").height() - 45,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('itemOverproofChart')).resize();
+	charts.resize();
 }

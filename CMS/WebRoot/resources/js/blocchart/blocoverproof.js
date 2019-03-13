@@ -3,7 +3,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showBlocOverproofChart();
+	showBlocOverproofChart(0);
 })
 var dtoTime1,dtoTime2;
 function setParam(){
@@ -16,10 +16,12 @@ function setParam(){
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showBlocOverproofChart(){
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("blocOverproofChart"));
+var Series = [],charts;
+function showBlocOverproofChart(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("blocOverproofChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -77,7 +79,7 @@ function showBlocOverproofChart(){
 		var width = array1.length*80+array2.length * 22;
 		$("#blocOverproofChart").width($("#blocOverproofChart").width()+width);
 	}
-	echarts.init(document.getElementById('blocOverproofChart')).resize();
+	charts.resize();
 }
 
 function BlocHourDatagrid(){
@@ -142,7 +144,7 @@ function serachBlocOverproof(){
 	chartStr = "";
 	setTimeout(function(){
 		BlocHourDatagrid();
-		showBlocOverproofChart();
+		showBlocOverproofChart(1);
 	},500);
 }
 
@@ -157,5 +159,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#blocOverproofChart").height()-$("#blocOverproof_btn").height()-15,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('blocOverproofChart')).resize();
+	charts.resize();
 }

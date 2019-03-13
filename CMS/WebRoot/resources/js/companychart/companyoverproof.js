@@ -3,7 +3,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showCompanyOverproofChart();
+	showCompanyOverproofChart(0);
 })
 var dtoTime1,dtoTime2;
 function setParam(){
@@ -16,8 +16,12 @@ function setParam(){
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showCompanyOverproofChart(){
+var charts,Series = [];
+function showCompanyOverproofChart(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("blocOvertimeChart"));
+	}
    	//初始化echart实例
 	charts = echarts.init(document.getElementById("companyOverproofChart"));
 	//显示加载动画效果
@@ -77,7 +81,7 @@ function showCompanyOverproofChart(){
 		var width = array1.length * 80 + array2.length * 22;
 		$("#companyOverproofChart").width($("#companyOverproofChart").width()+width);
 	}
-	echarts.init(document.getElementById('companyOverproofChart')).resize();
+	charts.resize();
 }
 
 function CompanyHourDatagrid(){
@@ -142,7 +146,7 @@ function serachCompanyOverproof(){
 	chartStr = "";
 	setTimeout(function(){
 		CompanyHourDatagrid();
-		showCompanyOverproofChart();
+		showCompanyOverproofChart(1);
 	},500);
 }
 
@@ -157,5 +161,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#companyOverproofChart").height()-$("#companyOverproof_btn").height()-45,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('companyOverproofChart')).resize();
+	charts.resize();
 }

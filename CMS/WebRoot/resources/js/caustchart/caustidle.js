@@ -4,7 +4,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showcaustIdleTable();
+	showcaustIdleTable(0);
 })
 var dtoTime1,dtoTime2;
 function setParam(){
@@ -17,10 +17,12 @@ function setParam(){
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showcaustIdleTable(){
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("caustIdleChart"));
+var charts,Series = [];
+function showcaustIdleTable(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("caustIdleChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -77,7 +79,7 @@ function showcaustIdleTable(){
 		var width = array1.length * array2.length * 12;
 		$("#caustIdleChart").width($("#caustIdleChart").width()+width);
 	}
-	echarts.init(document.getElementById('caustIdleChart')).resize();
+	charts.resize();
 }
 
 
@@ -157,7 +159,7 @@ function serachcaustIdle(){
 	chartStr = "";
 	setTimeout(function() {
 		CaustIdleDatagrid();
-		showcaustIdleTable();
+		showcaustIdleTable(1);
 	}, 500)
 }
 
@@ -172,5 +174,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#caustIdleChart").height()-$("#caustIdle_btn").height()-45,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('caustIdleChart')).resize();
+	charts.resize();
 }

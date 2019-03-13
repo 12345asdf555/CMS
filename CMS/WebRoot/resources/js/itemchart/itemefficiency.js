@@ -3,11 +3,11 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showItemEfficiencyChart();
+	showItemEfficiencyChart(0);
 })
 
 
-var min="",max ="";
+var charts,min="",max ="";
 function setParam(){
 	chartStr = "";
 	var nextparent = $("#nextparent").val();
@@ -16,7 +16,7 @@ function setParam(){
 	chartStr = "?nextparent="+nextparent+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&min="+min+"&max="+max;
 }
 
-function showItemEfficiencyChart(){
+function showItemEfficiencyChart(num){
 	setParam();
 	var array1 = new Array();
 	var array2 = new Array();
@@ -59,8 +59,10 @@ function showItemEfficiencyChart(){
              alert("图表请求数据失败啦!");  
          }  
     }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("itemEfficiencyChart"));
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("itemEfficiencyChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -131,7 +133,7 @@ function showItemEfficiencyChart(){
 		var width = (array1.length-7) * 40;
 		$("#itemEfficiencyChart").width($("#itemEfficiencyChart").width()+width);
 	}
-	echarts.init(document.getElementById('itemEfficiencyChart')).resize();
+	charts.resize();
 }
 
 function ItemEfficiencyDatagrid(){
@@ -195,7 +197,7 @@ function serachEfficiencyItem(){
 	var time1 = $("#time1").val("");
 	var time2 = $("#time2").val("");
 	setTimeout(function() {
-		showItemEfficiencyChart();
+		showItemEfficiencyChart(1);
 		ItemEfficiencyDatagrid();
 	}, 500)
 }
@@ -211,5 +213,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#itemEfficiencyChart").height()-$("#itemEfficiency_btn").height()-45,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('itemEfficiencyChart')).resize();
+	charts.resize();
 }

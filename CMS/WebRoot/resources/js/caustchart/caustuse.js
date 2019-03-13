@@ -4,7 +4,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showcaustUseChart();
+	showcaustUseChart(0);
 })
 var dtoTime1,dtoTime2;
 function setParam(){
@@ -17,7 +17,7 @@ function setParam(){
 var charts;
 var array1 = new Array();
 var array2 = new Array();
-function showcaustUseChart(){
+function showcaustUseChart(num){
 	setParam();
 	 $.ajax({  
          type : "post",  
@@ -37,8 +37,10 @@ function showcaustUseChart(){
              alert("图表请求数据失败啦!");  
          }  
     }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("caustUseChart"));
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("caustUseChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -112,7 +114,7 @@ function showcaustUseChart(){
 			$("#caustUseChart").width(width);
 		}
 	}
-	echarts.init(document.getElementById('caustUseChart')).resize();
+	charts.resize();
 }
 
 
@@ -208,7 +210,7 @@ function serachcaustUse(){
 	chartStr = "";
 	setTimeout(function(){
 		CaustUseDatagrid();
-		showcaustUseChart();
+		showcaustUseChart(1);
 	},500);
 }
 
@@ -223,5 +225,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#caustUseChart").height()-$("#caustUse_btn").height()-15,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('caustUseChart')).resize();
+	charts.resize();
 }

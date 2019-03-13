@@ -1,5 +1,6 @@
 $(function(){
 	flagnum=1;
+	echartnum=1;
 	parentCombobox();
 //	dgDatagrid();
 })
@@ -8,7 +9,7 @@ $(document).ready(function(){
 //	showChart();
 })
 
-var type,flagnum;
+var charts,type,flagnum,echartnum;
 function parentCombobox(){
 	$.ajax({
 		type : 'post',
@@ -28,7 +29,7 @@ function parentCombobox(){
 	})
 	$("#parent").combobox({
 		onChange: function (newvalue,oldvalue) {
-			$("#parent").combobox('setText',$("#parent").combobox('getText').trim());
+			$("#parent").combobox('setText',$.trim($("#parent").combobox('getText')));
 			$.ajax({
 				type : "post",
 				async : true,
@@ -107,8 +108,11 @@ function showChart(){
             alert("请求数据失败啦,请联系系统管理员!");  
         }  
    }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("charts"));
+	 if(echartnum==1){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("charts"));
+		echartnum = 0;
+	 }
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -221,5 +225,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('charts')).resize();
+	charts.resize();
 }

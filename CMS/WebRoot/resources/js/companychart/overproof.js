@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	showOverproof();
 })
-
+var charts;
 function showOverproof(){
 	var array1 = new Array();
 	var array2 = new Array();
@@ -89,7 +89,7 @@ function showOverproof(){
 		var width = (array1.length-10) * 120;
 		$("#overproof").width($("#overproof").width()+width);
 	}
-	echarts.init(document.getElementById('overproof')).resize();
+	charts.resize();
 }
 //监听窗口大小变化
 window.onresize = function() {
@@ -98,5 +98,5 @@ window.onresize = function() {
 
 //改变图表高宽
 function domresize() {
-	echarts.init(document.getElementById('overproof')).resize();
+	charts.resize();
 }

@@ -4,7 +4,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showItemOverptimeChart();
+	showItemOverptimeChart(0);
 })
 
 var otype = "";
@@ -19,10 +19,12 @@ function setParam(){
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showItemOverptimeChart(){
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("itemOvertimeChart"));
+var charts,Series = [];
+function showItemOverptimeChart(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("itemOvertimeChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -80,7 +82,7 @@ function showItemOverptimeChart(){
 		var width = array1.length * array2.length * 100;
 		$("#itemOvertimeChart").width($("#itemOvertimeChart").width()+width);
 	}
-	echarts.init(document.getElementById('itemOvertimeChart')).resize();
+	charts.resize();
 }
 
 function ItemtimeDatagrid(){
@@ -183,7 +185,7 @@ function serachItemOvertime(){
 	chartStr = "";
 	setTimeout(function(){
 		ItemtimeDatagrid();
-		showItemOverptimeChart();
+		showItemOverptimeChart(1);
 	},500);
 }
 
@@ -198,5 +200,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#itemOvertimeChart").height()-$("#itemOvertime_btn").height()-45,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('itemOvertimeChart')).resize();
+	charts.resize();
 }

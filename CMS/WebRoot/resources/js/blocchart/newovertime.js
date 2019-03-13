@@ -3,7 +3,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showBlocOverptimeChart();
+	showBlocOverptimeChart(0);
 })
 var dtoTime1,dtoTime2,parent="";
 function setParam(){
@@ -15,10 +15,12 @@ function setParam(){
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showBlocOverptimeChart(){
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("charts"));
+var Series = [],charts;
+function showBlocOverptimeChart(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("charts"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -77,7 +79,7 @@ function showBlocOverptimeChart(){
 		var width = array1.length*80+array2.length * 22;
 		$("#charts").width($("#charts").width()+width);
 	}
-	echarts.init(document.getElementById('charts')).resize();
+	charts.resize();
 }
 var parenttype;
 function BloctimeDatagrid(parent){
@@ -191,7 +193,7 @@ function serach(){
 	chartStr = "";
 	setTimeout(function(){
 		BloctimeDatagrid(tempparent);
-		showBlocOverptimeChart();
+		showBlocOverptimeChart(1);
 	},500);
 }
 
@@ -217,7 +219,7 @@ function changeInsframework(parent,type){
 		chartStr = "";
 		setTimeout(function(){
 			BloctimeDatagrid(parent);
-			showBlocOverptimeChart();
+			showBlocOverptimeChart(1);
 		},500);
 	/*}*/
 }
@@ -233,5 +235,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#charts").height()-$("#dg_btn").height()-15,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('charts')).resize();
+	charts.resize();
 }

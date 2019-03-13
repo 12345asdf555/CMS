@@ -12,7 +12,7 @@ function setParam(){
 var charts;
 var array1 = new Array();
 var array2 = new Array();
-function showCompanyHourChart(){
+function showCompanyHourChart(num){
 	setParam();
 	var parent = $("#parent").val();
 	 $.ajax({  
@@ -38,8 +38,10 @@ function showCompanyHourChart(){
              alert("图表请求数据失败啦!");  
          }  
     }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("companyHourChart"));
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("companyHourChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -113,7 +115,7 @@ function showCompanyHourChart(){
 			$("#companyHourChart").width(width);
 		}
 	}
-	echarts.init(document.getElementById('companyHourChart')).resize();
+	charts.resize();
 }
 
 function CompanyHourDatagrid(){
@@ -241,7 +243,7 @@ function classifyDatagrid(){
 			array1 = new Array();
 			array2 = new Array();
 			CompanyHourDatagrid();
-			showCompanyHourChart();
+			showCompanyHourChart(0);
 		}
 	});
 }
@@ -258,7 +260,7 @@ function commitChecked(){
 	chartStr += "&search="+search;
 	setTimeout(function(){
 		CompanyHourDatagrid();
-		showCompanyHourChart();
+		showCompanyHourChart(1);
 	},500);
 }
 
@@ -277,5 +279,5 @@ function domresize() {
 		height : $("#classifydiv").height(),
 		width : $("#bodydiv").width()/2
 	});
-	echarts.init(document.getElementById('companyHourChart')).resize();
+	charts.resize();
 }

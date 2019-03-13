@@ -4,10 +4,10 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showcompanyEfficiencyChart();
+	showcompanyEfficiencyChart(0);
 })
 
-var min="", max ="",dtoTime1,dtoTime2;
+var min="", max ="",dtoTime1,dtoTime2,charts;
 function setParam(){
 	chartStr = "";
 	var parent = $('#parent').combobox('getValue');
@@ -17,7 +17,7 @@ function setParam(){
 	chartStr = "?parent="+parent+"&nextparent="+nextparent+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&min="+min+"&max="+max;
 }
 
-function showcompanyEfficiencyChart(){
+function showcompanyEfficiencyChart(num){
 	setParam();
 	var array1 = new Array();
 	var array2 = new Array();
@@ -59,9 +59,11 @@ function showcompanyEfficiencyChart(){
         error : function(errorMsg) {  
              alert("图表请求数据失败啦!");  
          }  
-    }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("companyEfficiencyChart"));
+    });  
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("companyEfficiencyChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -132,7 +134,7 @@ function showcompanyEfficiencyChart(){
 		var width = (array1.length-7) * 40;
 		$("#companyEfficiencyChart").width($("#companyEfficiencyChart").width()+width);
 	}
-	echarts.init(document.getElementById('companyEfficiencyChart')).resize();
+	charts.resize();
 }
 
 function typecombobox(){
@@ -232,7 +234,7 @@ function serachEfficiencyCompany(){
 	$("#nextparent").val("");
 	$("#chartLoading").show();
 	setTimeout(function() {
-		showcompanyEfficiencyChart();
+		showcompanyEfficiencyChart(1);
 		CompanyEfficiencyDatagrid();
 	}, 500)
 }
@@ -248,5 +250,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#companyEfficiencyChart").height()-$("#companyEfficiency_btn").height()-45,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('companyEfficiencyChart')).resize();
+	charts.resize();
 }

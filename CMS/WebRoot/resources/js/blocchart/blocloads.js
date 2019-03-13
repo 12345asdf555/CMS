@@ -3,7 +3,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showblocLoadsChart();
+	showblocLoadsChart(0);
 })
 var dtoTime1,dtoTime2;
 function setParam(){
@@ -15,10 +15,12 @@ function setParam(){
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showblocLoadsChart(){
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("blocLoadsChart"));
+var Series = [],charts;
+function showblocLoadsChart(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("blocLoadsChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -82,7 +84,7 @@ function showblocLoadsChart(){
 		var width = array1.length*80+array2.length * 22;
 		$("#blocLoadsChart").width($("#blocLoadsChart").width()+width);
 	}
-	echarts.init(document.getElementById('blocLoadsChart')).resize();
+	charts.resize();
 }
 
 function BlocloadsDatagrid(){
@@ -149,7 +151,7 @@ function serachBlocloads(){
 	chartStr = "";
 	setTimeout(function(){
 		BlocloadsDatagrid();
-		showblocLoadsChart();
+		showblocLoadsChart(1);
 	},500);
 }
 
@@ -164,5 +166,5 @@ function domresize() {
 		height : $("#bodydiv").height() - $("#blocLoadsChart").height()-$("#blocLoads_btn").height()-15,
 		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('blocLoadsChart')).resize();
+	charts.resize();
 }

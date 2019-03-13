@@ -7,7 +7,7 @@ var chartStr = "";
 var charts;
 var array1 = new Array();
 var array2 = new Array();
-function showblocHourChart() {
+function showblocHourChart(num) {
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	$.ajax({
@@ -33,8 +33,10 @@ function showblocHourChart() {
 			alert("图表请求数据失败啦!");
 		}
 	});
-	//初始化echart实例
-	charts = echarts.init(document.getElementById("blocHourChart"));
+	if(num==0){
+		//初始化echart实例
+		charts = echarts.init(document.getElementById("blocHourChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text : '稍等片刻,精彩马上呈现...',
@@ -118,7 +120,7 @@ function showblocHourChart() {
 			$("#blocHourChart").width(width);
 		}
 	}
-	echarts.init(document.getElementById('blocHourChart')).resize();
+	charts.resize();
 }
 
 function BlocHourDatagrid() {
@@ -241,7 +243,7 @@ function classifyDatagrid() {
 			array1 = new Array();
 			array2 = new Array();
 			BlocHourDatagrid();
-			showblocHourChart();
+			showblocHourChart(0);
 		}
 	});
 }
@@ -258,7 +260,7 @@ function commitChecked() {
 	chartStr += "&search=" + search;
 	setTimeout(function() {
 		BlocHourDatagrid();
-		showblocHourChart();
+		showblocHourChart(1);
 	}, 500);
 }
 
@@ -281,5 +283,5 @@ function domresize() {
 		height : $("#classifydiv").height(),
 		width : $("#bodydiv").width() / 2
 	});
-	echarts.init(document.getElementById('blocHourChart')).resize();
+	charts.resize();
 }
