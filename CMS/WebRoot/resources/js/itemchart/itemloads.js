@@ -191,8 +191,10 @@ function ItemtimeCombobox() {
 			if (result) {
 				var optionStr = '';
 				for (var i = 0; i < result.ary.length; i++) {
-					optionStr += "<option value=\"" + result.ary[i].id + "\" >"
-						+ result.ary[i].name + "</option>";
+					/*optionStr += "<option value=\"" + result.ary[i].id + "\" >"
+						+ result.ary[i].name + "</option>";*/
+					optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+                    + result.ary[i].name + "</option>";
 				}
 				$("#item").html(optionStr);
 			}

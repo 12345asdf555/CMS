@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input type="radio" class="radioStyle" name="otype" value="2" />月
 				<input type="radio" class="radioStyle" name="otype" value="4" />周
 				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
-				<input class="easyui-combobox" name="item" id="item">
+				<select class="easyui-combobox" name="item" id="item"></select>
 				&nbsp;&nbsp;&nbsp;超时待机:
 				<input class="easyui-numberbox" name="number" id="number" value="30">分钟
 				<a href="javascript:serachItemOvertime();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>

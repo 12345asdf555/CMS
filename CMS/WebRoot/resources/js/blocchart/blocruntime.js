@@ -33,7 +33,7 @@ function setParam(){
 
 var array1 = new Array();
 var array2 = new Array();
-var avg = 0;
+var charts,avg = 0;
 function showChart(num){
 	setParam();
 	 $.ajax({  
@@ -87,10 +87,10 @@ function showChart(num){
             alert("请求数据失败啦,请联系系统管理员!");  
         }  
    }); 
-		if(num==0){
-		   	//初始化echart实例
-			charts = echarts.init(document.getElementById("charts"));
-		}
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("charts"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -180,7 +180,7 @@ function showChart(num){
 				maxlength = array1[i];
 			}
 		}
-		var width = array1.length * maxlength.length * 8; //最长组织机构名字每个字节算18px
+		var width = array1.length * maxlength.length * 9; //最长组织机构名字每个字节算18px
 		if ($("#charts").width() < width) {
 			$("#charts").width(width);
 		}

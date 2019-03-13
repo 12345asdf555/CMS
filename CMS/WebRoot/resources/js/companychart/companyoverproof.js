@@ -20,10 +20,8 @@ var charts,Series = [];
 function showCompanyOverproofChart(num){
 	if(num==0){
 	   	//初始化echart实例
-		charts = echarts.init(document.getElementById("blocOvertimeChart"));
+		charts = echarts.init(document.getElementById("companyOverproofChart"));
 	}
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("companyOverproofChart"));
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',

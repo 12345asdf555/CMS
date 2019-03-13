@@ -87,6 +87,7 @@ function serach() {
 			showItemChart();
 		}, 500);
 	}
+	array = new Array();
 	array1 = new Array();
 	array2 = new Array();
 	array3 = new Array();
@@ -108,6 +109,7 @@ function setParam() {
 	chartStr = "&parent=" + parentid + "&time1=" + dtoTime1 + "&time2=" + dtoTime2;
 }
 
+var array = new Array();
 var array1 = new Array();
 var array2 = new Array();
 var array3 = new Array();
@@ -140,6 +142,7 @@ function showChart() {
 				for (var i = 0; i < result.rows.length; i++) {
 					array1.push(result.rows[i].name);
 					if (result.rows[i].proportion != 0) {
+						array.push(result.rows[i].name);
 						array2.push({
 							value : result.rows[i].proportion * 100,
 							name : result.rows[i].name,
@@ -182,7 +185,7 @@ function showChart() {
 			right : '5%',
 			top : 20,
 			bottom : 20,
-			data : array1
+			data : array
 		},
 		toolbox : {
 			feature : {
@@ -196,11 +199,6 @@ function showChart() {
 			type : 'pie',
 			radius : '80%',
 			center : [ '40%', '50%' ],
-			//            label: {
-			//                normal: {
-			//                    position: 'inner'//文字显示在里面
-			//                }
-			//            },
 			data : array2,
 			itemStyle : {
 				normal : {
@@ -640,6 +638,6 @@ function domresize() {
 			width : $("#bodydiv").width()
 		});
 		//		echarts.init(document.getElementById('itemcharts1')).resize();
-		charts2.init(document.getElementById('itemcharts2')).resize();
+		charts2.resize();
 	}
 }
