@@ -449,14 +449,6 @@ function showdatagrid(id) {
 			halign : "center",
 			align : "center"
 		} ] ],
-		rowStyler : function(index, row) {
-			if ((index % 2) != 0) {
-				//处理行代背景色后无法选中
-				var color = new Object();
-				color.class = "rowColor";
-				return color;
-			}
-		},
 		onBeforeLoad : function(data) {
 			$('#rtt').datagrid('clearChecked');
 		},

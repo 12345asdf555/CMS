@@ -314,18 +314,6 @@ body{font:12px/1.5 'Microsoft Yahei',sans-serif;
 	padding: 10px 10px;
 }
 
-.fitem {
-	margin-bottom: 8px;
-	margin-left: -100px;
-}
-
-.fitem lable{
-  width: 200px;
-  line-height: 30px;
-  display: inline-block;
-  text-align: right;
-}
-
 .content{
 	border: 1px solid #48A1E5;
 }

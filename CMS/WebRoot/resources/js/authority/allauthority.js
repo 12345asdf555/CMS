@@ -314,15 +314,7 @@ function resource(id) {
 			width : 100,
 			halign : "center",
 			align : "center"
-		} ] ],
-		rowStyler : function(index, row) {
-			if ((index % 2) != 0) {
-				//处理行代背景色后无法选中
-				var color = new Object();
-				color.class = "rowColor";
-				return color;
-			}
-		}
+		} ] ]
 	});
 }
 
@@ -435,14 +427,6 @@ function AutorityDatagrid() {
 			halign : "center",
 			align : "center"
 		} ] ],
-		rowStyler : function(index, row) {
-			if ((index % 2) != 0) {
-				//处理行代背景色后无法选中
-				var color = new Object();
-				color.class = "rowColor";
-				return color;
-			}
-		},
 		onBeforeLoad : function(data) {
 			$('#tt').datagrid('clearChecked');
 		},

@@ -259,8 +259,8 @@ $(function(){
 								async : false,
 								url : 'gather/gathernoValidate',
 								data : {
-									"gatherno" : value,
-//									"itemid" : itemid
+									"gatherno" : value/*,
+									"itemid" : itemid*/
 								},
 								success : function(data){
 									result = data;

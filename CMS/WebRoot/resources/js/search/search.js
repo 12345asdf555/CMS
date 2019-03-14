@@ -6,6 +6,19 @@ var content="";
 var joint = "";
 var flag = true;
 
+$(function(){
+	//根据不同浏览器选择不同的css
+	if(window.navigator.userAgent.indexOf("MSIE")>=1){//IE
+		setActiveStyleSheet("ieBrowser.css"); 
+	}else{
+		setActiveStyleSheet("otherBrowser.css");
+	}
+})
+
+
+function setActiveStyleSheet(title){ 
+	document.getElementsByTagName("link")[0].href = "resources/css/" + title; 
+} 
 
 
 //新增实时焊机查询条件

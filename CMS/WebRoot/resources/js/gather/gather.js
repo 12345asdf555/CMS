@@ -87,14 +87,6 @@ function GatherDatagrid(){
 		toolbar : '#gather_btn',
 		pagination : true,
 		nowrap : false,
-		rowStyler: function(index,row){
-            if ((index % 2)!=0){
-            	//处理行代背景色后无法选中
-            	var color=new Object();
-                color.class="rowColor";
-                return color;
-            }
-        },
 		onLoadSuccess:function(data){
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-edit'});
 	        $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});
