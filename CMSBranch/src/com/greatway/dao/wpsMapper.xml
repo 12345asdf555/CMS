@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.greatway.dao.WpsMapper">
+
+	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
+	<select id="findWpsAll" resultType="Wps">
+		SELECT *,i.fname fitemname FROM tb_wps w INNER JOIN tb_insframework i on w.fitemid = i.fid
+		LEFT JOIN tb_insframework ins ON ins.fid = i.fparent
+		LEFT JOIN tb_insframework insf ON insf.fid = ins.fparent
+		where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid = #{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="str!=null and str!=''">
+			and ${str}
+		</if>
+	</select>
+	
+	<select id="findWpsByid" resultType="Wps">
+		SELECT *,i.fname fitemname FROM tb_wps w INNER JOIN tb_insframework i on w.fitemid = i.fid
+		where w.fid = #{fid}
+	</select>
+	
+	<insert id="addWps" parameterType="Wps">
+		INSERT INTO tb_wps(fwpsnum, fversions, fproject_code, freport_number, fdegree, fevaluation_standard, fstabilivolt_system, fvalidity, fautomatic, fgroove_type, fmaterials, fthickness1,fthickness2, fdiameter, feles1, fimages_url, fimages_desc, fcategory, fshop_sign, fspecification, fmaterials_type, fmaterials_number1, fmaterials_specification1, fmaterials_number2, fmaterials_specification2, fsoldering_number, fposition, fdirection, felse2, ffront1, ffront2, freverse1, freverse2, freverse3, 
+		ftail, fpreheating_temperature, ftemperature, fPreheat_way, ftemperature_range, fsoaking_time, feles3, fscope, fnozzle, fdistance, fback_chipping, flayer_scope1, flayer_scope2, ftungsten_electrode, ftransient_mode, fmethod1, fmethod2, fitemid, fcreator, fcreatetime) 
+		values(#{fwpsnum},#{fversions},#{fproject_code},#{freport_number},#{fdegree},#{fevaluation_standard},#{fstabilivolt_system},#{fvalidity},#{fautomatic},#{fgroove_type},#{fmaterials},#{fthickness1},#{fthickness2},#{fdiameter},#{feles1},#{fimages_url},#{fimages_desc},#{fcategory},#{fshop_sign},#{fspecification},#{fmaterials_type},#{fmaterials_number1},#{fmaterials_specification1},#{fmaterials_number2},#{fmaterials_specification2},#{fsoldering_number},#{fposition},#{fdirection},#{felse2},#{ffront1},#{ffront2},#{freverse1},#{freverse2},#{freverse3},
+		#{ftail},#{fpreheating_temperature},#{ftemperature},#{fPreheat_way},#{ftemperature_range},#{fsoaking_time},#{feles3},#{fscope},#{fnozzle},#{fdistance},#{fback_chipping},#{flayer_scope1},#{flayer_scope2},#{ftungsten_electrode},#{ftransient_mode},#{fmethod1},#{fmethod2},#{fitemid},#{fcreator},now())
+	</insert>
+	
+	<update id="updateWps" parameterType="Wps">
+		UPDATE tb_wps SET fwpsnum=#{fwpsnum},fversions=#{fversions},fproject_code=#{fproject_code},freport_number=#{freport_number},fdegree=#{fdegree},fevaluation_standard=#{fevaluation_standard},fstabilivolt_system=#{fstabilivolt_system},fvalidity=#{fvalidity},fautomatic=#{fautomatic},fgroove_type=#{fgroove_type},fmaterials=#{fmaterials},fthickness1=#{fthickness1},fthickness2=#{fthickness2},fdiameter=#{fdiameter},
+		feles1=#{feles1},fimages_url=#{fimages_url},fimages_desc=#{fimages_desc},fcategory=#{fcategory},fshop_sign=#{fshop_sign},fspecification=#{fspecification},fmaterials_type=#{fmaterials_type},fmaterials_number1=#{fmaterials_number1},fmaterials_specification1=#{fmaterials_specification1},fmaterials_number2=#{fmaterials_number2},fmaterials_specification2=#{fmaterials_specification2},fsoldering_number=#{fsoldering_number},fposition=#{fposition},
+		fdirection=#{fdirection},felse2=#{felse2},ffront1=#{ffront1},ffront2=#{ffront2},freverse1=#{freverse1},freverse2=#{freverse2},freverse3=#{freverse3},ftail=#{ftail},fpreheating_temperature=#{fpreheating_temperature},ftemperature=#{ftemperature},fPreheat_way=#{fPreheat_way},ftemperature_range=#{ftemperature_range},fsoaking_time=#{fsoaking_time},feles3=#{feles3},fscope=#{fscope},fnozzle=#{fnozzle},
+		fdistance=#{fdistance},fback_chipping=#{fback_chipping},flayer_scope1=#{flayer_scope1},flayer_scope2=#{flayer_scope2},ftungsten_electrode=#{ftungsten_electrode},ftransient_mode=#{ftransient_mode},fmethod1=#{fmethod1},fmethod2=#{fmethod2},fitemid=#{fitemid},fmodifier=#{fmodifier},fupdatetime=now() WHERE fid=#{fid}
+	</update>
+	
+	<delete id="deleteWps" parameterType="BigInteger">
+		delete from tb_wps where fid=#{fid}
+	</delete>
+	
+	<select id="findAll" resultType="Wps">
+		select m.FID childrenid,FWPSNum,Fweld_I,Fweld_V,Fweld_I_MAX,Fweld_I_MIN,Fweld_V_MAX,Fweld_V_MIN,Fweld_Alter_I,Fweld_Alter_V,Fweld_PreChannel,FCReateDate,FUpdateDate fupdatedate,Fowner insid,Fback fback,m.Fname,Fdiameter fchildren_diameter,Fwelding_method,m.Ftype,Fpolarity,
+		Fwelding_speed,Fspecification fchildren_specification,i.fname fitemname from tb_mainwps m INNER JOIN tb_insframework i on i.fid = m.Fowner
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent INNER JOIN tb_insframework insf ON insf.fid = ins.fparent
+		where 1=1
+		<if test="wpsnum!=null and wpsnum!=''">
+			and fwpsnum = #{wpsnum}
+		</if>
+		<if test="parent!=null and parent!=''">
+			and (i.fid = #{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="str!=null and str!=''">
+			and ${str}
+		</if>
+        ORDER by m.FID
+	</select>
+
+	<select id="findById" parameterType="BigInteger" resultType="Wps">
+		select tb_mainwps.FID 
+		childrenid,FWPSNum,Fweld_I,Fweld_V,Fweld_I_MAX,Fweld_I_MIN,Fweld_V_MAX,Fweld_V_MIN,Fweld_Alter_I,Fweld_Alter_V,Fweld_PreChannel,FCReateDate,FUpdateDate fupdatedate,Fowner insid,Fback fback,Fname,Fdiameter fchildren_diameter,Fwelding_method,Ftype,Fpolarity,Fwelding_speed,Fspecification fchildren_specification	from tb_mainwps 
+		where tb_mainwps.FID=#{childrenid}
+	</select>
+
+	<insert id="save" parameterType="Wps">
+		insert into
+		tb_mainwps(FWPSNum,Fweld_I,Fweld_V,Fweld_I_MAX,Fweld_I_MIN,Fweld_V_MAX,Fweld_V_MIN,Fweld_Alter_I,Fweld_Alter_V,Fweld_PreChannel,FCReateDate,Fcreater,Fowner,Fback,Fname,Fdiameter,Fwelding_method,Ftype,Fpolarity,Fwelding_speed,Fspecification)
+		values(#{fwpsnum},#{fweld_i},#{fweld_v},#{fweld_i_max},#{fweld_i_min},#{fweld_v_max},#{fweld_v_min},#{fweld_alter_i},#{fweld_alter_v},#{fweld_prechannel},now(),#{fcreater},#{insid},#{fback},#{fname},#{fchildren_diameter},#{fwelding_method},#{ftype},#{fpolarity},#{fwelding_speed},#{fchildren_specification});
+	</insert>
+
+	<update id="update" parameterType="Wps">
+		update tb_mainwps set
+		FWPSNum=#{fwpsnum},Fweld_I=#{fweld_i},Fweld_V=#{fweld_v},Fweld_I_MAX=#{fweld_i_max},Fweld_I_MIN=#{fweld_i_min},Fweld_V_MAX=#{fweld_v_max},Fweld_V_MIN=#{fweld_v_min},Fweld_Alter_I=#{fweld_alter_i},Fweld_Alter_V=#{fweld_alter_v},Fweld_PreChannel=#{fweld_prechannel},FUpdateDate=now(),Fupdater=#{fupdater},Fowner=#{insid},Fback=#{fback},Fname=#{fname},Fdiameter=#{fchildren_diameter}
+		,Fwelding_method=#{fwelding_method},Ftype=#{ftype},Fpolarity=#{fpolarity},fwelding_speed=#{fwelding_speed},Fspecification=#{fchildren_specification}
+		where FID=#{childrenid};
+	</update>
+
+	<select id="getUsernameCount" parameterType="String" resultType="java.lang.Integer">
+		select count(*) from tb_wps where FWPSNum=#{fwpsnum}
+	</select>
+	
+	<delete id="delete" parameterType="BigInteger">
+		delete from tb_mainwps where FID=#{childrenid}
+	</delete>
+	
+	<delete id="deleteByWpsno" parameterType="String">
+		delete from tb_mainwps where fwpsnum = #{wpsnum}
+	</delete>
+</mapper>

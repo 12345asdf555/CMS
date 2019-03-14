@@ -9,13 +9,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>事业部设备空载率</title>
+    <title>设备平均空载率</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -37,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="事业部设备空载率" style="background: witch; height: 335px;">
+    <div id="bodydiv" region="center"  hide="true"  split="true">
 	  	<div id="caustNoLoads_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="parent" id="parent" type="hidden" value="${parent }"/>
@@ -50,18 +51,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				时间跨度:
 				<input type="radio" class="radioStyle" name="otype" value="1" />年
 				<input type="radio" class="radioStyle" name="otype" value="2" />月
-				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
 				<input type="radio" class="radioStyle" name="otype" value="4" />周
+				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
 				<a href="javascript:serachCaustNoloads();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
+				<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
 			</div>
 		</div>
 		<div id="parentMsg"><h2>${str }</h2></div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 6%;margin-left:10px;">
-		按组织机构和日期对设备空载率趋势统计：<br/>
-		统计时间段内的各部门设备空载率趋势；<br/>
-		空载率=待机时长/工作时长/焊机待机数量；</div>
-		<div id="caustNoLoadsChart" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
-		
+		<div id="maxexplain">
+			<div id="explain">
+				<span>设备平均空载率</span><hr>
+				<ul>
+					<li>展现某一时间段内，各部门的设备平均空载率及趋势</li>
+					<li>平均空载率=待机时长/工作时长</li>
+				</ul>
+			</div>
+		</div>
+		<div class="divParent">
+			<div id="caustNoLoadsChart" style="height:96%;width:100%;"></div>
+		</div>
 	    <table id="caustNoLoadsTable" style="table-layout: fixed; width:100%;"></table>
 	    
 	</div>

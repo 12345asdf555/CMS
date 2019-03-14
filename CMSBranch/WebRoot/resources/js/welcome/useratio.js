@@ -56,15 +56,12 @@ function usechart(){
 		yAxis:[{
 			type: 'value',
 			name: '数量(台)',
-            min: 0,
-            max: 200,
-            interval: 40
+			splitLine:{show: false},//去除网格线
+            min: 0
 		},{
 			type: 'value',
 			name: '利用率(%)',
-            min: 0,
-            max: 100,
-            interval: 20
+            min: 0
 		}],
 		series:[{
      		name :'工作设备数',
@@ -74,8 +71,7 @@ function usechart(){
 	        label: {
 	            normal: {
 	                position: 'top',
-	                show: true,//显示每个折点的值
- 					formatter: '{c}%'  
+	                show: true//显示每个折点的值
 	            }
 	        }
 		},{
@@ -86,8 +82,7 @@ function usechart(){
 	        label: {
 	            normal: {
 	                position: 'top',
-	                show: true,//显示每个折点的值
- 					formatter: '{c}%'  
+	                show: true//显示每个折点的值
 	            }
 	        }
 		},{

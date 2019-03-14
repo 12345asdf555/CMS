@@ -143,43 +143,46 @@ function weldingMachineDatagrid(){
 			title : '序号',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'equipmentNo',
 			title : '固定资产编号',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'typeName',
 			title : '设备类型',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'insframeworkName',
 			title : '所属项目',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'statusName',
 			title : '状态',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		} , {
 			field : 'manufacturerName',
 			title : '厂家',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}
 		] ],
 		toolbar:'#dlgSearch',
 		pagination : true,
-		fitColumns : true
+		fitColumns : true,
+	    onLoadSuccess:function(data){
+	    	$("#weldingmachineTable").datagrid('selectRow',0);
+	    }
 	});
 }
 

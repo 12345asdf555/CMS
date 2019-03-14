@@ -4,25 +4,26 @@ $(function() {
 })
 var chartStr = "";
 $(document).ready(function() {
-	showitemNoLoadsChart();
+	showitemNoLoadsChart(0);
 })
-
+var otype = "";
 function setParam() {
 	var parent = $("#parent").val();
-	var otype = $("input[name='otype']:checked").val();
 	var item = $("#item").combobox("getValue");
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-	var otype = $("input[name='otype']:checked").val();
+	otype = $("input[name='otype']:checked").val();
 	chartStr = "?otype=" + otype + "&parent=" + parent + "&item=" + item + "&dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2;
 }
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showitemNoLoadsChart() {
-	//初始化echart实例
-	charts = echarts.init(document.getElementById("itemNoLoadsChart"));
+var charts,Series = [];
+function showitemNoLoadsChart(num) {
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("itemNoLoadsChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text : '稍等片刻,精彩马上呈现...',
@@ -36,7 +37,9 @@ function showitemNoLoadsChart() {
 			trigger : 'axis' //坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend : {
-			data : array2
+			data : array2,
+			x: 'left',
+			left: '50'
 		},
 		grid : {
 			left : '50', //组件距离容器左边的距离
@@ -61,7 +64,8 @@ function showitemNoLoadsChart() {
 					show : true
 				} //保存为图片
 			},
-			right : '2%'
+			right : '2%',
+			top:'30'
 		},
 		xAxis : {
 			type : 'category',
@@ -86,6 +90,13 @@ function showitemNoLoadsChart() {
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#itemNoLoadsChart").width("100%");
+	if(array1.length>3 || array2.length>5){//array2：柱状图数量
+		var width = array1.length * array2.length * 100;
+		$("#itemNoLoadsChart").width($("#itemNoLoadsChart").width()+width);
+	}
+	charts.resize();
 }
 
 
@@ -102,13 +113,13 @@ function ItemnoloadsDatagrid() {
 		dataType : "json", //返回数据形式为json  
 		success : function(result) {
 			if (result) {
-				var width = $("#body").width() / result.rows.length;
+				var width = $("#bodydiv").width() / result.rows.length;
 				column.push({
 					field : "weldTime",
-					title : "时间跨度(年/月/日/周)",
+					title : "时间跨度(年/月/周/日)",
 					width : width,
 					halign : "center",
-					align : "left"
+					align : "center"
 				});
 
 				for (var i = 0; i < result.rows.length; i++) {
@@ -120,16 +131,16 @@ function ItemnoloadsDatagrid() {
 						title : result.arys[m].name + "(空载率)",
 						width : width,
 						halign : "center",
-						align : "left",
+						align : "center",
 						formatter : function(value, row, index) {
-							return "<a href='junctionChart/goDetailNoLoads?itemid=" + row.itemid + "&weldtime=" + row.weldTime + "&dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2 + "'>" + value + "%" + "</a>";
+							return "<a href='junctionChart/goDetailNoLoads?itemid=" + row.itemid  + "&otype=" + otype + "&weldtime=" + row.weldTime + "&dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2 + "'>" + value + "%" + "</a>";
 						}
 					}, {
 						field : "itemid",
 						title : "项目id",
 						width : width,
 						halign : "center",
-						align : "left",
+						align : "center",
 						hidden : true
 					});
 					array2.push(result.arys[m].name);
@@ -155,8 +166,8 @@ function ItemnoloadsDatagrid() {
 	});
 	$("#itemNoLoadsTable").datagrid({
 		fitColumns : true,
-		height : $("#body").height() - $("#itemNoLoadsChart").height() - $("#itemNoLoads_btn").height() - 45,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#itemNoLoadsChart").height() - $("#itemNoLoads_btn").height() - 45,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
@@ -210,7 +221,7 @@ function serachitemnoloads() {
 	chartStr = "";
 	setTimeout(function() {
 		ItemnoloadsDatagrid();
-		showitemNoLoadsChart();
+		showitemNoLoadsChart(1);
 	}, 500);
 }
 
@@ -222,8 +233,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#itemNoLoadsTable").datagrid('resize', {
-		height : $("#body").height() - $("#itemNoLoadsChart").height() - $("#itemNoLoads_btn").height() - 45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#itemNoLoadsChart").height() - $("#itemNoLoads_btn").height() - 45,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('itemNoLoadsChart')).resize();
+	charts.resize();
 }

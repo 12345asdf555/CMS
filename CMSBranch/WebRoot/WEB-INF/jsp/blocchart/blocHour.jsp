@@ -9,13 +9,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>集团焊口焊接工时</title>
+    <title>焊口焊接工时</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -37,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="集团焊口焊接工时" style="background: witch; height: 335px;">
+    <div id="bodydiv" region="center"  hide="true"  split="true">
 	  	<div id="blocHour_btn">
 			<div style="margin-bottom: 5px;">
 				时间：
@@ -47,7 +48,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		
-		<div id="blocHourChart" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:left;"></div>
+		<div class="divParent" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:left;">
+			<div id="blocHourChart" style="height:96%;width:100%;"></div>
+		</div>
+		<!-- <div id="blocHourChart" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:left;"></div> -->
 		<div id="classifydiv" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:right;">
 			<!-- 自定义多条件查询 -->
 		    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">

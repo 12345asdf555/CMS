@@ -97,9 +97,16 @@ public interface InsframeworkManager {
 	/**
 	 * 显示所有上级名称
 	 * @param temp上级id
-	 * @return
+	 * @return 自动保存到request
 	 */
 	void showParent(HttpServletRequest request,String parentid);
+	
+	/**
+	 * 显示所有上级名称
+	 * @param temp上级id
+	 * @return 返回名称
+	 */
+	String showParents(String parentid);
 	
 	/**
 	 * 获取某层级的单位名称

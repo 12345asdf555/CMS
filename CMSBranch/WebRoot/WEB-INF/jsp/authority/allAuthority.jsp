@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	
+	<link rel="stylesheet" type="text/css" href="" />
 	<link rel="stylesheet" type="text/css" href="resources/themes/icon.css" />
 	<link rel="stylesheet" type="text/css" href="resources/themes/default/easyui.css" />
 	<link rel="stylesheet" type="text/css" href="resources/css/base.css" />
@@ -23,17 +24,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/jquery.min.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
 	<script type="text/javascript" src="resources/js/authority/allauthority.js"></script>
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
 
   </head>
 
 <body class="easyui-layout">
-	<div id="body" region="center"  hide="true"  split="true" title="权限管理" style="background: #eee;">
+	<div id="body" region="center"  hide="true"  split="true">
         <div data-options="region:'center',title:'信息',iconCls:'icon-ok'">
         	<table id="dg" style="table-layout:fixed;width:100%"></table>
         </div>
-        <div id="div" class="easyui-dialog" style="width:15%;" closed="true" buttons="#dlg-buttons">
+        <div id="div" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
         	<table id="so" title="资源" style="table-layout:fixed;width:100%"></table>
         </div>
 	    <div id="toolbar">
@@ -60,11 +62,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="fitem">
 					<lable><span class="required">*</span>权限</lable>
 	           		<input id="validName" type="hidden">
-	                <input name="authorityName" id="authorityName" class="easyui-textbox" data-options="validType:'authorityValidate',required:true" style="width:100%">
+	                <input name="authorityName" id="authorityName" class="easyui-textbox" data-options="validType:'authorityValidate',required:true">
             	</div>
 	            <div class="fitem">
 					<lable><span class="required">*</span>描述</lable>
-	                <input name="authorityDesc" class="easyui-textbox" data-options="required:true" style="width:100%">
+	                <input name="authorityDesc" class="easyui-textbox" data-options="required:true">
 	            </div>
 				<div class="fitem">
 					<lable>状态</lable>&nbsp;&nbsp;

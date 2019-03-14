@@ -1,5 +1,6 @@
 $(function(){
 	flagnum=1;
+	echartnum=1;
 	parentCombobox();
 //	dgDatagrid();
 })
@@ -8,7 +9,7 @@ $(document).ready(function(){
 //	showChart();
 })
 
-var type,flagnum;
+var charts,type,flagnum,echartnum;
 function parentCombobox(){
 	$.ajax({
 		type : 'post',
@@ -28,7 +29,7 @@ function parentCombobox(){
 	})
 	$("#parent").combobox({
 		onChange: function (newvalue,oldvalue) {
-			$("#parent").combobox('setText',$("#parent").combobox('getText').trim());
+			$("#parent").combobox('setText',$.trim($("#parent").combobox('getText')));
 			$.ajax({
 				type : "post",
 				async : true,
@@ -107,8 +108,11 @@ function showChart(){
             alert("请求数据失败啦,请联系系统管理员!");  
         }  
    }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("charts"));
+	 if(echartnum==1){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("charts"));
+		echartnum = 0;
+	 }
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -130,7 +134,8 @@ function showChart(){
 			feature:{
 				saveAsImage:{}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		series:[{
 			name:'设备故障率',
@@ -166,8 +171,8 @@ function dgDatagrid(){
 	setParam();
 	$("#dg").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+		width : $("#bodydiv").width(),
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50],
 		url : activeurl+chartStr,
@@ -180,7 +185,7 @@ function dgDatagrid(){
 			title : "故障类型",
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value,row,index){
 				return "<a href='junctionChart/goFaultDetail?typeid="+row.typeid+chartStr+"'>"+value+"</a>";
 			}
@@ -189,20 +194,20 @@ function dgDatagrid(){
 			title : "类型id",
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		},{
 			field : "faultratio",
 			title : "故障率(%)",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		},{
 			field : "faultnum",
 			title : "故障次数",
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}]]
 	 })
 	
@@ -217,8 +222,8 @@ window.onresize = function() {
 //改变表格，图表高宽
 function domresize() {
 	$("#dg").datagrid('resize', {
-		height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('charts')).resize();
+	charts.resize();
 }

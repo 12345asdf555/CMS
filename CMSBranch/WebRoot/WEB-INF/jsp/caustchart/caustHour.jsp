@@ -9,13 +9,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>事业部焊口焊接工时</title>
+    <title>焊口焊接工时</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -38,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="事业部焊口焊接工时" style="background: witch; height: 335px;">
+    <div id="bodydiv" region="center"  hide="true"  split="true">
 	  	<div id="caustHour_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="parent" id="parent" type="hidden" value="${parent }"/>
@@ -49,18 +50,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">--
 				<input class="easyui-datetimebox" name="dtoTime2" id="dtoTime2">
 				<a href="javascript:serachCaustHour();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
+				<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
 			</div>
 		</div>
 		<div id="parentMsg"><h2>${str }</h2></div>
-		<div id="caustHourChart" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:left;"></div>
+		<div class="divParent" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:left;">
+			<div id="caustHourChart" style="height:96%;width:100%;"></div>
+		</div>
 		<div id="classifydiv" style="height:50%;width:50%;margin: auto;margin-bottom:10px;float:right;">
 			<!-- 自定义多条件查询 -->
 		    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">
 		    	<div id="div0">
+		    	
 			    	<select class="fields" id="fields"></select>
 			    	<select class="condition" id="condition"></select>
 			    	<input class="content" id="content"/>
 			    	<select class="joint" id="joint"></select>
+			    	
 			    	<a href="javascript:newSearchhoustclassify();" class="easyui-linkbutton" iconCls="icon-add"></a>
 			    	<a href="javascript:removeSerach();" class="easyui-linkbutton" iconCls="icon-remove"></a>
 		    	</div>

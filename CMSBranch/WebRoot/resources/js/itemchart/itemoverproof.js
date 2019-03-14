@@ -4,7 +4,7 @@ $(function() {
 })
 var chartStr = "";
 $(document).ready(function() {
-	showitemOverproofChart();
+	showitemOverproofChart(0);
 })
 
 function setParam() {
@@ -18,10 +18,12 @@ function setParam() {
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showitemOverproofChart() {
-	//初始化echart实例
-	charts = echarts.init(document.getElementById("itemOverproofChart"));
+var charts,Series = [];
+function showitemOverproofChart(num) {
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("itemOverproofChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text : '稍等片刻,精彩马上呈现...',
@@ -35,7 +37,9 @@ function showitemOverproofChart() {
 			trigger : 'axis' //坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend : {
-			data : array2
+			data : array2,
+			x: 'left',
+			left: '40'
 		},
 		grid : {
 			left : '40', //组件距离容器左边的距离
@@ -60,7 +64,8 @@ function showitemOverproofChart() {
 					show : true
 				} //保存为图片
 			},
-			right : '2%'
+			right : '2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',
@@ -69,7 +74,7 @@ function showitemOverproofChart() {
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name: '超标时长(s)'
+			name: '超标时长(h)'
 		},
 		series : []
 	}
@@ -79,10 +84,18 @@ function showitemOverproofChart() {
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#itemOverproofChart").width("100%");
+	if(array1.length>3 || array2.length>5){//array2：柱状图数量
+		var width = array1.length * array2.length * 100;
+		$("#itemOverproofChart").width($("#itemOverproofChart").width()+width);
+	}
+	charts.resize();
 }
 
 function ItemoverproofDatagrid() {
 	setParam();
+	var otype = $("input[name='otype']:checked").val();
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	var column = new Array();
@@ -94,28 +107,31 @@ function ItemoverproofDatagrid() {
 		dataType : "json", //返回数据形式为json  
 		success : function(result) {
 			if (result) {
-				var width = $("#body").width() / result.rows.length;
+				var width = $("#bodydiv").width() / result.rows.length;
 				column.push({
 					field : "weldTime",
-					title : "时间跨度(年/月/日/周)",
+					title : "时间跨度(年/月/周/日)",
 					width : width,
 					halign : "center",
-					align : "left"
+					align : "center"
 				});
 
 				for (var m = 0; m < result.arys.length; m++) {
 					column.push({
 						field : "overproof",
-						title : result.arys[m].name + "(s)",
+						title : result.arys[m].name + "(min)",
 						width : width,
 						halign : "center",
-						align : "left"
+						align : "center",
+						formatter : function(value, row, index){
+							return '<a href="junctionChart/goOverproofDetail?itemid='+row.itemid+'&weldtime='+row.weldTime+'&dtoTime1='+dtoTime1+'&dtoTime2='+dtoTime2+'&otype='+otype+'">'+value+'</a>';
+						}
 					}, {
 						field : "itemid",
 						title : "项目id",
 						width : width,
 						halign : "center",
-						align : "left",
+						align : "center",
 						hidden : true
 					});
 					array2.push(result.arys[m].name);
@@ -127,8 +143,7 @@ function ItemoverproofDatagrid() {
 						label : {
 							normal : {
 								position : 'top',
-								show : true, //显示每个折点的值
-								formatter : '{c}%'
+								show : true//显示每个折点的值
 							}
 						}
 					});
@@ -144,8 +159,8 @@ function ItemoverproofDatagrid() {
 	});
 	$("#itemOverproofTable").datagrid({
 		fitColumns : true,
-		height : $("#body").height() - $("#itemOverproofChart").height() - $("#itemOverproof_btn").height() - 45,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#itemOverproofChart").height() - $("#itemOverproof_btn").height() - 45,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
@@ -181,8 +196,13 @@ function ItemtimeCombobox() {
 		}
 	});
 	$("#item").combobox();
-	var data = $("#item").combobox('getData');
-	$("#item").combobox('select', data[0].value);
+	var parent = $("#parent").val();
+	if(parent!=null && parent!=''){
+		$("#item").combobox('select', parent);
+	}else{
+		var data = $("#item").combobox('getData');
+		$("#item").combobox('select', data[0].value);
+	}
 }
 
 function serachitemoverproof() {
@@ -193,7 +213,7 @@ function serachitemoverproof() {
 	chartStr = "";
 	setTimeout(function() {
 		ItemoverproofDatagrid();
-		showitemOverproofChart();
+		showitemOverproofChart(1);
 	}, 500);
 }
 
@@ -205,8 +225,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#itemOverproofTable").datagrid('resize', {
-		height : $("#body").height() - $("#itemOverproofChart").height() - $("#itemOverproof_btn").height() - 45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#itemOverproofChart").height() - $("#itemOverproof_btn").height() - 45,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('itemOverproofChart')).resize();
+	charts.resize();
 }

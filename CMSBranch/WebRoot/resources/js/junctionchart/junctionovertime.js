@@ -8,12 +8,13 @@ function junctionOvertimeDatagrid(){
 	var time1 = $("#time1").val();
 	var time2 = $("#time2").val();
 	var number = $("#number").val();
+	var otype = $("#otype").val();
 	$("#junctionOvertimeTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#junctionOvertime_btn").height()-30,
-		width : $("#body").width(),
+		height : $("#body").height() - $("#junctionOvertime_btn").height()-70,
+		width : $("#body").width()-40,
 		idField : 'id',
-		url : "junctionChart/getjunctionovertime?parent="+parent+"&weldtime="+weldtime+"&time1="+time1+"&time2="+time2+"&number="+number,
+		url : "junctionChart/getjunctionovertime?parent="+parent+"&otype="+otype+"&weldtime="+weldtime+"&time1="+time1+"&time2="+time2+"&number="+number,
 		singleSelect : true,
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50],
@@ -23,39 +24,39 @@ function junctionOvertimeDatagrid(){
 		columns : [ [ {
 			field : 'weldtime',
 			title : '日期',
-			width : 100,
+			width : 120,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'overtime',
 			title : '超时待机焊机数(台)',
-			width : 100,
+			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'worktime',
-			title : '超时待机时长(h)',
-			width : 100,
+			title : '待机时长(分钟)',
+			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'machineno',
 			title : '设备编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'welderno',
 			title : '焊工编号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center"
 		}, {
 			field : 'wname',
 			title : '焊工姓名',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center"
 		}] ],
 		toolbar : '#junctionOvertime_btn',
 	});
@@ -69,7 +70,7 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#junctionOvertimeTable").datagrid('resize', {
-		height : $("#body").height() - $("#junctionOvertime_btn").height()-30,
-		width : $("#body").width()
+		height : $("#body").height() - $("#junctionOvertime_btn").height()-70,
+		width : $("#body").width()-40
 	});
 }

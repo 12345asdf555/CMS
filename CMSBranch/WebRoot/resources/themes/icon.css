@@ -13,6 +13,12 @@
 .icon-save{
 	background:url('icons/filesave.png') no-repeat center center;
 }
+.icon-navigation{
+	background:url('icons/navigation.png') no-repeat center center;
+}
+.icon-manager{
+	background:url('icons/c_2.png') no-repeat center center;
+}
 .icon-cut{
 	background:url('icons/cut.png') no-repeat center center;
 }
@@ -51,6 +57,9 @@
 }
 .icon-tip{
 	background:url('icons/tip.png') no-repeat center center;
+}
+.icon-return{
+	background:url('icons/return.png') no-repeat center center;
 }
 .icon-filter{
 	background:url('icons/filter.png') no-repeat center center;
@@ -106,4 +115,13 @@
 }
 .icon-overproof{
 	background:url('icons/weld_01.png') no-repeat center center;
+}
+.icon-menu-machine{
+	background:url('icons/manager.png') no-repeat center center;
+}
+.icon-menu-welder{
+	background:url('icons/c-6.png') no-repeat center center;
+}
+.icon-menu-manager{
+	background:url('icons/user.png') no-repeat center center;
 }

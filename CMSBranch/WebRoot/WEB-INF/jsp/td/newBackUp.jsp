@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>实时界面</title>
+    <title>焊机实时状态监测</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 <body class="easyui-layout">
 	<jsp:include  page="../insframeworktree.jsp"/>
-	<div id="body" region="center"  hide="true"  split="true" title="实时界面" style="background: #fff; width:600px;height: 335px;">
+	<div id="bodydiv" region="center"  hide="true"  split="true" title="焊机实时状态监测" style="background: #fff; width:600px;height: 335px;">
 		<!-- 饼图 -->
 		<div id="piecharts" style="float:left; height:250px; width:49.5%;border:1px solid #C4C4C4;"></div>
 		<!-- 实时信息 -->
@@ -65,23 +65,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div id="curvediv">
 					<ul>
 						<li>
-							<a href="javascript:void(0);" class="easyui-linkbutton"iconCls="icon-work" style="width:110px;text-align:left;">工作总数</a>
+							<a href="javascript:statusClick(0);" class="easyui-linkbutton"iconCls="icon-work" style="width:110px;text-align:left;">工作总数</a>
 							<a href="javascript:void(0);" class="easyui-linkbutton" id="work" style="width:50px;">0</a>
 						</li>
 						<li>
-							<a href="javascript:void(0);" class="easyui-linkbutton"iconCls="icon-standby" style="width:110px;text-align:left;">待机总数</a>
+							<a href="javascript:statusClick(1);" class="easyui-linkbutton"iconCls="icon-standby" style="width:110px;text-align:left;">待机总数</a>
 							<a href="javascript:void(0);" class="easyui-linkbutton" id="standby" style="width:50px;">0</a>
 						</li>
 						<li>
-							<a href="javascript:void(0);" class="easyui-linkbutton"iconCls="icon-off" style="width:110px;text-align:left;">关机总数</a>
+							<a href="javascript:statusClick(2);" class="easyui-linkbutton"iconCls="icon-off" style="width:110px;text-align:left;">关机总数</a>
 							<a href="javascript:void(0);" class="easyui-linkbutton" id="off" style="width:50px;">0</a>
 						</li>
 						<li>
-							<a href="javascript:void(0);" class="easyui-linkbutton"iconCls="icon-overproof" style="width:110px;text-align:left;">超标总数</a>
+							<a href="javascript:statusClick(3);" class="easyui-linkbutton"iconCls="icon-overproof" style="width:110px;text-align:left;">超标总数</a>
 							<a href="javascript:void(0);" class="easyui-linkbutton" id="overproof" style="width:50px;">0</a>
 						</li>
 						<li>
-							<a href="javascript:void(0);" class="easyui-linkbutton"iconCls="icon-overtimestandby" style="width:110px;text-align:left;">超时待机总数</a>
+							<a href="javascript:statusClick(4);" class="easyui-linkbutton"iconCls="icon-overtimestandby" style="width:110px;text-align:left;">超时待机总数</a>
 							<a href="javascript:void(0);" class="easyui-linkbutton" id="overtime" style="width:50px;">0</a>
 						</li>
 					</ul>
@@ -90,7 +90,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- 实时焊机 -->
 		<div id="curve" style="float:left;height:70%; width:99%;padding-left:10px;">
 		</div>
+		<div id="load" style="width:100%;height:100%;"></div>
 	</div>
+	<style type="text/css">
+	    #load{ display: none; position: absolute; left:0; top:0;width: 100%; height: 40%; background-color: #555753; z-index:10001; -moz-opacity: 0.4; opacity:0.5; filter: alpha(opacity=70);}
+		#show{display: none; position: absolute; top: 45%; left: 45%; width: 180px; height: 5%; padding: 8px; border: 8px solid #E8E9F7; background-color: white; z-index:10002; overflow: auto;}
+	</style>
 </body>
 </html>
  

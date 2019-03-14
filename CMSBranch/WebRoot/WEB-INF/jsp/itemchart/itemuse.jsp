@@ -9,13 +9,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>项目部单台设备运行数据统计</title>
+    <title>单台设备运行数据统计</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -37,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="项目部单台设备运行数据统计" style="background: witch; height: 335px;">
+    <div id="bodydiv" region="center"  hide="true"  split="true">
 	  	<div id="itemUse_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
@@ -47,12 +48,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:serachitemUse();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 10%;margin-left:10px;">
-		按组织机构和日期对设备运行数据统计：<br/>
-		统计时间段内的不同厂家不同类型的焊机使用情况；</div>
-		<div id="itemUseChart" style="height:50%;width:60%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
-	    <table id="itemUseTable" style="table-layout: fixed; width:100%;"></table>
+		<div id="maxexplain">
+			<div id="explain">
+				<span>单台设备运行数据统计</span><hr>
+				<ul>
+					<li>展现某一时间段内，该部门内的不同厂家不同类型的焊机使用情况</li>
+				</ul>
+			</div>
+		</div>
+		<div class="divParent">
+			<div id="itemUseChart" style="height:96%;width:100%;"></div>
+		</div>
+		<table id="itemUseTable" style="table-layout: fixed; width:100%;"></table>
 	</div>
   </body>
 </html>

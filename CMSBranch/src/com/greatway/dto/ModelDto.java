@@ -12,7 +12,7 @@ import java.math.BigInteger;
  *
  */
 public class ModelDto {
-	private BigInteger overproof;
+	private double overproof;
 	private String weldTime;
 	private BigInteger fid;
 	private BigInteger iid;
@@ -376,10 +376,10 @@ public class ModelDto {
 	public void setFmin_electricity(double fmin_electricity) {
 		this.fmin_electricity = fmin_electricity;
 	}
-	public BigInteger getOverproof() {
+	public double getOverproof() {
 		return overproof;
 	}
-	public void setOverproof(BigInteger overproof) {
+	public void setOverproof(double overproof) {
 		this.overproof = overproof;
 	}
 	public BigInteger getLivecount() {

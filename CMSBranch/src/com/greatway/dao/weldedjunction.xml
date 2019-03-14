@@ -45,10 +45,28 @@
 	</resultMap>
 	
 	<select id="getWeldedJunctionAll" resultMap="wjMap" parameterType="java.lang.String">
-		SELECT j. * , i.fid iid, i.fname iname FROM tb_welded_junction j INNER JOIN tb_insframework i ON j.fitemId = i.fid WHERE 1 =1
+		SELECT j. * , i.fid iid, i.fname iname FROM tb_welded_junction j INNER JOIN tb_insframework i ON j.fitemId = i.fid 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>
+	</select>
+	
+	<select id="getLiveJunction" resultMap="wjMap" parameterType="java.lang.String">
+		SELECT j.fid,fwelded_junction_no,fmax_electricity,fmin_electricity,fmax_valtage,fmin_valtage,Fmaterial,fnextExternal_diameter,fnextwall_thickness,Fnext_material,fwall_thickness,fexternal_diameter,fstart_time,fend_time, i.fid iid, i.fname iname FROM tb_welded_junction j INNER JOIN tb_insframework i ON j.fitemId = i.fid 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		<if test="str!=null and str!=''">
+			and ${str}
+		</if>
+		order by fend_time
 	</select>
 	
 	<select id="getWeldedJunctionById" resultMap="wjMap" parameterType="java.lang.String">
@@ -56,7 +74,7 @@
 	</select>
 	
 	<select id="getWeldedjunctionByNo" resultType="java.lang.Integer" parameterType="java.lang.String">
-		SELECT COUNT(fid) FROM `tb_welded_junction` WHERE fwelded_junction_no = #{wjno}
+		SELECT COUNT(fid) FROM tb_welded_junction WHERE fwelded_junction_no = #{wjno} and fitemid = #{parent}
 	</select>
 	
 	<insert id="addJunction" parameterType="com.greatway.model.WeldedJunction">

@@ -13,8 +13,8 @@ public interface WelderManager {
 	 * @param we
 	 * @return
 	 */
-	List<Welder> getWelderAll(Page page, String str);
-	List<Welder> getWelderAll(String str);
+	List<Welder> getWelderAll(Page page, String str, BigInteger parent);
+	List<Welder> getWelderAll(String str, BigInteger parent);
 	
 	/**
 	 * 新增焊工信息
@@ -39,7 +39,7 @@ public interface WelderManager {
 	 * @param wno
 	 * @return
 	 */
-	int getWeldernoCount(String wno);
+	int getWeldernoCount(String wno, BigInteger parent);
 	
 	/**
 	 * 根据id查找焊工
@@ -47,4 +47,11 @@ public interface WelderManager {
 	 * @return
 	 */
 	Welder getWelderById(BigInteger id);
+	
+	/**
+	 * 根据超标焊工
+	 * @param id
+	 * @return
+	 */
+	List<Welder> getOverWelder(Page page, String str, BigInteger parent);
 }

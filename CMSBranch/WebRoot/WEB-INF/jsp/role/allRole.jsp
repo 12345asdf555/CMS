@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
   <meta http-equiv="description" content="This is my page">
   
+  <link rel="stylesheet" type="text/css" href="" />
   <link rel="stylesheet" type="text/css" href="resources/themes/icon.css" />
   
   <link rel="stylesheet" type="text/css" href="resources/themes/default/easyui.css" />
@@ -26,17 +27,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
   <script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
   <script type="text/javascript" src="resources/js/role/allrole.js"></script>
-  
   <script type="text/javascript" src="resources/js/search/search.js"></script>
 
   </head>
 <body class="easyui-layout">
-    <div id="body" region="center"  hide="true"  split="true" title="角色管理" style="background: #eee; height: 335px;">
-    
+    <div id="body" region="center"  hide="true"  split="true">
         <div data-options="region:'center',title:'信息',iconCls:'icon-ok'">
            <table id="dg" style="table-layout:fixed;width:100%"></table>
         </div>
-        <div id="div" class="easyui-dialog" style="width:15%;" closed="true" buttons="#dlg-buttons">
+        <div id="div" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
           <table id="ao" title="权限" style="table-layout:fixed;width:auto"></table>
         </div>
         <div id="toolbar">
@@ -80,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <div id="dlg-buttons">
       <a href="javascript:save();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-      <a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+      <a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
     </div>
     
     <!-- 删除 -->
@@ -110,9 +109,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
     <div id="remove-buttons">
       <a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
-      <a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+      <a href="javascript:closeD()" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
     </div>
-     </div>
+    
+  	<div id="userdiv" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#userdiv-buttons">
+       <form id="ufm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+            <div style="margin-bottom:10px;display: none;">
+                <input name="id" id="id" type="hidden">
+            </div>
+			<div style="margin-bottom:10px;display: none;">
+                <input name="roleName" class="easyui-textbox" type="hidden">
+            </div>  
+            <div style="margin-bottom:20px" align="center">
+                <table id="utt" title="用户列表" checkbox="true" style="table-layout:fixed;width:100%"></table>
+            </div>
+    </form>
+    </div>
+   <div id="userdiv-buttons">
+        <a href="javascript:saveRole();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+        <a href="javascript:closeUser()" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+    </div>
+ </div>
 </body>
 </html>
  

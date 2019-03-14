@@ -1,39 +1,40 @@
 $(document).ready(function(){
 	showOverproof();
 })
-
+var charts;
 function showOverproof(){
 	var array1 = new Array();
 	var array2 = new Array();
-	var array3 = new Array();
-	var weldtime = $("#weldtime").val();
-	array1= weldtime.split(",");
-	array2.push("焊工："+$("#welder").val()+",焊口："+$("#junction").val());
-	array3 = $("#electricitys").val().split(",");
 	var Series = [];
- 	Series.push({
- 		name : array2,
- 		type :'line',//折线图
- 		data : array3,
-        markLine: {
-            data: [
-                {yAxis: $("#maxelectricity").val(), name: '最大电流'},
-                {yAxis: $("#minelectricity").val(), name: '最小电流'}
-            ]
-        } ,
- 		itemStyle : {
- 			normal: {
- 				label : {
- 					show: true,//显示每个折点的值
- 					formatter: function(param){
- 						if(param.value==0){
- 							return "正常";
- 						}
- 					}
- 				}
- 			}
- 		}
- 	});
+	$.ajax({  
+        type : "post",  
+        async : false, //同步执行  
+        url : "companyChart/getExcessiveBackDetail?id="+$("#id").val(),
+        data : {},  
+        dataType : "json", //返回数据形式为json  
+        success : function(result) {  
+            if (result) {  
+                for(var i=0;i<result.rows.length;i++){
+                 	array1.push(result.rows[i].weldtime1+"\n"+result.rows[i].weldtime2);
+                	array2.push(result.rows[i].electricity);
+                }
+                Series.push({
+             		name : '超标回溯',
+             		type :'line',//折线图
+             		data : array2,
+                    markLine: {
+                        data: [
+                            {yAxis: result.rows[0].maxelectricity, name: '最大电流'},
+                            {yAxis: result.rows[0].minelectricity, name: '最小电流'}
+                        ]
+                    }
+             	});
+            }  
+        },  
+       error : function(errorMsg) {  
+            alert("图表请求数据失败啦!");  
+        }  
+   }); 
    	//初始化echart实例
 	charts = echarts.init(document.getElementById("overproof"));
 	//显示加载动画效果
@@ -49,27 +50,26 @@ function showOverproof(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data: array2
+			data: ['超标回溯'],
+			x : 'left',
+			left:'6%'
 		},
 		grid:{
-			left:'6%',//组件距离容器左边的距离
-			right:'4%',
-			bottom:'100',
+			left:'50',//组件距离容器左边的距离
+			right:'50',
+			bottom:'40',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
 			feature:{
 				saveAsImage:{}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',
-			data: array1,
-			axisLabel: {
-				interval:0,  
-				rotate:30  
-			}
+			data: array1
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
@@ -83,6 +83,13 @@ function showOverproof(){
 	charts.setOption(option);
 	//隐藏动画加载效果
 	charts.hideLoading();
+	//重定义图表宽度
+	$("#overproof").width("100%");
+	if(array1.length>10){
+		var width = (array1.length-10) * 120;
+		$("#overproof").width($("#overproof").width()+width);
+	}
+	charts.resize();
 }
 //监听窗口大小变化
 window.onresize = function() {
@@ -91,5 +98,5 @@ window.onresize = function() {
 
 //改变图表高宽
 function domresize() {
-	echarts.init(document.getElementById('overproof')).resize();
+	charts.resize();
 }

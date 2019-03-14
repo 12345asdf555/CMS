@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -37,14 +38,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="超标回溯" style="background: witch; height: 335px;">
-    	<input type="hidden" id="welder" value="${welder }"/>
-    	<input type="hidden" id="junction" value="${junction }"/>
-    	<input type="hidden" id="weldtime" value="${weldtime }"/>
-    	<input type="hidden" id="electricitys" value="${electricitys }"/>
-    	<input type="hidden" id="maxelectricity" value="${maxelectricity }"/>
-    	<input type="hidden" id="minelectricity" value="${minelectricity }"/>
-		<div id="overproof" style="height:500px;width:90%; margin-bottom: 20px; margin-top: 20px;" align="center"></div>
+    <div id="bodydiv" region="center"  hide="true"  split="true">
+    	<input type="hidden" id="id" value="${id }"/>
+    	<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
+		<div class="divParent" style="height:500px;width:90%;margin: 20px;">
+			<div id="overproof" style="height:96%;width:100%;"></div>
+		</div>
+		<!-- <div id="overproof" style="height:500px;width:90%; margin-bottom: 20px; margin-top: 20px;" align="center"></div> -->
 	    
 	</div>
   </body>

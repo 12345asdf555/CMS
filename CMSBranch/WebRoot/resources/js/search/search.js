@@ -6,6 +6,104 @@ var content="";
 var joint = "";
 var flag = true;
 
+$(function(){
+	//根据不同浏览器选择不同的css
+	if(window.navigator.userAgent.indexOf("MSIE")>=1){//IE
+		setActiveStyleSheet("ieBrowser.css"); 
+	}else{
+		setActiveStyleSheet("otherBrowser.css");
+	}
+})
+
+
+function setActiveStyleSheet(title){ 
+	document.getElementsByTagName("link")[0].href = "resources/css/" + title; 
+} 
+
+
+//新增实时焊机查询条件
+function newSearchLiveJunction(){
+	fillcontent();
+	newSearch();
+	searchLiveJuncCombobox();
+	initSearch();
+}
+
+//实时焊机查询下拉框
+function searchLiveJuncCombobox(){
+	var optionFields = 
+		"<option value='fwelded_junction_no'>编号</option>" +
+		"<option value='iname'>所属项目</option>" +
+		"<option value='fstart_time'>开始时间</option>" +
+		"<option value='fend_time'>结束时间</option>";
+	$(".fields").html(optionFields);
+	createSearchCombobox();
+}
+
+function insertsearchLiveJunction(){
+	$("#searchdiv").dialog("open");
+	searchLiveJuncCombobox();
+	initSearch();
+}
+
+function searchLiveJunction(){
+	fillcontent();
+	if(!getContent()){
+		return;
+	}
+	$('#dg').datagrid('load', {
+		"searchStr" : searchStr
+	});
+	$("#searchdiv").dialog("close");
+	searchStr="";
+}
+
+//新增工艺查询条件
+function newSearchWps(){
+	fillcontent();
+	newSearch();
+	searchWpsCombobox();
+	initSearch();
+}
+
+//工艺查询下拉框
+function searchWpsCombobox(){
+	var optionFields = 
+		"<option value='FWPSNum'>工艺编号</option>" +
+		"<option value='Fweld_I'>标准焊接电流</option>" +
+		"<option value='Fweld_V'>标准焊接电压</option>" +
+		"<option value='Fweld_I_MAX'>最大焊接电流</option>" +
+		"<option value='Fweld_I_MIN'>最小焊接电流</option>" +
+		"<option value='Fweld_V_MAX'>最大焊接电压</option>" +
+		"<option value='Fweld_V_MIN'>最小焊接电压</option>" +
+		"<option value='Fweld_Alter_I'>报警电流</option>" +
+		"<option value='Fweld_Alter_V'>报警电压</option>" +
+		"<option value='Fweld_PreChannel'>预置通道</option>" +
+//		"<option value='FCReateDate'>提交时间</option>" +
+//		"<option value='FUpdateDate'>修改时间</option>" +
+		"<option value='i.fname'>所属项目</option>";
+	$(".fields").html(optionFields);
+	createSearchCombobox();
+}
+
+function insertSearchWps(){
+	$("#searchdiv").dialog("open");
+	searchWpsCombobox();
+	initSearch();
+}
+
+function searchWps(){
+	fillcontent();
+	if(!getContent()){
+		return;
+	}
+	$('#dg').datagrid('load', {
+		"searchStr" : searchStr
+	});
+	$("#searchdiv").dialog("close");
+	searchStr="";
+}
+
 //生产厂商进入查询
 function insertSearchManufacturer(){
 	$("#searchdiv").dialog("open");
@@ -373,7 +471,7 @@ function newSearchResource(){
 //焊工信息下拉框
 function searchWelderCombobox(){
 	var optionFields = 
-  		"<option value='fname'>名称</option>" +
+  		"<option value='w.fname'>名称</option>" +
   		"<option value='fwelder_no'>编号</option>" +
   		"<option value='i.fname'>所属项目</option>";
 	$(".fields").html(optionFields);
@@ -547,7 +645,7 @@ function searchWJCombobox(){
 		"<option value='fstart_time'>开始时间</option>" +
 		"<option value='fend_time'>完成时间</option>" +
 		"<option value='fcreatetime'>创建时间</option>" +
-		"<option value='	fupdatetime'>修改时间</option>" +
+		"<option value='fupdatetime'>修改时间</option>" +
 		"<option value='fupdatecount'>修改次数</option>";
 	$(".fields").html(optionFields);
 	createSearchCombobox();

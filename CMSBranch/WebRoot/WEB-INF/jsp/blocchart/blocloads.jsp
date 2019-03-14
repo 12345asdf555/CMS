@@ -9,13 +9,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>集团设备负荷率</title>
+    <title>设备负荷率</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -36,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="集团设备负荷率" style="background: witch; height: 335px;">
+    <div id="bodydiv" region="center"  hide="true"  split="true" style="background: witch; height: 335px;">
 	  	<div id="blocLoads_btn">
 			<div style="margin-bottom: 5px;">
 				时间：
@@ -45,17 +46,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				时间跨度:
 				<input type="radio" class="radioStyle" name="otype" value="1" />年
 				<input type="radio" class="radioStyle" name="otype" value="2" />月
-				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
 				<input type="radio" class="radioStyle" name="otype" value="4" />周
+				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
 				<a href="javascript:serachBlocloads();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 6%;margin-left:10px;">
-		按组织机构和日期对设备负荷率趋势统计:<br/>
-		统计时间段内的各部门设备负荷率趋势；<br/>
-		负荷率=设备正常工作时间/(8*60*60)/正常工作焊机数量</div>
-		<div id="blocLoadsChart" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
-		
+		<div id="maxexplain">
+			<div id="explain">
+				<span>设备负荷率</span><hr>
+				<ul>
+					<li>展现某一时间段内，各部门的设备负荷率及趋势</li>
+					<li>负荷率=设备正常工作时长/上班时长/正常工作焊机数量</li>
+					<li>上班时长：8*60*60(秒/天)</li>
+				</ul>
+			</div>
+		</div>
+		<div class="divParent">
+			<div id="blocLoadsChart" style="height:96%;width:100%;"></div>
+		</div>
 	    <table id="blocLoadsTable" style="table-layout: fixed; width:100%;"></table>
 	    
 	</div>

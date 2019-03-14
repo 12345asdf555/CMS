@@ -1,10 +1,14 @@
 package com.greatway.manager.impl;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.chainsaw.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -78,9 +82,9 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getDatailOverproof(Page page,WeldDto dto,BigInteger parent) {
+	public List<ModelDto> getDatailOverproof(Page page,WeldDto dto) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.getDatailOverproof(dto,parent);
+		return live.getDatailOverproof(dto);
 	}
 
 	@Override
@@ -337,19 +341,14 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public BigInteger getCountByTime(BigInteger parent, String time, BigInteger mid) {
-		return live.getCountByTime(parent, time, mid);
+	public double getCountByTime(BigInteger parent, String time1,String time2, BigInteger mid, int type) {
+		return live.getCountByTime(parent, time1, time2, mid, type);
 	}
 
 	@Override
-	public List<ModelDto> getJunctionByWelder(Page page,WeldDto dto, String welder) {
+	public List<ModelDto> getExcessiveBack(Page page,WeldDto dto) {
 		PageHelper.startPage(page.getPageIndex(),page.getPageSize());
-		return live.getJunctionByWelder(dto, welder);
-	}
-
-	@Override
-	public List<ModelDto> getExcessiveBack(String time, String welder, String junction) {
-		return live.getExcessiveBack(time, welder, junction);
+		return live.getExcessiveBack(dto);
 	}
 
 	@Override
@@ -359,8 +358,8 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getUseratio(String time1, String time2) {
-		return live.getUseratio(time1, time2);
+	public List<ModelDto> getUseratio(String time1, String time2, String insftype) {
+		return live.getUseratio(time1, time2, insftype);
 	}
 
 	@Override
@@ -374,8 +373,8 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getStandbytimeout(WeldDto dto) {
-		return live.getStandbytimeout(dto);
+	public List<ModelDto> getStandbytimeout(WeldDto dto,int str) {
+		return live.getStandbytimeout(dto,str);
 	}
 
 	@Override
@@ -426,8 +425,8 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
-	public List<ModelDto> getOnlineNumber(WeldDto dto) {
-		return live.getOnlineNumber(dto);
+	public List<ModelDto> getOnlineNumber(WeldDto dto,double time) {
+		return live.getOnlineNumber(dto,time);
 	}
 
 	@Override
@@ -436,6 +435,12 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	}
 
 	@Override
+	public List<ModelDto> getItemWorkTime(Page page,WeldDto dto) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getItemWorkTime(dto);
+	}
+	
+	@Override
 	public List<ModelDto> getItemWorkTime(WeldDto dto) {
 		return live.getItemWorkTime(dto);
 	}
@@ -443,6 +448,394 @@ public class LiveDataManagerImpl implements LiveDataManager {
 	@Override
 	public List<ModelDto> getItemStandbyTime(WeldDto dto) {
 		return live.getItemStandbyTime(dto);
+	}
+
+	@Override
+	public List<ModelDto> getInsfandMachinenum(BigInteger parent) {
+		return live.getInsfandMachinenum(parent);
+	}
+
+	@Override
+	public List<ModelDto> getInsfandMachinenum(Page page,BigInteger parent) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getInsfandMachinenum(parent);
+	}
+
+	@Override
+	public List<ModelDto> getDurationTime(String time1, String time2, int timetype) {
+		String strsql = "";
+		if(timetype==1){
+			strsql = getYear(time1, time2);
+		}else if(timetype==2){
+			strsql = getMonth(time1, time2);
+		}else if(timetype==3){
+			strsql = getDay(time1, time2);
+		}else if(timetype==4){
+			strsql = getWeek(time1, time2);
+		}else if(timetype==5){
+			strsql = getQuarter(time1, time2);
+		}else if(timetype==6){
+			strsql = getHalfAYear(time1, time2);
+		}
+		return live.getDurationTime(strsql);
+	}
+
+	@Override
+	public List<ModelDto> getDurationTime(Page page, String time1, String time2, int timetype) {
+		String strsql = "";
+		if(timetype==1){
+			strsql = getYear(time1, time2);
+		}else if(timetype==2){
+			strsql = getMonth(time1, time2);
+		}else if(timetype==3){
+			strsql = getDay(time1, time2);
+		}else if(timetype==4){
+			strsql = getWeek(time1, time2);
+		}else if(timetype==5){
+			strsql = getQuarter(time1, time2);
+		}else if(timetype==6){
+			strsql = getHalfAYear(time1, time2);
+		}
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getDurationTime(strsql);
+	}
+	
+	/**
+	 * 获取日
+	 * @return
+	 */
+	public String getDay(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date d = sdf.parse(time1);
+			Calendar cal = Calendar.getInstance(); 
+			cal.setTime(d);
+			int day=cal.get(Calendar.DATE);
+			long t1 = sdf.parse(time1).getTime();
+			long t2 = sdf.parse(time2).getTime();
+			int days = day + (int)((t2-t1)/(1000*60*60*24))+1;
+			for(int i = day; i < days; i++){
+				Calendar calendar = Calendar.getInstance();  
+				Date dates = sdf.parse(time1);
+				calendar.setTime(dates);
+				calendar.set(Calendar.DATE, i);
+				if(i!=days-1){
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime UNION ALL ";
+				}else{
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime)temp";
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	/**
+	 * 获取月
+	 * @return
+	 */
+	public String getMonth(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{ 
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+			Date d = sdf.parse(time1);
+			Calendar cal = Calendar.getInstance(); 
+			cal.setTime(d);
+			int day=cal.get(Calendar.MONTH);
+	        Calendar c1 = Calendar.getInstance();
+	        Calendar c2 = Calendar.getInstance();
+	        c1.setTime(sdf.parse(time1));
+	        c2.setTime(sdf.parse(time2));
+	        int result = c2.get(Calendar.MONTH) - c1.get(Calendar.MONTH);
+	        int month = (c2.get(Calendar.YEAR) - c1.get(Calendar.YEAR)) * 12;
+	        int days =  day + Math.abs(month + result);
+			for(int i = day; i <= days; i++){
+				Calendar calendar = Calendar.getInstance();  
+				Date dates = sdf.parse(time1);
+				calendar.setTime(dates);
+				calendar.set(Calendar.MONTH, i);
+				if(i!=days){
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime UNION ALL ";
+				}else{
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime)temp";
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	/**
+	 * 获取年
+	 * @return
+	 */
+	public String getYear(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{ 
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+			Date d = sdf.parse(time1);
+			Calendar cal = Calendar.getInstance(); 
+			cal.setTime(d);
+			int day=cal.get(Calendar.YEAR);
+	        Calendar c1 = Calendar.getInstance();
+	        Calendar c2 = Calendar.getInstance();
+	        c1.setTime(sdf.parse(time1));
+	        c2.setTime(sdf.parse(time2));
+	        int result = c2.get(Calendar.MONTH) - c1.get(Calendar.MONTH);
+	        int month = (c2.get(Calendar.YEAR) - c1.get(Calendar.YEAR)) ;
+	        int days =  day + Math.abs(month+result);
+			for(int i = day; i <= days; i++){
+				Calendar calendar = Calendar.getInstance();  
+				Date dates = sdf.parse(time1);
+				calendar.setTime(dates);
+				calendar.set(Calendar.YEAR, i);
+				if(i!=days){
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime UNION ALL ";
+				}else{
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime)temp";
+				}
+			} 
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+		
+	/**
+	 * 获取周
+	 * @return
+	 */
+	public String getWeek(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{
+			//日期不能超过两年
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");   
+			Calendar c1 = Calendar.getInstance();    
+			Calendar c2 = Calendar.getInstance();   
+			c1.setTime(sdf.parse(time1)); 
+			c2.setTime(sdf.parse(time2));     
+			int week1 = c1.get(Calendar.WEEK_OF_YEAR);
+			int week2 = c2.get(Calendar.WEEK_OF_YEAR); 
+			c1.add(Calendar.DAY_OF_MONTH, -7);    
+			c2.add(Calendar.DAY_OF_MONTH, -7);  
+			int year1 = c1.get(Calendar.YEAR);  
+			if(week1<c1.get(Calendar.WEEK_OF_YEAR)){  
+			    year1+=1;  
+			}
+			int year2 = c2.get(Calendar.YEAR);  
+			if(week2<c2.get(Calendar.WEEK_OF_YEAR)){  
+			    year2+=1;  
+			} 
+			if(year1!=year2){
+				for(int i = week1; i <=52; i++){
+					str += "SELECT '"+ year1+"-"+ i +"' AS weldTime UNION ALL ";
+				} 
+				for(int i = 1; i <=week2; i++){
+					if(i!=week2){
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime)temp";
+					}
+				} 
+			}else{
+				for(int i = week1; i <=week2; i++){
+					if(i!=week2){
+						str += "SELECT '"+ year1+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year1+"-"+ i +"' AS weldTime)temp";
+					}
+				} 
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+
+	/**
+	 * 获取季度
+	 * @return
+	 */
+	public String getQuarter(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+			Calendar c1 = Calendar.getInstance();    
+			Calendar c2 = Calendar.getInstance();   
+			c1.setTime(sdf.parse(time1)); 
+			c2.setTime(sdf.parse(time2));     
+			int year1 = c1.get(Calendar.YEAR);
+			int year2 = c2.get(Calendar.YEAR);
+			c1.setTime(sdf.parse(time1)); 
+			c2.setTime(sdf.parse(time2));     
+			int month1 = c1.get(Calendar.MONTH)+1;
+			int month2 = c2.get(Calendar.MONTH)+1;
+			int quarter1 = 0;
+			if(month1>=1 && month1<=3){
+				quarter1 = 1;
+			}else if(month1>=4 && month1<=6){
+				quarter1 = 2;
+			}else if(month1>=7 && month1<=9){
+				quarter1 = 3;
+			}else if(month1>=10 && month1<=12){
+				quarter1 = 4;
+			}
+			int quarter2 = 0;
+			if(month2>=1 && month2<=3){
+				quarter2 = 1;
+			}else if(month2>=4 && month2<=6){
+				quarter2 = 2;
+			}else if(month2>=7 && month2<=9){
+				quarter2 = 3;
+			}else if(month2>=10 && month2<=12){
+				quarter2 = 4;
+			}
+			if(year1!=year2){
+				for(int i=quarter1;i<=4;i++){
+					str += "SELECT '"+ year1+"-"+ i +"' AS weldTime UNION ALL ";
+				}
+				for(int i=1;i<=quarter2;i++){
+					if(i!=quarter2){
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime)temp";
+					}
+				}
+			}else{
+				for(int i=quarter1;i<=quarter2;i++){
+					if(i!=quarter2){
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime)temp";
+					}
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	/**
+	 * 获取半年
+	 * @return
+	 */
+	public String getHalfAYear(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+			Calendar c1 = Calendar.getInstance();    
+			Calendar c2 = Calendar.getInstance();   
+			c1.setTime(sdf.parse(time1)); 
+			c2.setTime(sdf.parse(time2));     
+			int year1 = c1.get(Calendar.YEAR);
+			int year2 = c2.get(Calendar.YEAR);
+			c1.setTime(sdf.parse(time1)); 
+			c2.setTime(sdf.parse(time2));     
+			int month1 = c1.get(Calendar.MONTH)+1;
+			int month2 = c2.get(Calendar.MONTH)+1;
+			int quarter1 = 0;
+			if(month1>=1 && month1<=6){
+				quarter1 = 1;
+			}else if(month1>=7 && month1<=12){
+				quarter1 = 2;
+			}
+			int quarter2 = 0;
+			if(month2>=1 && month2<=6){
+				quarter2 = 1;
+			}else if(month2>=7 && month2<=12){
+				quarter2 = 2;
+			}
+			if(year1!=year2){
+				for(int i=quarter1;i<=2;i++){
+					str += "SELECT '"+ year1+"-"+ i +"' AS weldTime UNION ALL ";
+				}
+				for(int i=1;i<=quarter2;i++){
+					if(i!=quarter2){
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime)temp";
+					}
+				}
+			}else{
+				for(int i=quarter1;i<=quarter2;i++){
+					if(i!=quarter2){
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime UNION ALL ";
+					}else{
+						str += "SELECT '"+ year2+"-"+ i +"' AS weldTime)temp";
+					}
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	@Override
+	public List<ModelDto> getUseDetail(Page page, BigInteger fid, int type, WeldDto dto) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getUseDetail(fid, type, dto);
+	}
+
+	@Override
+	public List<ModelDto> getBlocRunTime(BigInteger parent, WeldDto dto, int startindex, int endindex) {
+		return live.getBlocRunTime(parent, dto, startindex, endindex);
+	}
+
+	@Override
+	public List<ModelDto> getWeldingmachineList(WeldDto dto) {
+		return live.getWeldingmachineList(dto);
+	}
+
+	@Override
+	public List<ModelDto> getWelderList(WeldDto dto) {
+		return live.getWelderList(dto);
+	}
+
+	@Override
+	public List<ModelDto> getExcessiveBackDetail(BigInteger id) {
+		return live.getExcessiveBackDetail(id);
+	}
+
+	@Override
+	public List<ModelDto> getNewOvertime(WeldDto dto, int num, String type) {
+		return live.getNewOvertime(dto, num, type);
+	}
+
+	@Override
+	public List<ModelDto> getNewOvertimeDetail(Page page, WeldDto dto, int num) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getNewOvertimeDetail(dto, num);
+	}
+
+	@Override
+	public List<ModelDto> getNewIdle(WeldDto dto) {
+		return live.getNewIdle(dto);
+	}
+
+	@Override
+	public List<ModelDto> getMachineTypeTotal(BigInteger parent) {
+		return live.getMachineTypeTotal(parent);
+	}
+
+	@Override
+	public List<ModelDto> getWelderWorkTime(Page page, WeldDto dto, String insftype) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getWelderWorkTime(dto, insftype);
+	}
+
+	@Override
+	public List<ModelDto> getWelderWorkTime(WeldDto dto, String insftype) {
+		return live.getWelderWorkTime(dto, insftype);
+	}
+	
+	@Override
+	public ModelDto getWelderAvgWorkTime(WeldDto dto) {
+		return live.getWelderAvgWorkTime(dto);
 	}
 
 }

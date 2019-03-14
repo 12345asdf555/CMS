@@ -25,116 +25,116 @@ function weldingMachineDatagrid(){
 			title : '序号',
 			width : 50,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'equipmentNo',
 			title : '固定资产编号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'typeName',
 			title : '设备类型',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'jointime',
 			title : '入厂时间',
 			width : 200,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'insframeworkName',
 			title : '所属项目',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'statusName',
 			title : '状态',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		} , {
 			field : 'manufacturerName',
 			title : '厂家',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'isnetworking',
 			title : '是否在网',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'gatherNo',
 			title : '采集序号',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'position',
 			title : '位置',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'money',
 			title : '价值',
 			width : 80,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'statusId',
 			title : '状态id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'isnetworkingId',
 			title : '是否联网id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'gatherId',
 			title : '采集id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'manufacturerId',
 			title : '厂商id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'typeId',
 			title : '类型id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'insframeworkId',
 			title : '项目id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden: true
 		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:openEditDialog()"/>';
 				return str;

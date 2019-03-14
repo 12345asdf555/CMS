@@ -7,7 +7,7 @@ var chartStr = "";
 var charts;
 var array1 = new Array();
 var array2 = new Array();
-function showblocHourChart() {
+function showblocHourChart(num) {
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	$.ajax({
@@ -33,8 +33,10 @@ function showblocHourChart() {
 			alert("图表请求数据失败啦!");
 		}
 	});
-	//初始化echart实例
-	charts = echarts.init(document.getElementById("blocHourChart"));
+	if(num==0){
+		//初始化echart实例
+		charts = echarts.init(document.getElementById("blocHourChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text : '稍等片刻,精彩马上呈现...',
@@ -45,7 +47,9 @@ function showblocHourChart() {
 			trigger : 'axis' //坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend : {
-			data : [ '工时(s)' ]
+			data : [ '工时(h)' ],
+			x: 'left',
+			left: '60'
 		},
 		grid : {
 			left : '60', //组件距离容器左边的距离
@@ -70,20 +74,21 @@ function showblocHourChart() {
 					show : true
 				} //保存为图片
 			},
-			right : '2%'
+			right : '2%',
+			top:'30'
 		},
 		xAxis : {
 			type : 'category',
 			data : array1,
-			name : '组织\n机构'
+			name : '单位'
 		},
 		yAxis : {
 			type : 'value', //value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name : '焊接平均时长(s)'
+			name : '焊接平均时长(h)'
 		},
 		series : [
 			{
-				name : '工时(s)',
+				name : '工时(h)',
 				type : 'bar',
 				barMaxWidth : 20, //最大宽度
 				data : array2,
@@ -101,6 +106,21 @@ function showblocHourChart() {
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#blocHourChart").width("100%");
+	if(array1.length>3){
+		var maxlength = array1[0];
+		for(var i=0; i<array1.length; i++){
+			if(array1[i].length>maxlength.length){
+				maxlength = array1[i];
+			}
+		}
+		var width = array1.length * maxlength.length * 18;//最长组织机构名字每个字节算18px
+		if($("#blocHourChart").width()<width){
+			$("#blocHourChart").width(width);
+		}
+	}
+	charts.resize();
 }
 
 function BlocHourDatagrid() {
@@ -108,8 +128,8 @@ function BlocHourDatagrid() {
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	$("#blocHourTable").datagrid({
 		fitColumns : true,
-		height : $("#body").height() - $("#blocHourChart").height() - $("#blocHour_btn").height() - 15,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#blocHourChart").height() - $("#blocHour_btn").height() - 15,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		url : "blocChart/getBlocHour?dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2 + chartStr,
 		singleSelect : true,
@@ -123,7 +143,7 @@ function BlocHourDatagrid() {
 			title : '公司',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value, row, index) {
 				return '<a href="companyChart/goCompanyHour?parent=' + row.companyid + "&parentime1=" + dtoTime1 + "&parentime2=" + dtoTime2 + '">' + value + '</a>';
 			}
@@ -132,13 +152,13 @@ function BlocHourDatagrid() {
 			title : '焊口数量',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'manhour',
-			title : '焊接平均工时(s)',
+			title : '焊接平均工时(h)',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value, row, index) {
 				if (row.jidgather == 0) {
 					return 0;
@@ -150,14 +170,14 @@ function BlocHourDatagrid() {
 			title : '达因',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'companyid',
 			title : '公司id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		} ] ]
 	});
@@ -167,7 +187,7 @@ function classifyDatagrid() {
 	$("#classify").datagrid({
 		fitColumns : true,
 		height : $("#classifydiv").height(),
-		width : $("#body").width() / 2,
+		width : $("#bodydiv").width() / 2,
 		idField : 'fid',
 		url : "blocChart/getBlocHousClassify",
 		singleSelect : true,
@@ -184,43 +204,46 @@ function classifyDatagrid() {
 			title : '上游材质',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextmaterial',
 			title : '下游材质',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wall_thickness',
 			title : '上游璧厚',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextwall_thickness',
 			title : '下游璧厚',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'external_diameter',
 			title : '上游外径',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'nextExternal_diameter',
 			title : '下游外径',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		} ] ],
 		toolbar : '#classify_btn',
 		onLoadSuccess : function() {
+			$("#classify").datagrid("clearChecked");
 			$("#classify").datagrid("selectRow", 0);
+			array1 = new Array();
+			array2 = new Array();
 			BlocHourDatagrid();
-			showblocHourChart();
+			showblocHourChart(0);
 		}
 	});
 }
@@ -237,7 +260,7 @@ function commitChecked() {
 	chartStr += "&search=" + search;
 	setTimeout(function() {
 		BlocHourDatagrid();
-		showblocHourChart();
+		showblocHourChart(1);
 	}, 500);
 }
 
@@ -253,12 +276,12 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#blocHourTable").datagrid('resize', {
-		height : $("#body").height() - $("#blocHourChart").height() - $("#blocHour_btn").height() - 15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#blocHourChart").height() - $("#blocHour_btn").height() - 15,
+		width : $("#bodydiv").width()
 	});
 	$("#classify").datagrid('resize', {
 		height : $("#classifydiv").height(),
-		width : $("#body").width() / 2
+		width : $("#bodydiv").width() / 2
 	});
-	echarts.init(document.getElementById('blocHourChart')).resize();
+	charts.resize();
 }

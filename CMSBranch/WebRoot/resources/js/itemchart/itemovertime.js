@@ -4,24 +4,27 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showItemOverptimeChart();
+	showItemOverptimeChart(0);
 })
 
+var otype = "";
 function setParam(){
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	var item = $("#item").combobox("getValue");
-	var otype = $("input[name='otype']:checked").val();
+	otype = $("input[name='otype']:checked").val();
 	var number = $("#number").val();
-	chartStr += "&item="+item+"&otype="+otype+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number;
+	chartStr += "?item="+item+"&otype="+otype+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number;
 }
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showItemOverptimeChart(){
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("itemOvertimeChart"));
+var charts,Series = [];
+function showItemOverptimeChart(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("itemOvertimeChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -35,7 +38,9 @@ function showItemOverptimeChart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:array2
+			data:array2,
+			x: 'left',
+			left: '40'
 		},
 		grid:{
 			left:'40',//组件距离容器左边的距离
@@ -50,16 +55,17 @@ function showItemOverptimeChart(){
 	            restore : {show: true},
 	            saveAsImage : {show: true}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',
 			data: array1,
-			name: '焊机数量'
+			name: '日期'
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name: '日期'
+			name: '焊机数量'
 		},
 		series:[
 		]
@@ -70,6 +76,13 @@ function showItemOverptimeChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#itemOvertimeChart").width("100%");
+	if(array1.length>3 || array2.length>5){//array2：柱状图数量
+		var width = array1.length * array2.length * 100;
+		$("#itemOvertimeChart").width($("#itemOvertimeChart").width()+width);
+	}
+	charts.resize();
 }
 
 function ItemtimeDatagrid(){
@@ -77,27 +90,26 @@ function ItemtimeDatagrid(){
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	var number = $("#number").val();
-	var parent = $("#parent").val();
 	var column = new Array();
 	 $.ajax({  
          type : "post",  
          async : false,
-         url : "itemChart/getItemOvertime?parent="+parent+chartStr,
+         url : "itemChart/getItemOvertime"+chartStr,
          data : {},  
          dataType : "json", //返回数据形式为json  
          success : function(result) {  
              if (result) {
-            	 var width=$("#body").width()/result.rows.length;
-                 column.push({field:"weldTime",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "left"});
+            	 var width=$("#bodydiv").width()/result.rows.length;
+                 column.push({field:"weldTime",title:"时间跨度(年/月/周/日)",width:width,halign : "center",align : "center"});
                  for(var i=0;i<result.rows.length;i++){
                    	array1.push(result.rows[i].weldTime);
              	 }
                  for(var m=0;m<result.arys.length;m++){
-                	 column.push({field:"overtime",title:result.arys[m].name+"(台)",width:width,halign : "center",align : "left",
+                	 column.push({field:"overtime",title:result.arys[m].name+"(台)",width:width,halign : "center",align : "center",
                 		 formatter : function(value,row,index){
-                			 return "<a href='junctionChart/goJunctionOvertime?parent="+row.id+"&weldtime="+row.weldTime+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number+"'>"+value+"</a>";
+                			 return "<a href='junctionChart/goJunctionOvertime?parent="+row.id+"&otype="+otype+"&weldtime="+row.weldTime+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&number="+number+"'>"+value+"</a>";
                 		 }
-                	 },{field:"id",title:"项目id",width:width,halign : "center",align : "left",hidden : true});
+                	 },{field:"id",title:"项目id",width:width,halign : "center",align : "center",hidden : true});
                    	array2.push(result.arys[m].name);
                    	Series.push({
                    		name : result.arys[m].name,
@@ -107,8 +119,7 @@ function ItemtimeDatagrid(){
         				label : {
         					normal : {
         						position : 'top',
-        						show : true, //显示每个折点的值
-        						formatter : '{c}%'
+        						show : true //显示每个折点的值
         					}
         				}
                    	});
@@ -121,12 +132,12 @@ function ItemtimeDatagrid(){
     }); 
 	 $("#itemOvertimeTable").datagrid( {
 			fitColumns : true,
-			height : $("#body").height() - $("#itemOvertimeChart").height()-$("#itemOvertime_btn").height()-45,
-			width : $("#body").width(),
+			height : $("#bodydiv").height() - $("#itemOvertimeChart").height()-$("#itemOvertime_btn").height()-45,
+			width : $("#bodydiv").width(),
 			idField : 'id',
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
-			url : "itemChart/getItemOvertime?parent="+parent+chartStr,
+			url : "itemChart/getItemOvertime"+chartStr,
 			singleSelect : true,
 			rownumbers : true,
 			showPageList : false,
@@ -160,6 +171,9 @@ function ItemtimeCombobox(){
 	$("#item").combobox();
 	var data = $("#item").combobox('getData');
 	$("#item").combobox('select',data[0].value);
+	if($("#parent").val()){
+		$("#item").combobox('select',$("#parent").val());
+	}
 }
 
 
@@ -171,7 +185,7 @@ function serachItemOvertime(){
 	chartStr = "";
 	setTimeout(function(){
 		ItemtimeDatagrid();
-		showItemOverptimeChart();
+		showItemOverptimeChart(1);
 	},500);
 }
 
@@ -183,8 +197,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#itemOvertimeTable").datagrid('resize', {
-		height : $("#body").height() - $("#itemOvertimeChart").height()-$("#itemOvertime_btn").height()-45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#itemOvertimeChart").height()-$("#itemOvertime_btn").height()-45,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('itemOvertimeChart')).resize();
+	charts.resize();
 }

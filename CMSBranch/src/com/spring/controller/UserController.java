@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +22,7 @@ import com.greatway.manager.DictionaryManager;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.model.Dictionarys;
 import com.greatway.model.Insframework;
+import com.greatway.model.SmsUser;
 import com.greatway.page.Page;
 import com.greatway.util.IsnullUtil;
 import com.spring.model.MyUser;
@@ -50,31 +52,26 @@ public class UserController {
 	IsnullUtil iutil = new IsnullUtil();
 	
 	/**
+	 * 跳转用户短信页面
+	 * @return
+	 */
+	@RequestMapping("/goSMSUser")
+	public String goSMSUser(){
+		return "user/smsuser";
+	}
+	
+	/**
 	 * 获取所有用户列表
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/logout")
-
 	public String AllLouout(HttpServletRequest request,HttpServletResponse response){
-/*		JSONObject obj = new JSONObject();
-		try{
-		Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
-		    if (auth != null){    
-		        new SecurityContextLogoutHandler().logout(request,response,auth);
-		    }
-		    obj.put("success", true);
-		}catch(Exception e){
-			obj.put("success", false);
-			obj.put("errorMsg", e.getMessage());
-		}
-		return obj.toString();*/
-		
-		    Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
-		    if (auth != null){    
-		        new SecurityContextLogoutHandler().logout(request,response,auth);
-		    }
-		    return "redirect:/login.jsp?logout";
+	    Authentication auth = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null){    
+	        new SecurityContextLogoutHandler().logout(request,response,auth);
+	    }
+	    return "redirect:/login.jsp?logout";
 	}
 	
 	@RequestMapping("/AllUser")
@@ -143,19 +140,6 @@ public class UserController {
 	}
 	
 	/**
-	 * 跳转到添加用户界面
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("/toAddUser")
-	public String toAddUser(HttpServletRequest request){
-		String insfname = request.getParameter("name");
-		String insid = request.getParameter("insid");
-		request.setAttribute("insfname", insfname);
-		request.setAttribute("insid", insid);
-		return "user/addUser";
-	}
-	/**
 	 * 添加用户并重定向
 	 * @param user
 	 * @param request
@@ -188,15 +172,12 @@ public class UserController {
             userService.saveRole(user);
         }
         }
-        
-/*		userService.save(user);*/
 		obj.put("success", true);
 		}catch(Exception e){
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
 		}
 		return obj.toString();
-/*		return "redirect:/user/AllUser";*/
 	}
 	
 	/**
@@ -239,7 +220,6 @@ public class UserController {
 	        String[] s = str.split(",");
 	        for (int i = 0; i < s.length; i++) {
 	            Integer id = Integer.parseInt(s[i]);
-	            /*userService.deleteRole(userService.updateUserRole(uid));*/
 	            user.setRoleName(userService.findByRoleId(id));
 	            user.setRoleId(id);
                 userService.saveRole(user);
@@ -254,23 +234,7 @@ public class UserController {
 			return obj.toString();
 
 	}
-	/**
-	 * 根据id查询单个用户
-	 * @param id
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("/getUser")
-	public String getUser(@RequestParam int id,HttpServletRequest request){
-		request.setAttribute("user", userService.findById(new Integer(id)));
-		return "user/editUser";
-	}
 	
-	@RequestMapping("/desUser")
-	public String desUser(@RequestParam int id,HttpServletRequest request){
-		request.setAttribute("user", userService.findById(new Integer(id)));
-		return "user/destroyUser";
-	}
 	/**
 	 * 删除用户
 	 * @param id
@@ -281,18 +245,18 @@ public class UserController {
 	@RequestMapping("/delUser")
 	@ResponseBody
 	public String delUser(@RequestParam int id){
-
-			JSONObject obj = new JSONObject();
-			try{
-				 User user = userService.findById(new Integer(id));
-				 userService.delete(new Integer(user.getId()));
-				 obj.put("success", true);
-			}catch(Exception e){
-				obj.put("success", false);
-				obj.put("errorMsg", e.getMessage());
-			}
-			return obj.toString();
+		JSONObject obj = new JSONObject();
+		try{
+			 User user = userService.findById(new Integer(id));
+			 userService.delete(new Integer(user.getId()));
+			 obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
 	}
+	
 	@RequestMapping("/getAllRole")
 	@ResponseBody
 	public String getAllRole(HttpServletRequest request){
@@ -406,7 +370,6 @@ public class UserController {
 		}
 		obj.put("rows", ary);
 		return obj.toString();
-/*		return "redirect:/user/AllUser";*/
 	}
 	
 	@RequestMapping("/getStatusAll")
@@ -486,6 +449,163 @@ public class UserController {
 			obj.put("errorMsg", e.getMessage());
 		}
 		return obj.toString();
+	}
+	
+	@RequestMapping("getSMSUser")
+	@ResponseBody
+	public String getSMSUser(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String str = request.getParameter("searchStr");
+		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		BigInteger parent = im.getUserInsfId(BigInteger.valueOf(myuser.getId()));
+		page = new Page(pageIndex,pageSize,total);
+		long total = 0;
+		List<SmsUser> list = userService.getSMSUser(page, parent, str);
+		if(list!=null){
+			PageInfo<SmsUser> pageinfo = new PageInfo<SmsUser>(list);
+			total = pageinfo.getTotal();
+		}
+		try{
+			for(int i=0;i<list.size();i++){
+				json.put("fid", list.get(i).getFid());
+				json.put("fname", list.get(i).getFname());
+				json.put("femail", list.get(i).getFemail());
+				json.put("fphone", list.get(i).getFphone());
+				json.put("fitemid", list.get(i).getFitemid());
+				json.put("fitemname", list.get(i).getFitemname());
+				json.put("fuserid", list.get(i).getFuserid());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total",total);
+		obj.put("rows",ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/addSmsUser")
+	@ResponseBody
+	public String addSmsUser(HttpServletRequest request){
+		SmsUser su = new SmsUser();
+		JSONObject obj = new JSONObject();
+		try{
+			su.setFname(request.getParameter("fname"));
+			su.setFemail(request.getParameter("femail"));
+			su.setFphone(request.getParameter("fphone"));
+			su.setFitemid(new BigInteger(request.getParameter("fitemid")));
+			su.setFuserid(new BigInteger(request.getParameter("fuserid")));
+			MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			su.setFcreator(new BigInteger(myuser.getId()+""));
+			if(userService.saveSMSUser(su)){
+				obj.put("success", true);
+			}else{
+				obj.put("success", false);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
+
+	@RequestMapping("/editSmsUser")
+	@ResponseBody
+	public String editSmsUser(HttpServletRequest request){
+		SmsUser su = new SmsUser();
+		JSONObject obj = new JSONObject();
+		try{
+			su.setFid(Integer.parseInt(request.getParameter("fid")));
+			su.setFname(request.getParameter("fname"));
+			su.setFemail(request.getParameter("femail"));
+			su.setFphone(request.getParameter("fphone"));
+			su.setFitemid(new BigInteger(request.getParameter("fitemid")));
+			su.setFuserid(new BigInteger(request.getParameter("fuserid")));
+			MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			su.setFmodifier(new BigInteger(myuser.getId()+""));
+			if(userService.editSMSUser(su)){
+				obj.put("success", true);
+			}else{
+				obj.put("success", false);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
+	
+	@RequestMapping("/removeSmsUser")
+	@ResponseBody
+	public String removeSmsUser(@RequestParam BigInteger id){
+		JSONObject obj = new JSONObject();
+		try{
+			if(userService.removeSMSUser(id)){
+				obj.put("success", true);
+			}else{
+				obj.put("success", false);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
+	
+
+	@RequestMapping("getSelectUser")
+	@ResponseBody
+	public String getSelectUser(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String name = request.getParameter("name");
+		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		BigInteger parent = im.getUserInsfId(BigInteger.valueOf(myuser.getId()));
+		page = new Page(pageIndex,pageSize,total);
+		long total = 0;
+		List<User> list = userService.selectUser(page, parent, name);
+		if(list!=null){
+			PageInfo<User> pageinfo = new PageInfo<User>(list);
+			total = pageinfo.getTotal();
+		}
+		try{
+			for(int i=0;i<list.size();i++){
+				json.put("name", list.get(i).getUserName());
+				json.put("email", list.get(i).getUserEmail());
+				json.put("phone", list.get(i).getUserPhone());
+				json.put("position", list.get(i).getUserPosition());
+				json.put("insid", list.get(i).getInsid());
+				json.put("insname", list.get(i).getInsname());
+				json.put("id", list.get(i).getId());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total",total);
+		obj.put("rows",ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getSmsCount")
+	@ResponseBody
+	public String getSmsCount(@RequestParam BigInteger id){
+		boolean flag = true;
+		int count = userService.getSelectCountByInsid(id);
+		if(count > 0){
+			flag = false;
+		}
+		return flag + "";
 	}
 	
 }

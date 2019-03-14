@@ -158,13 +158,15 @@ $(function(){
 							if((oldwelder!=null || oldwelder!="") && oldwelder == value){
 								return true;
 							}
+							var itemid = $("#itemname").combobox('getValue');
 							var result = "";
 							$.ajax({
 								type : 'post',
 								async : false,
 								url : 'welder/wnoValidate',
 								data : {
-									"wno" : value
+									"wno" : value,
+									"parent" : itemid
 								},
 								success : function(data){
 									result = data;
@@ -257,8 +259,8 @@ $(function(){
 								async : false,
 								url : 'gather/gathernoValidate',
 								data : {
-									"gatherno" : value,
-//									"itemid" : itemid
+									"gatherno" : value/*,
+									"itemid" : itemid*/
 								},
 								success : function(data){
 									result = data;
@@ -279,13 +281,15 @@ $(function(){
 							if((oldno!=null || oldno!="") && oldno == value){
 								return true;
 							}
+							var itemid = $("#itemid").combobox('getValue');
 							var result = "";
 							$.ajax({
 								type : 'post',
 								async : false,
 								url : 'weldedjunction/wjNoValidate',
 								data : {
-									"wjno" : value
+									"wjno" : value,
+									"parent" : itemid
 								},
 								success : function(data){
 									result = data;
@@ -362,6 +366,60 @@ $(function(){
 						}
 					},
 					message : '长度必须为四位'
+				},
+				
+				wpsValidate : {
+					validator : function(value, param) {
+						if (flag) {
+							var fwpsnum = $("#validName").val();
+							if((fwpsnum!=null || fwpsnum!="") && fwpsnum == value){
+								return true;
+							}
+							var result = "";
+							$.ajax( {
+								type : 'post',
+								async : false,
+								url : 'wps/wpsvalidate',
+								data : {
+									"fwpsnum" : value
+								},
+								success : function(data) {
+									result = data;
+								}
+							});
+							return result;
+						} else {
+							return true;
+						}
+		
+					},
+					message : '工艺参数编号已存在'
+				},
+				smsuserValidate : {
+					validator : function(value, param){
+						if(flag){
+							if($("#folduserid").val()==$("#fuserid").val()){
+								return true;
+							}
+							var id = $("#fitemid").val();
+							var result = "";
+							$.ajax({
+								type : 'post',
+								async : false,
+								url : 'user/getSmsCount',
+								data : {
+									"id" : id
+								},
+								success : function(data){
+									result = data;
+								}
+							});
+							return result;
+						}else{
+							return true;
+						}
+					},
+					message : '该项目部下已选择短信用户'
 				},
 			})
 })

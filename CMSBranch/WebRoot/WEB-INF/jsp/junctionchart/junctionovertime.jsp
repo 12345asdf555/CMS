@@ -33,15 +33,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body class="easyui-layout">
-    <div id="body" region="center"  hide="true"  split="true" title="焊口超时待机" style="background: witch; height: 335px;">
+    <div id="body" region="center"  hide="true"  split="true">
 	  	<div id="junctionOvertime_btn">
-			<div style="margin-bottom: 5px;">
+			<div style="margin-bottom: 5px;margin-left:20px;">
+				<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 				<input  name="parent" id="parent" type="hidden" value="${parent }"/>
 				<input  name="weldtime" id="weldtime" type="hidden" value="${weldtime }"/>
 				<input  name="time1" id="time1" type="hidden" value="${time1 }"/>
 				<input  name="time2" id="time2" type="hidden" value="${time2 }"/>
 				<input  name="number" id="number" type="hidden" value="${number }"/>
+				<input  name="otype" id="otype" type="hidden" value="${otype }"/>
 			</div>
 		</div>
 		<div><h2>${str }</h2></div>

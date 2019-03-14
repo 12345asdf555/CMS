@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
   <meta http-equiv="description" content="This is my page">
   
+  <link rel="stylesheet" type="text/css" href="" />
   <link rel="stylesheet" type="text/css" href="resources/themes/icon.css" />
   <link rel="stylesheet" type="text/css" href="resources/themes/default/easyui.css" />
   <link rel="stylesheet" type="text/css" href="resources/css/base.css" />
@@ -23,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript" src="resources/js/jquery.min.js"></script>
   <script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
   <script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
   <script type="text/javascript" src="resources/js/insframework/insframeworktree.js"></script>
   <script type="text/javascript" src="resources/js/weldingMachine/weldingMachine.js"></script>
   <script type="text/javascript" src="resources/js/weldingMachine/addeditweldingmachine.js"></script>
@@ -30,9 +32,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript" src="resources/js/search/search.js"></script>
   </head>
   
-  <body  class="easyui-layout">
+  <body class="easyui-layout">
     <jsp:include  page="../insframeworktree.jsp"/>
-    <div id="body" region="center"  hide="true"  split="true" title="焊机设备管理" style="background: #eee;height: 335px;">
+    <div id="body" region="center"  hide="true"  split="true">
       <input type="hidden" id="treeid"/>
       <div id="weldingmachineTable_btn">
       <div style="margin-bottom: 5px;">
@@ -73,6 +75,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
         <div class="fitem">
           <lable><span class="required">*</span>固定资产编号</lable>
+          <input type="hidden" id="valideno"/>
+          <input type="hidden" id="validgid"/>
           <input class="easyui-textbox" name="equipmentNo" id="equipmentNo"  data-options="validType:['wmEnoValidate'],required:true"/>
         </div>
         <div class="fitem">
@@ -85,9 +89,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div class="fitem">
           <lable><span class="required">*</span>所属项目</lable>
-          <input type="hidden" id="insframework" name="insframeworkId"/>
+          <input type="hidden" id="insframework" name="insframework"/>
           <input class="easyui-textbox" id="insfname" readonly="readonly"/>
-          <select class="easyui-combobox" name="insframeworkName" id="iId" data-options="required:true,editable:false"></select>
+          <select class="easyui-combobox" name="insframeworkId" id="iId" data-options="required:true,editable:false"></select>
         </div>
         <div class="fitem">
           <lable><span class="required">*</span>生产厂商</lable>
@@ -99,8 +103,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <input type="hidden" name="gatherId" id="gatherId" />
           <input class="easyui-textbox" name="gatherNo" id="gatherNo" data-options="validType:['wmGatheridValidate']" readonly="readonly"/>
           <a href="javascript:selectMachine();" class="easyui-linkbutton">选择</a>
+          <a href="javascript:reset();" class="easyui-linkbutton">还原</a>
         </div>
-<div class="fitem">
+		<div class="fitem">
           <lable>设备位置</lable>
           <input class="easyui-textbox" name="position" id="position"/>
         </div>
@@ -129,14 +134,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         采集模块编号：<input class="easyui-textbox" id="searchname"/>
         <a href="javascript:dlgSearchGather();" class="easyui-linkbutton" iconCls="icon-search">查询</a>
       </div>
-        <table id="gatherTable" style="table-layout: fixed; width:100%;"></table>
+      <table id="gatherTable" style="table-layout: fixed; width:100%;"></table>
     </div>
     <div id="fdlg-buttons">
       <a href="javascript:saveGather();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
       <a href="javascript:closeFdlog()" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
     </div>
   <!--   删除 -->
-  <div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
+  <div id="rdlg" class="easyui-dialog" style="width: 420px; height: 530px; padding:10px 20px" closed="true" buttons="#remove-buttons">
     <form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
     <div class="fitem">
         <lable>固定资产编号</lable>

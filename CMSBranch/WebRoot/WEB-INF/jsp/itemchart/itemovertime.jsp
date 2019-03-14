@@ -9,13 +9,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>项目部超时待机统计</title>
+    <title>超时待机统计</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -37,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="true" title="项目部超时待机统计" style="background: witch; height: 335px;">
+    <div id="bodydiv" region="center"  hide="true"  split="true">
 	  	<div id="itemOvertime_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
@@ -50,20 +51,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				时间跨度:
 				<input type="radio" class="radioStyle" name="otype" value="1" />年
 				<input type="radio" class="radioStyle" name="otype" value="2" />月
-				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
 				<input type="radio" class="radioStyle" name="otype" value="4" />周
-				<input class="easyui-combobox" name="item" id="item">
-				一天超时待机:
+				<input type="radio" class="radioStyle" name="otype" value="3" checked="checked" />日
+				<select class="easyui-combobox" name="item" id="item"></select>
+				&nbsp;&nbsp;&nbsp;超时待机:
 				<input class="easyui-numberbox" name="number" id="number" value="30">分钟
 				<a href="javascript:serachItemOvertime();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
+				<a href="javascript:history.go(-1)" class="easyui-linkbutton" iconCls="icon-back" id="pageUp">返回</a>
 			</div>
 		</div>
 		<div  id="parentMsg"><h2>${str }</h2></div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 10%;margin-left:10px;">
-		按组织机构和日期对超时待机趋势统计：<br/>
-		统计时间段内的各部门焊机超时待机趋势；</div>
-		<div id="itemOvertimeChart" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
-	    <table id="itemOvertimeTable" style="table-layout: fixed; width:100%;"></table>
+		<div id="maxexplain">
+			<div id="explain">
+				<span>超时待机统计</span><hr>
+				<ul>
+					<li>展现某一时间段内，各部门的超时待机焊机数量及趋势</li>
+				</ul>
+			</div>
+		</div>
+		<div class="divParent">
+			<div id="itemOvertimeChart" style="height:96%;width:100%;"></div>
+		</div>
+		<table id="itemOvertimeTable" style="table-layout: fixed; width:100%;"></table>
 	</div>
   </body>
 </html>

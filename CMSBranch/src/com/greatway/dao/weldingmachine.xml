@@ -81,6 +81,17 @@
 		SELECT fid, fequipment_no FROM tb_welding_machine 
 	</select>
 	
+	<select id="getCountByInsframework" resultType="java.lang.Integer">
+		SELECT count(w.fid) FROM tb_welding_machine w
+		INNER JOIN tb_insframework i ON w.finsframework_id = i.fid
+		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
+		INNER JOIN tb_insframework insf ON insf.fid = ins.fparent
+		where 1=1
+		<if test="id!=null and id!=''">
+			and (ins.fparent = #{id} or ins.fid = #{id} or i.fid = #{id} or insf.fparent=#{id})
+		</if>
+	</select>
+	
 	<select id="getWeldingMachineByEno"  resultType="java.math.BigInteger">
 		SELECT fid FROM tb_welding_machine where fequipment_no = #{eno}
 	</select>

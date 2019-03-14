@@ -4,20 +4,20 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showcaustUseChart();
+	showcaustUseChart(0);
 })
-
+var dtoTime1,dtoTime2;
 function setParam(){
 	var type = $("#type").combobox('getValue');
-	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
-	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
+	dtoTime1 = $("#dtoTime1").datetimebox('getValue');
+	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
 	chartStr = "?type="+type+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2;
 }
 
 var charts;
 var array1 = new Array();
 var array2 = new Array();
-function showcaustUseChart(){
+function showcaustUseChart(num){
 	setParam();
 	 $.ajax({  
          type : "post",  
@@ -28,7 +28,7 @@ function showcaustUseChart(){
          success : function(result) {  
              if (result) {  
                  for(var i=0;i<result.rows.length;i++){
-                 	array1.push(result.rows[i].fname);
+                 	array1.push(result.rows[i].name +"\n"+ result.rows[i].type);
                  	array2.push(result.rows[i].time);
                  }
              }  
@@ -37,8 +37,10 @@ function showcaustUseChart(){
              alert("图表请求数据失败啦!");  
          }  
     }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("caustUseChart"));
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("caustUseChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -49,12 +51,14 @@ function showcaustUseChart(){
 			trigger: 'axis',//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['时长(h)']
+			data:['时长(h)'],
+			x : 'left',
+			left : '50'
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'120',
-			bottom:'20',
+			right:'140',
+			bottom:'40',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -64,7 +68,8 @@ function showcaustUseChart(){
 	            restore : {show: true},
 	            saveAsImage : {show: true}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',
@@ -95,6 +100,21 @@ function showcaustUseChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#caustUseChart").width("100%");
+	if(array1.length>3){
+		var maxlength = array1[0];
+		for(var i=0; i<array1.length; i++){
+			if(array1[i].length>maxlength.length){
+				maxlength = array1[i];
+			}
+		}
+		var width = array1.length * maxlength.length * 12;//最长组织机构名字每个字节算9px
+		if($("#caustUseChart").width()<width){
+			$("#caustUseChart").width(width);
+		}
+	}
+	charts.resize();
 }
 
 
@@ -102,8 +122,8 @@ function CaustUseDatagrid(){
 	setParam();
 	$("#caustUseTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#caustUseChart").height()-$("#caustUse_btn").height()-15,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#caustUseChart").height()-$("#caustUse_btn").height()-15,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		url : "caustChart/getCaustUse"+chartStr,
 		singleSelect : true,
@@ -113,29 +133,46 @@ function CaustUseDatagrid(){
 		showPageList : false,
 		pagination : true,
 		columns : [ [ {
+			field : 'fid',
+			title : 'id',
+			width : 100,
+			halign : "center",
+			align : "center",
+			hidden : true
+		}, {
+			field : 'typeid',
+			title : '类型id',
+			width : 100,
+			halign : "center",
+			align : "center",
+			hidden : true
+		}, {
 			field : 'fname',
 			title : '厂家',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center",
+			formatter : function(value,row,index){
+				return '<a href="junctionChart/goUse?manuid='+row.fid+'&manutype='+row.typeid+'&time1='+dtoTime1+'&time2='+dtoTime2+'">'+value+'</a>';
+			}
 		}, {
 			field : 'type',
 			title : '型号',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'time',
 			title : '平均时长(h)',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'num',
 			title : '数量(台)',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}] ]
 	});
 }
@@ -173,7 +210,7 @@ function serachcaustUse(){
 	chartStr = "";
 	setTimeout(function(){
 		CaustUseDatagrid();
-		showcaustUseChart();
+		showcaustUseChart(1);
 	},500);
 }
 
@@ -185,8 +222,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#caustUseTable").datagrid('resize', {
-		height : $("#body").height() - $("#caustUseChart").height()-$("#caustUse_btn").height()-15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#caustUseChart").height()-$("#caustUse_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('caustUseChart')).resize();
+	charts.resize();
 }

@@ -4,10 +4,10 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showcompanyEfficiencyChart();
+	showcompanyEfficiencyChart(0);
 })
 
-var min="", max ="",dtoTime1,dtoTime2;
+var min="", max ="",dtoTime1,dtoTime2,charts;
 function setParam(){
 	chartStr = "";
 	var parent = $('#parent').combobox('getValue');
@@ -17,7 +17,7 @@ function setParam(){
 	chartStr = "?parent="+parent+"&nextparent="+nextparent+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&min="+min+"&max="+max;
 }
 
-function showcompanyEfficiencyChart(){
+function showcompanyEfficiencyChart(num){
 	setParam();
 	var array1 = new Array();
 	var array2 = new Array();
@@ -34,7 +34,7 @@ function showcompanyEfficiencyChart(){
             		 for(var i=0;i<result.ary.length;i++){
                        	array1 = result.ary[i].num1;
                        	Series.push({
-            				name:'工效(1:1)',
+            				name:'工时分布(1:1)',
             				type:'bar',
             	            barMaxWidth:20,//最大宽度
             				data:result.ary[i].num2,
@@ -49,8 +49,8 @@ function showcompanyEfficiencyChart(){
                       }
                   }else{
                 	  Series.push({
-                     		name : '工效(1:1)',
-                     		type :'line',//折线图
+                     		name : '工时分布(1:1)',
+                     		type :'bar',
                      		data : ''
                       });
                   }
@@ -59,9 +59,11 @@ function showcompanyEfficiencyChart(){
         error : function(errorMsg) {  
              alert("图表请求数据失败啦!");  
          }  
-    }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("companyEfficiencyChart"));
+    });  
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("companyEfficiencyChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -75,7 +77,9 @@ function showcompanyEfficiencyChart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['工效(1:1)']
+			data:['工时分布(1:1)'],
+			x : 'left',
+			left : '50'
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
@@ -90,7 +94,8 @@ function showcompanyEfficiencyChart(){
 	            restore : {show: true},
 	            saveAsImage : {show: true}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',
@@ -99,7 +104,7 @@ function showcompanyEfficiencyChart(){
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name : '工效(%)',
+			name : '工时分布(%)',
 			axisLabel: {  
                   show: true,  
                   interval: 'auto',  
@@ -123,13 +128,20 @@ function showcompanyEfficiencyChart(){
 	    CompanyEfficiencyDatagrid();
 	});
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#companyEfficiencyChart").width("100%");
+	if(array1.length>7){
+		var width = (array1.length-7) * 40;
+		$("#companyEfficiencyChart").width($("#companyEfficiencyChart").width()+width);
+	}
+	charts.resize();
 }
 
 function typecombobox(){
 	$.ajax({  
       type : "post",  
       async : false,
-      url : "companyChart/getCaust",  
+      url : "companyChart/getCaust?parent="+$("#nextparent").val(),  
       data : {},  
       dataType : "json", //返回数据形式为json  
       success : function(result) {  
@@ -155,8 +167,8 @@ function CompanyEfficiencyDatagrid(){
 	setParam();
 	$("#companyEfficiencyTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#companyEfficiencyChart").height()-$("#companyEfficiency_btn").height()-45,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#companyEfficiencyChart").height()-$("#companyEfficiency_btn").height()-45,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
@@ -169,14 +181,14 @@ function CompanyEfficiencyDatagrid(){
 			title : '事业部id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'iname',
 			title : '事业部',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value,row,index){
 				return "<a href='caustChart/goCaustEfficiency?nextparent="+row.id+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+value+"</a>";
 			}
@@ -185,31 +197,32 @@ function CompanyEfficiencyDatagrid(){
 			title : '焊工姓名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wid',
 			title : '焊工编号',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'weldtime',
 			title : '焊接时长(h)',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'num',
 			title : '完成焊口数',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center",
+			hidden : true
 		}, {
 			field : 'dyne',
 			title : '总达因值',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}] ],
 		pagination : true
@@ -221,7 +234,7 @@ function serachEfficiencyCompany(){
 	$("#nextparent").val("");
 	$("#chartLoading").show();
 	setTimeout(function() {
-		showcompanyEfficiencyChart();
+		showcompanyEfficiencyChart(1);
 		CompanyEfficiencyDatagrid();
 	}, 500)
 }
@@ -234,8 +247,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#companyEfficiencyTable").datagrid('resize', {
-		height : $("#body").height() - $("#companyEfficiencyChart").height()-$("#companyEfficiency_btn").height()-45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#companyEfficiencyChart").height()-$("#companyEfficiency_btn").height()-45,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('companyEfficiencyChart')).resize();
+	charts.resize();
 }

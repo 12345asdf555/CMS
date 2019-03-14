@@ -36,7 +36,7 @@ function remove(){
 								$.messager.show( {title : '提示',msg : result.msg});
 							}
 							$('#rdlg').dialog('close');
-							$('#insframeworkTable').datagrid('reload');
+							$('#dg').datagrid('reload');
 					}
 		            }  
 		        },  

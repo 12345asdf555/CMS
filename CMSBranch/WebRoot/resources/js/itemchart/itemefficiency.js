@@ -3,11 +3,11 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showItemEfficiencyChart();
+	showItemEfficiencyChart(0);
 })
 
 
-var min="",max ="";
+var charts,min="",max ="";
 function setParam(){
 	chartStr = "";
 	var nextparent = $("#nextparent").val();
@@ -16,7 +16,7 @@ function setParam(){
 	chartStr = "?nextparent="+nextparent+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&min="+min+"&max="+max;
 }
 
-function showItemEfficiencyChart(){
+function showItemEfficiencyChart(num){
 	setParam();
 	var array1 = new Array();
 	var array2 = new Array();
@@ -33,7 +33,7 @@ function showItemEfficiencyChart(){
             		 for(var i=0;i<result.ary.length;i++){
                        	array1 = result.ary[i].num1;
                        	Series.push({
-            				name:'工效(1:1)',
+            				name:'工时分布(1:1)',
             				type:'bar',
             	            barMaxWidth:20,//最大宽度
             				data:result.ary[i].num2,
@@ -48,8 +48,8 @@ function showItemEfficiencyChart(){
                       }
                   }else{
                 	  Series.push({
-                     		name : '工效(1:1)',
-                     		type :'line',//折线图
+                     		name : '工时分布(1:1)',
+                     		type :'bar',//折线图
                      		data : ''
                       });
                   }
@@ -59,8 +59,10 @@ function showItemEfficiencyChart(){
              alert("图表请求数据失败啦!");  
          }  
     }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("itemEfficiencyChart"));
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("itemEfficiencyChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -74,7 +76,9 @@ function showItemEfficiencyChart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['工效(1:1)']
+			data:['工时分布(1:1)'],
+			x : 'left',
+			left : '40'
 		},
 		grid:{
 			left:'40',//组件距离容器左边的距离
@@ -89,7 +93,8 @@ function showItemEfficiencyChart(){
 	            restore : {show: true},
 	            saveAsImage : {show: true}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',
@@ -98,7 +103,7 @@ function showItemEfficiencyChart(){
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name : '工效(%)',
+			name : '工时分布(%)',
 			axisLabel: {  
                   show: true,  
                   interval: 'auto',  
@@ -122,14 +127,21 @@ function showItemEfficiencyChart(){
 		ItemEfficiencyDatagrid();
 	});
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#itemEfficiencyChart").width("100%");
+	if(array1.length>7){
+		var width = (array1.length-7) * 40;
+		$("#itemEfficiencyChart").width($("#itemEfficiencyChart").width()+width);
+	}
+	charts.resize();
 }
 
 function ItemEfficiencyDatagrid(){
 	setParam();
 	$("#itemEfficiencyTable").datagrid( {
 		fitColumns : true,
-		height : $("#body").height() - $("#itemEfficiencyChart").height()-$("#itemEfficiency_btn").height()-45,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#itemEfficiencyChart").height()-$("#itemEfficiency_btn").height()-45,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
@@ -142,37 +154,37 @@ function ItemEfficiencyDatagrid(){
 			title : '项目部',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wname',
 			title : '焊工姓名',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'wid',
 			title : '焊工编号',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'weldtime',
 			title : '焊接时长(h)',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'num',
 			title : '完成焊口数',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'dyne',
 			title : '总达因值',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}] ],
 		pagination : true
@@ -185,7 +197,7 @@ function serachEfficiencyItem(){
 	var time1 = $("#time1").val("");
 	var time2 = $("#time2").val("");
 	setTimeout(function() {
-		showItemEfficiencyChart();
+		showItemEfficiencyChart(1);
 		ItemEfficiencyDatagrid();
 	}, 500)
 }
@@ -198,8 +210,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#itemEfficiencyTable").datagrid('resize', {
-		height : $("#body").height() - $("#itemEfficiencyChart").height()-$("#itemEfficiency_btn").height()-45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#itemEfficiencyChart").height()-$("#itemEfficiency_btn").height()-45,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('itemEfficiencyChart')).resize();
+	charts.resize();
 }

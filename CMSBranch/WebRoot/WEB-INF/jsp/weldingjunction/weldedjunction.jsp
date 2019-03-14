@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	
+	<link rel="stylesheet" type="text/css" href="" />
 	<link rel="stylesheet" type="text/css" href="resources/themes/icon.css" />
 	<link rel="stylesheet" type="text/css" href="resources/themes/default/easyui.css" />
 	<link rel="stylesheet" type="text/css" href="resources/css/base.css" />
@@ -23,15 +24,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/jquery.min.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
 	<script type="text/javascript" src="resources/js/weldedjunction/weldedjunction.js"></script>
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
+    <script type="text/javascript" src="resources/js/insframework/insframeworktree.js"></script>
 	<script type="text/javascript" src="resources/js/weldedjunction/addeditweldedjunction.js"></script>
 	<script type="text/javascript" src="resources/js/weldedjunction/removeweldedjunction.js"></script>
 	
   </head>
   
   <body  class="easyui-layout">
-  	<div id="body" region="center"  hide="true"  split="true" title="焊口" style="background: white; height: 335px;">
+    <jsp:include  page="../insframeworktree.jsp"/>
+  	<div id="body" region="center"  hide="true"  split="true">
 	  	<div id="disctionaryTable_btn">
 			<div style="margin-bottom: 5px;">
 				<a href="javascript:addWeldedjunction();" class="easyui-linkbutton" iconCls="icon-add">新增</a>
@@ -39,6 +43,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	    <table id="weldedJunctionTable" style="table-layout: fixed; width:100%;"></table>
+	    
+		<div id="wpsdiv" class="easyui-dialog" style="width:800px; height:500px;" closed="true" title="选择工艺" buttons="#savaWps">
+			<div id="fdlgSearch">
+		        工艺编号：<input class="easyui-textbox" id="searchname"/>
+		        <a href="javascript:dlgSearchWPS();" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+		    </div>
+		    <table id="wpsdg" style="table-layout:fixed;width:100%"></table>
+	    </div>
+	    <div id="savaWps">
+			<a href="javascript:saveWpd();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+			<a href="javascript:$('#wpsdiv').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+		</div>
 	    <!-- 自定义多条件查询 -->
 	    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">
 	    	<div id="div0">
@@ -55,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
 		<!-- 添加修改 -->
-		<div id="dlg" class="easyui-dialog" style="width: 850px; height: 600px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
+		<div id="dlg" class="easyui-dialog" style="width: 750px; height: 98%; padding:10px 20px" closed="true" buttons="#dlg-buttons">
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
 				<div class="fitem">
 					<lable><span class="required">*</span>编号</lable>
@@ -107,11 +123,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<lable><span class="required">*</span>下游材质</lable>
 					<input class="easyui-textbox" id="next_material" name="next_material" data-options="required:true"/>
 				</div>
-				<div class="fitem">
+				<div class="fitem" style="margin-left: -100px;">
 					<lable><span class="required">*</span>电流上限</lable>
 					<input class="easyui-numberbox"  min="0.001" precision="3"  id="maxElectricity" name="maxElectricity" data-options="required:true"/>
 					<lable><span class="required">*</span>电流下限</lable>
 					<input class="easyui-numberbox"  min="0.001" precision="3"  id="minElectricity" name="minElectricity" data-options="required:true"/>
+					<a href="javascript:wpdDatagrid();" class="easyui-linkbutton">选择</a>
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>电压上限</lable>
@@ -142,8 +159,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		<!-- 删除 -->
-		<div id="rdlg" class="easyui-dialog" style="width: 850px; height: 600px; padding:10px 20px" closed="true" buttons="#remove-buttons">
-			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+		<div id="rdlg" class="easyui-dialog" style="width: 750px; height: 98%; padding:10px 20px" closed="true" buttons="#remove-buttons">
+			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true">
 				<div class="fitem">
 					<lable>编号</lable>
 					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno"  readonly="readonly"/>
@@ -227,8 +244,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:closeD();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
 		<!-- 查看更多 -->
-		<div id="moredlg" class="easyui-dialog" style="width: 850px; height: 600px; padding:10px 20px" closed="true" buttons="#show-buttons">
-			<form id="showfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
+		<div id="moredlg" class="easyui-dialog" style="width: 750px; height: 550px; padding:10px 20px" closed="true" buttons="#show-buttons">
+			<form id="showfm" class="easyui-form" method="post" data-options="novalidate:true">
 			<div class="fitem">
 				<lable>编号</lable>
 				<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno"  readonly="readonly"/>

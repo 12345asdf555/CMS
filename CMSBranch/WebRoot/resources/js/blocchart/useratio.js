@@ -2,27 +2,11 @@ $(function(){
 	flagnum=1;
 	parentCombobox();
 	dgDatagrid();
-	dtoTime1 = $("#dtoTime1").datebox('getValue');  
-	dtoTime2 = $("#dtoTime2").datebox('getValue');
-	$("#dtoTime1").datebox({
-		onChange: function (newvalue,oldvalue) {
-			if(newvalue==null || newvalue==""){
-				$("#dtoTime1").datebox('setValue',dtoTime1);
-			}
-		}
-	})
-	$("#dtoTime2").datebox({
-		onChange: function (newvalue,oldvalue) {
-			if(newvalue==null || newvalue==""){
-				$("#dtoTime2").datebox('setValue',dtoTime2);
-			}
-		}
-	})
 })
 
 
 $(document).ready(function(){
-	chart();
+	chart(0);
 })
 
 var type,flagnum,position;
@@ -45,7 +29,7 @@ function parentCombobox(){
 	})
 	$("#parent").combobox({
 		onChange: function (newvalue,oldvalue) {
-			$("#parent").combobox('setText',$("#parent").combobox('getText').trim());
+			$("#parent").combobox('setText',$.trim($("#parent").combobox('getText')));
 			$.ajax({
 				type : "post",
 				async : true,
@@ -122,18 +106,16 @@ function showChart(){
             alert("请求数据失败啦,请联系系统管理员!");  
         }  
    }); 
-	 chart();
+	 chart(1);
 }
 
-function chart(){
-	var bootomnum,rotatenum,interval;
-	if(position==0){
-		bootomnum=20,rotatenum=0,interval="auto";
-	}else{
-		bootomnum=50,rotatenum=30,interval=0;
+var charts;
+function chart(num){
+	//处理ie重复实例化显示异常
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("charts"));
 	}
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("charts"));
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -149,7 +131,7 @@ function chart(){
 		grid:{
 			left:'50',//组件距离容器左边的距离
 			right:'100',
-			bottom:bootomnum,
+			bottom:'20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -159,16 +141,13 @@ function chart(){
 	            restore : {show: true},
 	            saveAsImage : {show: true}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',
 			data: array1,
-			name: '组织机构',
-			axisLabel : {
-				rotate: rotatenum, //x轴文字倾斜
-			    interval:interval //0:允许x轴文字全部显示并重叠
-			}
+			name: '单位'
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
@@ -198,14 +177,29 @@ function chart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#charts").width("100%");
+	if (array1.length > 3) {
+		var maxlength = array1[0];
+		for (var i = 0; i < array1.length; i++) {
+			if (array1[i].length > maxlength.length) {
+				maxlength = array1[i];
+			}
+		}
+		var width = array1.length * maxlength.length * 18; //最长组织机构名字每个字节算18px
+		if ($("#charts").width() < width) {
+			$("#charts").width(width);
+		}
+	}
+	charts.resize();
 }
 
 function dgDatagrid(){
 	setParam();
 	 $("#dg").datagrid( {
 			fitColumns : true,
-			height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
-			width : $("#body").width(),
+			height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+			width : $("#bodydiv").width(),
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
 			url : activeurl+chartStr,
@@ -218,31 +212,37 @@ function dgDatagrid(){
 				title : "部门",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "day",
 				title : "天数",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "time",
 				title : "设备运行时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
-				field : "num",
-				title : "设备数量(台)",
+				field : "maxnum",
+				title : "设备最大使用数(台)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
+			},{
+				field : "num",
+				title : "设备总数(台)",
+				width : 100,
+				halign : "center",
+				align : "center"
 			},{
 				field : "useratio",
 				title : "设备利用率",
 				width : 100,
 				halign : "center",
-				align : "left",
+				align : "center",
 				formatter : function(value,row,index){
 					return value + "%";
 				}
@@ -258,8 +258,8 @@ window.onresize = function() {
 //改变表格，图表高宽
 function domresize() {
 	$("#dg").datagrid('resize', {
-		height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('charts')).resize();
+	charts.resize();
 }

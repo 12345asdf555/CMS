@@ -1,8 +1,48 @@
 $(function(){
-		getOldTime();
-		getNewTime();
+	$("#dtoTime1").datebox({
+		onChange: function (newvalue,oldvalue) {
+			if(newvalue==null || newvalue==""){
+				$("#dtoTime1").datebox('setValue',oldtime);
+			}else{
+				var start = new Date(newvalue).getTime();
+				var end = new Date($("#dtoTime2").datebox('getValue')).getTime();
+				var time = 0;
+				if(start < end){
+					time = end-start;
+				}
+				time = Math.floor(time/86400000);
+				if(time!=NaN && time>365){
+					alert("提示：时间范围应在365天内");
+					$("#dtoTime2").datebox('setValue',nowtime);
+					$("#dtoTime1").datebox('setValue',oldtime);
+				}
+			}
+		}
+	})
+	$("#dtoTime2").datebox({
+		onChange: function (newvalue,oldvalue) {
+			if(newvalue==null || newvalue==""){
+				$("#dtoTime2").datebox('setValue',nowtime);
+			}else{
+				var start = new Date($("#dtoTime1").datebox('getValue')).getTime();
+				var end = new Date(newvalue).getTime();
+				var time = 0;
+				if(start < end){
+					time = end-start;
+				}
+				time = Math.floor(time/86400000);
+				if(time!=NaN && time>365){
+					alert("提示：时间范围应在365天内");
+					$("#dtoTime1").datebox('setValue',oldtime);
+					$("#dtoTime2").datebox('setValue',nowtime);
+				}
+			}
+		}
+	})
+	getOldTime();
+	getNewTime();
 })
-
+var oldtime,nowtime;
 function getOldTime(){
 	//获取当前时间
 	var now = new Date();  
@@ -11,7 +51,7 @@ function getOldTime(){
     var month = now.getMonth() + 1;//月  
     var day = now.getDate();//日
     
-    var oldtime = year + "-";
+    oldtime = year + "-";
       
     if(month < 10){
         oldtime += "0";
@@ -33,7 +73,7 @@ function getNewTime(){
     var month = now.getMonth() + 1;//月  
     var day = now.getDate();//日
     
-    var nowtime = year + "-";
+    nowtime = year + "-";
       
     if(month < 10){
         nowtime += "0";

@@ -9,12 +9,15 @@
 }
 .panel-header,
 .panel-body {
-  border-width: 1px;
-  border-style: solid;
+  border:north;/*边框线设置*/
 }
 .panel-header {
-  padding: 5px;
+  padding-left:10px;
+  padding-top:6px;/**/
   position: relative;
+  border-radius: 5px;/*弧度*/
+  height: 25px;/*菜单高度*/
+  
 }
 .panel-title {
   background: #48A1E5;/**/
@@ -35,19 +38,19 @@
   border-width: 0px;
 }
 .panel-with-icon {
-  padding-left: 18px;
+  padding-left: 25px;
 }
 .panel-icon,
 .panel-tool {
   position: absolute;
-  top: 50%;
+  top: 35%;
   margin-top: -8px;
-  height: 16px;
+  height: 22px;
   overflow: hidden;
 }
 .panel-icon {
   left: 5px;
-  width: 16px;
+  width: 22px;
 }
 .panel-tool {
   right: 5px;
@@ -107,11 +110,11 @@
 }
 .panel-header,
 .panel-body {
-  border-color: #84b5ed;/**/
+  border-color: #dfe0e0;/**/
 }
 .panel-header {
   background-color: red;
-  background: #2da4d7;/*修改标题边框色*/
+  background: #48A1E5;
   /*background: -webkit-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
   background: -moz-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
   background: -o-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
@@ -141,6 +144,10 @@
   cursor: pointer;
   margin-top: 5px;/*菜单导航间隔*/
 }
+
+.accordion-body {
+  background: #1d294d;/**/
+}
 .accordion .accordion-body {
   border-width: 0 0 1px;
 }
@@ -160,7 +167,7 @@
   background: url('images/accordion_arrows.png') no-repeat -16px 0;
 }
 .accordion {
-  background: #ffffff;
+  background: #d5d5d5;/**/
   border-color: #95B8E7;
 }
 .accordion .accordion-header {
@@ -168,7 +175,7 @@
   filter: none;
 }
 .accordion .accordion-header-selected {
-  background: #45c2e1;/**/
+  background: #2da4d7;/**/
 }
 .accordion .accordion-header-selected .panel-title {
   color: #ffffff;/**/
@@ -294,6 +301,7 @@
 .textbox {
   border: 1px solid #95B8E7;
   vertical-align: middle;
+  /* display: inline-block; */
 }
 .combo {
   display: inline-block;
@@ -452,7 +460,7 @@
   background-color: #aac5e7;
 }
 .layout-split-north {
-  border-bottom: 5px solid #48A1E5;/*分割线颜色*/
+ /* border-bottom: 5px solid #48A1E5;分割线颜色*/
 }
 .layout-split-south {
   border-top: 5px solid #48A1E5;/*分割线颜色*/
@@ -462,6 +470,9 @@
 }
 .layout-split-west {
   border-right: 5px solid #48A1E5;/*分割线颜色*/
+  border-image: -webkit-linear-gradient( #48A1E5, #48A1E5) 30 30;
+  border-image: -moz-linear-gradient( #48A1E5, #48A1E5) 30 30;
+  border-image: linear-gradient( #48A1E5, #48A1E5) 30 30;
 }
 .layout-expand {
   background-color: #E0ECFF;
@@ -478,7 +489,7 @@
   border-bottom-width: 0;
   position: relative;
   padding: 0;
-  padding-top: 2px;
+  padding-top: 1px;
   overflow: hidden;
 }
 .tabs-header-plain {
@@ -745,7 +756,7 @@
   filter: none;
 }
 .tabs li.tabs-selected a.tabs-inner {
-  background-color: #ffffff;
+  background-color: #ffffff;/**/
   color: #0E2D5F;
   background: -webkit-linear-gradient(top,#EFF5FF 0,#ffffff 100%);
   background: -moz-linear-gradient(top,#EFF5FF 0,#ffffff 100%);
@@ -806,12 +817,12 @@
 .tabs-header-bottom .tabs li.tabs-selected a.tabs-inner,
 .tabs-header-left .tabs li.tabs-selected a.tabs-inner,
 .tabs-header-right .tabs li.tabs-selected a.tabs-inner {
-  border-color: #95B8E7;
+  border-color: #dfe0e0;
 }
 .tabs-p-tool a:hover,
 .tabs li a:hover.tabs-close,
 .tabs-scroller-over {
-  background-color: #eaf2ff;
+  background-color: #f5f5f5f;
 }
 .tabs li.tabs-selected a.tabs-inner {
   border-bottom: 1px solid #ffffff;
@@ -860,15 +871,15 @@
   line-height: 24px;
   font-size: 12px;
   padding: 0;
-  margin: 0 4px;
+  margin-top: 5px;/*菜单按钮外边距*/
 }
 .l-btn-icon {
   display: inline-block;
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
+  width: 19px;
+  height: 22px;
+  line-height: 22px;
   position: absolute;
-  top: 50%;
+  top: 35%;
   margin-top: -8px;
   font-size: 1px;
 }
@@ -1022,9 +1033,15 @@
 .l-btn-plain-selected:hover {
   background: #ddd;
 }
+.datagrid{/*自增样式*/
+	border-radius: 25px;
+	border:1px solid #a7aaab;
+	/*margin: 20px 15px 15px 13px;*/
+}
 .datagrid .panel-body {
   overflow: hidden;
   position: relative;
+  
 }
 .datagrid-view {
   position: relative;
@@ -1153,6 +1170,12 @@
 }
 .datagrid-footer {
   overflow: hidden;
+}
+.datagrid-footer-inner {
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  width: 10000px;
+  float: left;
 }
 .datagrid-footer-inner {
   border-width: 1px 0 0 0;
@@ -1332,12 +1355,12 @@
   border-style: solid;
   margin: 0 2px;
   padding: 2px;
-  width: 2em;
+  width: 30px;
   height: auto;
 }
 .pagination-page-list {
   margin: 0px 6px;
-  padding: 1px 2px;
+  padding-left: 16;
   width: auto;
   height: auto;
   border-width: 1px;
@@ -2051,11 +2074,15 @@
   left: 50%;
   margin-left: -8px;
 }
+
 .m-btn-line {
   display: inline-block;
   position: absolute;
   font-size: 1px;
   display: none;
+}
+.l-btn-left {
+	border: north;/*自定义*/
 }
 .m-btn .l-btn-left .m-btn-line {
   right: 0;

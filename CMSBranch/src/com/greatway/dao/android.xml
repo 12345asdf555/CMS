@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatway.dao.WelcomeMapper">
+
+	<resultMap id="welcomeMap" type="com.greatway.model.Welcome">
+		<id property="id" column="fid"></id> 
+        <result property="name" column="fname"></result>
+        <result property="insid" column="insid"></result>
+        <result property="insname" column="insname"></result>
+        <result property="total" column="total"></result>  
+        <result property="num" column="num"></result>  
+       	<result property="machinenum" column="machinenum"></result>
+       	<result property="junctionnum" column="junctionnum"></result>
+       	<result property="worktime" column="worktime"></result>
+        <result property="wireweight" column="fwire_weight"></result>
+       	<result property="speed" column="fspeed"></result>
+       	<result property="airflow" column="fair_flow_volume"></result>
+       	<result property="standbypower" column="fstandby_power"></result>
+       	<result property="electricity" column="electricity"></result>
+       	<result property="voltage" column="voltage"></result>
+       	<result property="serialnumber" column="serialnumber"></result>
+       	<result property="valuename" column="fvaluename"></result>
+       	<result property="time" column="time"></result>
+       	<result property="welderno" column="welderno"></result>
+       	<result property="hour" column="hour"></result>
+	</resultMap>
+	
+	<!-- 获取项目部焊机总数 -->
+	<select id="getItemMachineCount" resultMap="welcomeMap">
+		
+	</select>
+</mapper>

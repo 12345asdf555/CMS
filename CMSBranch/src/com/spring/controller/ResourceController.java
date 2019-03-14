@@ -84,16 +84,6 @@ public class ResourceController {
 	}
 	
 	/**
-	 * 跳转到添加用户界面
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("/toAddResource")
-	public String toAddResource(HttpServletRequest request){
-		
-		return "resource/addResource";
-	}
-	/**
 	 * 添加用户并重定向
 	 * @param user
 	 * @param request
@@ -143,23 +133,7 @@ public class ResourceController {
 			return obj.toString();
 
 	}
-	/**
-	 * 根据id查询单个用户
-	 * @param id
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("/getResource")
-	public String getResource(@RequestParam int id,HttpServletRequest request){
-		request.setAttribute("resource", resourceService.findById(new Integer(id)));
-		return "resource/editResource";
-	}
 	
-	@RequestMapping("/desResource")
-	public String desResource(@RequestParam int id,HttpServletRequest request){
-		request.setAttribute("resource", resourceService.findById(new Integer(id)));
-		return "resource/destroyResource";
-	}
 	/**
 	 * 删除用户
 	 * @param id

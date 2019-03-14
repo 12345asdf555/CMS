@@ -20,63 +20,63 @@ function GatherDatagrid(){
 			title : '序号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden:true
 		}, {
 			field : 'gatherNo',
 			title : '采集模块编号',
-			width : 100,
+			width : 120,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'itemid',
 			title : '项目id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'itemname',
 			title : '所属项目',
-			width : 150,
+			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'status',
 			title : '采集模块状态',
-			width : 100,
+			width : 130,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'protocol',
 			title : '采集模块通讯协议',
-			width : 150,
+			width : 130,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'ipurl',
 			title : '采集模块IP地址',
-			width : 150,
+			width : 130,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'macurl',
 			title : '采集模块MAC地址',
-			width : 150,
+			width : 130,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'leavetime',
 			title : '采集模块出厂时间',
-			width : 150,
+			width : 130,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'edit',
 			title : '编辑',
-			width : 150,
+			width : 130,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter:function(value,row,index){
 				var str = "";
 				str += '<a id="edit" class="easyui-linkbutton" href="javascript:editGather1('+row.itemid+','+row.id+','+true+')"/>';
@@ -86,6 +86,7 @@ function GatherDatagrid(){
 		}] ],
 		toolbar : '#gather_btn',
 		pagination : true,
+		nowrap : false,
 		onLoadSuccess:function(data){
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-edit'});
 	        $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});

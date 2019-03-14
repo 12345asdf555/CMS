@@ -45,7 +45,8 @@ function editManufacturer(){
 		});
 		$('#dlg').window('open');
 		$('#fm').form('load', row);
-		$('#validName').val(row.id);
+		$('#oldname').val(row.name);
+		$("#typeid").val(row.type);
 		url = "manufacturer/editManufacturer?id="+row.id;
 	}
 }

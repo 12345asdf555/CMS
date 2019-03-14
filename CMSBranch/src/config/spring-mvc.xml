@@ -35,8 +35,16 @@
 			</list>
 		</property>
 	</bean>
-
-
+	<!-- 设置文件上传大小 1G-->
+	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+	    <property name="maxUploadSize" value="1073741824"/> 
+	</bean> -->
+	
+	<bean id="multipartResolver" class="com.greatway.util.MyMultipartResolver">
+		<property name="excludeUrls" value="import"/>
+		<!-- url中带有import的http请求就不会被multipartResolver先解析-->
+	</bean>
+	
 	<!-- 定义跳转的文件的前后缀 ，视图模式配置-->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

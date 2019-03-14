@@ -5,6 +5,7 @@ import java.math.BigInteger;
 public class Welcome {
 	private BigInteger id;
 	private BigInteger insid;
+	private BigInteger insfid;
 	private String name;
 	private String insname;
 	private int total;
@@ -24,6 +25,12 @@ public class Welcome {
 	private double hour;
 	private String welderno;
 	
+	public BigInteger getInsfid() {
+		return insfid;
+	}
+	public void setInsfid(BigInteger insfid) {
+		this.insfid = insfid;
+	}
 	public double getHour() {
 		return hour;
 	}

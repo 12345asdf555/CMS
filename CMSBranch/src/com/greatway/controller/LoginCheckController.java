@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping(value="/logincheck",produces="text/json;charset=UTF-8")
@@ -44,7 +41,7 @@ public class LoginCheckController {
 			for(int i=0; i<CODE_LEN; i++){//将验证码绘制到图片上
 				int index = random.nextInt(codeChar.length);
 				//随机生成验证码的颜色
-				graphics.setColor(new Color(random.nextInt(150), random.nextInt(200), random.nextInt(255)));
+				graphics.setColor(new Color(0,0,0));
 				//设置字体，样式，大小
 				graphics.setFont(new Font("楷体", Font.BOLD, 20));
 				//将一个字符绘制到图片上，并制定位置（xy坐标）

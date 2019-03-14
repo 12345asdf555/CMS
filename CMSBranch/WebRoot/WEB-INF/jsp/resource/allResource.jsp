@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	
+	<link rel="stylesheet" type="text/css" href="" />
 	<link rel="stylesheet" type="text/css" href="resources/themes/icon.css" />
 	
 	<link rel="stylesheet" type="text/css" href="resources/themes/default/easyui.css" />
@@ -32,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
 <body class="easyui-layout">
-   <div id="body" region="center"  hide="true"  split="true" title="权限管理" style="background: #eee; height: 335px;">
+   <div id="body" region="center"  hide="true"  split="true">
         <div data-options="region:'center',title:'信息',iconCls:'icon-ok'">
         <table id="dg" style="table-layout:fixed;width:100%"></table>
         

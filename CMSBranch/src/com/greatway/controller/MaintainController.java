@@ -59,45 +59,6 @@ public class MaintainController {
 	}
 	
 	/**
-	 * 跳转删除维修记录页面
-	 * @param request
-	 * @param wid
-	 * @param tname
-	 * @return
-	 */
-	@RequestMapping("/goremoveMaintain")
-	public String goremoveWeldingMahine(HttpServletRequest request, @RequestParam String wid,@RequestParam String tname,@RequestParam String insfid){
-		WeldingMaintenance maibtain = mm.getWeldingMaintenanceById(new BigInteger(wid));
-		request.setAttribute("m", maibtain);
-		request.setAttribute("tname", tname);
-		request.setAttribute("insfid", insfid);
-		return "maintain/removemaintain";
-	}
-	
-	/**
-	 * 跳转新增维修记录页面
-	 * @return
-	 */
-	@RequestMapping("/goAddMaintain")
-	public String goAddMaintain(){
-		return "maintain/addmaintain";
-	}
-	
-	/**
-	 * 跳转修改维修记录页面
-	 * @param request
-	 * @param wid
-	 * @return
-	 */
-	@RequestMapping("/goEditMaintain")
-	public String goEditMaintain(HttpServletRequest request, @RequestParam String wid,@RequestParam String insfid){
-		WeldingMaintenance wm = mm.getWeldingMaintenanceById(new BigInteger(wid));
-		request.setAttribute("wm", wm);
-		request.setAttribute("insfid", insfid);
-		return "maintain/editmaintain";
-	}
-	
-	/**
 	 * 显示维修列表
 	 * @return
 	 */
@@ -108,7 +69,7 @@ public class MaintainController {
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String weldingmachineId = request.getParameter("wid");
 		String parent = request.getParameter("parent");
-		String str = request.getParameter("str");
+		String str = "";
 		String searchStr = request.getParameter("searchStr");
 		BigInteger parentid = null;
 		if(iutil.isNull(parent)){
@@ -119,6 +80,7 @@ public class MaintainController {
 				    .getPrincipal();
 			long uid = myuser.getId();
 			parentid = im.getUserInsfId(BigInteger.valueOf(uid));
+			str = request.getParameter("str");
 		}
 		if(iutil.isNull(searchStr)){
 			if(iutil.isNull(str)){
@@ -128,7 +90,7 @@ public class MaintainController {
 			}
 		} else{
 			searchStr = "(i.fid="+parentid+" or ins.fid="+parentid+" or insf.fid="+parentid+" or insf.fparent="+parentid+")";
-			if(iutil.isNull(str)){
+			if(!iutil.isNull(str)){
 				searchStr = str;
 			}
 		}

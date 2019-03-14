@@ -101,6 +101,7 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
        if("/".equals(url)){    
            return null;    
        }    
+       url = url.replaceAll("(\r\n|\r|\n|\n\r)", "<br>");
         int firstQuestionMarkIndex = url.indexOf(".");    
         //判断请求是否带有参数 如果有参数就去掉后面的后缀和参数(/index.do  --> /index)    
         if(firstQuestionMarkIndex != -1){    
@@ -113,10 +114,11 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
              * 应当是资源为key， 权限为value。 资源通常为url， 权限就是那些以ROLE_为前缀的角色。 一个资源可以由多个权限来访问。  
              * sparta  
              */    
-        resourceMap = new HashMap<String, Collection<ConfigAttribute>>();    
-    
+        resourceMap = new HashMap<String, Collection<ConfigAttribute>>(); 
+        Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();  
+        int flag=0;
         for (String auth : query) {    
-                
+            flag++;   
             ConfigAttribute ca = new SecurityConfig(auth);       
              
                 //String authName = auth2.getAuthorityName();    
@@ -125,10 +127,12 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
                      * 判断资源文件和权限的对应关系，如果已经存在相关的资源url，则要通过该url为key提取出权限集合，将权限增加到权限集合中。  
                      * sparta  
                      */     
-                    Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();    
+  
                     atts.add(ca);    
-                    resourceMap.put(url, atts);   
-                    return resourceMap.get(url);    
+                    if(flag==query.size()){
+                        resourceMap.put(url, atts);   
+                        return resourceMap.get(url);
+                    }    
     
         }                    
         return null;    

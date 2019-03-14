@@ -1,9 +1,6 @@
 package com.greatway.controller;
 
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
@@ -48,20 +44,12 @@ public class CompanyChartController {
 	
 	@RequestMapping("/searchoverproof")
 	public String searchoverproof(HttpServletRequest request){
-		request.setAttribute("weldtime", request.getParameter("weldtime"));
-		request.setAttribute("electricitys", request.getParameter("electricitys"));
-		request.setAttribute("welder", request.getParameter("welder"));
-		request.setAttribute("junction", request.getParameter("junction"));
-		request.setAttribute("maxelectricity", request.getParameter("maxelectricity"));
-		request.setAttribute("minelectricity", request.getParameter("minelectricity"));
+		request.setAttribute("id", request.getParameter("id"));
 		return "companychart/overproof";
 	}
 	
 	@RequestMapping("/goOverproofTimeQuantum")
 	public String goOverproofTimeQuantum(HttpServletRequest request){
-		request.setAttribute("welder", request.getParameter("welder"));
-		request.setAttribute("junction", request.getParameter("junction"));
-		request.setAttribute("weldtime", request.getParameter("weldtime"));
 		return "companychart/timequantum";
 	}
 	/**
@@ -93,16 +81,6 @@ public class CompanyChartController {
 		request.setAttribute("parentime1", request.getParameter("parentime1"));
 		request.setAttribute("parentime2", request.getParameter("parentime2"));
 		return "companychart/companyoverproof";
-	}
-	
-	/**
-	 * 跳转超标焊工焊口页面
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("/goSelectWelderJunction")
-	public String goSelectWelder(HttpServletRequest request){
-		return "companychart/welderandjunction";
 	}
 	
 	/**
@@ -273,7 +251,7 @@ public class CompanyChartController {
 					BigInteger dyne = lm.getDyneByJunctionno(strsql);
 					json.put("dyne",dyne);
 				}
-				json.put("manhour", l.getHous());
+				json.put("manhour", (double)Math.round(l.getTime()*100)/100);
 				json.put("name",l.getFname());
 				json.put("itemid",l.getFid());
 				ary.add(json);
@@ -337,9 +315,9 @@ public class CompanyChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -354,18 +332,18 @@ public class CompanyChartController {
 		try{
 			List<ModelDto> list = lm.getCompanyOverproof(dto,parent);
 			List<LiveData> ins = lm.getAllInsf(parent,22);
-			BigInteger[] num = null;
+			double[] num = null;
 			for(ModelDto live :time){
 				json.put("weldTime",live.getWeldTime());
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
-				num = new BigInteger[time.size()];
+				num = new double[time.size()];
 				for(int j=0;j<time.size();j++){
-					num[j] = new BigInteger("0");
+					num[j] = 0;
 					for(ModelDto l:list){
 						if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
-							num[j] = l.getOverproof();
+							num[j] = (double)Math.round(l.getOverproof()*100)/100;
 						}
 					}
 				}
@@ -452,9 +430,9 @@ public class CompanyChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -563,9 +541,9 @@ public class CompanyChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -594,7 +572,7 @@ public class CompanyChartController {
 					for(ModelDto l:list){
 						for(ModelDto m:machine){
 							if(m.getWeldTime().equals(l.getWeldTime()) && m.getFid().equals(l.getIid())){
-								if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
+								if(ins.get(i).getId().equals(l.getIid()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
 									load[j] = l.getLoads();
 									summachine[j] = m.getLoads();
 									num[j] = (double)Math.round(l.getLoads()/m.getLoads()*100*100)/100;
@@ -688,9 +666,9 @@ public class CompanyChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -704,7 +682,7 @@ public class CompanyChartController {
 		JSONArray arys1 = new JSONArray();
 		try{
 			List<ModelDto> list = lm.getCompanyNoLoads(dto,parent);
-			List<ModelDto> machine = lm.getCompanyMachineCount(dto, parent);
+//			List<ModelDto> machine = lm.getCompanyMachineCount(dto, parent);
 			List<LiveData> ins = lm.getAllInsf(parent,22);
 			double[] num = null;
 			for(ModelDto live :time){
@@ -712,21 +690,34 @@ public class CompanyChartController {
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
-				double[] noload=new double[time.size()],summachine=new double[time.size()],livecount=new double[time.size()];
+				double[] noload=new double[time.size()],livecount=new double[time.size()];
 				num = new double[time.size()];
 				for(int j=0;j<time.size();j++){
 					num[j] = 0;
 					for(ModelDto l:list){
-						for(ModelDto m:machine){
-							if(m.getWeldTime().equals(l.getWeldTime()) && m.getFid().equals(l.getIid())){
-								if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
-									livecount[j] = lm.getCountByTime(l.getIid(), l.getWeldTime(),null).doubleValue();
+//						for(ModelDto m:machine){
+//							if(m.getWeldTime().equals(l.getWeldTime()) && m.getFid().equals(l.getIid())){
+								if(ins.get(i).getId().equals(l.getIid()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
+									if(Integer.parseInt(type)!=4){
+										livecount[j] = lm.getCountByTime(l.getIid(), l.getWeldTime(),null,null,Integer.parseInt(type));
+									}else{
+										String[] str = l.getWeldTime().split("-");
+										String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+										String[] weektime = weekdate.split("/");
+										if(j==0){
+											livecount[j] = lm.getCountByTime(l.getIid(), time1,weektime[1],null,Integer.parseInt(type));
+										}else if(j==time.size()-1){
+											livecount[j] = lm.getCountByTime(l.getIid(), weektime[0],time2,null,Integer.parseInt(type));
+										}else{
+											livecount[j] = lm.getCountByTime(l.getIid(), weektime[0],weektime[1],null,Integer.parseInt(type));
+										}
+										
+									}
 									noload[j] = l.getLoads();
-									summachine[j] = m.getLoads();
-									num[j] = (double)Math.round(l.getLoads()/livecount[j]/m.getLoads()*100*100)/100;
+									num[j] = (double)Math.round(l.getLoads()/livecount[j]*100*100)/100;
 								}
-							}
-						}
+//							}
+//						}
 					}
 				}
 				json.put("loads",num);
@@ -734,7 +725,6 @@ public class CompanyChartController {
 				json.put("itemid",ins.get(i).getId());
 				json.put("noload", noload);
 				json.put("livecount", livecount);
-				json.put("summachine", summachine);
 				arys1.add(json);
 			}
 			JSONObject object = new JSONObject();
@@ -745,12 +735,10 @@ public class CompanyChartController {
 					String overproof = js.getString("loads").substring(1, js.getString("loads").length()-1);
 					String load = js.getString("noload").substring(1, js.getString("noload").length()-1);
 					String livecount = js.getString("livecount").substring(1, js.getString("livecount").length()-1);
-					String summachine = js.getString("summachine").substring(1, js.getString("summachine").length()-1);
 					String[] overproofstr = overproof.split(",");
 					String[] loadstr = load.split(",");
 					String[] livecountstr= livecount.split(",");
-					String[] sumstr = summachine.split(",");
-					object.put("a"+j, (double) Math.round(Double.valueOf(loadstr[i])*1000)/1000+"/"+(double) Math.round(Double.valueOf(livecountstr[i])*1000)/1000+"/"+sumstr[i]+"="+overproofstr[i]+"%");
+					object.put("a"+j, (double) Math.round(Double.valueOf(loadstr[i])*1000)/1000+"/"+(double) Math.round(Double.valueOf(livecountstr[i])*1000)/1000+"="+overproofstr[i]+"%");
 				}
 				object.put("w",time.get(i).getWeldTime());
 				ary.add(object);
@@ -803,9 +791,9 @@ public class CompanyChartController {
 				dto.setYear("year");
 			}else if(type.equals("2")){
 				dto.setMonth("month");
-			}else if(type.equals("3")){
+			}else if(type.equals("5")){
 				dto.setDay("day");
-			}else if(type.equals("4")){
+			}else if(type.equals("6")){
 				dto.setWeek("week");
 			}
 		}
@@ -817,9 +805,9 @@ public class CompanyChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -835,21 +823,39 @@ public class CompanyChartController {
 			List<ModelDto> list = lm.getCompanyIdle(dto,parent);
 			List<LiveData> ins = lm.getAllInsf(parent,22);
 			double[] num = null;
+			double[] bilv = null;
 			for(ModelDto live :time){
-				json.put("weldTime",live.getWeldTime());
+				if(type.equals("6")){
+					String[] str = live.getWeldTime().split("-");
+					if(str[1].equals("1")){
+						json.put("weldTime",str[0]+"-上半年");
+					}else{
+						json.put("weldTime",str[0]+"-下半年");
+					}
+				}else{
+					json.put("weldTime",live.getWeldTime());
+				}
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
 				num = new double[time.size()];
+				bilv = new double[time.size()];
 				int count = lm.getMachineCount(ins.get(i).getFid());
 				for(int j=0;j<time.size();j++){
 					num[j] = count;
+					if(count==0){
+						bilv[j] = 0;
+					}else{
+						bilv[j] = (double)Math.round(num[j]*10000/count)/100;
+					}
 					for(ModelDto l:list){
-						if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
+						if(ins.get(i).getFid().equals(l.getFid()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
 							num[j] = count - l.getNum().doubleValue();
+							bilv[j] = (double)Math.round(num[j]*10000/count)/100;
 						}
 					}
 				}
+				json.put("bilv", bilv);
 				json.put("idle",num);
 				json.put("name",ins.get(i).getFname());
 				json.put("id",ins.get(i).getFid());
@@ -864,7 +870,16 @@ public class CompanyChartController {
 					String[] str = overproof.split(",");
 					object.put("a"+j, str[i]);
 				}
-				object.put("w",time.get(i).getWeldTime());
+				if(type.equals("6")){
+					String[] str = time.get(i).getWeldTime().split("-");
+					if(str[1].equals("1")){
+						object.put("w",str[0]+"-上半年");
+					}else{
+						object.put("w",str[0]+"-下半年");
+					}
+				}else{
+					object.put("w",time.get(i).getWeldTime());
+				}
 				ary.add(object);
 			}
 		}catch(Exception e){
@@ -926,9 +941,11 @@ public class CompanyChartController {
 				double time = (double)Math.round(l.getTime()/num*100)/100;
 				json.put("time", time);
 				json.put("fname", l.getFname()+" - "+l.getType());
+				json.put("name", l.getFname());
 				json.put("type", l.getType());
 				json.put("fid",l.getFid());
 				json.put("num", num);
+				json.put("typeid", l.getTypeid());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -950,19 +967,24 @@ public class CompanyChartController {
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
 		BigInteger parent = null;
-		//数据权限处理
-		BigInteger uid = lm.getUserId(request);
-		String afreshLogin = (String)request.getAttribute("afreshLogin");
-		if(iutil.isNull(afreshLogin)){
-			json.put("id", 0);
-			json.put("name", "无");
-			ary.add(json);
-			obj.put("ary", ary);
-			return obj.toString();
-		}
-		int type = insm.getUserInsfType(uid);
-		if(type==21){
-			parent = insm.getUserInsfId(uid);
+		String parentid = request.getParameter("parent");
+		if(iutil.isNull(parentid)){
+			parent = new BigInteger(parentid);
+		}else{
+			//数据权限处理
+			BigInteger uid = lm.getUserId(request);
+			String afreshLogin = (String)request.getAttribute("afreshLogin");
+			if(iutil.isNull(afreshLogin)){
+				json.put("id", 0);
+				json.put("name", "无");
+				ary.add(json);
+				obj.put("ary", ary);
+				return obj.toString();
+			}
+			int type = insm.getUserInsfType(uid);
+			if(type==21){
+				parent = insm.getUserInsfId(uid);
+			}
 		}
 		try{
 			List<Insframework> list = insm.getInsByType(22,parent);
@@ -989,7 +1011,6 @@ public class CompanyChartController {
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
 		String parentId = request.getParameter("parent");
-		String nextparent = request.getParameter("nextparent");
 		int min = -1,max = -1;
 		if(iutil.isNull(request.getParameter("min"))){
 			min = Integer.parseInt(request.getParameter("min"));
@@ -1005,9 +1026,7 @@ public class CompanyChartController {
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
-		if(iutil.isNull(nextparent)){
-			parent = new BigInteger(nextparent);
-		}else if(iutil.isNull(parentId)){
+		if(iutil.isNull(parentId)){
 			parent = new BigInteger(parentId);
 		}
 		pageIndex = Integer.parseInt(request.getParameter("page"));
@@ -1025,72 +1044,28 @@ public class CompanyChartController {
 				json.put("iname",m.getIname());
 				json.put("wname",m.getWname());
 				json.put("wid",m.getFwelder_id());
-				String[] str = m.getJidgather().split(",");
-				String search = "and (";
-				for(int i=0;i<str.length;i++){
-					search += " fid = "+str[i];
-					if(i<str.length-1){
-						search += " or";
+				if(iutil.isNull(m.getJidgather())){
+					String[] str = m.getJidgather().split(",");
+					/*String search = "and (";
+					for(int i=0;i<str.length;i++){
+						search += " fid = "+str[i];
+						if(i<str.length-1){
+							search += " or";
+						}
 					}
+					search += " )";
+					BigInteger dyne = lm.getDyneByJunctionno(search);
+					json.put("dyne",dyne);*/
+					json.put("num",str.length);
+				}else{
+					json.put("num",0);
 				}
-				search += " )";
-				BigInteger dyne = lm.getDyneByJunctionno(search);
-				json.put("dyne",dyne);
 				double weldtime = (double)Math.round(Double.valueOf(m.getWeldTime())*100)/100;
 				json.put("weldtime",weldtime);
-				json.put("num",str.length);
 				ary.add(json);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-		}
-		obj.put("total", total);
-		obj.put("rows", ary);
-		return obj.toString();
-	}
-	
-	@RequestMapping("/getJunctionByWelder")
-	@ResponseBody
-	public String getJunctionByWelder(HttpServletRequest request){
-		pageIndex = Integer.parseInt(request.getParameter("page"));
-		pageSize = Integer.parseInt(request.getParameter("rows"));
-		String welder = request.getParameter("welder");
-		String time1 = request.getParameter("dtoTime1");
-		WeldDto dto = new WeldDto();
-		if(iutil.isNull(time1)){
-			dto.setDtoTime1(time1);
-		}
-		
-		page = new Page(pageIndex,pageSize,total);
-		List<ModelDto> list = lm.getJunctionByWelder(page, dto, welder);
-		long total = 0;
-		
-		if(list != null){
-			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
-			total = pageinfo.getTotal();
-		}
-		
-		JSONObject json = new JSONObject();
-		JSONArray ary = new JSONArray();
-		JSONObject obj = new JSONObject();
-		try{
-			for(ModelDto j:list){
-				json.put("weldedJunctionno", j.getFname());
-				json.put("externalDiameter", j.getExternalDiameter());
-				json.put("wallThickness", j.getWallThickness());
-				json.put("maxElectricity", j.getFmax_electricity());
-				json.put("minElectricity", j.getFmin_electricity());
-				json.put("maxValtage", j.getFmax_valtage());
-				json.put("minValtage", j.getFmin_valtage());
-				json.put("material", j.getMaterial());
-				json.put("nextexternaldiameter", j.getNextexternaldiameter());
-				json.put("itemname", j.getIname());
-				json.put("nextwall_thickness", j.getNextwallThickness());
-				json.put("next_material", j.getNextmaterial());
-				ary.add(json);
-			}
-		}catch(Exception e){
-			e.getMessage();
 		}
 		obj.put("total", total);
 		obj.put("rows", ary);
@@ -1099,12 +1074,32 @@ public class CompanyChartController {
 
 	@RequestMapping("/getTimequantum")
 	@ResponseBody
-	public String getTimequantum(HttpServletRequest request,@RequestParam String welder,@RequestParam String junction, @RequestParam String time){
+	public String getTimequantum(HttpServletRequest request){
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
-		
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		String parent = request.getParameter("parent");
+		WeldDto dto = new WeldDto();
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(parent)){
+			dto.setParent(new BigInteger(parent));
+		}else{
+			//数据权限处理
+			BigInteger uid = lm.getUserId(request);
+			String afreshLogin = (String)request.getAttribute("afreshLogin");
+			if(iutil.isNull(afreshLogin)){
+				return "0";
+			}
+			dto.setParent(insm.getUserInsfId(uid));
+		}
 		page = new Page(pageIndex,pageSize,total);
-		List<ModelDto> list = lm.getExcessiveBack(time, welder, junction);
+		List<ModelDto> list = lm.getExcessiveBack(page, dto);
 		long total = 0;
 		if(list != null){
 			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
@@ -1115,122 +1110,56 @@ public class CompanyChartController {
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
 		try{
-			int num=1;
-			for(int i=0;i<list.size();i+=num){
-				//遇到连续值
-				if(list.get(i).getSum1()==1){
-					int count =0;
-					//判断是否连续5个
-					for(int j=i;j<i+5;j++){
-						if(list.get(j).getSum1()==1){
-							count++;
-						}
-					}
-
-					if(count==5){
-						String[] electricity = new String[15];
-						String[] weldtime = new String[15];
-						String[] befor = new String[5];
-						String[] after = new String[5];
-						int index = 5;
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-						//前五秒
-						Date date = sdf.parse(list.get(i).getWeldTime());
-						Calendar calendar = Calendar.getInstance();    
-						calendar.setTime(date);
-						for(int p=befor.length-1;p>=0;p--){
-							calendar.add(Calendar.SECOND, -1);
-							befor[p] = sdf.format(calendar.getTime());
-						}
-						//后五秒
-						Date afterdate = sdf.parse(list.get(i+4).getWeldTime());
-						Calendar aftercalendar = Calendar.getInstance();    
-						aftercalendar.setTime(afterdate);
-						for(int p=0;p<=after.length-1;p++){
-							aftercalendar.add(Calendar.SECOND, +1);
-							after[p] = sdf.format(aftercalendar.getTime());
-						}
-						
-						//当前方不足五位时
-						if(i<5){
-							for(int x=0;x<5-i;x++){//一定未超标的数据
-								electricity[x]="0";
-							}
-							for(int y=5-i;y<5;y++){//可能超标的数据
-								for(int p=0;p<befor.length;p++){
-									if(list.get(y).getWeldTime().equals(befor[p])){
-										electricity[y] = list.get(p).getFelectricity();
-									}
-									weldtime[p] = befor[p];
-								}
-							}
-						}else{
-							//获取前五位数据
-							for(int y=i-5;y<i;y++){
-								for(int p=0;p<befor.length;p++){
-									if(list.get(y).getWeldTime().equals(befor[p])){
-										electricity[p]=list.get(y).getFelectricity();
-									}
-									weldtime[p] = befor[p];
-								}
-							}
-						}
-						//获取当前超标五秒
-						for(int x=i;x<i+5;x++){
-							electricity[index]=list.get(x).getFelectricity();
-							weldtime[index]=list.get(x).getWeldTime();
-							index++;
-						}
-						//当后方不足5位时
-						if(list.size()-i<5){
-							for(int x=15-1;x>=10+(list.size()-i);x++){//一定未超标的数据
-								electricity[x]="0";
-							}
-							for(int y=10;y<10+(list.size()-i);y++){//可能超标的数据
-								for(int z=i;z<list.size();z++){
-									for(int p=0;p<after.length;p++){
-										if(list.get(z).getWeldTime().equals(after[p])){
-											electricity[y] = list.get(z).getFelectricity();
-										}
-										weldtime[y] = after[p];
-									}
-								}
-							}
-						}else{
-							//获取后五位数据
-							for(int y=i+5;y<i+10;y++){
-								for(int p=0;p<after.length;p++){
-									if(list.get(y).getWeldTime().equals(after[p])){
-										electricity[p+10] = list.get(y).getFelectricity();
-									}
-									weldtime[p+10] = after[p];
-								}
-							}
-						}
-						for(int p=0;p<weldtime.length;p++){
-							if(!iutil.isNull(electricity[p])){
-								electricity[p] = "0";
-							}
-						}
-						json.put("maxelectricity", list.get(i).getFmax_electricity());
-						json.put("minelectricity", list.get(i).getFmin_electricity());
-						json.put("welder", list.get(i).getFwelder_id());
-						json.put("junction", list.get(i).getFjunction_id());
-						json.put("weldtime", list.get(i).getWeldTime());
-						json.put("electricity", list.get(i).getFelectricity());
-						json.put("weldtimes", weldtime);
-						json.put("electricitys", electricity);
-						ary.add(json);
-						num = 5;
-					}else{
-						num = 1;
-					}
-				}
+			for(int i=0;i<list.size();i++){
+				json.put("id", list.get(i).getFid());
+				json.put("welderno", list.get(i).getFwelder_id());
+				json.put("weldername", list.get(i).getWname());
+				json.put("junctionno", list.get(i).getFjunction_id());
+				json.put("machineno", list.get(i).getFmachine_id());
+				json.put("itemname", list.get(i).getIname());
+				json.put("starttime", list.get(i).getStarttime());
+				json.put("endtime", list.get(i).getEndtime());
+				json.put("maxelectricity", list.get(i).getFmax_electricity());
+				json.put("minelectricity", list.get(i).getFmin_electricity());
+				ary.add(json);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 超标回溯报表信息查询
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getExcessiveBackDetail")
+	@ResponseBody
+	public String getExcessiveBackDetail(HttpServletRequest request){
+		String id = request.getParameter("id");
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			List<ModelDto> list = lm.getExcessiveBackDetail(new BigInteger(id));
+			for(int i=0;i<list.size();i++){
+				String weldtime1 = list.get(i).getWeldTime().substring(0, 10);
+				String weldtime2 = list.get(i).getWeldTime().substring(10, list.get(i).getWeldTime().length());
+				json.put("weldtime1",weldtime1);
+				json.put("weldtime2",weldtime2);
+				json.put("maxelectricity",list.get(i).getFmax_electricity());
+				json.put("minelectricity",list.get(i).getFmin_electricity());
+				json.put("electricity",list.get(i).getFelectricity());
+				ary.add(json);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		obj.put("total", ary.size());
+		obj.put("total", total);
 		obj.put("rows", ary);
 		return obj.toString();
 	}

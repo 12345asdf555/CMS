@@ -9,6 +9,7 @@ var vol = new Array();
 var machstatus = new Array();
 var work = new Array();
 var wait = new Array();
+var cbpd = new Array();
 var dglength;
 var websocketURL;
 var welderName;
@@ -32,31 +33,10 @@ var series;
 var chart;
 var series1;
 var chart1;
-var dic,starows,flag=0;
+var dic,/*starows,*/flag=0,noflag=0;
 var led = [ "0,1,2,4,5,6", "2,5", "0,2,3,4,6", "0,2,3,5,6", "1,2,3,5", "0,1,3,5,6", "0,1,3,4,5,6", "0,2,5", "0,1,2,3,4,5,6", "0,1,2,3,5,6" ];
 $(function() {
 	var width = $("#treeDiv").width();
-//	$(".easyui-layout").layout({
-//		onCollapse : function() {
-//			$("#dg").datagrid({
-//				height : $("#body").height(),
-//				width : $("#body").width()
-//			})
-//		},
-//		onExpand : function() {
-//			$("#dg").datagrid({
-//				height : $("#body").height(),
-//				width : $("#body").width()
-//			})
-//		}
-//	});
-//	$("#myTree").tree({
-//		onClick : function(node) {
-//			$("#dg").datagrid('load', {
-//				"parent" : node.id
-//			})
-//		}
-//	})
 	$.ajax({
 		type : "post",
 		async : false,
@@ -87,104 +67,8 @@ $(function() {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
-	/*		$.ajax({  
-			      type : "post",  
-			      async : false,
-			      url : "wps/Spe?machine="+document.getElementById("in2")+"&chanel="+"",  
-			      data : {},  
-			      dataType : "json", //返回数据形式为json  
-			      success : function(result) {
-			          if (result) {
-			        	tongdao = eval(result.rows);
-			        	}else{
-			        		alert("未查询到相关数据，请尝试索取保存。");
-			        	}
-			      },
-			      error : function(errorMsg) {  
-			          alert("数据请求失败，请联系系统管理员!");  
-			      }  
-			 });*/
-	getMsg();
 	websocket();
 })
-
-function getMsg(){
-	$.ajax({
-		type : "post",
-		async : false,
-		url : "Dictionary/getDictionaryValueame?ivalue=81",
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (result) {
-				dic = eval(result.ary);
-			}
-		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	});
-	var dtoTime1 = getNowFormatDate(new Date().getTime() - 7200 * 1000);
-	var dtoTime2 = getNowFormatDate(new Date().getTime());
-	$.ajax({
-		type : "post",
-		async : false,
-		url : "td/standbytimeout?dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2,
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (result) {
-				starows = eval(result.rows);
-			}
-		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	});
-}
-function getNowFormatDate(millsTime) {
-	var day = new Date(millsTime);
-	var Year = 0;
-	var Month = 0;
-	var Day = 0;
-	var Hour = 0;
-	var Minute = 0;
-	var Second = 0;
-	var CurrentDate = "";
-	Year = day.getFullYear(); //支持IE和火狐浏览器.
-	Month = day.getMonth() + 1;
-	Day = day.getDate();
-	Hour = day.getHours();
-	Minute = day.getMinutes();
-	Second = day.getSeconds();
-	CurrentDate += Year + '-';
-	if (Month >= 10) {
-		CurrentDate += Month + '-';
-	} else {
-		CurrentDate += "0" + Month + '-';
-	}
-	if (Day >= 10) {
-		CurrentDate += Day + ' ';
-	} else {
-		CurrentDate += "0" + Day + ' ';
-	}
-	if (Hour >= 10) {
-		CurrentDate += Hour + ':';
-	} else {
-		CurrentDate += '0' + Hour + ':';
-	}
-	if (Minute >= 10) {
-		CurrentDate += Minute + ':';
-	} else {
-		CurrentDate += '0' + Minute + ':';
-	}
-	if (Second >= 10) {
-		CurrentDate += Second;
-	} else {
-		CurrentDate += '0' + Second;
-	}
-	return CurrentDate;
-}
 
 function websocket() {
 	if (typeof (WebSocket) == "undefined") {
@@ -436,109 +320,165 @@ function iview() {
 
 	vol.length = 0;
 	ele.length = 0;
-	for (var i = 0; i < redata.length; i += 69) {
-		if (redata.substring(8 + i, 12 + i) != "0000") {
-			if (parseInt(redata.substring(4 + i, 8 + i)) == document.getElementById("in2").value) {
-				var liveele = parseInt(redata.substring(12+i, 16+i));
-	            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
-				ele.push(liveele);
-				vol.push(livevol);
-				time.push(Date.parse(redata.substring(40 + i, 59 + i)));
-				machstatus.push(redata.substring(0 + i, 2 + i));
-				maxele = parseInt(redata.substring(61 + i, 64 + i));
-				minele = parseInt(redata.substring(64 + i, 67 + i));
-				maxvol = parseInt(redata.substring(67 + i, 70 + i));
-				minvol = parseInt(redata.substring(70 + i, 73 + i));
-				if (symbol == 0) {
-					elecurve();
-					volcurve();
-					symbol++;
-				}
-				document.getElementById("in5").value = (maxele + minele) / 2 +" A";
-				document.getElementById("in6").value = (maxvol + minvol) / 2 +" V";
-				document.getElementById("in7").value = parseInt(redata.substring(12 + i, 16 + i)) +" A";
-				document.getElementById("in8").value = parseFloat((parseInt(redata.substring(16 + i, 20 + i)) / 10).toFixed(2)) +" V";
-				$("#new1").val(redata.substring(20 + i, 24 + i));
-				$("#new2").val(redata.substring(24 + i, 28 + i));
-				$("#new3").val(redata.substring(28 + i, 32 + i));
-				$("#new4").val(redata.substring(32 + i, 36 + i));
-				$("#new5").val(redata.substring(36 + i, 40 + i));
-				for (var k = 0; k < welderName.length; k++) {
-					if (welderName[k].fwelder_no == redata.substring(8 + i, 12 + i)) {
-						document.getElementById("in13").value = welderName[k].fname;
-					}
-				}
-				document.getElementById("in11").value = redata.substring(73 + i, 81 + i);
-				document.getElementById("in12").value = redata.substring(81 + i, 89 + i);
 
-				if (time.length != 0 && z < time.length) {
-					var mstatus = redata.substring(0 + i, 2 + i);
-					switch (mstatus) {
-					case "00":
-						if($("#in4").val() == "超时待机"){
+	if(redata.length==291){
+		for (var i = 0; i < redata.length; i += 97) {
+	//		if (redata.substring(8 + i, 12 + i) != "0000") {
+				if (parseInt(redata.substring(4 + i, 8 + i)) == document.getElementById("in2").value) {
+					var liveele = parseInt(redata.substring(12+i, 16+i));
+		            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
+					ele.push(liveele);
+					vol.push(livevol);
+					var ttme = redata.substring(40+i, 59+i);
+		            ttme=ttme.replace(/-/g, '/');
+		            time.push(Date.parse(new Date(ttme))); 
+					machstatus.push(redata.substring(0 + i, 2 + i));
+					maxele = parseInt(redata.substring(61 + i, 64 + i));
+					minele = parseInt(redata.substring(64 + i, 67 + i));
+					maxvol = parseInt(redata.substring(67 + i, 70 + i));
+					minvol = parseInt(redata.substring(70 + i, 73 + i));
+					if(noflag<5){
+						cbpd.push(liveele);
+						noflag++;
+					}else{
+						for(var cb=0;cb<cbpd.length;cb++){
+							if(cbpd[cb]>maxele){
+								if(cb==cbpd.length-1){
+									document.getElementById("new6").value = "已超标";
+									document.getElementById("new6").style.backgroundColor = "#c4370c";
+								}
+							}else{
+								document.getElementById("new6").value = "正常";
+								break;
+							}
+						}
+						cbpd.length=0;
+						noflag=0;
+					}
+					if (symbol == 0) {
+						elecurve();
+						volcurve();
+						symbol++;
+					}
+					document.getElementById("in5").value = (maxele + minele) / 2 +" A";
+					document.getElementById("in6").value = (maxvol + minvol) / 2 +" V";
+					document.getElementById("in7").value = parseInt(redata.substring(12 + i, 16 + i)) +" A";
+					document.getElementById("in8").value = parseFloat((parseInt(redata.substring(16 + i, 20 + i)) / 10).toFixed(2)) +" V";
+					$("#new1").val(parseInt(redata.substring(20 + i, 24 + i)));
+					$("#new2").val(parseInt(redata.substring(24 + i, 28 + i)));
+					$("#new3").val(parseInt(redata.substring(28 + i, 32 + i)));
+					$("#new4").val(parseInt(redata.substring(32 + i, 36 + i)));
+					$("#new5").val(parseInt(redata.substring(36 + i, 40 + i)));
+					for (var k = 0; k < welderName.length; k++) {
+						if (welderName[k].fwelder_no == redata.substring(8 + i, 12 + i)) {
+							document.getElementById("in13").value = welderName[k].fname;
+						}
+					}
+					document.getElementById("in11").value = redata.substring(73 + i, 81 + i);
+					document.getElementById("in12").value = redata.substring(81 + i, 89 + i);
+	
+					if (time.length != 0 && z < time.length) {
+						var mstatus = redata.substring(0 + i, 2 + i);
+						switch (mstatus) {
+						case "00":
+							/*if($("#in4").val() == "超时待机"){
+								break;
+							}*/
+							document.getElementById("in4").value = "待机";
+							document.getElementById("in4").style.backgroundColor = "#f9e718";
+							document.getElementById("mrjpg").src = "resources/images/welder_02.png";
+							break;
+						case "03":
+							if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
+								document.getElementById("in4").value = "超标";
+								document.getElementById("in4").style.backgroundColor = "#c4370c";
+								document.getElementById("mrjpg").src = "resources/images/welder_01.png";
+							}else{
+								document.getElementById("in4").value = "焊接";
+								document.getElementById("in4").style.backgroundColor = "#7cbc16";
+								document.getElementById("mrjpg").src = "resources/images/welder_03.png";
+							}
+							break;
+						case "05":
+								document.getElementById("in4").value = "收弧";
+								document.getElementById("in4").style.backgroundColor = "#7cbc16";
+								document.getElementById("mrjpg").src = "resources/images/welder_03.png";
+							break;
+						case "07":
+								document.getElementById("in4").value = "起弧";
+								document.getElementById("in4").style.backgroundColor = "#7cbc16";
+								document.getElementById("mrjpg").src = "resources/images/welder_03.png";
+							break;
+						case "09":
+								document.getElementById("in4").value = "超时待机";
+								document.getElementById("in4").style.backgroundColor = "#55a7f3";
+								document.getElementById("mrjpg").src = "resources/images/welder_05.png";
 							break;
 						}
-						document.getElementById("in4").value = "待机";
-						document.getElementById("in4").style.backgroundColor = "#f9e718";
-						document.getElementById("mrjpg").src = "resources/images/welder_02.png";
-						break;
-					case "03":
-						if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
-							document.getElementById("in4").value = "超标";
-							document.getElementById("in4").style.backgroundColor = "#c4370c";
-							document.getElementById("mrjpg").src = "resources/images/welder_01.png";
-						}else{
-							document.getElementById("in4").value = "焊接";
-							document.getElementById("in4").style.backgroundColor = "#7cbc16";
-							document.getElementById("mrjpg").src = "resources/images/welder_03.png";
-						}
-						break;
-					case "05":
-						if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
-							document.getElementById("in4").value = "超标";
-							document.getElementById("in4").style.backgroundColor = "#c4370c";
-							document.getElementById("mrjpg").src = "resources/images/welder_01.png";
-						}else{
-							document.getElementById("in4").value = "收弧";
-							document.getElementById("in4").style.backgroundColor = "#7cbc16";
-							document.getElementById("mrjpg").src = "resources/images/welder_03.png";
-						}
-						break;
-					case "07":
-						if(liveele>maxele || liveele<minele || livevol>maxvol || livevol<minvol){
-							document.getElementById("in4").value = "超标";
-							document.getElementById("in4").style.backgroundColor = "#c4370c";
-							document.getElementById("mrjpg").src = "resources/images/welder_01.png";
-						}else{
-							document.getElementById("in4").value = "起弧";
-							document.getElementById("in4").style.backgroundColor = "#7cbc16";
-							document.getElementById("mrjpg").src = "resources/images/welder_03.png";
-						}
-						break;
-					}
-					var x = time[z],
-						y = ele[z],
-						v = vol[z];
-					if (z == 0) {
-						series.addPoint([ x, y ], true, true);
-						activeLastPointToolip(chart);
-						series1.addPoint([ x, v ], true, true);
-						activeLastPointToolip1(chart1);
-
-					} else {
-						if (x > time[z - 1]) {
+						var x = time[z],
+							y = ele[z],
+							v = vol[z];
+						if (z == 0) {
 							series.addPoint([ x, y ], true, true);
 							activeLastPointToolip(chart);
 							series1.addPoint([ x, v ], true, true);
 							activeLastPointToolip1(chart1);
+	
+						} else {
+							if (x > time[z - 1]) {
+								series.addPoint([ x, y ], true, true);
+								activeLastPointToolip(chart);
+								series1.addPoint([ x, v ], true, true);
+								activeLastPointToolip1(chart1);
+							}
 						}
 					}
+					/*if(starows.length==0){
+						var arr  =
+					     {
+					         "fname" : redata.substring(4+i, 8+i),
+					         "ftime" : 1
+					     }
+						starows.push(arr);
+					}else{
+						for(var sta=0;sta<starows.length;sta++){
+							if(redata.substring(4+i, 8+i)==starows[sta].fname){
+								if(redata.substring(0+i, 2+i)=="00"){
+									starows[sta].ftime++;
+								}else{
+									starows[sta].ftime=0;
+								}
+								break;
+							}else{
+								if(sta==starows.length-1){
+									var arr  =
+								     {
+								         "fname" : redata.substring(4+i, 8+i),
+								         "ftime" : 1
+								     }
+									starows.push(arr);
+								}
+							}
+						}
+					}*/
 				}
-			}
+	//		}
+			z++;
+			/*if(flag==0){
+				if(starows.length!=0){
+		        	for(var j=0;j<starows.length;j++){
+		        		if(document.getElementById("in2").value==starows[j].fname){
+								document.getElementById("in4").value = "超时待机";
+								document.getElementById("in4").style.backgroundColor = "#55a7f3";
+								document.getElementById("mrjpg").src = "resources/images/welder_05.png";
+		        		}    
+		        	}
+				};
+				flag == 1;
+			}*/
+			
 		}
-		z++;
 	}
-	;
 	if ((time.length) % 3 == 1) {
 		ele[time.length] = ele[time.length - 1];
 		ele[time.length + 1] = ele[time.length - 1];
@@ -552,49 +492,7 @@ function iview() {
 		vol[time.length] = vol[time.length - 1];
 		time[time.length] = time[time.length - 1] + 1000;
 	}
-	if(flag==0){
-		if(starows.length!=0){
-        	for(var j=0;j<starows.length/2;j++){
-        		if(document.getElementById("inn2").value==starows[j].fname){
-        			var count = (parseInt(starows[j].ftime)/parseInt(starows[starows.length/2+j].ftime)).toFixed(2);
-        			if(count>(parseInt(dic[0].name)/100).toFixed(2)){
-						document.getElementById("in4").value = "超时待机";
-						document.getElementById("in4").style.backgroundColor = "#55a7f3";
-						document.getElementById("mrjpg").src = "resources/images/welder_05.png";
-        			}
-        			starows[j].ftime=0;
-        			starows[starows.length/2+j].ftime=0;
-        		}    
-        	}
-		};
-		flag == 1;
-	}
 }
-
-//统计超时
-function getOvertime(){
-	getMsg();
-	if(starows.length!=0){
-	  	for(var j=0;j<starows.length/2;j++){
-	  		if(document.getElementById("inn2").value==starows[j].fname){
-	  			var count = (parseInt(starows[j].ftime)/parseInt(starows[starows.length/2+j].ftime)).toFixed(2);
-	  			if(count>(parseInt(dic[0].name)/100).toFixed(2)){
-					document.getElementById("in4").value = "超时待机";
-					document.getElementById("in4").style.backgroundColor = "#55a7f3";
-					document.getElementById("mrjpg").src = "resources/images/welder_05.png";
-	  			}
-	  			starows[j].ftime=0;
-	  			starows[starows.length/2+j].ftime=0;
-	  		}    
-	  	}
-	};
-}
-
-//每小时统计超时
-window.setInterval(function() {
-	getOvertime();
-}, 3600*1000)
-
 
 //监听窗口大小变化
 window.onresize = function() {

@@ -4,7 +4,7 @@ $(function() {
 })
 var chartStr = "";
 $(document).ready(function() {
-	showitemLoadsChart();
+	showitemLoadsChart(0);
 })
 var otype = "";
 function setParam() {
@@ -18,10 +18,12 @@ function setParam() {
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showitemLoadsChart() {
-	//初始化echart实例
-	charts = echarts.init(document.getElementById("itemLoadsChart"));
+var charts,Series = [];
+function showitemLoadsChart(num) {
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("itemLoadsChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text : '稍等片刻,精彩马上呈现...',
@@ -35,7 +37,9 @@ function showitemLoadsChart() {
 			trigger : 'axis' //坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend : {
-			data : array2
+			data : array2,
+			x: 'left',
+			left: '50'
 		},
 		grid : {
 			left : '50', //组件距离容器左边的距离
@@ -60,7 +64,8 @@ function showitemLoadsChart() {
 					show : true
 				} //保存为图片
 			},
-			right : '2%'
+			right : '2%',
+			top:'30'
 		},
 		xAxis : {
 			type : 'category',
@@ -85,6 +90,13 @@ function showitemLoadsChart() {
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#itemLoadsChart").width("100%");
+	if(array1.length>3 || array2.length>5){//array2：柱状图数量
+		var width = array1.length * array2.length * 100;
+		$("#itemLoadsChart").width($("#itemLoadsChart").width()+width);
+	}
+	charts.resize();
 }
 
 function ItemloadsDatagrid() {
@@ -100,13 +112,13 @@ function ItemloadsDatagrid() {
 		dataType : "json", //返回数据形式为json  
 		success : function(result) {
 			if (result) {
-				var width = $("#body").width() / result.rows.length;
+				var width = $("#bodydiv").width() / result.rows.length;
 				column.push({
 					field : "weldTime",
-					title : "时间跨度(年/月/日/周)",
+					title : "时间跨度(年/月/周/日)",
 					width : width,
 					halign : "center",
-					align : "left"
+					align : "center"
 				});
 
 				for (var i = 0; i < result.rows.length; i++) {
@@ -118,7 +130,7 @@ function ItemloadsDatagrid() {
 						title : result.arys[m].name + "(负荷率)",
 						width : width,
 						halign : "center",
-						align : "left",
+						align : "center",
 						formatter : function(value, row, index) {
 							return "<a href='junctionChart/goDetailLoads?itemid=" + row.itemid + "&otype=" + otype + "&weldtime=" + row.weldTime + "&dtoTime1=" + dtoTime1 + "&dtoTime2=" + dtoTime2 + "'>" + value + "%" + "</a>";
 						}
@@ -127,7 +139,7 @@ function ItemloadsDatagrid() {
 						title : "项目id",
 						width : width,
 						halign : "center",
-						align : "left",
+						align : "center",
 						hidden : true
 					});
 					array2.push(result.arys[m].name);
@@ -153,8 +165,8 @@ function ItemloadsDatagrid() {
 	});
 	$("#itemLoadsTable").datagrid({
 		fitColumns : true,
-		height : $("#body").height() - $("#itemLoadsChart").height() - $("#itemLoads_btn").height() - 45,
-		width : $("#body").width(),
+		height : $("#bodydiv").height() - $("#itemLoadsChart").height() - $("#itemLoads_btn").height() - 45,
+		width : $("#bodydiv").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
@@ -179,8 +191,10 @@ function ItemtimeCombobox() {
 			if (result) {
 				var optionStr = '';
 				for (var i = 0; i < result.ary.length; i++) {
-					optionStr += "<option value=\"" + result.ary[i].id + "\" >"
-						+ result.ary[i].name + "</option>";
+					/*optionStr += "<option value=\"" + result.ary[i].id + "\" >"
+						+ result.ary[i].name + "</option>";*/
+					optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+                    + result.ary[i].name + "</option>";
 				}
 				$("#item").html(optionStr);
 			}
@@ -207,7 +221,7 @@ function serachitemloads() {
 	chartStr = "";
 	setTimeout(function() {
 		ItemloadsDatagrid();
-		showitemLoadsChart();
+		showitemLoadsChart(1);
 	}, 500);
 }
 
@@ -219,8 +233,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#itemLoadsTable").datagrid('resize', {
-		height : $("#body").height() - $("#itemLoadsChart").height() - $("#itemLoads_btn").height() - 45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#itemLoadsChart").height() - $("#itemLoads_btn").height() - 45,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('itemLoadsChart')).resize();
+	charts.resize();
 }

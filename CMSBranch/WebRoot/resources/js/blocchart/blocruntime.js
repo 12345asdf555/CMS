@@ -1,26 +1,40 @@
 $(function(){
 	parentCombobox();
-	rankingCombobox();
 	dgDatagrid();
+	/*$("#rank1").numberbox({
+		"onChange" : function() {
+			if($("#rank1").val()==null || $("#rank1").val()==""){
+				$("#rank1").numberbox('setValue',1);
+			}
+		}
+	});
+	$("#rank2").numberbox({
+		"onChange" : function() {
+			if($("#rank2").val()==null || $("#rank2").val()==""){
+				$("#rank2").numberbox('setValue',20);
+			}
+		}
+	});*/
 })
 
 var chartStr = "";
 $(document).ready(function(){
-	showChart();
+	showChart(0);
 })
 var dtoTime1,dtoTime2;
 function setParam(){
 	var parent = $("#parent").combobox('getValue');
-	var ranking = $("#ranking").combobox('getValue');
+	/*var rank1 = $("#rank1").val();
+	var rank2 = $("#rank2").val();*/
 	dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-	chartStr = "?parent="+parent+"&ranking="+ranking+"&time1="+dtoTime1+"&time2="+dtoTime2;
+	chartStr = "?parent="+parent+"&time1="+dtoTime1+"&time2="+dtoTime2;//+"&rank1="+rank1+"&rank2="+rank2
 }
 
 var array1 = new Array();
 var array2 = new Array();
-var avg = 0;
-function showChart(){
+var charts,avg = 0;
+function showChart(num){
 	setParam();
 	 $.ajax({  
         type : "post",  
@@ -31,8 +45,40 @@ function showChart(){
         success : function(result) {  
             if (result) {
             	for(var i=0;i<result.rows.length;i++){
-            		array1.push(result.rows[i].machineno);
-            		array2.push(result.rows[i].time);
+//            		array1.push(result.rows[i].machineno);
+//            		array2.push(result.rows[i].time);
+            		if(result.rows.length>=5){
+            			for(var i=0;i<5;i++){
+                    		array1.push(result.rows[i].machineno);
+                    		array2.push(result.rows[i].time);
+                    	}
+            		}else{
+            			for(var i=0;i<result.rows.length;i++){
+                    		array1.push(result.rows[i].machineno);
+                    		array2.push(result.rows[i].time);
+                    	}
+            		}
+            		if(result.rows.length>=10){
+            			for(var i=result.rows.length-5;i<result.rows.length;i++){
+                    		array1.push(result.rows[i].machineno);
+                    		array2.push(result.rows[i].time);
+
+                    	}
+            		}else if(result.rows.length>5 && result.rows.length<10){
+            			for(var i=5;i<result.rows.length;i++){
+                    		array1.push(result.rows[i].machineno);
+                    		array2.push(result.rows[i].time);
+                    	}
+            		}
+            		/*avg1 = 0,avg2 = 0;
+            		for(var i=0;i<result.rows.length;i++){
+                		avg1 += result.rows[i].weldtime;
+                		avg2 += result.rows[i].boottime;
+                	}
+                	if(result.rows.length!=0){
+                    	avg1 = (avg1/result.rows.length).toFixed(2);
+                    	avg2 = (avg2/result.rows.length).toFixed(2);
+                	}*/
             	}
             	avg = result.avgnum;
             }  
@@ -41,8 +87,10 @@ function showChart(){
             alert("请求数据失败啦,请联系系统管理员!");  
         }  
    }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("charts"));
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("charts"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -53,12 +101,14 @@ function showChart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['运行时长(h)']
+			data:['运行时长(h)'],
+			x : 'left',
+			left : '50'
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'100',
-			bottom:'50',
+			right:'120',
+			bottom:'20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -68,14 +118,15 @@ function showChart(){
 	            restore : {show: true},
 	            saveAsImage : {show: true}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',
 			data: array1,
-			name: '运行时长',
+			name: '设备编号',
 			axisLabel : {
-				rotate: 40, //x轴文字倾斜
+				/*rotate: 40, //x轴文字倾斜*/
 			    interval:0 //允许x轴文字全部显示并重叠
 			}
 		},
@@ -93,7 +144,7 @@ function showChart(){
                 ],
         		label: {
                     normal: {
-                        position: 'middle',
+                        position: 'end',
                         color:'#000099',//字体颜色
                         formatter: '{b}: {c}h' //标志线说明
                     }
@@ -101,7 +152,7 @@ function showChart(){
 		        itemStyle : { 
 		            normal: { 
 		                lineStyle: { 
-		                    color:'#000099', //标志线颜色
+		                    color:'#000099'//标志线颜色
 		                }
 		            } 
 		        }
@@ -120,14 +171,29 @@ function showChart(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#charts").width("100%");
+	if (array1.length > 3) {
+		var maxlength = array1[0];
+		for (var i = 0; i < array1.length; i++) {
+			if (array1[i].length > maxlength.length) {
+				maxlength = array1[i];
+			}
+		}
+		var width = array1.length * maxlength.length * 9; //最长组织机构名字每个字节算18px
+		if ($("#charts").width() < width) {
+			$("#charts").width(width);
+		}
+	}
+	charts.resize();
 }
 
 function dgDatagrid(){
 	setParam();
 	 $("#dg").datagrid( {
 			fitColumns : true,
-			height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
-			width : $("#body").width(),
+			height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+			width : $("#bodydiv").width(),
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
 			url : "blocChart/gerBlocRunTime"+chartStr,
@@ -140,19 +206,19 @@ function dgDatagrid(){
 				title : "所属部门",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "machineno",
 				title : "设备编号",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "time",
 				title : "运行时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			}]]
 	 })
 }
@@ -164,7 +230,7 @@ function serach(){
 	chartStr = "";
 	setTimeout(function(){
 		dgDatagrid();
-		showChart();
+		showChart(1);
 	},500);
 }
 
@@ -187,30 +253,13 @@ function parentCombobox(){
 	})
 	$("#parent").combobox({
 		onChange: function (n,o) {
-			$("#parent").combobox('setText',$("#parent").combobox('getText').trim());
+			$("#parent").combobox('setText',$.trim($("#parent").combobox('getText')));
 		}
 	});
 	var data = $("#parent").combobox('getData');
 	$("#parent").combobox('select',data[0].value);
 }
 
-function rankingCombobox(){
-	var str = "<option value='0-20'>1-20</option>" +
-		"<option value='20-40'>21-40</option>" +
-		"<option value='40-60'>41-60</option>" +
-		"<option value='60-80'>61-80</option>" +
-		"<option value='80-100'>81-100</option>" +
-		"<option value='100-120'>101-120</option>" +
-		"<option value='120-140'>121-140</option>" +
-		"<option value='140-160'>141-160</option>" +
-		"<option value='160-180'>161-180</option>" +
-		"<option value='180-200'>181-200</option>" ;
-	$("#ranking").html(str);
-	$("#ranking").combobox();
-	//默认选中第一行
-	var data = $("#ranking").combobox('getData');
-	$("#ranking").combobox('select',data[0].value);
-}
 
 //监听窗口大小变化
 window.onresize = function() {
@@ -220,8 +269,8 @@ window.onresize = function() {
 //改变表格，图表高宽
 function domresize() {
 	$("#dg").datagrid('resize', {
-		height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('charts')).resize();
+	charts.resize();
 }

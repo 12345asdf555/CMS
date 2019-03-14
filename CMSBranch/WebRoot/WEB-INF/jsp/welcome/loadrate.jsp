@@ -46,9 +46,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:search();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 16%;margin-left:10px;">
-		按组织机构对焊接规范符合率进行统计:<br/>
-		统计时间段内的焊接规范符合率最高及最低的部门；<br/></div>
+		
+		<div id="maxexplain">
+			<div id="explain">
+				<span>焊接规范符合率</span><hr>
+				<ul>
+					<li>展现某一时间段内，该部门内的各部门的焊接规范符合率</li>
+					<li>符合率=正常焊接时长/焊接时长</li>
+				</ul>
+			</div>
+		</div>
 		<div id="charts" style="height:80%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
 	</div>
   </body>

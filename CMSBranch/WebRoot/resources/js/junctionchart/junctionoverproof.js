@@ -49,7 +49,8 @@ function showjunctionOverproofChart(){
 			feature:{
 				saveAsImage:{}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',

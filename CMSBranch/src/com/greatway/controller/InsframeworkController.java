@@ -60,40 +60,6 @@ public class InsframeworkController {
 		return "insframework/insframework";
 	}
 	
-	/**
-	 * 跳转新增页面
-	 * @return
-	 */
-	@RequestMapping("/goaddInsframework")
-	public String goaddInsframework(){
-		return "insframework/addinsframework";
-	}
-	
-	/**
-	 * 跳转修改页面
-	 * @return
-	 */
-	@RequestMapping("/goeditInsframework")
-	public String goeditInsframework(HttpServletRequest request,@RequestParam String id){
-		Insframework insf = im.getInsfAllById(new BigInteger(id));
-		request.setAttribute("parent", im.getInsframeworkById(insf.getParent()));
-		request.setAttribute("insf", insf);
-		return "insframework/editinsframework";
-	}
-	
-	/**
-	 * 跳转删除页面
-	 * @return
-	 */
-	@RequestMapping("/goremoveInsframework")
-	public String goremoveInsframework(HttpServletRequest request,@RequestParam String id){
-		Insframework insf = im.getInsfAllById(new BigInteger(id));
-		request.setAttribute("parent", im.getInsframeworkById(insf.getParent()));
-		request.setAttribute("insf", insf);
-		request.setAttribute("type", request.getParameter("type"));
-		return "insframework/removeinsframework";
-	}
-	
 	@RequestMapping("/getInsframeworkList")
 	@ResponseBody
 	public String getWeldingMachine(HttpServletRequest request){
@@ -517,6 +483,7 @@ public class InsframeworkController {
 	        json.append("[");  
 	        json.append("{\"id\":" +b.getId());
 	        json.append(",\"text\":\"" +b.getName()+ "\"");
+	        json.append(",\"type\":\"20\"");
 	        json.append(",\"state\":\"open\"");  
 	        // 获取根节点下的所有子节点  
 	        List<Insframework> treeList = im.getConmpany(value1);
@@ -527,6 +494,7 @@ public class InsframeworkController {
 	                  
 	                json.append("{\"id\":" +String.valueOf(t.getId()));   
 	                json.append(",\"text\":\"" +t.getName() + "\"");   
+	    	        json.append(",\"type\":\"21\"");
 	                json.append(",\"state\":\"open\"");   
 	                  
 	                // 该节点有子节点  
@@ -543,6 +511,9 @@ public class InsframeworkController {
 	            str = json.toString();  
 	            str = str.substring(0, str.length()-1);  
 	            str+="]}]";
+	        }else{
+	            str = json.toString();
+	            str+="}]";
 	        }
               
         }  
@@ -558,6 +529,7 @@ public class InsframeworkController {
         for (Insframework tree : tList) {  
             json.append("{\"id\":" +String.valueOf(tree.getId()));   
             json.append(",\"text\":\"" +tree.getName() + "\"");   
+	        json.append(",\"type\":\"22\"");
             json.append(",\"state\":\"open\"");
             
             // 获取根节点下的所有子节点  
@@ -580,6 +552,7 @@ public class InsframeworkController {
         for (Insframework tree : treeLists) {  
             json.append("{\"id\":" +String.valueOf(tree.getId()));   
             json.append(",\"text\":\"" +tree.getName() + "\"");   
+	        json.append(",\"type\":\"23\"");
             json.append(",\"state\":\"open\"");
             json.append("},");  
         }  
@@ -657,5 +630,22 @@ public class InsframeworkController {
 			obj.put("afreshLogin", "您的Session已过期，请重新登录！");
 			return obj.toString();
 		}
+	}
+
+	@RequestMapping("/getUserInsf")
+	@ResponseBody
+	public String getUserInsf(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		try{
+			MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			List<Insframework> list = im.getInsByUserid(new BigInteger(myuser.getId()+""));
+			for(Insframework i:list){
+				obj.put("id", i.getId());
+				obj.put("type", i.getType());
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		return obj.toString();
 	}
 }

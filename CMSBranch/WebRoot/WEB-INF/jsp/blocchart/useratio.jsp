@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -29,15 +30,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
 	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
-	<script type="text/javascript" src="resources/js/blocchart/useratio.js"></script>
 	<script type="text/javascript" src="resources/js/getDate.js"></script>
+	<script type="text/javascript" src="resources/js/blocchart/useratio.js"></script>
 
   </head>
   <body class="easyui-layout">
 	<div id="chartLoading" style="width:100%;height:100%;">
 		<div id="chartShow" style="width:160px;" align="center"><img src="resources/images/load1.gif"/>数据加载中，请稍候...</div>
 	</div>
-    <div id="body" region="center"  hide="true"  split="false" title="设备利用率" style="background: witch;">
+    <div id="bodydiv" region="center"  hide="true"  split="false">
 	  	<div id="search_btn">
 			<div style="margin-bottom: 5px;">
 				<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
@@ -49,12 +50,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-search" >搜索</a>
 			</div>
 		</div>
-		<div id="explain" style="table-layout: fixed; width:18%; float:left;margin-top: 6%;margin-left:10px;">
-		按组织机构对设备利用率进行统计：<br/>
-		统计时间段内的设备利用情况；<br/>
-		利用率=设备运行时长/设备台数/选择的时间段天数<br/></div>
-		<div id="charts" style="height:50%;width:65%;margin-right: 21%;margin-left: 21%;margin-bottom:10px;"></div>
-	    <table id="dg" style="table-layout: fixed; width:100%;"></table>
+		<div id="maxexplain">
+			<div id="explain">
+				<span>设备利用率</span><hr>
+				<ul>
+					<li>展现某一时间段内，各部门的设备利用率及趋势</li>
+					<li>利用率=每天的焊机开机台数/部门焊机设备总台数(取最大值)</li>
+				</ul>
+			</div>
+		</div>
+		<div class="divParent">
+			<div id="charts" style="height:96%;width:100%;"></div>
+		</div>
+		<table id="dg" style="table-layout: fixed; width:100%;"></table>
 	</div>
   </body>
 </html>

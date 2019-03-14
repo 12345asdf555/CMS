@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.greatway.manager.InsframeworkManager;
+import com.greatway.manager.LiveDataManager;
 import com.greatway.manager.WelderManager;
 import com.greatway.model.Welder;
 import com.greatway.page.Page;
@@ -48,41 +49,76 @@ public class WelderController {
 		return "welder/welder";
 	}
 	
-	@RequestMapping("/goAddWelder")
-	public String goAddWeldedJunction(){
-		return "welder/addwelder";
-	}
-
-	@RequestMapping("/goEditWelder")
-	public String goEditWeldedJunction(HttpServletRequest request){
-		Welder w = wm.getWelderById(new BigInteger(request.getParameter("id")));
-		request.setAttribute("w", w);
-		return "welder/editwelder";
-	}
-
-	@RequestMapping("/goRemoveWelder")
-	public String goRemoveWeldedJunction(HttpServletRequest request){
-		Welder w = wm.getWelderById(new BigInteger(request.getParameter("id")));
-		request.setAttribute("w", w);
-		return "welder/removewelder";
-	}
-	
-	
 	@RequestMapping("/getWelderList")
 	@ResponseBody
 	public String getWelderList(HttpServletRequest request){
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String search = request.getParameter("searchStr");
+		String parentid = request.getParameter("parent");
 		page = new Page(pageIndex,pageSize,total);
-		List<Welder> list =wm.getWelderAll(page, search);
+		BigInteger parent = null;
+		if(iutil.isNull(parentid)){
+			parent = new BigInteger(parentid);
+		}else{
+			MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
+				    .getAuthentication()  
+				    .getPrincipal();
+			long uid = myuser.getId();
+			parent = im.getUserInsfId(BigInteger.valueOf(uid));
+		}
+		List<Welder> list =wm.getWelderAll(page, search, parent);
 		long total = 0;
 		
 		if(list != null){
 			PageInfo<Welder> pageinfo = new PageInfo<Welder>(list);
 			total = pageinfo.getTotal();
 		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(Welder we:list){
+				json.put("id", we.getId());
+				json.put("name", we.getName());
+		        json.put("welderno", we.getWelderno());
+		        json.put("itemname", we.getIname());
+		        json.put("iid", we.getIid());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getOverWelder")
+	@ResponseBody
+	public String getOverWelder(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String search = "'"+request.getParameter("dtoTime")+"%'";
+		String parentid = request.getParameter("parent");
+		page = new Page(pageIndex,pageSize,total);
+		BigInteger parent = null;
+		if(iutil.isNull(parentid)){
+			parent = new BigInteger(parentid);
+		}else{
+			MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
+				    .getAuthentication()  
+				    .getPrincipal();
+			long uid = myuser.getId();
+			parent = im.getUserInsfId(BigInteger.valueOf(uid));
+		}
+		List<Welder> list =wm.getOverWelder(page, search, parent);
+		long total = 0;
 		
+		if(list != null){
+			PageInfo<Welder> pageinfo = new PageInfo<Welder>(list);
+			total = pageinfo.getTotal();
+		}
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
@@ -221,9 +257,9 @@ public class WelderController {
 	 */
 	@RequestMapping("/wnoValidate")
 	@ResponseBody
-	public String wnoValidate(@RequestParam String wno){
+	public String wnoValidate(@RequestParam String wno, @RequestParam BigInteger parent){
 		boolean flag = true;
-		int count = wm.getWeldernoCount(wno);
+		int count = wm.getWeldernoCount(wno, parent);
 		if(count > 0){
 			flag = false;
 		}

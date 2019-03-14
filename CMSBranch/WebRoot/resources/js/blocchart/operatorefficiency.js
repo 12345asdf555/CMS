@@ -2,27 +2,12 @@ $(function(){
 	flagnum=1;
 	parentCombobox();
 	dgDatagrid();
-	dtoTime1 = $("#dtoTime1").datetimebox('getValue');  
-	dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-	$("#dtoTime1").datetimebox({
-		onChange: function (newvalue,oldvalue) {
-			if(newvalue==null || newvalue==""){
-				$("#dtoTime1").datetimebox('setValue',dtoTime1);
-			}
-		}
-	})
-	$("#dtoTime2").datetimebox({
-		onChange: function (newvalue,oldvalue) {
-			if(newvalue==null || newvalue==""){
-				$("#dtoTime2").datetimebox('setValue',dtoTime2);
-			}
-		}
-	})
+	page();
 })
 
 
 $(document).ready(function(){
-	chart();
+	chart(0);
 })
 
 var type,flagnum,position;
@@ -45,19 +30,10 @@ function parentCombobox(){
 	})
 	$("#parent").combobox({
 		onChange: function (newvalue,oldvalue) {
-			$("#parent").combobox('setText',$("#parent").combobox('getText').trim());
-			$.ajax({
-				type : "post",
-				async : true,
-				url : "blocChart/getInsframeworkType?id="+newvalue,
-				dataType : "json",
-				success : function(result){
-					type = result.type;
-					if(flagnum==1){
-						serach();
-					}
-				}
-			})
+			$("#parent").combobox('setText',$.trim($("#parent").combobox('getText')));
+			if(flagnum==1){
+				serach();
+			}
 		}
 	});
 	var data = $("#parent").combobox('getData');
@@ -65,11 +41,28 @@ function parentCombobox(){
 }
 var activeurl = "blocChart/getOperatorEfficiency?flag=0";
 var dgname = "部门";
+
 function serach(){
+	$.ajax({
+		type : "post",
+		async : true,
+		url : "blocChart/getInsframeworkType?id="+$("#parent").combobox("getValue"),
+		dataType : "json",
+		success : function(result){
+			type = result.type;
+			loadData();
+		}
+	})
+
+}
+
+function loadData(){
 	if(flagnum!=1){
 		$("#chartLoading").show();
 	}
 	flagnum = 0;
+	$("#explain").html("<span>操作者率</span><hr><ul><li>展现某一时间段内，各部门操作者上班时长、焊接时长以及工作效率</li><li>上机率=开机时长/上班时长</li>"+
+					"<li>有效焊接率=焊接时长/开机时长</li><li>工作效率=焊接时长/上班时长</li></ul>");
 	if(type==20){
 		position = 0;
 		dgname = "部门";
@@ -86,11 +79,15 @@ function serach(){
 		position = 1;
 		dgname = "姓名";
 		activeurl = "itemChart/getOperatorEfficiency?flag=3";
+		$("#explain").html("<span>操作者率</span><hr><ul><li>展现某一时间段内，各部门操作者上班时长、焊接时长以及工作效率(取最高五位及最低五位)</li><li>上机率=开机时长/上班时长</li>"+
+		"<li>有效焊接率=焊接时长/开机时长</li><li>工作效率=焊接时长/上班时长</li></ul>");
 	}
 	array0 = new Array();
 	array1 = new Array();
 	array2 = new Array();
 	array3 = new Array();
+	array4 = new Array();
+	array5 = new Array();
 	setTimeout(function() {
 		dgDatagrid();
 		showChart();
@@ -110,6 +107,9 @@ var array0 = new Array();
 var array1 = new Array();
 var array2 = new Array();
 var array3 = new Array();
+var array4 = new Array();
+var array5 = new Array();
+var charts,avg2=0,avg5=0;
 function showChart(){
 	setParam();
 	 $.ajax({  
@@ -120,12 +120,69 @@ function showChart(){
         dataType : "json", //返回数据形式为json  
         success : function(result) {  
             if (result) {
-            	for(var i=0;i<result.rows.length;i++){
-            		array0.push(result.rows[i].name);
-            		array1.push(result.rows[i].worktime);
-            		array2.push(result.rows[i].weldtime);
-            		array3.push(result.rows[i].workratio);
+            	if(type!=23){
+                	for(var i=0;i<result.rows.length;i++){
+                		array0.push(result.rows[i].name);
+                		array1.push(result.rows[i].worktime);
+                		array2.push(result.rows[i].weldtime);
+                		array3.push(result.rows[i].workratio);
+                		array4.push(result.rows[i].effectiveratio);
+                		array5.push(result.rows[i].boottime);
 
+                	}
+            	}else{
+            		if(result.rows.length>=5){
+            			for(var i=0;i<5;i++){
+                    		array0.push(result.rows[i].name);
+                    		array1.push(result.rows[i].worktime);
+                    		array2.push(result.rows[i].weldtime);
+                    		array3.push(result.rows[i].workratio);
+                    		array4.push(result.rows[i].effectiveratio);
+                    		array5.push(result.rows[i].boottime);
+
+                    	}
+            		}else{
+            			for(var i=0;i<result.rows.length;i++){
+                    		array0.push(result.rows[i].name);
+                    		array1.push(result.rows[i].worktime);
+                    		array2.push(result.rows[i].weldtime);
+                    		array3.push(result.rows[i].workratio);
+                    		array4.push(result.rows[i].effectiveratio);
+                    		array5.push(result.rows[i].boottime);
+
+                    	}
+            		}
+            		if(result.rows.length>=10){
+            			for(var i=result.rows.length-5;i<result.rows.length;i++){
+                    		array0.push(result.rows[i].name);
+                    		array1.push(result.rows[i].worktime);
+                    		array2.push(result.rows[i].weldtime);
+                    		array3.push(result.rows[i].workratio);
+                    		array4.push(result.rows[i].effectiveratio);
+                    		array5.push(result.rows[i].boottime);
+
+                    	}
+            		}else if(result.rows.length>5 && result.rows.length<10){
+            			for(var i=5;i<result.rows.length;i++){
+                    		array0.push(result.rows[i].name);
+                    		array1.push(result.rows[i].worktime);
+                    		array2.push(result.rows[i].weldtime);
+                    		array3.push(result.rows[i].workratio);
+                    		array4.push(result.rows[i].effectiveratio);
+                    		array5.push(result.rows[i].boottime);
+
+                    	}
+            		}
+            		avg2 = 0,avg5 = 0;
+            		for(var i=0;i<result.rows.length;i++){
+                		avg2 += result.rows[i].weldtime;
+                		avg5 += result.rows[i].boottime;
+                	}
+                	if(result.rows.length!=0){
+                    	avg2 = (avg2/result.rows.length).toFixed(2);
+                    	avg5 = (avg5/result.rows.length).toFixed(2);
+                	}
+            		
             	}
             }  
         },  
@@ -133,18 +190,13 @@ function showChart(){
             alert("请求数据失败啦,请联系系统管理员!");  
         }  
    }); 
-	 chart();
+	 chart(1);
 }
-
-function chart(){
-	var bootomnum,rotatenum,interval;
-	if(position==0){
-		bootomnum=20,rotatenum=0,interval="auto";
-	}else{
-		bootomnum=50,rotatenum=30,interval=0;
+function chart(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("charts"));
 	}
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("charts"));
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -155,12 +207,14 @@ function chart(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:['上班时长(h)','焊接时长(h)','工作效率']
+			data:['焊接时长(h)','开机时长(h)','制度时长(h)','工作效率','有效焊接率'],
+			x : 'left',
+			left : '50'
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'100',
-			bottom: bootomnum,
+			right:'120',
+			bottom: '20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		toolbox:{
@@ -175,18 +229,19 @@ function chart(){
 		xAxis:{
 			type:'category',
 			data: array0,
-			name : '    '+dgname,
+			name : '    '+dgname/*,
 			axisLabel : {
 				rotate: rotatenum, //x轴文字倾斜
 			    interval:interval //0:允许x轴文字全部显示并重叠
-			}
+			}*/
 		},
 		yAxis:[{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
 			name : '时长(h)'
 		},{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name : '工作效率',
+			name : '工作效率', 
+			splitLine:{show: false},//去除网格线
 			axisLabel: {  
                   show: true,  
                   interval: 'auto',  
@@ -194,10 +249,11 @@ function chart(){
             }
 		}],
 		series:[{
-			name:'上班时长(h)',
+			name:'焊接时长(h)',
 			type:'bar',
             barMaxWidth:20,//最大宽度
-			data:array1,
+            color:['#C23531'],
+			data:array2,
 			label : {
 				normal : {
 					position : 'top',
@@ -205,10 +261,27 @@ function chart(){
 				}
 			}
 		},{
-			name:'焊接时长(h)',
+			name:'开机时长(h)',
 			type:'bar',
             barMaxWidth:20,//最大宽度
-			data:array2,
+            color:['#2F4554'],
+            
+			data:array5,
+			label : {
+				normal : {
+					position : 'top',
+					show : true //显示每个折点的值
+				}
+			}
+		},{
+			name:'制度时长(h)',
+            min: 0,
+            max: 100,//最大最小值
+            interval: 20,//间隔
+			type:'line',
+            barMaxWidth:20,//最大宽度
+            color:['#61A0A8'],
+			data:array1,
 			label : {
 				normal : {
 					position : 'top',
@@ -222,6 +295,7 @@ function chart(){
             interval: 20,//间隔
 			type:'line',
             yAxisIndex: 1,
+            color:['#D48265'],
             barMaxWidth:20,//最大宽度
 			data:array3,
 			label : {
@@ -231,21 +305,62 @@ function chart(){
 					formatter : '{c}%'
 				}
 			}
+		},{
+			name:'有效焊接率',
+            min: 0,
+            max: 100,//最大最小值
+            interval: 20,//间隔
+			type:'line',
+            yAxisIndex: 1,
+            barMaxWidth:20,//最大宽度
+            color:['#91C7AE'],
+			data:array4,
+			label : {
+				normal : {
+					position : 'top',
+					show : true, //显示每个折点的值
+					formatter : '{c}%'
+				}
+			}
 		}]
+	}
+	//项目部时添加标志线
+	if(type==23){
+		option.series[0].markLine={data: [{yAxis: avg2, name: "焊接平均时长"}],
+				label: {normal: {position: "middle",color:"#C23531",formatter: "{b}: {c}h"}},
+		        itemStyle : {normal: { lineStyle: { color:"#C23531"}}}};
+		option.series[1].markLine={data: [{yAxis: avg5, name: "开机平均时长"}],
+				label: {normal: {position: "middle",color:"#2F4554",formatter: "{b}: {c}h"}},
+		        itemStyle : {normal: { lineStyle: { color:"#2F4554"}}}};
 	}
 	//为echarts对象加载数据
 	charts.setOption(option);
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#charts").width("100%");
+	if (array0.length > 3) {
+		var maxlength = array0[0];
+		for (var i = 0; i < array0.length; i++) {
+			if (array0[i].length > maxlength.length) {
+				maxlength = array0[i];
+			}
+		}
+		var width = array0.length * maxlength.length * 18; //最长组织机构名字每个字节算18px
+		if ($("#charts").width() < width) {
+			$("#charts").width(width);
+		}
+	}
+	charts.resize();
 }
 
 function dgDatagrid(){
 	setParam();
 	 $("#dg").datagrid( {
 			fitColumns : true,
-			height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
-			width : $("#body").width(),
+			height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+			width : $("#bodydiv").width(),
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
 			url : activeurl+chartStr,
@@ -258,57 +373,98 @@ function dgDatagrid(){
 				title : dgname,
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "worktime",
-				title : "上班时长(h)",
+				title : "制度时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "boottime",
 				title : "开机时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "shutdowntime",
 				title : "关机时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center",
+				hidden: true
 			},{
 				field : "standbytime",
 				title : "待机时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "weldtime",
 				title : "焊接时长(h)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "sjratio",
 				title : "上机率(%)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "effectiveratio",
 				title : "有效焊接率(%)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			},{
 				field : "workratio",
 				title : "工作效率(%)",
 				width : 100,
 				halign : "center",
-				align : "left"
+				align : "center"
 			}]]
 	 })
+}
+
+//假分页
+function page() {
+	$('#dg').datagrid({
+		loadFilter : pagerFilter
+	}).datagrid({
+		url : activeurl + chartStr //加载数据  
+	});
+
+	//分页数据的操作
+	function pagerFilter(data) {
+		if (typeof data.length == 'number' && typeof data.splice == 'function') { // is array
+			data = {
+				total : data.length,
+				rows : data
+			}
+		}
+		var dg = $(this);
+		var opts = dg.datagrid('options');
+		var pager = dg.datagrid('getPager');
+		pager.pagination({
+			onSelectPage : function(pageNum, pageSize) {
+				opts.pageNumber = pageNum;
+				opts.pageSize = pageSize;
+				pager.pagination('refresh', {
+					pageNumber : pageNum,
+					pageSize : pageSize
+				});
+				dg.datagrid('loadData', data);
+			}
+		});
+		if (!data.originalRows) {
+			data.originalRows = (data.rows);
+		}
+		var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
+		var end = start + parseInt(opts.pageSize);
+		data.rows = (data.originalRows.slice(start, end));
+		return data;
+	}
 }
 
 //监听窗口大小变化
@@ -319,8 +475,8 @@ window.onresize = function() {
 //改变表格，图表高宽
 function domresize() {
 	$("#dg").datagrid('resize', {
-		height : $("#body").height() - $("#charts").height()-$("#search_btn").height()-15,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#charts").height()-$("#search_btn").height()-15,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('charts')).resize();
+	charts.resize();
 }

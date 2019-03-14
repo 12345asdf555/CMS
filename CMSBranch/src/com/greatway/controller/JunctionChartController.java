@@ -1,6 +1,8 @@
 package com.greatway.controller;
 
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,6 +55,21 @@ public class JunctionChartController {
 		request.setAttribute("time1", request.getParameter("time1"));
 		request.setAttribute("time2", request.getParameter("time2"));
 		return "junctionchart/faultdetail";
+	}
+	
+	/**
+	 * 跳转单台设备运行数据统计明细
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/goUse")
+	public String goUse(HttpServletRequest request){
+		lm.getUserId(request);
+		request.setAttribute("id", request.getParameter("manuid"));
+		request.setAttribute("type", request.getParameter("manutype"));
+		request.setAttribute("time1", request.getParameter("time1"));
+		request.setAttribute("time2", request.getParameter("time2"));
+		return "junctionchart/useDetail";
 	}
 	
 	/**
@@ -109,14 +126,40 @@ public class JunctionChartController {
 		String dtoTime1 = request.getParameter("dtoTime1");
 		String dtoTime2 = request.getParameter("dtoTime2");
 		String number = request.getParameter("number");
+		String type = request.getParameter("otype");
 		request.setAttribute("weldtime", weldtime);
 		request.setAttribute("parent", parentId);
 		request.setAttribute("number",number );
 		request.setAttribute("time1",dtoTime1 );
 		request.setAttribute("time2",dtoTime2 );
+		request.setAttribute("otype",type );
 		insm.showParent(request, parentId);
 		lm.getUserId(request);
 		return "junctionchart/junctionovertime";
+	}
+	
+	/**
+	 * 跳转焊机超时待机
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/gojunctionnewovertime")
+	public String gojunctionnewovertime(HttpServletRequest request){
+		String weldtime = request.getParameter("weldtime");
+		String parentId = request.getParameter("parent");
+		String dtoTime1 = request.getParameter("dtoTime1");
+		String dtoTime2 = request.getParameter("dtoTime2");
+		String number = request.getParameter("number");
+		String type = request.getParameter("otype");
+		request.setAttribute("weldtime", weldtime);
+		request.setAttribute("parent", parentId);
+		request.setAttribute("number",number );
+		request.setAttribute("time1",dtoTime1 );
+		request.setAttribute("time2",dtoTime2 );
+		request.setAttribute("otype",type );
+		insm.showParent(request, parentId);
+		lm.getUserId(request);
+		return "junctionchart/junctionnewovertime";
 	}
 	
 	/**
@@ -170,13 +213,37 @@ public class JunctionChartController {
 		String itemid = request.getParameter("itemid");
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
+		String otype = request.getParameter("otype");
 		insm.showParent(request,itemid);
 		lm.getUserId(request);
 		request.setAttribute("parent",itemid);
 		request.setAttribute("weldtime",weldtime);
 		request.setAttribute("time1",time1);
 		request.setAttribute("time2",time2);
+		request.setAttribute("otype",otype);
 		return "junctionchart/detailnoloads";
+	}
+	
+	/**
+	 * 跳转超标明细页面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/goOverproofDetail")
+	public String goOverproofDetail(HttpServletRequest request){
+		String weldtime = request.getParameter("weldtime");
+		String itemid = request.getParameter("itemid");
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		String otype = request.getParameter("otype");
+		insm.showParent(request,itemid);
+		lm.getUserId(request);
+		request.setAttribute("parent",itemid);
+		request.setAttribute("weldtime",weldtime);
+		request.setAttribute("time1",time1);
+		request.setAttribute("time2",time2);
+		request.setAttribute("otype",otype);
+		return "junctionchart/detailoverproof";
 	}
 	
 	/**
@@ -264,7 +331,7 @@ public class JunctionChartController {
 		JSONObject obj = new JSONObject();
 		try{
 			for(ModelDto l:list){
-				json.put("manhour", l.getHous());
+				json.put("manhour", (double)Math.round(l.getTime()*100)/100);
 				json.put("dyne", l.getDyne());
 				json.put("name",l.getFname());
 				json.put("itemid",l.getFid());
@@ -299,16 +366,55 @@ public class JunctionChartController {
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
+		String type = request.getParameter("otype");
 		WeldDto dto = new WeldDto();
-		dto.setTime(weldtime+"%");
+		dto.setTime(weldtime);
 		if(iutil.isNull(time1)){
 			dto.setDtoTime1(time1);
 		}
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
+		if(iutil.isNull(type)){
+			if(type.equals("1")){
+				dto.setYear("year");
+			}else if(type.equals("2")){
+				dto.setMonth("month");
+			}else if(type.equals("3")){
+				dto.setDay("day");
+			}else if(type.equals("4")){
+				dto.setWeek("week");
+			}
+		}
 		page = new Page(pageIndex,pageSize,total);
-		List<ModelDto> list = lm.getDetailovertime(page,dto, number, parent);
+		List<ModelDto> list = null;
+		if(Integer.parseInt(type)!=4){
+			list = lm.getDetailovertime(page,dto, number, parent);
+		}else{
+			String[] str = dto.getTime().split("-");
+			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+			String[] weektime = weekdate.split("/");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				long t1 = sdf.parse(weektime[0]).getTime();
+				long t2 = sdf.parse(time1).getTime();
+				long t3 = sdf.parse(weektime[1]).getTime();
+				long t4 = sdf.parse(time2).getTime();
+				if(t1<=t2){
+					weektime[0] = time1;
+				}
+				if(t3>=t4){
+					weektime[1] = time2;
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			dto.setTime(weektime[0]);
+			dto.setTime2(weektime[1]);
+			dto.setWeek("week");
+			list = lm.getDetailovertime(page,dto, number, parent);
+		}
 		long total = 0;
 		if(list != null){
 			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
@@ -356,7 +462,7 @@ public class JunctionChartController {
 			List<ModelDto> causeoverproof = lm.getjunctionoverproof(welderno, machineno, junctionno, time, itemid);
 			int[] num = new int[causeoverproof.size()];
 			for(int i=0;i<causeoverproof.size();i++){
-				num[i] = Integer.parseInt(causeoverproof.get(i).getOverproof().toString());
+				num[i] = (int)causeoverproof.get(i).getOverproof();
 				json.put("weldtime", causeoverproof.get(i).getWeldTime());
 				ary1.add(json);
 			}
@@ -393,7 +499,7 @@ public class JunctionChartController {
 		WeldDto dto = new WeldDto();
 		dto.setDtoStatus(1);
 		if(iutil.isNull(weldtime)){
-			dto.setTime(weldtime+"%");
+			dto.setTime(weldtime);
 		}
 		if(iutil.isNull(time1)){
 			dto.setDtoTime1(time1);
@@ -416,7 +522,33 @@ public class JunctionChartController {
 			}
 		}
 		page = new Page(pageIndex,pageSize,total);
-		List<ModelDto> list = lm.getDetailLoads(page, dto, null);
+		List<ModelDto> list = null;
+		if(Integer.parseInt(type)!=4){
+			list = lm.getDetailLoads(page, dto, null);
+		}else{
+			String[] str = dto.getTime().split("-");
+			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+			String[] weektime = weekdate.split("/");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				long t1 = sdf.parse(weektime[0]).getTime();
+				long t2 = sdf.parse(time1).getTime();
+				long t3 = sdf.parse(weektime[1]).getTime();
+				long t4 = sdf.parse(time2).getTime();
+				if(t1<=t2){
+					weektime[0] = time1;
+				}
+				if(t3>=t4){
+					weektime[1] = time2;
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			dto.setTime(weektime[0]);
+			dto.setTime2(weektime[1]);
+			list = lm.getDetailLoads(page, dto, null);
+		}
 		long total = 0;
 		if(list != null){
 			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
@@ -461,10 +593,11 @@ public class JunctionChartController {
 		String weldtime = request.getParameter("weldtime");
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
+		String type = request.getParameter("otype");
 		WeldDto dto = new WeldDto();
 		dto.setDtoStatus(1);
 		if(iutil.isNull(weldtime)){
-			dto.setTime(weldtime+"%");
+			dto.setTime(weldtime);
 		}
 		if(iutil.isNull(time1)){
 			dto.setDtoTime1(time1);
@@ -476,7 +609,35 @@ public class JunctionChartController {
 			dto.setParent(new BigInteger(parentid));;
 		}
 		page = new Page(pageIndex,pageSize,total);
-		List<ModelDto> list = lm.getDetailNoLoads(page,dto);
+		String[] weektime = null;
+		List<ModelDto> list = null;
+		if(Integer.parseInt(type)!=4){
+			list = lm.getDetailNoLoads(page, dto);
+		}else{
+			String[] str = dto.getTime().split("-");
+			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+			weektime = weekdate.split("/");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				long t1 = sdf.parse(weektime[0]).getTime();
+				long t2 = sdf.parse(time1).getTime();
+				long t3 = sdf.parse(weektime[1]).getTime();
+				long t4 = sdf.parse(time2).getTime();
+				if(t1<=t2){
+					weektime[0] = time1;
+				}
+				if(t3>=t4){
+					weektime[1] = time2;
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			dto.setTime(weektime[0]);
+			dto.setTime2(weektime[1]);
+			dto.setWeek("week");
+			list = lm.getDetailNoLoads(page, dto);
+		}
 		long total = 0;
 		if(list != null){
 			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
@@ -487,9 +648,14 @@ public class JunctionChartController {
 		JSONObject obj = new JSONObject();
 		try{
 			for(ModelDto l:list){
-				BigInteger livecount = lm.getCountByTime(l.getFid(), weldtime,l.getJid());
-				double loads = (double)Math.round(l.getLoads()/livecount.doubleValue()*100*100)/100;
-				json.put("loads",  ((double)Math.round(l.getLoads()*1000)/1000)+"/"+((double)Math.round(livecount.doubleValue()*1000)/1000)+"/1="+loads+"%");
+				double livecount = 0;
+				if(weektime != null){
+					livecount = lm.getCountByTime(l.getFid(), dto.getTime(),weektime[1],l.getJid(),Integer.parseInt(type));
+				}else{
+					livecount = lm.getCountByTime(l.getFid(), dto.getTime(),null,l.getJid(),Integer.parseInt(type));
+				}
+				double loads = (double)Math.round(l.getLoads()/livecount*100*100)/100;
+				json.put("loads",  ((double)Math.round(l.getLoads()*1000)/1000)+"/"+((double)Math.round(livecount*1000)/1000)+"="+loads+"%");
 				json.put("weldtime", weldtime);
 				json.put("name",l.getFname());
 				json.put("itemid",l.getFid());
@@ -548,6 +714,236 @@ public class JunctionChartController {
 				json.put("total",l.getTotal());
 				json.put("time",l.getWeldTime());
 				json.put("itemname", l.getFname());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getUseDetail")
+	@ResponseBody
+	public String getWelderList(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String id = request.getParameter("id");
+		int type = Integer.parseInt(request.getParameter("type"));
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		WeldDto dto = new WeldDto();
+		dto.setDtoTime1(time1);
+		dto.setDtoTime2(time2);
+		page = new Page(pageIndex,pageSize,total);
+		List<ModelDto> list = lm.getUseDetail(page, new BigInteger(id), type, dto);
+		long total = 0;
+		
+		if(list != null){
+			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(ModelDto i:list){
+				json.put("machineno", i.getWname());
+				json.put("name", i.getFname());
+		        json.put("type", i.getType());
+		        json.put("time", (double)Math.round(i.getTime()*100)/100);
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 获取连续超时待机报表信息
+	 * @param request
+	 * @param welderno
+	 * @param machineno
+	 * @param junctionno
+	 * @param time
+	 * @return
+	 */
+	@RequestMapping("/getNewOvertimeDetail")
+	@ResponseBody
+	public String getNewOvertimeDetail(HttpServletRequest request,@RequestParam String parent,
+			@RequestParam String weldtime,@RequestParam int number){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		String type = request.getParameter("otype");
+		WeldDto dto = new WeldDto();
+		dto.setTime(weldtime);
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(parent)){
+			dto.setParent(new BigInteger(parent));
+		}
+		if(iutil.isNull(type)){
+			if(type.equals("1")){
+				dto.setYear("year");
+			}else if(type.equals("2")){
+				dto.setMonth("month");
+			}else if(type.equals("3")){
+				dto.setDay("day");
+			}else if(type.equals("4")){
+				dto.setWeek("week");
+			}
+		}
+		page = new Page(pageIndex,pageSize,total);
+		List<ModelDto> list = null;
+		if(Integer.parseInt(type)==4){
+			String[] str = dto.getTime().split("-");
+			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+			String[] weektime = weekdate.split("/");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				long t1 = sdf.parse(weektime[0]).getTime();
+				long t2 = sdf.parse(time1).getTime();
+				long t3 = sdf.parse(weektime[1]).getTime();
+				long t4 = sdf.parse(time2).getTime();
+				if(t1<=t2){
+					weektime[0] = time1;
+				}
+				if(t3>=t4){
+					weektime[1] = time2;
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			dto.setTime(weektime[0]);
+			dto.setTime2(weektime[1]);
+			dto.setWeek("week");
+		}
+
+		list = lm.getNewOvertimeDetail(page, dto, number);
+		long total = 0;
+		if(list != null){
+			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(ModelDto l:list){
+				json.put("overtime", (double)Math.round(l.getTime()*100)/100);
+				json.put("weldtime", weldtime);
+				json.put("welderno",l.getFwelder_id());
+				json.put("machineno",l.getFmachine_id());
+				json.put("junctionno",l.getFjunction_id());
+				json.put("wname",l.getWname());
+				json.put("itemname",l.getIname());
+				json.put("starttime", l.getStarttime());
+				json.put("endtime", l.getEndtime());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 获取超标报表信息
+	 * @param request
+	 * @param welderno
+	 * @param machineno
+	 * @param junctionno
+	 * @param time
+	 * @return
+	 */
+	@RequestMapping("/getOverproofDetail")
+	@ResponseBody
+	public String getOverproofDetail(HttpServletRequest request,@RequestParam String parent){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
+		String weldtime = request.getParameter("weldtime");
+		String type = request.getParameter("otype");
+		WeldDto dto = new WeldDto();
+		dto.setTime(weldtime);
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		if(iutil.isNull(parent)){
+			dto.setParent(new BigInteger(parent));
+		}
+		if(iutil.isNull(type)){
+			if(type.equals("1")){
+				dto.setYear("year");
+			}else if(type.equals("2")){
+				dto.setMonth("month");
+			}else if(type.equals("3")){
+				dto.setDay("day");
+			}else if(type.equals("4")){
+				dto.setWeek("week");
+			}
+		}
+		page = new Page(pageIndex,pageSize,total);
+		List<ModelDto> list = null;
+		if(Integer.parseInt(type)==4){
+			String[] str = dto.getTime().split("-");
+			String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+			String[] weektime = weekdate.split("/");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				long t1 = sdf.parse(weektime[0]).getTime();
+				long t2 = sdf.parse(time1).getTime();
+				long t3 = sdf.parse(weektime[1]).getTime();
+				long t4 = sdf.parse(time2).getTime();
+				if(t1<=t2){
+					weektime[0] = time1;
+				}
+				if(t3>=t4){
+					weektime[1] = time2;
+				}
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			dto.setTime(weektime[0]);
+			dto.setTime2(weektime[1]);
+			dto.setWeek("week");
+		}
+
+		list = lm.getDatailOverproof(page, dto);
+		long total = 0;
+		if(list != null){
+			PageInfo<ModelDto> pageinfo = new PageInfo<ModelDto>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(ModelDto l:list){
+				json.put("overproof", (double)Math.round(l.getOverproof()*100)/100);
+				json.put("weldtime", l.getWeldTime());
+				json.put("welderno",l.getFwelder_id());
+				json.put("junctionno",l.getFjunction_id());
+				json.put("wname",l.getWname());
+				json.put("itemname",l.getFname());
 				ary.add(json);
 			}
 		}catch(Exception e){

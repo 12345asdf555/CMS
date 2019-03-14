@@ -15,8 +15,9 @@ import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.manager.InsframeworkManager;
 import com.greatway.manager.LiveDataManager;
-import com.greatway.manager.WeldingMachineManager;
+import com.greatway.manager.WelderManager;
 import com.greatway.model.Insframework;
+import com.greatway.model.Welder;
 import com.spring.model.MyUser;
 import com.spring.model.Td;
 import com.spring.service.TdService;
@@ -33,13 +34,15 @@ public class TdController {
 	private TdService tdService;
 	@Autowired
 	private InsframeworkManager insfService;
-	private Td td;
 	
 	@Autowired
 	private InsframeworkManager im;
 	
 	@Autowired
 	private LiveDataManager lm;
+	
+	@Autowired
+	private WelderManager wm;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -134,11 +137,7 @@ public class TdController {
 	
 	@RequestMapping("/newAllTd")
 	public String newAllTd(HttpServletRequest request){
-		String uid = lm.getUserId(request).toString();
-		if(uid!=null){
-			String insname = tdService.findInsname(tdService.findIns(Long.parseLong(uid)));
-			request.setAttribute("proj", insname);
-		}
+		lm.getUserId(request);
 		return "td/newBackUp";
 	}
 	
@@ -456,7 +455,9 @@ public class TdController {
 				    .getAuthentication()  
 				    .getPrincipal();
 			long uid = myuser.getId();
-			if(im.getInsByUserid(BigInteger.valueOf(uid)).get(0).getType()==20){
+			List<Insframework> insframework = im.getInsByUserid(BigInteger.valueOf(uid));
+			parent = insframework.get(0).getId();
+			if(insframework.get(0).getType()==20){
 				List<Td> getAP = tdService.getAllPosition(parent);
 				try{
 					for(Td td:getAP){
@@ -530,7 +531,7 @@ public class TdController {
 	public String geInsname(HttpServletRequest request){
 		
 		int iid =  Integer.parseInt(request.getParameter("iid"));
-		String insname = tdService.findInsname(iid);;
+		String insname = tdService.findInsname(iid);
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -547,7 +548,6 @@ public class TdController {
 	@RequestMapping("/allWeldname")
 	@ResponseBody
 	public String allWeldname(HttpServletRequest request){
-		
 		List<Td> fwn = tdService.allWeldname();	
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
@@ -565,12 +565,44 @@ public class TdController {
 		return obj.toString();
 	}
 	
+	@RequestMapping("/getLiveWelder")
+	@ResponseBody
+	public String getLiveWelder(HttpServletRequest request){
+		BigInteger uid = lm.getUserId(request);
+		BigInteger parent = null;
+		String parentId = request.getParameter("parent");
+		if(iutil.isNull(parentId)){
+			parent = new BigInteger(parentId);
+		}else{
+			parent = im.getUserInsfId(uid);
+		}
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			List<Welder> list = wm.getWelderAll(null, parent);
+			Insframework insname = im.getInsById(parent);
+			for(int i=0;i<list.size();i++){
+				json.put("fname",list.get(i).getName());
+				json.put("fwelder_no", list.get(i).getWelderno());
+				json.put("fitemid", list.get(i).getIid());
+				json.put("fitemname", insname.getName());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
 	@RequestMapping("/standbytimeout")
 	@ResponseBody
 	public String standbytimeout(HttpServletRequest request){
 		
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
+		String str = request.getParameter("dictionry");
 		WeldDto dto = new WeldDto();
 		String s = (String)request.getSession().getAttribute("s");
 		if(iutil.isNull(s)){
@@ -582,7 +614,7 @@ public class TdController {
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
-		List<ModelDto> md = lm.getStandbytimeout(dto);
+		List<ModelDto> md = lm.getStandbytimeout(dto,Integer.valueOf(str)*36);
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();

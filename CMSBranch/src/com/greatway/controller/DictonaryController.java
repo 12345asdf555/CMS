@@ -42,26 +42,6 @@ public class DictonaryController {
 		return "Dictionary/DictionaryList";
 	}
 	
-	@RequestMapping("/goAddDictionary")
-	public String goAddDictionary(HttpServletRequest request){
-		return "Dictionary/addDictionary";
-	}
-	
-	@RequestMapping("/goEditDictionary")
-	public String goEditDictionary(HttpServletRequest request){
-		int id=Integer.parseInt(request.getParameter("id"));
-		Dictionarys dic=dictionaryManager.getDictionaryByFid(id);
-		request.setAttribute("Dictionary",dic);
-		return "Dictionary/editDictionary";
-	}
-	
-	@RequestMapping("/goRemoveDictionary")
-	public String goRemoveDictionary(@RequestParam int id,HttpServletRequest request){
-		Dictionarys dic=dictionaryManager.getDictionaryByFid(id);
-		request.setAttribute("Dictionary",dic);
-		return "Dictionary/RemoveDictionary";
-	}
-	
 	@RequestMapping("/getDictionaryAll")
 	@ResponseBody
 	public String getDictionaryAll(HttpServletRequest request){
@@ -126,7 +106,7 @@ public class DictonaryController {
 				obj.put("msg", objects[0].toString());
 			}else{
 				obj.put("success", false);
-				obj.put("errorMsg", "鎿嶄綔澶辫触锛�");
+				obj.put("errorMsg", "操作失败！");
 			}
 		}catch(Exception e){
 			obj.put("success",false);
@@ -150,7 +130,7 @@ public class DictonaryController {
 			Client client = dcf.createClient(blocurl);
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"dictionaryWebServiceImpl\",\"METHOD\":\"editDictionary\"}";
-			String obj2 = "{\"ID\":\""+dic.getId()+"\",\"BACK\":\""+request.getParameter("back")+"\",\"TYPEID\":\""+request.getParameter("typeid")+"\",\"VALUENAME\":\""+request.getParameter("valueName")+"\",\"MODIFIER\":\""+myuser.getId()+"\"}";
+			String obj2 = "{\"ID\":\""+dic.getId()+"\",\"BACK\":\""+request.getParameter("back")+"\",\"TYPEID\":\""+request.getParameter("value")+"\",\"VALUENAME\":\""+request.getParameter("valueName")+"\",\"MODIFIER\":\""+myuser.getId()+"\"}";
 			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheIDU"), new Object[]{obj1,obj2});  
 			if(objects[0].toString().equals("true")){
 				obj.put("success", true);
@@ -159,7 +139,7 @@ public class DictonaryController {
 				obj.put("msg", objects[0].toString());
 			}else{
 				obj.put("success", false);
-				obj.put("errorMsg", "鎿嶄綔澶辫触锛�");
+				obj.put("errorMsg", "操作失败！");
 			}
 		}catch(Exception e){
 			obj.put("success",false);
@@ -189,7 +169,7 @@ public class DictonaryController {
 				obj.put("msg", objects[0].toString());
 			}else{
 				obj.put("success", false);
-				obj.put("errorMsg", "鎿嶄綔澶辫触锛�");
+				obj.put("errorMsg", "操作失败！");
 			}
 		}catch(Exception e){
 			obj.put("success",false);

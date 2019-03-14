@@ -17,7 +17,7 @@ public interface WeldingMachineManager {
 	/**
 	 * 查询所有焊机信息
 	 */
-	List<WeldingMachine> getWeldingMachine(String str);
+	List<WeldingMachine> getWeldingMachine(BigInteger parent,String str);
 	
 	/**
 	 * 查询所有厂商信息
@@ -89,4 +89,11 @@ public interface WeldingMachineManager {
 	 * @return
 	 */
 	BigInteger getMachineCountByManu(BigInteger mid,BigInteger id);
+	
+	/**
+	 * 根据组织机构查询焊机数量
+	 * @param id
+	 * @return
+	 */
+	int getCountByInsframework(BigInteger id);
 }

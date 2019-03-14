@@ -61,13 +61,13 @@
 	                </tr>
 	                <tr>
 			            <td style="width:80px;">&nbsp;&nbsp;密     码:</td>
-			            <td><input type='password' name='j_password'></td>
+			            <td><input type='password' name='j_password' id="upass"></td>
 	                </tr>
 	                <tr>
 			            <td style="width:80px;">&nbsp;&nbsp;验证码:</td>
 			            <td>
 			            	<div style="float:left"><input type="text" name="code" id="code" style="width:190px;"></div>
-			            	<div style="float:left;margin-left:5px;margin-top:3px;"><img alt="验证码" id="scode" src="<%=request.getContextPath() %>/logincheck/checkImg" style="width:60px;height:25px;">
+			            	<div style="float:left;margin-left:5px;margin-top:3px;"><img alt="验证码" id="scode" src="<%=request.getContextPath() %>/logincheck/checkImg" style="width:80px;height:25px;">
 			            	<span onclick="flushCode()"><img alt="" src="resources/images/flush.png" style="width:20px;height:20px;"></span></div>
 			            </td>
 	                </tr>

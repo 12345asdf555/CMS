@@ -18,8 +18,8 @@ function dgDatagrid(){
 	var otype = $("#otype").val();
 	$("#dg").datagrid( {
 		fitColumns : true,
-		height : $("#body").height(),
-		width : $("#body").width(),
+		height : $("#body").height()-50,
+		width : $("#body").width()-40,
 		idField : 'id',
 		url : "junctionChart/getFaultDetail?parent="+parent+"&typeid="+typeid+"&time1="+time1+"&time2="+time2,
 		singleSelect : true,
@@ -33,31 +33,31 @@ function dgDatagrid(){
 			title : '故障类型',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'machineno',
 			title : '故障机器',
 			width : 100,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'total',
 			title : '故障次数',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}, {
 			field : 'time',
 			title : '故障时间',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}, {
 			field : 'itemname',
 			title : '所属项目部',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 		}] ],
 		toolbar : '#dg_btn',
 	});
@@ -101,7 +101,7 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#dg").datagrid('resize', {
-		height : $("#body").height() - $("#detailLoad_btn").height()-30,
-		width : $("#body").width()
+		height : $("#body").height() -50,
+		width : $("#body").width()-40
 	});
 }

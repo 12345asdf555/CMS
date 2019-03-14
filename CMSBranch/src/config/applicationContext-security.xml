@@ -15,11 +15,12 @@
      <http pattern="/**/*.js" security="none"/>   
     <http auto-config="true">
         <intercept-url pattern="/login.jsp*"  access="IS_AUTHENTICATED_ANONYMOUSLY" />
-         <intercept-url pattern="/index.jsp*"  access="IS_AUTHENTICATED_FULLY" />
+        <intercept-url pattern="/index.jsp*"  access="IS_AUTHENTICATED_FULLY" />
         <!-- 增加 ROLE_ADMIN角色-->
         <!-- <intercept-url pattern="/welder/welder.jsp" access="ROLE_ADMIN"/> -->
         <!-- <intercept-url pattern="/**" access="ROLE_**"/> -->
-        <form-login login-page="/login.jsp" authentication-failure-url="/login.jsp?login_error=1" default-target-url="/index.jsp"/> 
+<!--         <form-login login-page="/login.jsp" authentication-failure-url="/login.jsp?login_error=1" default-target-url="/index.jsp"/>  -->
+		<form-login login-page="/login.jsp" authentication-failure-url="/hierarchy/goError" default-target-url="/hierarchy/goBranch"/>
         <logout logout-success-url="/login.jsp" invalidate-session="true"     
             logout-url="/logout" />
         <session-management>  
@@ -69,6 +70,10 @@
          <beans:property name="jdbcUrl" value="${db.jdbcUrl}"/>
          <beans:property name="user" value="${db.user}"/>
          <beans:property name="password" value="${db.password}"/>
+         <!--连接池最大数量-->
+		 <beans:property name="maxPoolSize" value="100"/>
+		 <!--获取连接最大等待时间-->
+		 <beans:property name="maxIdleTime" value="180"/>
      </beans:bean>  
      
      <beans:bean id="myUserDetailService" class="com.erdangjiade.spring.security.MyUserDetailService" />

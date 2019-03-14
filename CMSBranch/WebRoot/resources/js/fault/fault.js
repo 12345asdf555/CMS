@@ -18,66 +18,66 @@ function dgDatagrid() {
 			title : '序号',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'machineno',
 			title : '固定资产编号 ',
 			width : 120,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'code',
 			title : '故障代码 ',
 			width : 120,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'type',
 			title : '故障类别',
 			width : 120,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'time',
 			title : '录入时间',
 			width : 150,
 			halign : "center",
-			align : "left"
+			align : "center"
 		}, {
 			field : 'typeid',
 			title : '故障类别id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'codeid',
 			title : '故障代码id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'machineid',
 			title : '焊机id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'itemid',
 			title : '组织机构id',
 			width : 100,
 			halign : "center",
-			align : "left",
+			align : "center",
 			hidden : true
 		}, {
 			field : 'edit',
 			title : '编辑',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "center",
 			formatter : function(value, row, index) {
 				var str = "";
 				str += '<a id="edit" class="easyui-linkbutton" href="javascript:editFault();"/>';

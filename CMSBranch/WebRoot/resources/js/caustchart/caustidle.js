@@ -4,7 +4,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showcaustIdleTable();
+	showcaustIdleTable(0);
 })
 var dtoTime1,dtoTime2;
 function setParam(){
@@ -17,10 +17,12 @@ function setParam(){
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showcaustIdleTable(){
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("caustIdleChart"));
+var charts,Series = [];
+function showcaustIdleTable(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("caustIdleChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -34,11 +36,13 @@ function showcaustIdleTable(){
 			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
-			data:array2
+			data:array2,
+			x: 'left',
+			left: '50'
 		},
 		grid:{
 			left:'50',//组件距离容器左边的距离
-			right:'60',
+			right:'140',
 			bottom:'20',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
@@ -49,7 +53,8 @@ function showcaustIdleTable(){
 	            restore : {show: true},
 	            saveAsImage : {show: true}//保存为图片
 			},
-			right:'2%'
+			right:'2%',
+			top:'30'
 		},
 		xAxis:{
 			type:'category',
@@ -58,7 +63,7 @@ function showcaustIdleTable(){
 		},
 		yAxis:{
 			type: 'value',//value:数值轴，category:类目轴，time:时间轴，log:对数轴
-			name: '闲置数量'
+			name: '闲置率'
 		},
 		series:[]
 	}
@@ -68,6 +73,13 @@ function showcaustIdleTable(){
 	//隐藏动画加载效果
 	charts.hideLoading();
 	$("#chartLoading").hide();
+	//重定义图表宽度
+	$("#caustIdleChart").width("100%");
+	if(array1.length>3 || array2.length>5){//array2：柱状图数量
+		var width = array1.length * array2.length * 12;
+		$("#caustIdleChart").width($("#caustIdleChart").width()+width);
+	}
+	charts.resize();
 }
 
 
@@ -82,20 +94,20 @@ function CaustIdleDatagrid(){
          dataType : "json", //返回数据形式为json  
          success : function(result) {  
              if (result) {
-            	 var width=$("#body").width()/result.rows.length;
-                 column.push({field:"w",title:"时间跨度(年/月/日/周)",width:width,halign : "center",align : "left"});
+            	 var width=$("#bodydiv").width()/result.rows.length;
+                 column.push({field:"w",title:"时间跨度(月/季度/半年/年)",width:width,halign : "center",align : "center"});
 
                  for(var x=0;x<result.arys.length;x++){
                  	array1.push(result.arys[x].weldTime);
                  }
                  for(var m=0;m<result.arys1.length;m++){
-                	 column.push({field:"a"+m,title:"<a href='itemChart/goItemIdle?parent="+result.arys1[m].id+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+result.arys1[m].name+"(台)</a>",width:width,halign : "center",align : "left"});
+                	 column.push({field:"a"+m,title:"<a href='itemChart/goItemIdle?parent="+result.arys1[m].id+"&parentime1="+dtoTime1+"&parentime2="+dtoTime2+"'>"+result.arys1[m].name+"(台)</a>",width:width,halign : "center",align : "center"});
                 	 array2.push(result.arys1[m].name);
                    	 Series.push({
                   		name : result.arys1[m].name,
                   		type :'bar',//折线图
                         barMaxWidth:20,//柱状图最大宽度
-                  		data : result.arys1[m].idle,
+                  		data : result.arys1[m].bilv,
 						label : {
 							normal : {
 								position : 'top',
@@ -113,8 +125,8 @@ function CaustIdleDatagrid(){
     }); 
 	 $("#caustIdleTable").datagrid( {
 			fitColumns : true,
-			height : $("#body").height() - $("#caustIdleChart").height()-$("#caustIdle_btn").height()-45,
-			width : $("#body").width(),
+			height : $("#bodydiv").height() - $("#caustIdleChart").height()-$("#caustIdle_btn").height()-45,
+			width : $("#bodydiv").width(),
 			idField : 'id',
 			pageSize : 10,
 			pageList : [ 10, 20, 30, 40, 50],
@@ -128,13 +140,14 @@ function CaustIdleDatagrid(){
 }
 
 function otypecombobox(){
-	var optionFields = "<option value='1'>一年</option>" +
-	"<option value='2'>一月</option>" +
-	"<option value='3'>一日</option>" +
-	"<option value='4'>一周</option>";
+	var optionFields = 
+	"<option value='2'>月</option>" +
+	"<option value='5'>季度</option>" +
+	"<option value='6'>半年</option>" +
+	"<option value='1'>年</option>";
 	$("#otype").html(optionFields);
 	$("#otype").combobox();
-	$('#otype').combobox('select',"3");
+	$('#otype').combobox('select',"2");
 }
 
 function serachcaustIdle(){
@@ -146,7 +159,7 @@ function serachcaustIdle(){
 	chartStr = "";
 	setTimeout(function() {
 		CaustIdleDatagrid();
-		showcaustIdleTable();
+		showcaustIdleTable(1);
 	}, 500)
 }
 
@@ -158,8 +171,8 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#caustIdleTable").datagrid('resize', {
-		height : $("#body").height() - $("#caustIdleChart").height()-$("#caustIdle_btn").height()-45,
-		width : $("#body").width()
+		height : $("#bodydiv").height() - $("#caustIdleChart").height()-$("#caustIdle_btn").height()-45,
+		width : $("#bodydiv").width()
 	});
-	echarts.init(document.getElementById('caustIdleChart')).resize();
+	charts.resize();
 }

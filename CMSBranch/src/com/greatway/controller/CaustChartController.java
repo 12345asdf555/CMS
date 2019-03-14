@@ -245,7 +245,7 @@ public class CaustChartController {
 					BigInteger dyne = lm.getDyneByJunctionno(strsql);
 					json.put("dyne",dyne);
 				}
-				json.put("manhour", l.getHous());
+				json.put("manhour", (double)Math.round(l.getTime()*100)/100);
 				json.put("name",l.getFname());
 				json.put("itemid",l.getFid());
 				ary.add(json);
@@ -315,9 +315,9 @@ public class CaustChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -333,18 +333,18 @@ public class CaustChartController {
 		try{
 			List<ModelDto> list = lm.getCauseOverproof(dto,parent);
 			List<LiveData> ins = lm.getAllInsf(pid,23);
-			BigInteger[] num = null;
+			double[] num = null;
 			for(ModelDto live :time){
 				json.put("weldTime",live.getWeldTime());
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
-				num = new BigInteger[time.size()];
+				num = new double[time.size()];
 				for(int j=0;j<time.size();j++){
-					num[j] = new BigInteger("0");
+					num[j] = 0;
 					for(ModelDto l:list){
 						if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
-							num[j] = l.getOverproof();
+							num[j] = (double)Math.round(l.getOverproof()*100)/100;
 						}
 					}
 				}
@@ -435,9 +435,9 @@ public class CaustChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -552,9 +552,9 @@ public class CaustChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -583,7 +583,7 @@ public class CaustChartController {
 					for(ModelDto l:list){
 						for(ModelDto m:machine){
 							if(m.getWeldTime().equals(l.getWeldTime()) && m.getFid().equals(l.getIid())){
-								if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
+								if(ins.get(i).getId().equals(l.getIid()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
 									load[j] = l.getLoads();
 									summachine[j] = m.getLoads();
 									num[j] = (double)Math.round(l.getLoads()/m.getLoads()*100*100)/100;
@@ -683,9 +683,9 @@ public class CaustChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -699,7 +699,7 @@ public class CaustChartController {
 		JSONArray arys1 = new JSONArray();
 		try{
 			List<ModelDto> list = lm.getCaustNOLoads(dto, parent);
-			List<ModelDto> machine = lm.getCaustMachineCount(dto, parent);
+//			List<ModelDto> machine = lm.getCaustMachineCount(dto, parent);
 			List<LiveData> ins = lm.getAllInsf(pid,23);
 			double[] num = null;
 			for(ModelDto live :time){
@@ -707,21 +707,35 @@ public class CaustChartController {
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
-				double[] noload=new double[time.size()],summachine=new double[time.size()],livecount=new double[time.size()];
+				double[] noload=new double[time.size()],livecount=new double[time.size()];//summachine=new double[time.size()],
 				num = new double[time.size()];
 				for(int j=0;j<time.size();j++){
 					num[j] = 0;
 					for(ModelDto l:list){
-						for(ModelDto m:machine){
-							if(m.getWeldTime().equals(l.getWeldTime()) && m.getFid().equals(l.getIid())){
-								if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
-									livecount[j] = lm.getCountByTime(l.getIid(), l.getWeldTime(),null).doubleValue();
+//						for(ModelDto m:machine){
+//							if(m.getWeldTime().equals(l.getWeldTime()) && m.getFid().equals(l.getIid())){
+							if(ins.get(i).getId().equals(l.getIid()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
+									if(Integer.parseInt(type)!=4){
+										livecount[j] = lm.getCountByTime(l.getIid(), l.getWeldTime(),null,null,Integer.parseInt(type));
+									}else{
+										String[] str = l.getWeldTime().split("-");
+										String weekdate = iutil.getWeekDay(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+										String[] weektime = weekdate.split("/");
+										if(j==0){
+											livecount[j] = lm.getCountByTime(l.getIid(), time1,weektime[1],null,Integer.parseInt(type));
+										}else if(j==time.size()-1){
+											livecount[j] = lm.getCountByTime(l.getIid(), weektime[0],time2,null,Integer.parseInt(type));
+										}else{
+											livecount[j] = lm.getCountByTime(l.getIid(), weektime[0],weektime[1],null,Integer.parseInt(type));
+										}
+										
+									}
 									noload[j] = l.getLoads();
-									summachine[j] = m.getLoads();
-									num[j] = (double)Math.round(l.getLoads()/livecount[j]/m.getLoads()*100*100)/100;
+									num[j] = (double)Math.round(l.getLoads()/livecount[j]*100*100)/100;
 								}
-							}
-						}
+								
+//							}
+//						}
 					}
 				}
 				json.put("loads",num);
@@ -729,7 +743,6 @@ public class CaustChartController {
 				json.put("itemid",ins.get(i).getId());
 				json.put("noload", noload);
 				json.put("livecount", livecount);
-				json.put("summachine", summachine);
 				arys1.add(json);
 			}
 			JSONObject object = new JSONObject();
@@ -740,12 +753,10 @@ public class CaustChartController {
 					String overproof = js.getString("loads").substring(1, js.getString("loads").length()-1);
 					String load = js.getString("noload").substring(1, js.getString("noload").length()-1);
 					String livecount = js.getString("livecount").substring(1, js.getString("livecount").length()-1);
-					String summachine = js.getString("summachine").substring(1, js.getString("summachine").length()-1);
 					String[] overproofstr = overproof.split(",");
 					String[] loadstr = load.split(",");
 					String[] livecountstr= livecount.split(",");
-					String[] sumstr = summachine.split(",");
-					object.put("a"+j, (double) Math.round(Double.valueOf(loadstr[i])*1000)/1000+"/"+(double) Math.round(Double.valueOf(livecountstr[i])*1000)/1000+"/"+sumstr[i]+"="+overproofstr[i]+"%");
+					object.put("a"+j, (double) Math.round(Double.valueOf(loadstr[i])*1000)/1000+"/"+(double) Math.round(Double.valueOf(livecountstr[i])*1000)/1000+"="+overproofstr[i]+"%");
 				}
 				object.put("w",time.get(i).getWeldTime());
 				ary.add(object);
@@ -804,9 +815,9 @@ public class CaustChartController {
 				dto.setYear("year");
 			}else if(type.equals("2")){
 				dto.setMonth("month");
-			}else if(type.equals("3")){
+			}else if(type.equals("5")){
 				dto.setDay("day");
-			}else if(type.equals("4")){
+			}else if(type.equals("6")){
 				dto.setWeek("week");
 			}
 		}
@@ -818,9 +829,9 @@ public class CaustChartController {
 			pageIndex = Integer.parseInt(request.getParameter("page"));
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 			page = new Page(pageIndex,pageSize,total);
-			time = lm.getAllTime(page,dto);
+			time = lm.getDurationTime(page, time1, time2, Integer.parseInt(type));
 		}else{
-			time = lm.getAllTimes(dto);
+			time = lm.getDurationTime(time1, time2, Integer.parseInt(type));
 		}
 		long total = 0;
 		if(time != null){
@@ -836,21 +847,39 @@ public class CaustChartController {
 			List<ModelDto> list = lm.getCaustIdle(dto, parentid);
 			List<LiveData> ins = lm.getAllInsf(parentid,23);
 			double[] num = null;
+			double[] bilv = null;
 			for(ModelDto live :time){
-				json.put("weldTime",live.getWeldTime());
+				if(type.equals("6")){
+					String[] str = live.getWeldTime().split("-");
+					if(str[1].equals("1")){
+						json.put("weldTime",str[0]+"-上半年");
+					}else{
+						json.put("weldTime",str[0]+"-下半年");
+					}
+				}else{
+					json.put("weldTime",live.getWeldTime());
+				}
 				arys.add(json);
 			}
 			for(int i=0;i<ins.size();i++){
 				num = new double[time.size()];
+				bilv = new double[time.size()];
 				int count = lm.getMachineCount(ins.get(i).getFid());
 				for(int j=0;j<time.size();j++){
 					num[j] = count;
+					if(count==0){
+						bilv[j] = 0;
+					}else{
+						bilv[j] = (double)Math.round(num[j]*10000/count)/100;
+					}
 					for(ModelDto l:list){
 						if(ins.get(i).getFname().equals(l.getFname()) && time.get(j).getWeldTime().equals(l.getWeldTime())){
 							num[j] = count - l.getNum().doubleValue();
+							bilv[j] = (double)Math.round(num[j]*10000/count)/100;
 						}
 					}
 				}
+				json.put("bilv", bilv);
 				json.put("idle",num);
 				json.put("name",ins.get(i).getFname());
 				json.put("id",ins.get(i).getFid());
@@ -865,7 +894,16 @@ public class CaustChartController {
 					String[] str = overproof.split(",");
 					object.put("a"+j, str[i]);
 				}
-				object.put("w",time.get(i).getWeldTime());
+				if(type.equals("6")){
+					String[] str = time.get(i).getWeldTime().split("-");
+					if(str[1].equals("1")){
+						object.put("w",str[0]+"-上半年");
+					}else{
+						object.put("w",str[0]+"-下半年");
+					}
+				}else{
+					object.put("w",time.get(i).getWeldTime());
+				}
 				ary.add(object);
 			}
 		}catch(Exception e){
@@ -927,9 +965,11 @@ public class CaustChartController {
 				double time = (double)Math.round(l.getTime()/num*100)/100;
 				json.put("time", time);
 				json.put("fname", l.getFname()+" - "+l.getType());
+				json.put("name", l.getFname());
 				json.put("type", l.getType());
 				json.put("fid",l.getFid());
 				json.put("num", num);
+				json.put("typeid", l.getTypeid());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -998,7 +1038,6 @@ public class CaustChartController {
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
 		String parentId = request.getParameter("parent");
-		String nextparent = request.getParameter("nextparent");
 		int min = -1,max = -1;
 		if(iutil.isNull(request.getParameter("min"))){
 			min = Integer.parseInt(request.getParameter("min"));
@@ -1014,9 +1053,7 @@ public class CaustChartController {
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
-		if(iutil.isNull(nextparent)){
-			parent = new BigInteger(nextparent);
-		}else if(iutil.isNull(parentId)){
+		if(iutil.isNull(parentId)){
 			parent = new BigInteger(parentId);
 		}
 		pageIndex = Integer.parseInt(request.getParameter("page"));
@@ -1034,20 +1071,24 @@ public class CaustChartController {
 				json.put("iname",m.getIname());
 				json.put("wname",m.getWname());
 				json.put("wid",m.getFwelder_id());
-				String[] str = m.getJidgather().split(",");
-				String search = "and (";
-				for(int i=0;i<str.length;i++){
-					search += " fid = "+str[i];
-					if(i<str.length-1){
-						search += " or";
+				if(iutil.isNull(m.getJidgather())){
+					String[] str = m.getJidgather().split(",");
+					/*String search = "and (";
+					for(int i=0;i<str.length;i++){
+						search += " fid = "+str[i];
+						if(i<str.length-1){
+							search += " or";
+						}
 					}
+					search += " )";
+					BigInteger dyne = lm.getDyneByJunctionno(search);
+					json.put("dyne",dyne);*/
+					json.put("num",str.length);
+				}else{
+					json.put("num",0);
 				}
-				search += " )";
-				BigInteger dyne = lm.getDyneByJunctionno(search);
-				json.put("dyne",dyne);
 				double weldtime = (double)Math.round(Double.valueOf(m.getWeldTime())*100)/100;
 				json.put("weldtime",weldtime);
-				json.put("num",str.length);
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -1073,7 +1114,7 @@ public class CaustChartController {
 		try{
 			String time1 = request.getParameter("dtoTime1");
 			String time2 = request.getParameter("dtoTime2");
-			String nextparent = request.getParameter("nextparent");
+			String parentid = request.getParameter("parent");
 			WeldDto dto = new WeldDto();
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -1081,8 +1122,8 @@ public class CaustChartController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			if(iutil.isNull(nextparent)){
-				parent = new BigInteger(nextparent);
+			if(iutil.isNull(parentid)){
+				parent = new BigInteger(parentid);
 			}
 			List<ModelDto> list = lm.getEfficiencyChartNum(dto, parent);
 			List<ModelDto> efficiency = null;
@@ -1099,7 +1140,7 @@ public class CaustChartController {
 							num1[0] = m.getMinnum()+"-"+(m.getMinnum()+m.getAvgnum());
 						}
 						for(int i=1;i<10;i++){
-							oldnum = m.getMinnum()+m.getAvgnum()*i+1;
+							oldnum = m.getMinnum()+m.getAvgnum()*i;
 							newnum = m.getMinnum()+m.getAvgnum()*(i+1);
 							num1[i] = oldnum+"-"+newnum;
 						}
@@ -1110,12 +1151,12 @@ public class CaustChartController {
 							num1[0] = m.getMinnum()+"-"+(m.getMinnum()+m.getAvgnum());
 						}
 						for(int i=1;i<9;i++){
-							oldnum = m.getMinnum()+m.getAvgnum()*i+1;
+							oldnum = m.getMinnum()+m.getAvgnum()*i;
 							newnum = m.getMinnum()+m.getAvgnum()*(i+1);
 							num1[i] = oldnum+"-"+newnum;
 						}
-						maxnum = m.getMinnum()+m.getAvgnum()*10+10;
-						num1[9] = newnum+1+"-"+maxnum;
+						maxnum = m.getMinnum()+m.getAvgnum()*10;
+						num1[9] = newnum+"-"+maxnum;
 					}
 					efficiency = lm.getEfficiencyChart(dto, parent, m.getMinnum(), m.getAvgnum());
 					for(ModelDto e:efficiency){
@@ -1123,7 +1164,7 @@ public class CaustChartController {
 						num2[0] = e.getSum1()/sum*100;num2[1] = e.getSum2()/sum*100;
 						num2[2] = e.getSum3()/sum*100;num2[3] = e.getSum4()/sum*100;
 						num2[4] = e.getSum5()/sum*100;num2[5] = e.getSum6()/sum*100;
-						num2[6] = e.getSum7()/sum*100;num2[7] = e.getSum7()/sum*100;
+						num2[6] = e.getSum7()/sum*100;num2[7] = e.getSum8()/sum*100;
 						num2[8] = e.getSum9()/sum*100;num2[9] = e.getSum10()/sum*100;
 					}
 					for(int i=0;i<num2.length;i++){

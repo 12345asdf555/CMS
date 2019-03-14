@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.greatway.dto.ModelDto;
 import com.greatway.dto.WeldDto;
 import com.greatway.model.LiveData;
@@ -86,7 +84,7 @@ public interface LiveDataManager {
 	 * @param dto 扩展参数类
 	 * @return
 	 */
-	List<ModelDto> getDatailOverproof(Page page,WeldDto dto,BigInteger parent);
+	List<ModelDto> getDatailOverproof(Page page,WeldDto dto);
 	
 	/**
 	 * 获取某焊工在某个时间/焊机/焊口的总工时
@@ -435,15 +433,7 @@ public interface LiveDataManager {
 	 * @param mid 焊机id
 	 * @return
 	 */
-	BigInteger getCountByTime(BigInteger parent,String time,BigInteger mid);
-	
-	/**
-	 * 根据焊工获取焊口
-	 * @param dto 扩展参数类
-	 * @param welder 焊工编号
-	 * @return
-	 */
-	List<ModelDto> getJunctionByWelder(Page page,WeldDto dto ,String welder);
+	double getCountByTime(BigInteger parent,String time1,String time2,BigInteger mid, int type);
 	
 	/**
 	 * 获取超标回溯
@@ -452,8 +442,14 @@ public interface LiveDataManager {
 	 * @param jucntion 焊口
 	 * @return
 	 */
-	List<ModelDto> getExcessiveBack(String time,String welder,String junction);
+	List<ModelDto> getExcessiveBack(Page page,WeldDto dto);
 
+	/**
+	 * 根据id获取连续超标明细
+	 * @param id
+	 * @return
+	 */
+	List<ModelDto> getExcessiveBackDetail(BigInteger id);
 	
 	/**
 	 * 获取设备运行时长
@@ -465,6 +461,7 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getBlocRunTime(Page page, BigInteger parent, WeldDto dto, int startindex, int endindex);
+	List<ModelDto> getBlocRunTime(BigInteger parent, WeldDto dto, int startindex, int endindex);
 	
 	/**
 	 * 设备利用率
@@ -472,7 +469,7 @@ public interface LiveDataManager {
 	 * @param time2 结束时间
 	 * @return
 	 */
-	List<ModelDto> getUseratio(String time1,String time2);
+	List<ModelDto> getUseratio(String time1,String time2,String insftype);
 	
 	/**
 	 * 设备维修率
@@ -494,7 +491,7 @@ public interface LiveDataManager {
 	 * @param dto 截止当前时间为止的一个小时内
 	 * @return
 	 */
-	List<ModelDto> getStandbytimeout(WeldDto dto);
+	List<ModelDto> getStandbytimeout(WeldDto dto,int str);
 	
 	/**
 	 * 不同厂商不同类型的焊机的维修费用
@@ -553,11 +550,11 @@ public interface LiveDataManager {
 	List<ModelDto> getFaultDetail(Page page,WeldDto dto);
 	
 	/**
-	 * 获取在线焊工人数
+	 * 获取在线焊工人数总时长
 	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
 	 * @return
 	 */
-	List<ModelDto> getOnlineNumber(WeldDto dto);
+	List<ModelDto> getOnlineNumber(WeldDto dto,double time);
 	
 	/**
 	 * 获取开机时长,焊接时长，待机时长
@@ -571,7 +568,15 @@ public interface LiveDataManager {
 	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
 	 * @return
 	 */
+	List<ModelDto> getItemWorkTime(Page page,WeldDto dto);
+	
+	/**
+	 * 获取项目部正常开机时长,焊接时长，待机时长，焊工编号，姓名
+	 * @param dto dto.dtoTime1起始时间 dto.dtoTime2结束时间
+	 * @return
+	 */
 	List<ModelDto> getItemWorkTime(WeldDto dto);
+	
 	
 	/**
 	 * 获取项目部待机开机时长,焊接时长，待机时长，焊工编号，姓名
@@ -579,4 +584,98 @@ public interface LiveDataManager {
 	 * @return
 	 */
 	List<ModelDto> getItemStandbyTime(WeldDto dto);
+	
+	/**
+	 * 获取各部门及焊机数量
+	 * @param parent 组织机构id
+	 * @return
+	 */
+	List<ModelDto> getInsfandMachinenum(BigInteger parent);
+	List<ModelDto> getInsfandMachinenum(Page page,BigInteger parent);
+	
+	/**
+	 * 获取持续时间
+	 * @param sql 获取持续时间sql
+	 * @return
+	 */
+	List<ModelDto> getDurationTime(String time1,String time2,int timetype);
+	/**
+	 * 获取持续时间
+	 * @param sql 获取持续时间sql
+	 * @return
+	 */
+	List<ModelDto> getDurationTime(Page page,String time1,String time2,int timetype);
+	
+	/**
+	 * 获取利用率明细
+	 * @param page 分页
+	 * @param fid 厂商id
+	 * @param type 厂商类型
+	 * @param dto dto.dtoTime1起始时间dto.dtoTime2结束时间
+	 * @return
+	 */
+	List<ModelDto> getUseDetail(Page page,BigInteger fid,int type,WeldDto dto);
+	
+	/**
+	 * 焊机前十最高最低排行
+	 * @param dto
+	 * @return
+	 */
+	List<ModelDto> getWeldingmachineList(WeldDto dto);
+
+	/**
+	 * 焊工前十最高最低排行
+	 * @param dto
+	 * @return
+	 */
+	List<ModelDto> getWelderList(WeldDto dto);
+	
+	/**
+	 * 获取连续超时待机
+	 * @param dto
+	 * @param num
+	 * @param type
+	 * @return
+	 */
+	List<ModelDto> getNewOvertime(WeldDto dto,int num,String type);
+	
+	/**
+	 * 获取连续超标明细
+	 * @param dto
+	 * @param num
+	 * @return
+	 */
+	List<ModelDto> getNewOvertimeDetail(Page page,WeldDto dto,int num);
+	
+	/**
+	 * 根据焊机类型获取工作焊机数量
+	 * @param dto 
+	 * @return
+	 */
+	List<ModelDto> getNewIdle(WeldDto dto);
+	
+	/**
+	 * 根据类型获取焊机数量
+	 * @param parent 组织机构id
+	 * @return
+	 */
+	List<ModelDto> getMachineTypeTotal(BigInteger parent);
+	
+	/**
+	 * 获取焊工焊接时长，工作时长（指按分统计的焊接时长）
+	 * @param page
+	 * @param dto
+	 * @param insftype
+	 * @return
+	 */
+	List<ModelDto> getWelderWorkTime(Page page,WeldDto dto,String insftype);
+	List<ModelDto> getWelderWorkTime(WeldDto dto,String insftype);
+	
+	/**
+	 * 获取平均焊接时长，工作时长
+	 * @param dto
+	 * @param insftype
+	 * @return
+	 */
+	ModelDto getWelderAvgWorkTime(WeldDto dto);
 }

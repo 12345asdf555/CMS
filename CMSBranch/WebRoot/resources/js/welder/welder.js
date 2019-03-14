@@ -1,13 +1,20 @@
-$(function(){
-  weldDatagrid();
-  insframworkCombobox();
-  $('#dlg').dialog( {
-    onClose : function() {
-      $('#itemname').combobox('clear');
-      $("#fm").form("disableValidation");
-    }
-  })
-  $("#fm").form("disableValidation");
+$(function() {
+	weldDatagrid();
+	insframeworkTree();
+	insframworkCombobox();
+	$('#dlg').dialog({
+		onClose : function() {
+			$('#itemname').combobox('clear');
+			$("#fm").form("disableValidation");
+		}
+	});
+	$("#itemname").combobox({
+		onChange : function() {
+			var no = $("#welderno").val();
+			$("#welderno").textbox('setValue', no); //组织机构发生变化时重新修改焊工编号，触发约束
+		}
+	})
+	$("#fm").form("disableValidation");
 });
 
 function weldDatagrid(){
@@ -26,39 +33,39 @@ function weldDatagrid(){
       title : '序号',
       width : 100,
       halign : "center",
-      align : "left",
+      align : "center",
       hidden:true
     }, {
       field : 'name',
       title : '姓名',
       width : 150,
       halign : "center",
-      align : "left"
+      align : "center"
     }, {
       field : 'welderno',
       title : '编号',
       width : 150,
       halign : "center",
-      align : "left"
+      align : "center"
     }, {
       field : 'itemname',
       title : '所属项目',
       width : 150,
       halign : "center",
-      align : "left"
+      align : "center"
     }, {
       field : 'iid',
       title : '项目id',
       width : 150,
       halign : "center",
-      align : "left",
+      align : "center",
       hidden : true
     }, {
       field : 'edit',
       title : '编辑',
       width : 150,
       halign : "center",
-      align : "left",
+      align : "center",
       formatter: function(value,row,index){
         var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWelder()"/>';
         str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWelder()"/>';
@@ -219,6 +226,19 @@ function removeWelder(){
     }
   });
 }
+  
+
+//树形菜单点击事件
+function insframeworkTree(){
+	$("#myTree").tree({  
+		onClick : function(node){
+			$("#welderTable").datagrid('load',{
+				"parent" : node.id
+			})
+		 }
+	})
+}
+  
 //监听窗口大小变化
 window.onresize = function() {
   setTimeout(domresize, 500);
