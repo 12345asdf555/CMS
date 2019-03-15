@@ -3,7 +3,7 @@
 	margin-left: -100px;
 }
 
-.fitem lable{
+.fitem lable,.textstyle{
   width: 200px;
   line-height: 30px;
   display: inline-block;

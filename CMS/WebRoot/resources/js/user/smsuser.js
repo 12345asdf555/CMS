@@ -285,6 +285,10 @@ function select(){
 	$('#userdlg').dialog('close');
 }
 
+function closeUser(){
+	$('#userdlg').dialog('close');
+}
+
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);

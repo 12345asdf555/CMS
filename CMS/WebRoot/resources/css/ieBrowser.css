@@ -4,14 +4,7 @@
  	padding-right:60px;
 }
 
-.textstyle{
-  	width: 120px;
-  	line-height: 30px;
-  	display: inline-block;
-  	text-align: right;
-}
-
-.fitem lable{
+.fitem lable,.textstyle{
   	width: 120px;
   	line-height: 30px;
   	display: inline-block;

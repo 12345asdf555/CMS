@@ -97,7 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <lable><span class="required">*</span>生产厂商</lable>
           <select class="easyui-combobox" name="manufacturerId" id="manufacturerId" data-options="required:true,editable:false"></select>
         </div>
-        <div class="fitem" style="margin-left: -100px;">
+        <div class="fitem" style="padding-right: 0px;">
           <lable>采集序号</lable>
 <!--         <select class="easyui-combobox" name="gatherId" id="gatherId" data-options="validType:['checkNumber','wmGatheridValidate'],editable:false"></select> -->
           <input type="hidden" name="gatherId" id="gatherId" />
@@ -126,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <div id="dlg-buttons">
       <a href="javascript:saveWeldingMachine();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-      <a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+      <a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
     </div>
    <!-- 选择采集模块 -->
     <div id="fdlg" class="easyui-dialog" style="width: 700px; height: 530px;" title="选择焊机" closed="true" buttons="#fdlg-buttons">
@@ -192,7 +192,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="remove-buttons">
       <label>
         <a href="javascript:remove();" class="easyui-linkbutton"  iconCls="icon-remove">删除</a>
-        <a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+        <a href="javascript:closeD();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
       </label>
     </div>
   </div>

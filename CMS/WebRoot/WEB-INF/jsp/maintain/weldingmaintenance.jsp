@@ -28,39 +28,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/maintain/weldingmaintenance.js"></script>
+	<script type="text/javascript" src="resources/js/search/search.js"></script>
   </head>
   
   <body class="easyui-layout">
     <div id="body" region="north" hide="true"  split="true" title="焊机设备" style="background: witch; height: 40%;">
-		<div class="fitem" align="center">
+		<div class="fitem" style="text-align: center">
 				<input type="hidden" id="wId" value="${w.id }"/>
-				<lable>固定资产编号</lable>
+				<span class="textstyle">固定资产编号</span>
 				<input class="easyui-textbox" id="equipmentno" readonly="readonly" value="${w.equipmentNo }"/>
-				<lable>设备类型</lable>
+				<span class="textstyle">设备类型</span>
 				<input class="easyui-textbox" id="tId" readonly="readonly" value="${w.typename}"/>
 			</div>
-			<div class="fitem" align="center">
-				<lable>入厂时间</lable>
+			<div class="fitem" style="text-align: center">
+				<span class="textstyle">入厂时间</span>
 				<input class="easyui-textbox" id="joinTime" readonly="readonly" value="${w.joinTime }"/>
-				<lable>所属项目</lable>
+				<span class="textstyle">所属项目</span>
 				<input class="easyui-textbox" id="iId" readonly="readonly" value="${w.insframeworkId.name }"/>
 			</div>
-			<div class="fitem" align="center">
-				<lable>生产厂商</lable>
+			<div class="fitem" style="text-align: center">
+				<span class="textstyle">生产厂商</span>
 				<input class="easyui-textbox" id="manuno" readonly="readonly" value="${w.manufacturerId.name }"/>
-				<lable>采集序号</lable>
+				<span class="textstyle">采集序号</span>
 				<input class="easyui-textbox" id="gatherId" readonly="readonly" value="${w.gatherId.gatherNo }"/>
 			</div>
-			<div class="fitem" align="center">
-				<lable>设备位置</lable>
+			<div class="fitem" style="text-align: center">
+				<span class="textstyle">设备位置</span>
 				<input class="easyui-textbox" id="position" readonly="readonly" value="${w.position }"/>
-				<lable>设备价值</lable>
+				<span class="textstyle">设备价值</span>
 				<input class="easyui-textbox" id="money" readonly="readonly" value="${w.money }"/>
 			</div>
-			<div class="fitem" align="center">
-				<lable>是否联网</lable>
+			<div class="fitem" style="text-align: center">
+				<span class="textstyle">是否联网</span>
 				<input class="easyui-textbox" id="isnetworking" readonly="readonly" value="${isnetworking }"/>
-				<lable>状态</lable>
+				<span class="textstyle">状态</span>
 				<input class="easyui-textbox" id="statusName" readonly="readonly" value="${w.statusname }"/>
 			</div>
 	</div>

@@ -75,7 +75,7 @@ function workRankDatagrid(id){
 				return value + "小时";
 			}
 		}]],
-	    toolbar : '#dg_btn',
+	    toolbar : '#dg_btn'
 	});
 }
 

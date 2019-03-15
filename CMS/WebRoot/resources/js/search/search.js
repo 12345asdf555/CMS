@@ -15,11 +15,9 @@ $(function(){
 	}
 })
 
-
 function setActiveStyleSheet(title){ 
 	document.getElementsByTagName("link")[0].href = "resources/css/" + title; 
-} 
-
+}
 
 //新增实时焊机查询条件
 function newSearchLiveJunction(){

@@ -74,8 +74,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="fitem">
 					<lable>所属项目</lable>
-					<input type="hidden"  id="insframeworkId"  name="insframeworkId">
-					<input class="easyui-combobox" name="insframework" id="iId"/>
+					<input type="hidden"  id="insframeworkId"  name="insframeworkId"/>
+					<select class="easyui-combobox" name="insframework" id="iId"></select>
 				</div>
 				<div class="fitem">
 					<lable>设备类型</lable>
@@ -118,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="dlg-buttons">
 			<a href="javascript:saveWeldingMachine();" class="easyui-linkbutton" iconCls="icon-ok">迁移</a>
-			<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:closeIU();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 	</div>
   </body>

@@ -27,9 +27,13 @@ function useRatio(){
 	});
 }
 
+var charts,flag=0;
 function usechart(){
-  	//初始化echart实例
-	charts = echarts.init(document.getElementById("charts"));
+	if(flag==0){
+		flag = 1;
+	  	//初始化echart实例
+		charts = echarts.init(document.getElementById("charts"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -121,5 +125,5 @@ window.onresize = function() {
 
 //改变表格高宽
 function domresize() {
-	echarts.init(document.getElementById('charts')).resize();
+	charts.resize();
 }
