@@ -32,6 +32,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/exporting.js"></script>
 	<script type="text/javascript" src="resources/js/td/BackUp.js"></script>
 	<script type="text/javascript" src="resources/js/insframework/insframeworktree.js"></script>
+	<script type="text/javascript" src="resources/js/swfobject.js"></script>
+	<script type="text/javascript" src="resources/js/web_socket.js"></script>
 	<!-- <script type="text/javascript" src="resources/js/rmeffect.js"></script> -->
 
   </head>

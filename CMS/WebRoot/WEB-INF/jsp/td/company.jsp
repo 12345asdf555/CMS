@@ -30,6 +30,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
 	<script type="text/javascript" src="resources/js/td/company.js"></script>
+	<script type="text/javascript" src="resources/js/swfobject.js"></script>
+	<script type="text/javascript" src="resources/js/web_socket.js"></script>
 	<!-- <script type="text/javascript" src="resources/js/user/adduser"></script> -->
 
   </head>

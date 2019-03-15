@@ -29,6 +29,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
 	<script type="text/javascript" src="resources/js/td/division.js"></script>
+	<script type="text/javascript" src="resources/js/swfobject.js"></script>
+	<script type="text/javascript" src="resources/js/web_socket.js"></script>
   </head>
 <body class="easyui-layout">
     <div  id="body" region="center"  hide="true"  split="true" title="实时监控" style="background: white;">

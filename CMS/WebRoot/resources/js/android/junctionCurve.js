@@ -41,8 +41,8 @@ $(function() {
 
 function websocket() {
 	if (typeof (WebSocket) == "undefined") {
-		alert("您的浏览器不支持WebSocket");
-		return;
+		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+		WEB_SOCKET_DEBUG = true;
 	}
 	webclient();
 }
@@ -292,19 +292,19 @@ function iview() {
 	if(redata.length==291){
 			for (var i = 0; i < redata.length; i += 97) {
 	//		if (redata.substring(8 + i, 12 + i) != "0000") {
-				if (parseInt(redata.substring(89 + i, 97 + i)) == $("#no").val() && parseInt(redata.substring(2 + i, 4 + i)) == $("#itemid").val()) {
-					var liveele = parseInt(redata.substring(12+i, 16+i));
-		            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
+				if (parseInt(redata.substring(89 + i, 97 + i),10) == $("#no").val() && parseInt(redata.substring(2 + i, 4 + i),10) == $("#itemid").val()) {
+					var liveele = parseInt(redata.substring(12+i, 16+i),10);
+		            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2));
 					ele.push(liveele);
 					vol.push(livevol);
 					var ttme = redata.substring(40+i, 59+i);
 		            ttme=ttme.replace(/-/g, '/');
 		            time.push(Date.parse(new Date(ttme)));
 					machstatus.push(redata.substring(0 + i, 2 + i));
-					maxele = parseInt(redata.substring(61 + i, 64 + i));
-					minele = parseInt(redata.substring(64 + i, 67 + i));
-					maxvol = parseInt(redata.substring(67 + i, 70 + i));
-					minvol = parseInt(redata.substring(70 + i, 73 + i));
+					maxele = parseInt(redata.substring(61 + i, 64 + i),10);
+					minele = parseInt(redata.substring(64 + i, 67 + i),10);
+					maxvol = parseInt(redata.substring(67 + i, 70 + i),10);
+					minvol = parseInt(redata.substring(70 + i, 73 + i),10);
 					if(noflag<5){
 						cbpd.push(liveele);
 						noflag++;
@@ -330,13 +330,13 @@ function iview() {
 					}
 					document.getElementById("in5").value = (maxele + minele) / 2 +" A";
 					document.getElementById("in6").value = (maxvol + minvol) / 2 +" V";
-					document.getElementById("in7").value = parseInt(redata.substring(12 + i, 16 + i)) +" A";
-					document.getElementById("in8").value = parseFloat((parseInt(redata.substring(16 + i, 20 + i)) / 10).toFixed(2)) +" V";
-					$("#new1").val(parseInt(redata.substring(20 + i, 24 + i)));
-					$("#new2").val(parseInt(redata.substring(24 + i, 28 + i)));
-					$("#new3").val(parseInt(redata.substring(28 + i, 32 + i)));
-					$("#new4").val(parseInt(redata.substring(32 + i, 36 + i)));
-					$("#new5").val(parseInt(redata.substring(36 + i, 40 + i)));
+					document.getElementById("in7").value = parseInt(redata.substring(12 + i, 16 + i),10) +" A";
+					document.getElementById("in8").value = parseFloat((parseInt(redata.substring(16 + i, 20 + i),10) / 10).toFixed(2)) +" V";
+					$("#new1").val(parseInt(redata.substring(20 + i, 24 + i),10));
+					$("#new2").val(parseInt(redata.substring(24 + i, 28 + i),10));
+					$("#new3").val(parseInt(redata.substring(28 + i, 32 + i),10));
+					$("#new4").val(parseInt(redata.substring(32 + i, 36 + i),10));
+					$("#new5").val(parseInt(redata.substring(36 + i, 40 + i),10));
 					for (var k = 0; k < machine.length; k++) {
 						if (machine[k].fid == redata.substring(4 + i, 8 + i)) {
 							$("#inn2").val(machine[k].fequipment_no);

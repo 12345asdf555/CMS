@@ -170,8 +170,8 @@ function getMachine(insfid) {
 //执行websocket
 function websocket() {
 	if (typeof (WebSocket) == "undefined") {
-		alert("您的浏览器不支持WebSocket");
-		return;
+		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+		WEB_SOCKET_DEBUG = true;
 	}
 	webclient();
 }
@@ -295,19 +295,19 @@ function iview() {
 	if(redata.length==291){
 		for (var i = 0; i < redata.length; i += 97) {
 	//		if (redata.substring(8 + i, 12 + i) != "0000") {
-				if(miday.indexOf(parseInt(redata.substring(4 + i, 8+ i)))!=-1){
+				if($.inArray(parseInt(redata.substring(4 + i, 8+ i),10),miday)!=-1){
 				if(machine!=null && machine!=""){
-					$("#m3"+parseInt(redata.substring(4 + i, 8+ i))).html(redata.substring(8+i, 12+i));
-					$("#m2"+parseInt(redata.substring(4 + i, 8+ i))).html(redata.substring(89 + i, 97 + i));
-					var liveele = parseInt(redata.substring(12+i, 16+i));
-		            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
-		            var maxele = parseInt(redata.substring(61+i, 64+i));
-		            var minele = parseInt(redata.substring(64+i, 67+i));
-		            var maxvol = parseInt(redata.substring(67+i, 70+i));
-		            var minvol = parseInt(redata.substring(70+i, 73+i));
+					$("#m3"+parseInt(redata.substring(4 + i, 8+ i),10)).html(redata.substring(8+i, 12+i));
+					$("#m2"+parseInt(redata.substring(4 + i, 8+ i),10)).html(redata.substring(89 + i, 97 + i));
+					var liveele = parseInt(redata.substring(12+i, 16+i),10);
+		            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2));
+		            var maxele = parseInt(redata.substring(61+i, 64+i),10);
+		            var minele = parseInt(redata.substring(64+i, 67+i),10);
+		            var maxvol = parseInt(redata.substring(67+i, 70+i),10);
+		            var minvol = parseInt(redata.substring(70+i, 73+i),10);
 					var mstatus = redata.substring(0 + i, 2 + i);
-					$("#m4"+parseInt(redata.substring(4 + i, 8+ i))).html(parseInt(redata.substring(12+i, 16+i))+"A");
-					$("#m5"+parseInt(redata.substring(4 + i, 8+ i))).html(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V");
+					$("#m4"+parseInt(redata.substring(4 + i, 8+ i),10)).html(parseInt(redata.substring(12+i, 16+i),10)+"A");
+					$("#m5"+parseInt(redata.substring(4 + i, 8+ i),10)).html(parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2))+"V");
 					var livestatus,livestatusid,liveimg;
 					switch (mstatus) {
 					case "00":
@@ -344,7 +344,7 @@ function iview() {
 					}
 					if(liveary.length==0){
 						liveary.push(
-								{"fid":parseInt(redata.substring(4 + i, 8+ i)),
+								{"fid":parseInt(redata.substring(4 + i, 8+ i),10),
 								"liveele":liveele+"A",
 								"livevol":livevol+"V",
 								"livestatus":livestatus,
@@ -353,14 +353,14 @@ function iview() {
 					}else{
 						var tempflag = false;
 						for(var x=0;x<liveary.length;x++){
-							if(liveary[x].fid == parseInt(redata.substring(4 + i, 8+ i))){
+							if(liveary[x].fid == parseInt(redata.substring(4 + i, 8+ i),10)){
 								tempflag = true;
 								break;
 							}
 						}
 						if(!tempflag){
 							liveary.push(
-									{"fid":parseInt(redata.substring(4 + i, 8+ i)),
+									{"fid":parseInt(redata.substring(4 + i, 8+ i),10),
 									"liveele":liveele+"A",
 									"livevol":livevol+"V",
 									"livestatus":livestatus,

@@ -83,8 +83,8 @@ function websocketurl() {
 
 function websocket() {
 	if (typeof (WebSocket) == "undefined") {
-		alert("您的浏览器不支持WebSocket");
-		return;
+		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+		WEB_SOCKET_DEBUG = true;
 	}
 	webclient();
 }
@@ -173,13 +173,13 @@ function webclient() {
 						if (redata.substring(0 + i, 2 + i) == "03" || redata.substring(0 + i, 2 + i) == "05" || redata.substring(0 + i, 2 + i) == "07" || redata.substring(0 + i, 2 + i) == "09" || redata.substring(0 + i, 2 + i) == "00") {
 							for (var x = 0; x < machine.length; x++) {
 								if (redata.substring(0 + i, 2 + i) == "03") {
-									if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i))) {
-										var liveele = parseInt(redata.substring(12 + i, 16 + i));
-										var livevol = parseFloat((parseInt(redata.substring(16 + i, 20 + i)) / 10).toFixed(2));
-										var maxele = parseInt(redata.substring(61 + i, 64 + i));
-										var minele = parseInt(redata.substring(64 + i, 67 + i));
-										var maxvol = parseInt(redata.substring(67 + i, 70 + i));
-										var minvol = parseInt(redata.substring(70 + i, 73 + i));
+									if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i),10)) {
+										var liveele = parseInt(redata.substring(12 + i, 16 + i),10);
+										var livevol = parseFloat((parseInt(redata.substring(16 + i, 20 + i),10) / 10).toFixed(2));
+										var maxele = parseInt(redata.substring(61 + i, 64 + i),10);
+										var minele = parseInt(redata.substring(64 + i, 67 + i),10);
+										var maxvol = parseInt(redata.substring(67 + i, 70 + i),10);
+										var minvol = parseInt(redata.substring(70 + i, 73 + i),10);
 										if (liveele > maxele || liveele < minele || livevol > maxvol || livevol < minvol) {
 											if (warn.length == 0) {
 												warn.push({
@@ -209,7 +209,7 @@ function webclient() {
 										}
 									}
 								}
-								if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i))) {
+								if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i),10)) {
 									if (mall.length == 0) {
 										var arr = {
 											"fid" : redata.substring(4 + i, 8 + i),

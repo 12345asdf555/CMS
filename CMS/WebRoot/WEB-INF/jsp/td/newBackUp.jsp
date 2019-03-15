@@ -30,6 +30,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/highcharts.js"></script>
 	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
 	<script type="text/javascript" src="resources/js/echarts.js"></script>
+	<script type="text/javascript" src="resources/js/swfobject.js"></script>
+	<script type="text/javascript" src="resources/js/web_socket.js"></script>
 <!-- 	<script type="text/javascript" src="resources/js/exporting.js"></script> -->
 	<script type="text/javascript" src="resources/js/td/newBackUp.js"></script>
 <!-- 	<script type="text/javascript" src="resources/js/insframework/insframeworktree.js"></script> -->

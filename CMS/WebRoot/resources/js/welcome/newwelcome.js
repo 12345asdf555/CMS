@@ -81,9 +81,9 @@ function websocketurl(){
 }
 
 function websocket() {
-	if(typeof(WebSocket) == "undefined") {
-		alert("您的浏览器不支持WebSocket");
-		return;
+	if (typeof (WebSocket) == "undefined") {
+		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+		WEB_SOCKET_DEBUG = true;
 	}
 	webclient();
 };
@@ -151,7 +151,7 @@ function webclient(){
 					}
 					if(redata.substring(0+i,2+i)=="03"||redata.substring(0+i,2+i)=="05"||redata.substring(0+i,2+i)=="07"||redata.substring(0+i,2+i)=="09"||redata.substring(0+i,2+i)=="00"){
 						for(var x=0;x<machine.length;x++){
-							if(machine[x].fid == parseInt(redata.substring(4+i, 8+i))){
+							if(machine[x].fid == parseInt(redata.substring(4+i, 8+i),10)){
 								if(mall.length==0){
 									var arr  =
 								     {
