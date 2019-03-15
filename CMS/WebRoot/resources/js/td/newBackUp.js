@@ -374,10 +374,14 @@ function iview() {
 	}
 }
 
+var charts,flagnum=0;
 //饼图统计
 function showChart(){
-   	//初始化echart实例
-	var charts = echarts.init(document.getElementById("piecharts"));
+	if(flagnum==0){
+		flagnum = 1;
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("piecharts"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -640,5 +644,5 @@ window.onresize = function() {
 
 //改变图表高宽
 function domresize() {
-	echarts.init(document.getElementById('piecharts')).resize();
+	charts.resize();
 }

@@ -36,6 +36,12 @@ var chart1;
 var dic,/*starows,*/flag=0,noflag=0;
 var led = [ "0,1,2,4,5,6", "2,5", "0,2,3,4,6", "0,2,3,5,6", "1,2,3,5", "0,1,3,5,6", "0,1,3,4,5,6", "0,2,5", "0,1,2,3,4,5,6", "0,1,2,3,5,6" ];
 $(function() {
+	var livewidth = $("#livediv").width() * 0.9;
+	var liveheight = $("#livediv").height() / 2;
+	$("#body31").width(livewidth);
+	$("#body31").height(liveheight);
+	$("#body32").width(livewidth);
+	$("#body32").height(liveheight);
 	var width = $("#treeDiv").width();
 	$.ajax({
 		type : "post",
@@ -501,6 +507,12 @@ window.onresize = function() {
 
 //改变highchart高宽
 function domresize() {
+	var livewidth = $("#livediv").width() * 0.9-10;
+	var liveheight = $("#livediv").height() * 0.5-10;
+	$("#body31").width(livewidth);
+	$("#body31").height(liveheight);
+	$("#body32").width(livewidth);
+	$("#body32").height(liveheight);
 	$('#body31').highcharts().reflow();
 	$('#body32').highcharts().reflow();
 }

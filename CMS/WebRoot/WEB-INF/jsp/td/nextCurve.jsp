@@ -144,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input id="in36" readonly="readonly">
 			</div>
 		</div>
-		<div style="width:75%;height:70%;float:left;border:2px solid #eee">
+		<div id="livediv" style="width:75%;height:70%;float:left;border:2px solid #eee">
 			实时曲线
 			<div id="body31" style="width:100%;height:50%;"></div>
 			<div id="body32" style="width:100%;height:48%;"></div>

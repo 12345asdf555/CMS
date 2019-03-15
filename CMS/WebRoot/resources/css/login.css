@@ -2,8 +2,7 @@
 body {
     background-image: url(../images/denglu.jpg);
     background-repeat: no-repeat;
-    background-size: 110%;
-    width:110%;
+    background-size: 100%;
     text-align: center;
     background-color: #D1DCEE;
     font-family: 'Microsoft YaHei UI';
