@@ -15,6 +15,7 @@ public class LiveData {
 	private int status;
 	private String uploadDateTime;
 	private String weldTime;
+	private String fweldTime;
 	@Transient
 	private WeldingMachine machine;
 	@Transient
@@ -141,6 +142,12 @@ public class LiveData {
 	}
 	public void setWeldTime(String weldTime) {
 		this.weldTime = weldTime;
+	}
+	public String getFWeldTime() {
+		return fweldTime;
+	}
+	public void setFWeldTime(String fweldTime) {
+		this.fweldTime = fweldTime;
 	}
 	public WeldingMachine getMachine() {
 		return machine;

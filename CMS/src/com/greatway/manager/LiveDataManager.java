@@ -452,6 +452,13 @@ public interface LiveDataManager {
 	List<ModelDto> getExcessiveBackDetail(BigInteger id);
 	
 	/**
+	 * 根据焊机id获取焊机历史曲线
+	 * @param id
+	 * @return
+	 */
+	List<ModelDto> gethistory(WeldDto dto,BigInteger id);
+	
+	/**
 	 * 获取设备运行时长
 	 * @param page 分页
 	 * @param parent 上级id

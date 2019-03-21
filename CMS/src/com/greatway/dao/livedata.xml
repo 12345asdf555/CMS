@@ -2772,5 +2772,16 @@
 			</if>
 		</if>
 	</select>
-	
+	<!--焊机历史曲线  -->
+	<select id="gethistory" resultMap="dtoMap">
+		SELECT `felectricity` felectricity,`fvoltage` fvoltage,`FWeldTime` weldTime FROM `tb_live_data` WHERE fmachine_id=#{id}
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fweldtime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fweldtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+	</select>
 </mapper>

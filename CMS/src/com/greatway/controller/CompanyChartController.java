@@ -48,9 +48,19 @@ public class CompanyChartController {
 		return "companychart/overproof";
 	}
 	
+	@RequestMapping("/gohistory")
+	public String gohistory(HttpServletRequest request){
+		request.setAttribute("id", request.getParameter("id"));
+		return "companychart/history";
+	}
+	
 	@RequestMapping("/goOverproofTimeQuantum")
 	public String goOverproofTimeQuantum(HttpServletRequest request){
 		return "companychart/timequantum";
+	}
+	@RequestMapping("/goweldallstatus")
+	public String goweldallstatus(HttpServletRequest request){
+		return "companychart/weldallstatus";
 	}
 	/**
 	 * 跳转公司工时页面
@@ -1164,4 +1174,45 @@ public class CompanyChartController {
 		return obj.toString();
 	}
 
+	/**
+	 * 历史曲线报表信息查询
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/gethistory")
+	@ResponseBody
+	public String gethistory(HttpServletRequest request){
+		String id = request.getParameter("id");
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		WeldDto dto = new WeldDto();
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		try{
+			List<ModelDto> list = lm.gethistory(dto,new BigInteger(id));
+			for(int i=0;i<list.size();i++){
+				String weldtime1 = list.get(i).getWeldTime().substring(0, 10);
+				String weldtime2 = list.get(i).getWeldTime().substring(10, list.get(i).getWeldTime().length());
+				json.put("weldtime1",weldtime1);
+				json.put("weldtime2",weldtime2);
+				json.put("fvoltage",list.get(i).getFvoltage());
+				json.put("electricity",list.get(i).getFelectricity());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+
+	
 }

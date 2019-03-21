@@ -89,7 +89,7 @@
   </context-param>
   <context-param>
     <param-name>ipurl</param-name>
-    <param-value>http://192.168.3.162:8080/</param-value>
+    <param-value>http://localhost:8080/</param-value>
   </context-param>
   <welcome-file-list>
     <welcome-file>/index.jsp</welcome-file>
