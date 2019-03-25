@@ -2238,6 +2238,7 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 			//获取平均焊接及工作时长
 			ModelDto avgmsg = live.getWelderAvgWorkTime(dto);
 			int weldertotal = live.getWelderTotal(dto);//在线人数
+			int machinetotal = live.getMachineTotal(dto);//在线焊机数
 			if(avgmsg!=null){
 				obj.put("AVGWORKTIME", (double)Math.round(avgmsg.getTime()/weldertotal*100)/100);//平均工作时长
 			}else{
@@ -2269,6 +2270,7 @@ public class LiveDataWebServiceImpl implements LiveDataWebService {
 			obj.put("FRONTWELDER",frontwelder);
 			obj.put("BACKWELDER",backwelder);
 			obj.put("WELDERTOTAL",weldertotal);
+			obj.put("MACHINETOTAL",machinetotal);
 			return obj.toString();
 		}catch(Exception e){
 			e.printStackTrace();

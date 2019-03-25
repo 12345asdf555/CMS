@@ -2856,4 +2856,43 @@
 		</if>
         )temp 
 	</select>
+	
+	
+	<select id="getMachineTotal" resultType="java.lang.Integer">
+	    SELECT count(DISTINCT(fmachine_id)) total from(
+	    SELECT tw.fmachine_id FROM tb_work tw 
+	    left JOIN tb_welding_machine w on w.fid = tw.fmachine_id and w.finsframework_id = tw.fitemid 
+	    INNER JOIN tb_insframework i on i.fid = tw.fitemid INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+	    INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
+	    where 1=1 
+	    <if test="dto!=null and dto!=''">
+	      <if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+	        and fstarttime &gt;= #{dto.dtoTime1}
+	      </if>
+	      <if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+	        and fendtime &lt;= #{dto.dtoTime2}
+	      </if>
+	      <if test="dto.parent!=null and dto.parent!=''">
+	        AND (i.fid=#{dto.parent} or ins.fid = #{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
+	      </if>
+	    </if>
+	    union 
+	    SELECT tw.fmachine_id FROM tb_standby tw 
+	    left JOIN tb_welding_machine w on w.fid = tw.fmachine_id and w.finsframework_id = tw.fitemid 
+	    INNER JOIN tb_insframework i on i.fid = tw.fitemid INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+	    INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
+	    where 1=1 
+	    <if test="dto!=null and dto!=''">
+	      <if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+	        and fstarttime &gt;= #{dto.dtoTime1}
+	      </if>
+	      <if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+	        and fendtime &lt;= #{dto.dtoTime2}
+	      </if>
+	      <if test="dto.parent!=null and dto.parent!=''">
+	        AND (i.fid=#{dto.parent} or ins.fid = #{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
+	      </if>
+	    </if>
+        )temp 
+  	</select>
 </mapper>

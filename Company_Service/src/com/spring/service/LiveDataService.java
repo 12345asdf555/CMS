@@ -477,4 +477,6 @@ public interface LiveDataService {
 	List<ModelDto> getWelderRank(WeldDto dto, int status);
 	
 	int getWelderTotal(WeldDto dto);
+	
+	int getMachineTotal(WeldDto dto);
 }

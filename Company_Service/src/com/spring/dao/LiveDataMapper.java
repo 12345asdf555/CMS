@@ -189,4 +189,6 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	
 	int getWelderTotal(@Param("dto")WeldDto dto);
 	
+	int getMachineTotal(@Param("dto")WeldDto dto);
+	
 }

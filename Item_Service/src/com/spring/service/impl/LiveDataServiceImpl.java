@@ -821,4 +821,14 @@ public class LiveDataServiceImpl implements LiveDataService {
 			return -1;
 		}
 	}
+
+	@Override
+	public int getMachineTotal(WeldDto dto) {
+		try{
+			return live.getMachineTotal(dto);
+		}catch(Exception e){
+			e.printStackTrace();
+			return -1;
+		}
+	}
 }
